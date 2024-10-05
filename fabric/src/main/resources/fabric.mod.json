@@ -16,10 +16,10 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.satisfy.sleepy_hollows.fabric.ExampleModFabric"
+      "net.satisfy.sleepy_hollows.fabric.SleepyHollowsFabric"
     ],
     "client": [
-      "net.satisfy.sleepy_hollows.fabric.client.ExampleModFabricClient"
+      "net.satisfy.sleepy_hollows.fabric.client.SleepyHollowsFabricClient"
     ]
   },
   "mixins": [
