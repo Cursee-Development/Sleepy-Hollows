@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=lower": {
+      "model": "sleepy_hollows:block/tall_dreamshade_bottom"
+    },
+    "half=upper": {
+      "model": "sleepy_hollows:block/tall_dreamshade_top"
+    }
+  }
+}

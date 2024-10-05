@@ -21,6 +21,10 @@ public class SleepyHollowsUtil {
         return Platform.isForge() ? register.register(path.getPath(), itemSupplier) : registrar.register(path, itemSupplier);
     }
 
+    public static <T extends Block> RegistrySupplier<T> abstractBlockWithoutItemRegistration(DeferredRegister<Block> register, Registrar<Block> registrar, ResourceLocation path, Supplier<T> block) {
+        return Platform.isForge() ? register.register(path.getPath(), block) : registrar.register(path, block);
+    }
+
     public static <T extends Block> RegistrySupplier<T> abstractBlockItemRegistration(DeferredRegister<Block> registerB, Registrar<Block> registrarB, DeferredRegister<Item> registerI, Registrar<Item> registrarI, ResourceLocation name, Supplier<T> block) {
         RegistrySupplier<T> toReturn = abstractBlockRegistration(registerB, registrarB, name, block);
         abstractItemRegistration(registerI, registrarI, name, () -> new BlockItem(toReturn.get(), new Item.Properties()));

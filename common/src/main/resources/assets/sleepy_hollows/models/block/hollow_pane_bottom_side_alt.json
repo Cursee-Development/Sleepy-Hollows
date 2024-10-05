@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_glass_pane_side_alt",
+  "textures": {
+    "pane": "sleepy_hollows:block/hollow_window_bottom",
+    "edge": "sleepy_hollows:block/hollow_window_pane_top"
+  }
+}

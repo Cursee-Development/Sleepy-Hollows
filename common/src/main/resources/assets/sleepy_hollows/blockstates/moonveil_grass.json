@@ -1,0 +1,18 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "sleepy_hollows:block/moonveil_grass_0",
+        "weight": 1
+      },
+      {
+        "model": "sleepy_hollows:block/moonveil_grass_1",
+        "weight": 1
+      },
+      {
+        "model": "sleepy_hollows:block/moonveil_grass_2",
+        "weight": 1
+      }
+    ]
+  }
+}

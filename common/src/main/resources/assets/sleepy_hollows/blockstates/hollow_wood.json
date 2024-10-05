@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "sleepy_hollows:block/hollow_wood",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "sleepy_hollows:block/hollow_wood"
+    },
+    "axis=z": {
+      "model": "sleepy_hollows:block/hollow_wood",
+      "x": 90
+    }
+  }
+}

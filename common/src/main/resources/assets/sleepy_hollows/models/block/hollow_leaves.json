@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/leaves",
+  "textures": {
+    "all": "sleepy_hollows:block/hollow_leaves"
+  }
+}

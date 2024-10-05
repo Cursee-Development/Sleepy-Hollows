@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "sleepy_hollows:block/stripped_hollow_wood_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "sleepy_hollows:block/stripped_hollow_wood"
+    },
+    "axis=z": {
+      "model": "sleepy_hollows:block/stripped_hollow_wood_horizontal",
+      "x": 90
+    }
+  }
+}

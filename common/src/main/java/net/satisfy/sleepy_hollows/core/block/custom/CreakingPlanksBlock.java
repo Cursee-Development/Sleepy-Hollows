@@ -8,30 +8,29 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 
-public class CreakingFloorboardBlock extends Block {
-
-    public CreakingFloorboardBlock() {
-        super(Properties.copy(Blocks.BAMBOO_PLANKS));
+public class CreakingPlanksBlock extends Block {
+    public CreakingPlanksBlock(BlockBehaviour.Properties properties) {
+        super(properties);
     }
 
     @Override
     public void stepOn(Level level, BlockPos blockPos, BlockState blockState, Entity entity) {
 
-        // if you stand on the block, creaking continues
-        // this method is called every tick, maybe we should add a blockstate value to check whether it has creaked recently, and
-        // either random tick or schedule a tick to cooldown for the next creak?
-
-        // only operate on server to play sound for all players
-        // 1 in 50 chance to creak (1 in 100 felt too spaced apart)
+        // 1 in 50 chance to creak
         if (!level.isClientSide() && level.random.nextInt(1, 50) == 1) creak((ServerLevel) level, blockPos);
+
+        // 25% chance for ghost particles to appear, but (!) only at night
+        if (!level.isClientSide() && level.isNight() && level.random.nextInt(100) < 25) {
+            ((ServerLevel) level).sendParticles(ParticleTypes.SOUL, blockPos.getX() + 0.5, blockPos.getY() + 1, blockPos.getZ() + 0.5, 10, 0.2, 0.2, 0.2, 0.01);
+        }
     }
 
     private void creak(ServerLevel level, BlockPos blockPos) {
-
-        // todo: register custom sound ?
+        // How about this sound here? :D
         level.playSound(null, blockPos, SoundEvents.GHAST_SCREAM, SoundSource.BLOCKS, 0.25f, level.random.nextFloat());
     }
 }

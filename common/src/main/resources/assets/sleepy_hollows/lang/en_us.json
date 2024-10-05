@@ -1,3 +1,26 @@
 {
-  "itemGroup.sleepyHollows": "Sleepy Hollows"
+  "itemGroup.sleepyHollows": "Sleepy Hollows",
+  "block.sleepy_hollows.hollow_log": "Hollow Log",
+  "block.sleepy_hollows.hollow_wood": "Hollow Wood",
+  "block.sleepy_hollows.stripped_hollow_log": "Stripped Hollow Log",
+  "block.sleepy_hollows.stripped_hollow_wood": "Stripped Hollow Wood",
+  "block.sleepy_hollows.hollow_planks": "Hollow Planks",
+  "block.sleepy_hollows.hollow_stairs": "Hollow Stairs",
+  "block.sleepy_hollows.hollow_slab": "Hollow Slab",
+  "block.sleepy_hollows.hollow_pressure_plate": "Hollow Pressure Plate",
+  "block.sleepy_hollows.hollow_button": "Hollow Button",
+  "block.sleepy_hollows.hollow_trapdoor": "Hollow Trapdoor",
+  "block.sleepy_hollows.hollow_door": "Hollow Door",
+  "block.sleepy_hollows.hollow_window": "Hollow Window",
+  "block.sleepy_hollows.hollow_fence": "Hollow Fence",
+  "block.sleepy_hollows.hollow_fence_gate": "Hollow Fence Gate",
+  "block.sleepy_hollows.hollow_leaves": "Hollow Leaves",
+  "block.sleepy_hollows.hollow_sapling": "Hollow Sapling",
+  "block.sleepy_hollows.moonveil_grass": "Moonveil Grass",
+  "block.sleepy_hollows.grave_lily": "Grave Lily",
+  "block.sleepy_hollows.dreamshade": "Dreamshade",
+  "block.sleepy_hollows.tall_dreamshade": "Tall Dreamshade",
+  "block.sleepy_hollows.potted_hollow_sapling": "Potted Hollow Sapling",
+  "block.sleepy_hollows.potted_grave_lily": "Potted Grave Lily",
+  "block.sleepy_hollows.potted_dreamshade": "Potted Dreamshade"
 }
