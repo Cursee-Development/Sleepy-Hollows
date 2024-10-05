@@ -7,7 +7,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'sleepy_hollows'
+rootProject.name = 'Sleepy-Hollows'
 
 include 'common'
 include 'fabric'
