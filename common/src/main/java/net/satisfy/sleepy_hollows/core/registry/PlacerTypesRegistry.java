@@ -4,7 +4,6 @@ import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
-import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
 import net.satisfy.sleepy_hollows.Constants;
 import net.satisfy.sleepy_hollows.core.world.placers.HollowFoliagePlacer;
 

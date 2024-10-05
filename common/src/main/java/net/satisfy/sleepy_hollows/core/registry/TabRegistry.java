@@ -34,6 +34,7 @@ public class TabRegistry {
                 out.accept(ObjectRegistry.HOLLOW_LEAVES.get());
                 out.accept(ObjectRegistry.HOLLOW_SAPLING.get());
                 out.accept(ObjectRegistry.MOONVEIL_GRASS.get());
+                out.accept(ObjectRegistry.TALL_MOONVEIL_GRASS.get());
                 out.accept(ObjectRegistry.GRAVE_LILY.get());
                 out.accept(ObjectRegistry.DREAMSHADE.get());
                 out.accept(ObjectRegistry.TALL_DREAMSHADE.get());

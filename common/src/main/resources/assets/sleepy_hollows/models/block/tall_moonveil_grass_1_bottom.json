@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "sleepy_hollows:block/tall_moonveil_grass_1_bottom"
+  }
+}

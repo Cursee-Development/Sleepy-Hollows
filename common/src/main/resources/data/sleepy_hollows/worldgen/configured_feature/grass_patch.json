@@ -1,0 +1,69 @@
+{
+  "type": "minecraft:random_patch",
+  "config": {
+    "tries": 22,
+    "xz_spread": 7,
+    "y_spread": 3,
+    "feature": {
+      "feature": {
+        "type": "minecraft:simple_block",
+        "config": {
+          "to_place": {
+            "type": "minecraft:weighted_state_provider",
+            "entries": [
+              {
+                "weight": 25,
+                "data": {
+                  "Name": "sleepy_hollows:moonveil_grass",
+                  "Properties": {
+                    "infected": "true"
+                  }
+                }
+              },
+              {
+                "weight": 8,
+                "data": {
+                  "Name": "sleepy_hollows:moonveil_grass",
+                  "Properties": {
+                    "infected": "false"
+                  }
+                }
+              },
+              {
+                "weight": 25,
+                "data": {
+                  "Name": "sleepy_hollows:tall_moonveil_grass",
+                  "Properties": {
+                    "half": "lower",
+                    "infected": "true"
+                  }
+                }
+              },
+              {
+                "weight": 6,
+                "data": {
+                  "Name": "sleepy_hollows:tall_moonveil_grass",
+                  "Properties": {
+                    "half": "lower",
+                    "infected": "false"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "placement": [
+        {
+          "type": "minecraft:block_predicate_filter",
+          "predicate": {
+            "type": "minecraft:matching_blocks",
+            "blocks": [
+              "minecraft:air"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

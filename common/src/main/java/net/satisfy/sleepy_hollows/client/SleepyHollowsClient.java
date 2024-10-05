@@ -14,7 +14,7 @@ public class SleepyHollowsClient {
         RenderTypeRegistry.register(RenderType.cutout(),
                 GRAVE_LILY.get(), POTTED_GRAVE_LILY.get(), DREAMSHADE.get(), POTTED_DREAMSHADE.get(), TALL_DREAMSHADE.get(),
                 HOLLOW_SAPLING.get(), POTTED_HOLLOW_SAPLING.get(), HOLLOW_TRAPDOOR.get(), HOLLOW_DOOR.get(), MOONVEIL_GRASS.get(),
-                HOLLOW_WINDOW.get()
+                HOLLOW_WINDOW.get(), TALL_MOONVEIL_GRASS.get()
         );
     }
 }

@@ -1,0 +1,19 @@
+{
+  "replace": false,
+  "values": [
+    "sleepy_hollows:hollow_log",
+    "sleepy_hollows:hollow_wood",
+    "sleepy_hollows:stripped_hollow_wood",
+    "sleepy_hollows:stripped_hollow_log",
+    "sleepy_hollows:hollow_planks",
+    "sleepy_hollows:hollow_stairs",
+    "sleepy_hollows:hollow_slab",
+    "sleepy_hollows:hollow_pressure_plate",
+    "sleepy_hollows:hollow_button",
+    "sleepy_hollows:hollow_trapdoor",
+    "sleepy_hollows:hollow_door",
+    "sleepy_hollows:hollow_fence",
+    "sleepy_hollows:hollow_fence_gate",
+    "sleepy_hollows:hollow_window"
+  ]
+}

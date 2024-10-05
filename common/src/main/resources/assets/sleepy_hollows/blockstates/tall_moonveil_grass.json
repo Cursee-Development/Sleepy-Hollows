@@ -1,0 +1,24 @@
+{
+  "variants": {
+    "half=lower": [
+      {
+        "model": "sleepy_hollows:block/tall_moonveil_grass_0_bottom",
+        "weight": 1
+      },
+      {
+        "model": "sleepy_hollows:block/tall_moonveil_grass_1_bottom",
+        "weight": 1
+      }
+    ],
+    "half=upper": [
+      {
+        "model": "sleepy_hollows:block/tall_moonveil_grass_0_top",
+        "weight": 1
+      },
+      {
+        "model": "sleepy_hollows:block/tall_moonveil_grass_1_top",
+        "weight": 1
+      }
+    ]
+  }
+}

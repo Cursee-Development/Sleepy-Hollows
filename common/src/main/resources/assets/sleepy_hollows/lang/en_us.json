@@ -20,7 +20,9 @@
   "block.sleepy_hollows.grave_lily": "Grave Lily",
   "block.sleepy_hollows.dreamshade": "Dreamshade",
   "block.sleepy_hollows.tall_dreamshade": "Tall Dreamshade",
+  "block.sleepy_hollows.tall_moonveil_grass": "Tall Moonveil Grass",
   "block.sleepy_hollows.potted_hollow_sapling": "Potted Hollow Sapling",
   "block.sleepy_hollows.potted_grave_lily": "Potted Grave Lily",
-  "block.sleepy_hollows.potted_dreamshade": "Potted Dreamshade"
+  "block.sleepy_hollows.potted_dreamshade": "Potted Dreamshade",
+  "biome.sleepy_hollows.sleepy_hollows": "Sleepy Hollows"
 }

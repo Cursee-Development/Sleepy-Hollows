@@ -59,14 +59,16 @@ public class ObjectRegistry {
             return configuredFeatureKey("plains_hollow_tree");
         }
     }, BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING)));
-    public static final RegistrySupplier<Block> MOONVEIL_GRASS = registerBlockWithBlockItem("moonveil_grass", () -> new InfectedFlowerBlock(Objects.requireNonNull(MobEffect.byId(3)), 1, BlockBehaviour.Properties.copy(Blocks.RED_TULIP)));
+    public static final RegistrySupplier<Block> MOONVEIL_GRASS = registerBlockWithBlockItem("moonveil_grass", () -> new InfectedFlowerBlock(Objects.requireNonNull(MobEffect.byId(3)), 1, BlockBehaviour.Properties.copy(Blocks.GRASS)));
+    public static final RegistrySupplier<Block> TALL_MOONVEIL_GRASS = registerBlockWithBlockItem("tall_moonveil_grass", () -> new InfectedTallFlowerBlock(BlockBehaviour.Properties.copy(Blocks.TALL_GRASS)));
+
     public static final RegistrySupplier<Block> GRAVE_LILY = registerBlockWithBlockItem("grave_lily", () -> new InfectedFlowerBlock(Objects.requireNonNull(MobEffect.byId(5)), 1, BlockBehaviour.Properties.copy(Blocks.RED_TULIP)));
     public static final RegistrySupplier<Block> DREAMSHADE = registerBlockWithBlockItem("dreamshade", () -> new InfectedFlowerBlock(Objects.requireNonNull(MobEffect.byId(1)), 1, BlockBehaviour.Properties.copy(Blocks.RED_TULIP)));
     public static final RegistrySupplier<Block> TALL_DREAMSHADE = registerBlockWithBlockItem("tall_dreamshade", () -> new InfectedTallFlowerBlock(BlockBehaviour.Properties.copy(Blocks.ROSE_BUSH)));
 
 
     public static final RegistrySupplier<Block> POTTED_HOLLOW_SAPLING = registerBlockWithoutItem("potted_hollow_sapling", () -> new FlowerPotBlock(HOLLOW_SAPLING.get(), BlockBehaviour.Properties.copy(Blocks.FLOWER_POT)));
-    public static final RegistrySupplier<Block> POTTED_GRAVE_LILY = registerBlockWithoutItem("potted_gravelily", () -> new FlowerPotBlock(GRAVE_LILY.get(), BlockBehaviour.Properties.copy(Blocks.FLOWER_POT)));
+    public static final RegistrySupplier<Block> POTTED_GRAVE_LILY = registerBlockWithoutItem("potted_grave_lily", () -> new FlowerPotBlock(GRAVE_LILY.get(), BlockBehaviour.Properties.copy(Blocks.FLOWER_POT)));
     public static final RegistrySupplier<Block> POTTED_DREAMSHADE = registerBlockWithoutItem("potted_dreamshade", () -> new FlowerPotBlock(DREAMSHADE.get(), BlockBehaviour.Properties.copy(Blocks.FLOWER_POT)));
 
     public static void init() {

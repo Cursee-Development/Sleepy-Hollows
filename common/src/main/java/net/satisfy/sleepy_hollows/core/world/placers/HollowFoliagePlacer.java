@@ -30,11 +30,11 @@ public class HollowFoliagePlacer extends FoliagePlacer {
         return PlacerTypesRegistry.HOLLOW_FOLIAGE_PLACER.get();
     }
 
-    public int foliageHeight(RandomSource random, int trunkHeight, TreeConfiguration config) {
+    public int foliageHeight(@NotNull RandomSource random, int trunkHeight, @NotNull TreeConfiguration config) {
         return Math.max(12, trunkHeight - this.trunkHeight.sample(random));
     }
 
-    protected void createFoliage(LevelSimulatedReader levelSimulatedReader, FoliageSetter foliageSetter, RandomSource random, TreeConfiguration config, int trunkHeight, FoliageAttachment treeNode, int foliageHeight, int radius, int offset) {
+    protected void createFoliage(@NotNull LevelSimulatedReader levelSimulatedReader, @NotNull FoliageSetter foliageSetter, RandomSource random, @NotNull TreeConfiguration config, int trunkHeight, FoliageAttachment treeNode, int foliageHeight, int radius, int offset) {
         BlockPos blockPos = treeNode.pos();
         BlockPos.MutableBlockPos mutable = blockPos.mutable();
         boolean nextBoolean = random.nextBoolean();
@@ -178,11 +178,11 @@ public class HollowFoliagePlacer extends FoliagePlacer {
         }
     }
 
-    protected boolean shouldSkipLocation(RandomSource random, int dx, int y, int dz, int radius, boolean giantTrunk) {
+    protected boolean shouldSkipLocation(@NotNull RandomSource random, int dx, int y, int dz, int radius, boolean giantTrunk) {
         return dx == radius && dz == radius && radius > 0;
     }
 
-    protected void placeLeavesRow(LevelSimulatedReader levelSimulatedReader, FoliageSetter foliageSetter, RandomSource random, TreeConfiguration config, BlockPos centerPos, int radius, int y, boolean giantTrunk) {
+    protected void placeLeavesRow(@NotNull LevelSimulatedReader levelSimulatedReader, @NotNull FoliageSetter foliageSetter, @NotNull RandomSource random, @NotNull TreeConfiguration config, @NotNull BlockPos centerPos, int radius, int y, boolean giantTrunk) {
         int i = giantTrunk ? 1 : 0;
         BlockPos.MutableBlockPos mutable = new BlockPos.MutableBlockPos();
 
