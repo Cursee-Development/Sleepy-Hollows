@@ -1,13 +1,13 @@
 {
   "variants": {
     "type=bottom": {
-      "model": "sleepy_hollows:block/mossy_cobbled_travertin_slab"
+      "model": "sleepy_hollows:block/mossy_cobbled_gravestone_slab"
     },
     "type=double": {
-      "model": "sleepy_hollows:block/mossy_cobbled_travertin"
+      "model": "sleepy_hollows:block/mossy_cobbled_gravestone"
     },
     "type=top": {
-      "model": "sleepy_hollows:block/mossy_cobbled_travertin_slab_top"
+      "model": "sleepy_hollows:block/mossy_cobbled_gravestone_slab_top"
     }
   }
 }

@@ -88,6 +88,7 @@ public class ObjectRegistry {
 
     public static final RegistrySupplier<Block> GRAVE_LILY = registerBlockWithBlockItem("grave_lily", () -> new InfectedFlowerBlock(Objects.requireNonNull(MobEffect.byId(5)), 1, BlockBehaviour.Properties.copy(Blocks.RED_TULIP)));
     public static final RegistrySupplier<Block> DREAMSHADE = registerBlockWithBlockItem("dreamshade", () -> new InfectedFlowerBlock(Objects.requireNonNull(MobEffect.byId(1)), 1, BlockBehaviour.Properties.copy(Blocks.RED_TULIP)));
+    public static final RegistrySupplier<Block> SHADOWBLOOM = registerBlockWithBlockItem("shadowbloom", () -> new InfectedFlowerBlock(Objects.requireNonNull(MobEffect.byId(7)), 1, BlockBehaviour.Properties.copy(Blocks.RED_TULIP)));
     public static final RegistrySupplier<Block> TALL_DREAMSHADE = registerBlockWithBlockItem("tall_dreamshade", () -> new InfectedTallFlowerBlock(BlockBehaviour.Properties.copy(Blocks.ROSE_BUSH)));
 
     public static final RegistrySupplier<Block> WOODEN_TOMBSTONE = registerBlockWithBlockItem("wooden_tombstone", () -> new TombstoneBlock(BlockBehaviour.Properties.copy(GRAVESTONE.get()), TombstoneBlock.createWoodenTombstoneShape()));
@@ -100,6 +101,7 @@ public class ObjectRegistry {
     public static final RegistrySupplier<Block> POTTED_HOLLOW_SAPLING = registerBlockWithoutItem("potted_hollow_sapling", () -> new FlowerPotBlock(HOLLOW_SAPLING.get(), BlockBehaviour.Properties.copy(Blocks.FLOWER_POT)));
     public static final RegistrySupplier<Block> POTTED_GRAVE_LILY = registerBlockWithoutItem("potted_grave_lily", () -> new FlowerPotBlock(GRAVE_LILY.get(), BlockBehaviour.Properties.copy(Blocks.FLOWER_POT)));
     public static final RegistrySupplier<Block> POTTED_DREAMSHADE = registerBlockWithoutItem("potted_dreamshade", () -> new FlowerPotBlock(DREAMSHADE.get(), BlockBehaviour.Properties.copy(Blocks.FLOWER_POT)));
+    public static final RegistrySupplier<Block> POTTED_SHADOWBLOOM = registerBlockWithoutItem("potted_shadowbloom", () -> new FlowerPotBlock(SHADOWBLOOM.get(), BlockBehaviour.Properties.copy(Blocks.FLOWER_POT)));
 
     public static void init() {
         BLOCKS.register();
