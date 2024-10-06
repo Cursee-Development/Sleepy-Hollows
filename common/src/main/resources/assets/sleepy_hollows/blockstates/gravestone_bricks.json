@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "sleepy_hollows:block/gravestone_bricks",
+        "weight": 1
+      }
+    ]
+  }
+}

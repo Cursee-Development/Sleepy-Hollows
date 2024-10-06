@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "sleepy_hollows:block/cobbled_gravestone",
+    "side": "sleepy_hollows:block/cobbled_gravestone",
+    "top": "sleepy_hollows:block/cobbled_gravestone"
+  }
+}

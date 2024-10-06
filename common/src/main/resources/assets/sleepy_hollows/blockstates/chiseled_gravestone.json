@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "sleepy_hollows:block/chiseled_gravestone",
+        "weight": 1
+      }
+    ]
+  }
+}

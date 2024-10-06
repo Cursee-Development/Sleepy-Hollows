@@ -30,7 +30,7 @@ public class CreakingPlanksBlock extends Block {
     }
 
     private void creak(ServerLevel level, BlockPos blockPos) {
-        // How about this sound here? :D
+        // How about this sound here? :D //TODO: we have to change it
         level.playSound(null, blockPos, SoundEvents.GHAST_SCREAM, SoundSource.BLOCKS, 0.25f, level.random.nextFloat());
     }
 }

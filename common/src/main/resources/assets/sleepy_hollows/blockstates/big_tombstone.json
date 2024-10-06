@@ -1,0 +1,64 @@
+{
+  "variants": {
+    "facing=north,active=false,half=bottom": {
+      "model": "sleepy_hollows:block/big_tombstone_bottom"
+    },
+    "facing=south,active=false,half=bottom": {
+      "model": "sleepy_hollows:block/big_tombstone_bottom",
+      "y": 180
+    },
+    "facing=east,active=false,half=bottom": {
+      "model": "sleepy_hollows:block/big_tombstone_bottom",
+      "y": 90
+    },
+    "facing=west,active=false,half=bottom": {
+      "model": "sleepy_hollows:block/big_tombstone_bottom",
+      "y": 270
+    },
+    "facing=north,active=true,half=bottom": {
+      "model": "sleepy_hollows:block/big_tombstone_bottom_active"
+    },
+    "facing=south,active=true,half=bottom": {
+      "model": "sleepy_hollows:block/big_tombstone_bottom_active",
+      "y": 180
+    },
+    "facing=east,active=true,half=bottom": {
+      "model": "sleepy_hollows:block/big_tombstone_bottom_active",
+      "y": 90
+    },
+    "facing=west,active=true,half=bottom": {
+      "model": "sleepy_hollows:block/big_tombstone_bottom_active",
+      "y": 270
+    },
+    "facing=north,active=false,half=top": {
+      "model": "sleepy_hollows:block/big_tombstone_top"
+    },
+    "facing=south,active=false,half=top": {
+      "model": "sleepy_hollows:block/big_tombstone_top",
+      "y": 180
+    },
+    "facing=east,active=false,half=top": {
+      "model": "sleepy_hollows:block/big_tombstone_top",
+      "y": 90
+    },
+    "facing=west,active=false,half=top": {
+      "model": "sleepy_hollows:block/big_tombstone_top",
+      "y": 270
+    },
+    "facing=north,active=true,half=top": {
+      "model": "sleepy_hollows:block/big_tombstone_top_active"
+    },
+    "facing=south,active=true,half=top": {
+      "model": "sleepy_hollows:block/big_tombstone_top_active",
+      "y": 180
+    },
+    "facing=east,active=true,half=top": {
+      "model": "sleepy_hollows:block/big_tombstone_top_active",
+      "y": 90
+    },
+    "facing=west,active=true,half=top": {
+      "model": "sleepy_hollows:block/big_tombstone_top_active",
+      "y": 270
+    }
+  }
+}

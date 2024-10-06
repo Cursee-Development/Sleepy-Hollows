@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "sleepy_hollows:block/cracked_gravestone_bricks"
+  }
+}

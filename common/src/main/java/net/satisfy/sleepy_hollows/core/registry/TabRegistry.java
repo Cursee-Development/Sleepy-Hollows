@@ -17,6 +17,33 @@ public class TabRegistry {
             .icon(() -> new ItemStack(ObjectRegistry.HOLLOW_SAPLING.get()))
             .title(Component.translatable("itemGroup.sleepyHollows").withStyle(ChatFormatting.ITALIC))
             .displayItems(((itemDisplayParameters, out) -> {
+                out.accept(ObjectRegistry.GRAVESTONE.get());
+                out.accept(ObjectRegistry.GRAVESTONE_SLAB.get());
+                out.accept(ObjectRegistry.GRAVESTONE_STAIRS.get());
+                out.accept(ObjectRegistry.GRAVESTONE_WALL.get());
+                out.accept(ObjectRegistry.COBBLED_GRAVESTONE.get());
+                out.accept(ObjectRegistry.COBBLED_GRAVESTONE_SLAB.get());
+                out.accept(ObjectRegistry.COBBLED_GRAVESTONE_STAIRS.get());
+                out.accept(ObjectRegistry.COBBLED_GRAVESTONE_WALL.get());
+                out.accept(ObjectRegistry.CHISELED_GRAVESTONE.get());
+                out.accept(ObjectRegistry.GRAVESTONE_BRICKS.get());
+                out.accept(ObjectRegistry.GRAVESTONE_BRICK_SLAB.get());
+                out.accept(ObjectRegistry.GRAVESTONE_BRICK_STAIRS.get());
+                out.accept(ObjectRegistry.GRAVESTONE_BRICK_WALL.get());
+                out.accept(ObjectRegistry.CRACKED_GRAVESTONE_BRICKS.get());
+                out.accept(ObjectRegistry.MOSSY_GRAVESTONE_BRICKS.get());
+                out.accept(ObjectRegistry.MOSSY_GRAVESTONE_BRICK_SLAB.get());
+                out.accept(ObjectRegistry.MOSSY_GRAVESTONE_BRICK_STAIRS.get());
+                out.accept(ObjectRegistry.MOSSY_GRAVESTONE_BRICK_WALL.get());
+                out.accept(ObjectRegistry.MOSSY_COBBLED_GRAVESTONE.get());
+                out.accept(ObjectRegistry.MOSSY_COBBLED_GRAVESTONE_SLAB.get());
+                out.accept(ObjectRegistry.MOSSY_COBBLED_GRAVESTONE_STAIRS.get());
+                out.accept(ObjectRegistry.MOSSY_COBBLED_GRAVESTONE_WALL.get());
+                out.accept(ObjectRegistry.MOSSY_CHISELED_GRAVESTONE.get());
+                out.accept(ObjectRegistry.MOSSY_GRAVESTONE.get());
+                out.accept(ObjectRegistry.MOSSY_GRAVESTONE_SLAB.get());
+                out.accept(ObjectRegistry.MOSSY_GRAVESTONE_STAIRS.get());
+                out.accept(ObjectRegistry.MOSSY_GRAVESTONE_WALL.get());
                 out.accept(ObjectRegistry.HOLLOW_LOG.get());
                 out.accept(ObjectRegistry.HOLLOW_WOOD.get());
                 out.accept(ObjectRegistry.STRIPPED_HOLLOW_WOOD.get());
@@ -38,6 +65,12 @@ public class TabRegistry {
                 out.accept(ObjectRegistry.GRAVE_LILY.get());
                 out.accept(ObjectRegistry.DREAMSHADE.get());
                 out.accept(ObjectRegistry.TALL_DREAMSHADE.get());
+                out.accept(ObjectRegistry.WOODEN_TOMBSTONE.get());
+                out.accept(ObjectRegistry.SMALL_TOMBSTONE.get());
+                out.accept(ObjectRegistry.MID_TOMBSTONE.get());
+                out.accept(ObjectRegistry.BIG_TOMBSTONE.get());
+
+                out.accept(ObjectRegistry.SPECTRAL_ESSENCE.get());
 
 
             }))

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "sleepy_hollows:block/gravestone_brick_slab"
+    },
+    "type=double": {
+      "model": "sleepy_hollows:block/gravestone_bricks"
+    },
+    "type=top": {
+      "model": "sleepy_hollows:block/gravestone_brick_slab_top"
+    }
+  }
+}

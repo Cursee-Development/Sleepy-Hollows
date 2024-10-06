@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "sleepy_hollows:block/mossy_chiseled_gravestone"
+  }
+}

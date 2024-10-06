@@ -27,6 +27,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
+//TODO: Change it so only players will be affected by damage / effect
 @SuppressWarnings("deprecation")
 public class InfectedTallFlowerBlock extends TallFlowerBlock {
     public static final BooleanProperty INFECTED = BooleanProperty.create("infected");

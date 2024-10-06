@@ -27,6 +27,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
+//TODO: Change it so only players will be affected by damage / effect
 @SuppressWarnings("deprecation")
 public class InfectedFlowerBlock extends FlowerBlock {
     public static final BooleanProperty INFECTED = BooleanProperty.create("infected");
@@ -68,6 +69,7 @@ public class InfectedFlowerBlock extends FlowerBlock {
         }
     }
 
+    //TODO: Doesn't work yet
     @Override
     public @NotNull InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (player.getItemInHand(hand).is(Items.WATER_BUCKET)) {

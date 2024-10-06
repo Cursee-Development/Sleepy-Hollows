@@ -5,7 +5,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FireBlock;
 
 public class FlammableBlockRegistry {
-
     public static void init() {
         addFlammable(5, 20,
                 ObjectRegistry.HOLLOW_PLANKS.get(), ObjectRegistry.HOLLOW_SLAB.get(), ObjectRegistry.HOLLOW_STAIRS.get(),

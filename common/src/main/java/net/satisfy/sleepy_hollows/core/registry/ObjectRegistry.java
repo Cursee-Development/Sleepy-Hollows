@@ -19,10 +19,7 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.satisfy.sleepy_hollows.Constants;
-import net.satisfy.sleepy_hollows.core.block.custom.CreakingPlanksBlock;
-import net.satisfy.sleepy_hollows.core.block.custom.InfectedFlowerBlock;
-import net.satisfy.sleepy_hollows.core.block.custom.InfectedTallFlowerBlock;
-import net.satisfy.sleepy_hollows.core.block.custom.WindowBlock;
+import net.satisfy.sleepy_hollows.core.block.custom.*;
 import net.satisfy.sleepy_hollows.core.util.SleepyHollowsIdentifier;
 import net.satisfy.sleepy_hollows.core.util.SleepyHollowsUtil;
 import org.jetbrains.annotations.NotNull;
@@ -38,6 +35,33 @@ public class ObjectRegistry {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Constants.MOD_ID, Registries.ITEM);
     public static final Registrar<Item> ITEM_REGISTRAR = ITEMS.getRegistrar();
 
+    public static final RegistrySupplier<Block> GRAVESTONE = registerBlockWithBlockItem("gravestone", () -> new Block(BlockBehaviour.Properties.copy(Blocks.STONE)));
+    public static final RegistrySupplier<Block> GRAVESTONE_STAIRS = registerBlockWithBlockItem("gravestone_stairs", () -> new StairBlock(GRAVESTONE.get().defaultBlockState(), BlockBehaviour.Properties.copy(GRAVESTONE.get())));
+    public static final RegistrySupplier<Block> GRAVESTONE_SLAB = registerBlockWithBlockItem("gravestone_slab", () -> new SlabBlock(BlockBehaviour.Properties.copy(GRAVESTONE.get())));
+    public static final RegistrySupplier<Block> GRAVESTONE_WALL = registerBlockWithBlockItem("gravestone_wall", () -> new WallBlock(BlockBehaviour.Properties.copy(GRAVESTONE.get())));
+    public static final RegistrySupplier<Block> COBBLED_GRAVESTONE = registerBlockWithBlockItem("cobbled_gravestone", () -> new Block(BlockBehaviour.Properties.copy(Blocks.STONE)));
+    public static final RegistrySupplier<Block> COBBLED_GRAVESTONE_STAIRS = registerBlockWithBlockItem("cobbled_gravestone_stairs", () -> new StairBlock(COBBLED_GRAVESTONE.get().defaultBlockState(), BlockBehaviour.Properties.copy(GRAVESTONE.get())));
+    public static final RegistrySupplier<Block> COBBLED_GRAVESTONE_SLAB = registerBlockWithBlockItem("cobbled_gravestone_slab", () -> new SlabBlock(BlockBehaviour.Properties.copy(COBBLED_GRAVESTONE.get())));
+    public static final RegistrySupplier<Block> COBBLED_GRAVESTONE_WALL = registerBlockWithBlockItem("cobbled_gravestone_wall", () -> new WallBlock(BlockBehaviour.Properties.copy(COBBLED_GRAVESTONE.get())));
+    public static final RegistrySupplier<Block> CHISELED_GRAVESTONE = registerBlockWithBlockItem("chiseled_gravestone", () -> new Block(BlockBehaviour.Properties.copy(Blocks.STONE)));
+    public static final RegistrySupplier<Block> GRAVESTONE_BRICKS = registerBlockWithBlockItem("gravestone_bricks", () -> new Block(BlockBehaviour.Properties.copy(Blocks.STONE)));
+    public static final RegistrySupplier<Block> GRAVESTONE_BRICK_STAIRS = registerBlockWithBlockItem("gravestone_brick_stairs", () -> new StairBlock(GRAVESTONE_BRICKS.get().defaultBlockState(), BlockBehaviour.Properties.copy(GRAVESTONE.get())));
+    public static final RegistrySupplier<Block> GRAVESTONE_BRICK_SLAB = registerBlockWithBlockItem("gravestone_brick_slab", () -> new SlabBlock(BlockBehaviour.Properties.copy(GRAVESTONE_BRICKS.get())));
+    public static final RegistrySupplier<Block> GRAVESTONE_BRICK_WALL = registerBlockWithBlockItem("gravestone_brick_wall", () -> new WallBlock(BlockBehaviour.Properties.copy(GRAVESTONE_BRICKS.get())));
+    public static final RegistrySupplier<Block> CRACKED_GRAVESTONE_BRICKS = registerBlockWithBlockItem("cracked_gravestone_bricks", () -> new Block(BlockBehaviour.Properties.copy(Blocks.STONE)));
+    public static final RegistrySupplier<Block> MOSSY_GRAVESTONE_BRICKS = registerBlockWithBlockItem("mossy_gravestone_bricks", () -> new Block(BlockBehaviour.Properties.copy(Blocks.STONE)));
+    public static final RegistrySupplier<Block> MOSSY_GRAVESTONE_BRICK_STAIRS = registerBlockWithBlockItem("mossy_gravestone_brick_stairs", () -> new StairBlock(MOSSY_GRAVESTONE_BRICKS.get().defaultBlockState(), BlockBehaviour.Properties.copy(GRAVESTONE.get())));
+    public static final RegistrySupplier<Block> MOSSY_GRAVESTONE_BRICK_SLAB = registerBlockWithBlockItem("mossy_gravestone_brick_slab", () -> new SlabBlock(BlockBehaviour.Properties.copy(MOSSY_GRAVESTONE_BRICKS.get())));
+    public static final RegistrySupplier<Block> MOSSY_GRAVESTONE_BRICK_WALL = registerBlockWithBlockItem("mossy_gravestone_brick_wall", () -> new WallBlock(BlockBehaviour.Properties.copy(MOSSY_GRAVESTONE_BRICKS.get())));
+    public static final RegistrySupplier<Block> MOSSY_COBBLED_GRAVESTONE = registerBlockWithBlockItem("mossy_cobbled_gravestone", () -> new Block(BlockBehaviour.Properties.copy(Blocks.STONE)));
+    public static final RegistrySupplier<Block> MOSSY_COBBLED_GRAVESTONE_STAIRS = registerBlockWithBlockItem("mossy_cobbled_gravestone_stairs", () -> new StairBlock(MOSSY_GRAVESTONE_BRICKS.get().defaultBlockState(), BlockBehaviour.Properties.copy(GRAVESTONE.get())));
+    public static final RegistrySupplier<Block> MOSSY_COBBLED_GRAVESTONE_SLAB = registerBlockWithBlockItem("mossy_cobbled_gravestone_slab", () -> new SlabBlock(BlockBehaviour.Properties.copy(MOSSY_GRAVESTONE_BRICKS.get())));
+    public static final RegistrySupplier<Block> MOSSY_COBBLED_GRAVESTONE_WALL = registerBlockWithBlockItem("mossy_cobbled_gravestone_wall", () -> new WallBlock(BlockBehaviour.Properties.copy(MOSSY_GRAVESTONE_BRICKS.get())));
+    public static final RegistrySupplier<Block> MOSSY_CHISELED_GRAVESTONE = registerBlockWithBlockItem("mossy_chiseled_gravestone", () -> new Block(BlockBehaviour.Properties.copy(Blocks.STONE)));
+    public static final RegistrySupplier<Block> MOSSY_GRAVESTONE = registerBlockWithBlockItem("mossy_gravestone", () -> new Block(BlockBehaviour.Properties.copy(Blocks.STONE)));
+    public static final RegistrySupplier<Block> MOSSY_GRAVESTONE_STAIRS = registerBlockWithBlockItem("mossy_gravestone_stairs", () -> new StairBlock(MOSSY_GRAVESTONE.get().defaultBlockState(), BlockBehaviour.Properties.copy(MOSSY_GRAVESTONE.get())));
+    public static final RegistrySupplier<Block> MOSSY_GRAVESTONE_SLAB = registerBlockWithBlockItem("mossy_gravestone_slab", () -> new SlabBlock(BlockBehaviour.Properties.copy(MOSSY_GRAVESTONE.get())));
+    public static final RegistrySupplier<Block> MOSSY_GRAVESTONE_WALL = registerBlockWithBlockItem("mossy_gravestone_wall", () -> new WallBlock(BlockBehaviour.Properties.copy(MOSSY_GRAVESTONE.get())));
     public static final RegistrySupplier<Block> HOLLOW_LOG = registerBlockWithBlockItem("hollow_log", () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LOG).sound(SoundType.WOOD).strength(2.0f)));
     public static final RegistrySupplier<Block> HOLLOW_WOOD = registerBlockWithBlockItem("hollow_wood", () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.OAK_WOOD).sound(SoundType.WOOD).strength(2.0f)));
     public static final RegistrySupplier<Block> STRIPPED_HOLLOW_WOOD = registerBlockWithBlockItem("stripped_hollow_wood", () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.STRIPPED_OAK_WOOD).sound(SoundType.WOOD).strength(2.0f)));
@@ -56,7 +80,7 @@ public class ObjectRegistry {
     public static final RegistrySupplier<Block> HOLLOW_SAPLING = registerBlockWithBlockItem("hollow_sapling", () -> new SaplingBlock(new AbstractTreeGrower() {
         @Override
         protected @NotNull ResourceKey<ConfiguredFeature<?, ?>> getConfiguredFeature(@NotNull RandomSource random, boolean bees) {
-            return configuredFeatureKey("plains_hollow_tree");
+            return configuredFeatureKey("hollow_tree_mid");
         }
     }, BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING)));
     public static final RegistrySupplier<Block> MOONVEIL_GRASS = registerBlockWithBlockItem("moonveil_grass", () -> new InfectedFlowerBlock(Objects.requireNonNull(MobEffect.byId(3)), 1, BlockBehaviour.Properties.copy(Blocks.GRASS)));
@@ -66,6 +90,12 @@ public class ObjectRegistry {
     public static final RegistrySupplier<Block> DREAMSHADE = registerBlockWithBlockItem("dreamshade", () -> new InfectedFlowerBlock(Objects.requireNonNull(MobEffect.byId(1)), 1, BlockBehaviour.Properties.copy(Blocks.RED_TULIP)));
     public static final RegistrySupplier<Block> TALL_DREAMSHADE = registerBlockWithBlockItem("tall_dreamshade", () -> new InfectedTallFlowerBlock(BlockBehaviour.Properties.copy(Blocks.ROSE_BUSH)));
 
+    public static final RegistrySupplier<Block> WOODEN_TOMBSTONE = registerBlockWithBlockItem("wooden_tombstone", () -> new TombstoneBlock(BlockBehaviour.Properties.copy(GRAVESTONE.get()), TombstoneBlock.createWoodenTombstoneShape()));
+    public static final RegistrySupplier<Block> SMALL_TOMBSTONE = registerBlockWithBlockItem("small_tombstone", () -> new TombstoneBlock(BlockBehaviour.Properties.copy(GRAVESTONE.get()), TombstoneBlock.createSmallTombstoneShape()));
+    public static final RegistrySupplier<Block> MID_TOMBSTONE = registerBlockWithBlockItem("mid_tombstone", () -> new TombstoneBlock(BlockBehaviour.Properties.copy(GRAVESTONE.get()), TombstoneBlock.createMidTombstoneShape()));
+    public static final RegistrySupplier<Block> BIG_TOMBSTONE = registerBlockWithBlockItem("big_tombstone", () -> new BigTombstoneBlock(BlockBehaviour.Properties.copy(GRAVESTONE.get())));
+
+    public static final RegistrySupplier<Item> SPECTRAL_ESSENCE = registerItem("spectral_essence", () -> new Item(getSettings()));
 
     public static final RegistrySupplier<Block> POTTED_HOLLOW_SAPLING = registerBlockWithoutItem("potted_hollow_sapling", () -> new FlowerPotBlock(HOLLOW_SAPLING.get(), BlockBehaviour.Properties.copy(Blocks.FLOWER_POT)));
     public static final RegistrySupplier<Block> POTTED_GRAVE_LILY = registerBlockWithoutItem("potted_grave_lily", () -> new FlowerPotBlock(GRAVE_LILY.get(), BlockBehaviour.Properties.copy(Blocks.FLOWER_POT)));
