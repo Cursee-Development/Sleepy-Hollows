@@ -9,7 +9,7 @@
             "type": "minecraft:weighted_state_provider",
             "entries": [
               {
-                "weight": 40,
+                "weight": 15,
                 "data": {
                   "Name": "sleepy_hollows:dreamshade",
                   "Properties": {
@@ -18,7 +18,7 @@
                 }
               },
               {
-                "weight": 15,
+                "weight": 40,
                 "data": {
                   "Name": "sleepy_hollows:dreamshade",
                   "Properties": {
@@ -27,13 +27,13 @@
                 }
               },
               {
-                "weight": 4,
+                "weight": 12,
                 "data": {
                   "Name": "minecraft:brown_mushroom"
                 }
               },
               {
-                "weight": 30,
+                "weight": 10,
                 "data": {
                   "Name": "sleepy_hollows:tall_dreamshade",
                   "Properties": {
@@ -43,7 +43,7 @@
                 }
               },
               {
-                "weight": 10,
+                "weight": 30,
                 "data": {
                   "Name": "sleepy_hollows:tall_dreamshade",
                   "Properties": {

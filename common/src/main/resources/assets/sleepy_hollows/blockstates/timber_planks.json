@@ -1,0 +1,54 @@
+{
+  "variants": {
+    "facing=north,corner=none": {
+      "model": "sleepy_hollows:block/timber_planks",
+      "y": 0
+    },
+    "facing=east,corner=none": {
+      "model": "sleepy_hollows:block/timber_planks",
+      "y": 90
+    },
+    "facing=south,corner=none": {
+      "model": "sleepy_hollows:block/timber_planks",
+      "y": 180
+    },
+    "facing=west,corner=none": {
+      "model": "sleepy_hollows:block/timber_planks",
+      "y": 270
+    },
+
+    "facing=north,corner=outer": {
+      "model": "sleepy_hollows:block/timber_planks_outer_corner",
+      "y": 0
+    },
+    "facing=east,corner=outer": {
+      "model": "sleepy_hollows:block/timber_planks_outer_corner",
+      "y": 90
+    },
+    "facing=south,corner=outer": {
+      "model": "sleepy_hollows:block/timber_planks_outer_corner",
+      "y": 180
+    },
+    "facing=west,corner=outer": {
+      "model": "sleepy_hollows:block/timber_planks_outer_corner",
+      "y": 270
+    },
+
+    "facing=north,corner=inner": {
+      "model": "sleepy_hollows:block/timber_planks_inner_corner",
+      "y": 0
+    },
+    "facing=east,corner=inner": {
+      "model": "sleepy_hollows:block/timber_planks_inner_corner",
+      "y": 90
+    },
+    "facing=south,corner=inner": {
+      "model": "sleepy_hollows:block/timber_planks_inner_corner",
+      "y": 180
+    },
+    "facing=west,corner=inner": {
+      "model": "sleepy_hollows:block/timber_planks_inner_corner",
+      "y": 270
+    }
+  }
+}

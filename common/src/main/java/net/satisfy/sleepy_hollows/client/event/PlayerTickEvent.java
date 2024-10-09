@@ -17,6 +17,7 @@ public class PlayerTickEvent {
 
         BlockPos playerPos = player.blockPosition();
 
+
         if (player.level().getBiome(playerPos).is(SleepyHollowsBiomeKeys.SLEEPY_HOLLOWS)) {
             tickCounter++;
             if (tickCounter >= TICK_INTERVAL) {

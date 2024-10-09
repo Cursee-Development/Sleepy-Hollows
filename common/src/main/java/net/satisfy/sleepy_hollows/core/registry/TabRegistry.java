@@ -13,6 +13,7 @@ public class TabRegistry {
 
     public static final DeferredRegister<CreativeModeTab> SLEEPY_HOLLOWS_TABS = DeferredRegister.create(Constants.MOD_ID, Registries.CREATIVE_MODE_TAB);
 
+    @SuppressWarnings("unused")
     public static final RegistrySupplier<CreativeModeTab> SLEEPY_HOLLOWS_TAB = SLEEPY_HOLLOWS_TABS.register(Constants.MOD_ID, () -> CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0)
             .icon(() -> new ItemStack(ObjectRegistry.HOLLOW_SAPLING.get()))
             .title(Component.translatable("itemGroup.sleepyHollows").withStyle(ChatFormatting.ITALIC))
@@ -66,14 +67,24 @@ public class TabRegistry {
                 out.accept(ObjectRegistry.SHADOWBLOOM.get());
                 out.accept(ObjectRegistry.DREAMSHADE.get());
                 out.accept(ObjectRegistry.TALL_DREAMSHADE.get());
+                out.accept(ObjectRegistry.SPECTRAL_PUMPKIN.get());
+                out.accept(ObjectRegistry.SPECTRAL_CARVED_PUMPKIN.get());
+                out.accept(ObjectRegistry.SPECTRAL_JACK_O_LANTERN.get());
                 out.accept(ObjectRegistry.WOODEN_TOMBSTONE.get());
                 out.accept(ObjectRegistry.SMALL_TOMBSTONE.get());
                 out.accept(ObjectRegistry.MID_TOMBSTONE.get());
                 out.accept(ObjectRegistry.BIG_TOMBSTONE.get());
-
+                out.accept(ObjectRegistry.WROUGHT_IRON_FENCE.get());
+                out.accept(ObjectRegistry.SPECTRAL_LANTERN.get());
                 out.accept(ObjectRegistry.SPECTRAL_ESSENCE.get());
-
-
+                out.accept(ObjectRegistry.HAUNTBOUND_HELMET.get());
+                out.accept(ObjectRegistry.HAUNTBOUND_CHESTPLATE.get());
+                out.accept(ObjectRegistry.HAUNTBOUND_LEGGINGS.get());
+                out.accept(ObjectRegistry.HAUNTBOUND_BOOTS.get());
+                out.accept(ObjectRegistry.REINS_OF_THE_SPECTRAL_HORSE.get());
+                out.accept(ObjectRegistry.LUMINOUS_WATER.get());
+                out.accept(ObjectRegistry.DUSK_BERRIES.get());
+                out.accept(ObjectRegistry.CANDY_CORN.get());
             }))
             .build());
 

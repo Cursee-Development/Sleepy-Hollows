@@ -9,6 +9,7 @@ public final class SleepyHollowsFabricClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         SleepyHollowsClient.initClient();
+        SleepyHollowsClient.PreinitClient();
         Constants.LOG.info("Initialized the mod in Fabric Client.");
     }
 }

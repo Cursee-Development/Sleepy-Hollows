@@ -10,7 +10,7 @@ import net.minecraft.world.level.LevelSimulatedReader;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
-import net.satisfy.sleepy_hollows.core.registry.PlacerTypesRegistry;
+import net.satisfy.sleepy_hollows.core.registry.FeatureTypeRegistry;
 import org.jetbrains.annotations.NotNull;
 
 public class HollowFoliagePlacer extends FoliagePlacer {
@@ -27,7 +27,7 @@ public class HollowFoliagePlacer extends FoliagePlacer {
 
     @Override
     protected @NotNull FoliagePlacerType<?> type() {
-        return PlacerTypesRegistry.HOLLOW_FOLIAGE_PLACER.get();
+        return FeatureTypeRegistry.HOLLOW_FOLIAGE_PLACER.get();
     }
 
     public int foliageHeight(@NotNull RandomSource random, int trunkHeight, @NotNull TreeConfiguration config) {

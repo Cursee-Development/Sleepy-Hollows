@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "hanging=false": {
+      "model": "sleepy_hollows:block/spectral_lantern"
+    },
+    "hanging=true": {
+      "model": "sleepy_hollows:block/spectral_lantern_hanging"
+    }
+  }
+}

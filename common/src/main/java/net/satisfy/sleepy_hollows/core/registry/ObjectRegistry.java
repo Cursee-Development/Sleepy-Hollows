@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.grower.AbstractTreeGrower;
@@ -20,6 +21,10 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.satisfy.sleepy_hollows.Constants;
 import net.satisfy.sleepy_hollows.core.block.custom.*;
+import net.satisfy.sleepy_hollows.core.item.custom.CandyCornItem;
+import net.satisfy.sleepy_hollows.core.item.custom.DuskBerryItem;
+import net.satisfy.sleepy_hollows.core.item.custom.LuminousWaterItem;
+import net.satisfy.sleepy_hollows.core.item.custom.ReinsOfTheSpectralHorseItem;
 import net.satisfy.sleepy_hollows.core.util.SleepyHollowsIdentifier;
 import net.satisfy.sleepy_hollows.core.util.SleepyHollowsUtil;
 import org.jetbrains.annotations.NotNull;
@@ -85,6 +90,7 @@ public class ObjectRegistry {
     }, BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING)));
     public static final RegistrySupplier<Block> MOONVEIL_GRASS = registerBlockWithBlockItem("moonveil_grass", () -> new InfectedFlowerBlock(Objects.requireNonNull(MobEffect.byId(3)), 1, BlockBehaviour.Properties.copy(Blocks.GRASS)));
     public static final RegistrySupplier<Block> TALL_MOONVEIL_GRASS = registerBlockWithBlockItem("tall_moonveil_grass", () -> new InfectedTallFlowerBlock(BlockBehaviour.Properties.copy(Blocks.TALL_GRASS)));
+    public static final RegistrySupplier<Block> DUSKBERRY_BUSH = registerBlockWithoutItem("duskberry_bush", () -> new DuskberryBushBlock(BlockBehaviour.Properties.copy(Blocks.SWEET_BERRY_BUSH)));
 
     public static final RegistrySupplier<Block> GRAVE_LILY = registerBlockWithBlockItem("grave_lily", () -> new InfectedFlowerBlock(Objects.requireNonNull(MobEffect.byId(5)), 1, BlockBehaviour.Properties.copy(Blocks.RED_TULIP)));
     public static final RegistrySupplier<Block> DREAMSHADE = registerBlockWithBlockItem("dreamshade", () -> new InfectedFlowerBlock(Objects.requireNonNull(MobEffect.byId(1)), 1, BlockBehaviour.Properties.copy(Blocks.RED_TULIP)));
@@ -95,8 +101,21 @@ public class ObjectRegistry {
     public static final RegistrySupplier<Block> SMALL_TOMBSTONE = registerBlockWithBlockItem("small_tombstone", () -> new TombstoneBlock(BlockBehaviour.Properties.copy(GRAVESTONE.get()), TombstoneBlock.createSmallTombstoneShape()));
     public static final RegistrySupplier<Block> MID_TOMBSTONE = registerBlockWithBlockItem("mid_tombstone", () -> new TombstoneBlock(BlockBehaviour.Properties.copy(GRAVESTONE.get()), TombstoneBlock.createMidTombstoneShape()));
     public static final RegistrySupplier<Block> BIG_TOMBSTONE = registerBlockWithBlockItem("big_tombstone", () -> new BigTombstoneBlock(BlockBehaviour.Properties.copy(GRAVESTONE.get())));
-
+    public static final RegistrySupplier<Block> WROUGHT_IRON_FENCE = registerBlockWithBlockItem("wrought_iron_fence", () -> new IronBarsBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BARS)));
+    public static final RegistrySupplier<Block> SPECTRAL_LANTERN = registerBlockWithBlockItem("spectral_lantern", () -> new SpectralLanternBlock(BlockBehaviour.Properties.copy(Blocks.LANTERN)));
+    //TODO @Jason not sure about these - maybe we should delete them again :D
+    public static final RegistrySupplier<Block> SPECTRAL_PUMPKIN = registerBlockWithBlockItem("spectral_pumpkin", () -> new SpectralPumpkinBlock(BlockBehaviour.Properties.copy(Blocks.PUMPKIN)));
+    public static final RegistrySupplier<Block> SPECTRAL_CARVED_PUMPKIN = registerBlockWithBlockItem("spectral_carved_pumpkin", () -> new CarvedPumpkinBlock(BlockBehaviour.Properties.copy(Blocks.CARVED_PUMPKIN)));
+    public static final RegistrySupplier<Block> SPECTRAL_JACK_O_LANTERN = registerBlockWithBlockItem("spectral_jack_o_lantern", () -> new CarvedPumpkinBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE).strength(1.0F).sound(SoundType.WOOD).lightLevel((blockStatex) -> 15).isValidSpawn((state, world, pos, entityType) -> true).pushReaction(PushReaction.DESTROY)));
+    public static final RegistrySupplier<Item> HAUNTBOUND_HELMET = registerItem("hauntbound_helmet", () -> new Item(getSettings()));
+    public static final RegistrySupplier<Item> HAUNTBOUND_CHESTPLATE = registerItem("hauntbound_chestplate", () -> new Item(getSettings()));
+    public static final RegistrySupplier<Item> HAUNTBOUND_LEGGINGS = registerItem("hauntbound_leggings", () -> new Item(getSettings()));
+    public static final RegistrySupplier<Item> HAUNTBOUND_BOOTS = registerItem("hauntbound_boots", () -> new Item(getSettings()));
     public static final RegistrySupplier<Item> SPECTRAL_ESSENCE = registerItem("spectral_essence", () -> new Item(getSettings()));
+    public static final RegistrySupplier<Item> LUMINOUS_WATER = registerItem("luminous_water", () -> new LuminousWaterItem(getSettings().food(Foods.CHICKEN)));
+    public static final RegistrySupplier<Item> DUSK_BERRIES = registerItem("dusk_berries", () -> new DuskBerryItem(DUSKBERRY_BUSH.get(), (new Item.Properties()).food(Foods.SWEET_BERRIES)));
+    public static final RegistrySupplier<Item> CANDY_CORN = registerItem("candy_corn", () -> new CandyCornItem(getSettings().food(Foods.APPLE)));
+    public static final RegistrySupplier<Item>  REINS_OF_THE_SPECTRAL_HORSE = registerItem("reins_of_the_spectral_horse",  () -> new ReinsOfTheSpectralHorseItem(EntityTypeRegistry.SPECTRAL_HORSE, -1, -1, getSettings()));
 
     public static final RegistrySupplier<Block> POTTED_HOLLOW_SAPLING = registerBlockWithoutItem("potted_hollow_sapling", () -> new FlowerPotBlock(HOLLOW_SAPLING.get(), BlockBehaviour.Properties.copy(Blocks.FLOWER_POT)));
     public static final RegistrySupplier<Block> POTTED_GRAVE_LILY = registerBlockWithoutItem("potted_grave_lily", () -> new FlowerPotBlock(GRAVE_LILY.get(), BlockBehaviour.Properties.copy(Blocks.FLOWER_POT)));
@@ -120,10 +139,6 @@ public class ObjectRegistry {
 
     public static Item.Properties getSettings() {
         return getSettings(settings -> {});
-    }
-
-    public static <T extends Block> RegistrySupplier<T> registerBlock(String path, Supplier<T> block) {
-        return SleepyHollowsUtil.abstractBlockRegistration(BLOCKS, BLOCK_REGISTRAR, new SleepyHollowsIdentifier(path), block);
     }
 
     public static <T extends Item> RegistrySupplier<T> registerItem(String path, Supplier<T> itemSupplier) {

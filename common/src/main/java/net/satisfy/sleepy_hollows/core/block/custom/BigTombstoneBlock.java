@@ -16,6 +16,7 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.Half;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.satisfy.sleepy_hollows.core.util.SleepyHollowsUtil;
 import org.jetbrains.annotations.NotNull;
 
 public class BigTombstoneBlock extends TombstoneBlock {
@@ -73,6 +74,10 @@ public class BigTombstoneBlock extends TombstoneBlock {
 
     @Override
     public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter world, @NotNull BlockPos pos, @NotNull CollisionContext context) {
-        return state.getValue(HALF) == Half.BOTTOM ? TombstoneBlock.createBigTombstoneShapeBottom() : TombstoneBlock.createBigTombstoneShapeTop();
+        Direction facing = state.getValue(FACING);
+        VoxelShape shape = state.getValue(HALF) == Half.BOTTOM
+                ? TombstoneBlock.createBigTombstoneShapeBottom()
+                : TombstoneBlock.createBigTombstoneShapeTop();
+        return SleepyHollowsUtil.rotateShape(Direction.NORTH, facing, shape);
     }
 }

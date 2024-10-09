@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "sleepy_hollows:block/wrought_iron_fence"
+  }
+}

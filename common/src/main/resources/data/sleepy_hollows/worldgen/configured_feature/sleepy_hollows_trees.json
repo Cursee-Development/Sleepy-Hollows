@@ -3,8 +3,12 @@
   "config": {
     "features": [
       {
-        "chance": 0.1,
+        "chance": 0.3,
         "feature": "sleepy_hollows:hollow_tree_small_checked"
+      },
+      {
+        "chance": 0.15,
+        "feature": "sleepy_hollows:hollow_tree_decorated_checked"
       }
     ],
     "default": "sleepy_hollows:hollow_tree_mid_checked"

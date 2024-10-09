@@ -3,6 +3,7 @@ package net.satisfy.sleepy_hollows.core.block.custom;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -27,12 +28,14 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.satisfy.sleepy_hollows.core.registry.ObjectRegistry;
+import net.satisfy.sleepy_hollows.core.util.SleepyHollowsUtil;
 import org.jetbrains.annotations.NotNull;
 
-//TODO: Active doesn't change properly yet
+import java.util.Random;
+
 @SuppressWarnings("deprecation")
 public class TombstoneBlock extends Block  {
-    public static final DirectionProperty FACING = BlockStateProperties.FACING;
+    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
     private final VoxelShape shape;
 
@@ -56,7 +59,8 @@ public class TombstoneBlock extends Block  {
     public @NotNull InteractionResult use(@NotNull BlockState state, Level world, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
         if (!world.isClientSide) {
             if (state.getValue(ACTIVE)) {
-                spawnSkeletons(world, pos);
+                spawnSkeletonsAndParticles(world, pos);
+                world.setBlock(pos, state.setValue(ACTIVE, false), 3);
             } else if (player.getItemInHand(hand).getItem() == ObjectRegistry.SPECTRAL_ESSENCE.get()) {
                 if (!player.isCreative()) {
                     player.getItemInHand(hand).shrink(1);
@@ -69,28 +73,65 @@ public class TombstoneBlock extends Block  {
         return InteractionResult.SUCCESS;
     }
 
-    private void spawnSkeletons(Level world, BlockPos pos) {
-        for (int i = 0; i < 3; i++) {
+    private void spawnSkeletonsAndParticles(Level world, BlockPos pos) {
+        BlockPos[] spawnPositions = {
+                pos.offset(2, 0, 0),
+                pos.offset(-2, 0, 0),
+                pos.offset(0, 0, -2)
+        };
+
+        Random random = new Random();
+        ItemStack[] armorPieces = {
+                new ItemStack(Items.CHAINMAIL_CHESTPLATE),
+                new ItemStack(Items.CHAINMAIL_LEGGINGS),
+                new ItemStack(Items.CHAINMAIL_BOOTS),
+                new ItemStack(Items.SHIELD),
+        };
+        EquipmentSlot[] armorSlots = {
+                EquipmentSlot.CHEST,
+                EquipmentSlot.LEGS,
+                EquipmentSlot.FEET,
+                EquipmentSlot.OFFHAND
+        };
+
+        for (int i = 0; i < spawnPositions.length; i++) {
+            BlockPos spawnPos = spawnPositions[i];
             Skeleton skeleton = EntityType.SKELETON.create(world);
             if (skeleton != null) {
-                skeleton.setPos(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5);
-                skeleton.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.CARVED_PUMPKIN));
-                skeleton.setItemSlot(EquipmentSlot.CHEST, new ItemStack(Items.CHAINMAIL_CHESTPLATE));
-                skeleton.setItemSlot(EquipmentSlot.LEGS, new ItemStack(Items.CHAINMAIL_LEGGINGS));
-                skeleton.setItemSlot(EquipmentSlot.FEET, new ItemStack(Items.CHAINMAIL_BOOTS));
+                skeleton.setPos(spawnPos.getX() + 0.5, spawnPos.getY() + 1, spawnPos.getZ() + 0.5);
+
+                skeleton.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ObjectRegistry.SPECTRAL_JACK_O_LANTERN.get()));
+                skeleton.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
+
+                for (int j = 0; j < armorPieces.length; j++) {
+                    if (random.nextFloat() < 0.3) {
+                        skeleton.setItemSlot(armorSlots[j], armorPieces[j]);
+                    }
+                }
+
                 world.addFreshEntity(skeleton);
+            }
+            spawnParticles(world, spawnPos);
+
+            if (!world.isClientSide) {
+                world.scheduleTick(pos, this, i * 10);
+                world.playSound(null, spawnPos, SoundEvents.SCULK_SHRIEKER_SHRIEK, SoundSource.BLOCKS, 1.0F, 1.0F);
             }
         }
     }
 
+
     private void spawnParticles(Level world, BlockPos pos) {
-        world.addParticle(ParticleTypes.SOUL, pos.getX() + 0.5, pos.getY() + 1.5, pos.getZ() + 0.5, 0, 0, 0);
+        if (world instanceof ServerLevel serverLevel) {
+            serverLevel.sendParticles(ParticleTypes.SOUL, pos.getX() + 0.5, pos.getY() + 1.5, pos.getZ() + 0.5, 10, 0.5, 0.5, 0.5, 0.05);
+        }
     }
+
 
     @Override
     public void attack(BlockState state, @NotNull Level world, @NotNull BlockPos pos, @NotNull Player player) {
         if (state.getValue(ACTIVE)) {
-            spawnSkeletons(world, pos);
+            spawnSkeletonsAndParticles(world, pos);
             if (!player.isInvulnerableTo(world.damageSources().magic())) {
                 player.hurt(world.damageSources().magic(), 5.0F);
             }
@@ -108,8 +149,8 @@ public class TombstoneBlock extends Block  {
     }
 
     public static VoxelShape createWoodenTombstoneShape() {
-        VoxelShape bottom = Shapes.box(0.3125, 0, 0.3125, 0.8125, 0.25, 0.8125);
-        VoxelShape top = Shapes.box(0.4375, 0.25, 0.4375, 0.6875, 1, 0.6875);
+        VoxelShape bottom = Shapes.box(0.25, 0, 0.25, 0.75, 0.25, 0.75);
+        VoxelShape top = Shapes.box(0.375, 0.25, 0.375, 0.625, 1, 0.625);
         return Shapes.or(bottom, top);
     }
 
@@ -125,10 +166,10 @@ public class TombstoneBlock extends Block  {
         return Shapes.or(bottom, top);
     }
 
-
     @Override
     public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter world, @NotNull BlockPos pos, @NotNull CollisionContext context) {
-        return shape;
+        Direction facing = state.getValue(FACING);
+        return SleepyHollowsUtil.rotateShape(Direction.NORTH, facing, this.shape);
     }
 }
 

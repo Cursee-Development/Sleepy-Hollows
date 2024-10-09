@@ -11,9 +11,9 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.TallFlowerBlock;
@@ -21,13 +21,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
-//TODO: Change it so only players will be affected by damage / effect
 @SuppressWarnings("deprecation")
 public class InfectedTallFlowerBlock extends TallFlowerBlock {
     public static final BooleanProperty INFECTED = BooleanProperty.create("infected");
@@ -43,7 +43,7 @@ public class InfectedTallFlowerBlock extends TallFlowerBlock {
     }
 
     @Override
-    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+    public void animateTick(BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull RandomSource random) {
         if (state.getValue(INFECTED)) {
             VoxelShape voxelShape = this.getShape(state, level, pos, CollisionContext.empty());
             Vec3 center = voxelShape.bounds().getCenter();
@@ -52,25 +52,25 @@ public class InfectedTallFlowerBlock extends TallFlowerBlock {
 
             for (int i = 0; i < 3; ++i) {
                 if (random.nextBoolean()) {
-                    level.addParticle(ParticleTypes.SMOKE, x + random.nextDouble() / 5.0, (double)pos.getY() + (0.5 - random.nextDouble()), z + random.nextDouble() / 5.0, 0.0, 0.0, 0.0);
+                    level.addParticle(ParticleTypes.SPORE_BLOSSOM_AIR, x + random.nextDouble() / 5.0, (double)pos.getY() + (0.5 - random.nextDouble()), z + random.nextDouble() / 5.0, 0.0, 0.0, 0.0);
                 }
             }
         }
     }
 
     @Override
-    public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
+    public void entityInside(BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Entity entity) {
         if (state.getValue(INFECTED) && !level.isClientSide && level.getDifficulty() != Difficulty.PEACEFUL) {
-            if (entity instanceof LivingEntity livingEntity) {
-                if (!livingEntity.isInvulnerableTo(level.damageSources().wither())) {
-                    livingEntity.addEffect(new MobEffectInstance(MobEffects.WITHER, 40));
+            if (entity instanceof Player player) {
+                if (!player.isInvulnerableTo(level.damageSources().wither())) {
+                    player.addEffect(new MobEffectInstance(MobEffects.WITHER, 40));
                 }
             }
         }
     }
 
     @Override
-    public @NotNull InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    public @NotNull InteractionResult use(@NotNull BlockState state, @NotNull Level world, @NotNull BlockPos pos, Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
         if (player.getItemInHand(hand).is(Items.WATER_BUCKET)) {
             if (state.getValue(INFECTED)) {
                 this.deactivateNearbyFlowers(world, pos);
@@ -87,5 +87,10 @@ public class InfectedTallFlowerBlock extends TallFlowerBlock {
             .map(world::getBlockState)
             .filter(state -> state.getBlock() instanceof InfectedTallFlowerBlock && state.getValue(INFECTED))
             .forEach(state -> world.setBlock(pos, state.setValue(INFECTED, false), 3));
+    }
+
+    @Override
+    public boolean isPathfindable(@NotNull BlockState state, @NotNull BlockGetter world, @NotNull BlockPos pos, @NotNull PathComputationType type) {
+        return false;
     }
 }

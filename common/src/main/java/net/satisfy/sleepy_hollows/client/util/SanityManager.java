@@ -7,6 +7,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.satisfy.sleepy_hollows.core.registry.MobEffectRegistry;
 import net.satisfy.sleepy_hollows.core.registry.TagRegistry;
 
 import java.util.HashMap;
@@ -76,7 +78,23 @@ public class SanityManager {
         if (sanity < MAX_SANITY) {
             sanity += 2;
             playerSanityMap.put(player, sanity);
+
+            if (sanity >= MAX_SANITY) {
+                applyHighSanityEffect(player);
+            }
         }
+    }
+
+    private static void applyHighSanityEffect(Player player) {
+        int effectDuration = 1500;
+        player.addEffect(new MobEffectInstance(MobEffectRegistry.SANITY.get(), effectDuration, 1));
+    }
+
+    public static void decreaseSanity(Player player, int amount) {
+        int sanity = playerSanityMap.getOrDefault(player, 0);
+        sanity -= amount;
+        sanity = Math.max(0, sanity);
+        playerSanityMap.put(player, sanity);
     }
 
     private static void resetSanity(Player player) {
@@ -89,6 +107,7 @@ public class SanityManager {
         playerSanityMap.put(player, sanity);
     }
 
+    
     private static void decreaseSanityOutsideBiome(Player player) {
         int sanity = playerSanityMap.getOrDefault(player, 0);
         sanity -= OUTSIDE_BIOME_SANITY_LOSS;
@@ -100,3 +119,4 @@ public class SanityManager {
         return playerSanityMap.getOrDefault(player, 0);
     }
 }
+

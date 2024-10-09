@@ -1,0 +1,17 @@
+{
+  "feature": "sleepy_hollows:hollow_tree_decorated",
+  "placement": [
+    {
+      "type": "minecraft:block_predicate_filter",
+      "predicate": {
+        "type": "minecraft:would_survive",
+        "state": {
+          "Name": "sleepy_hollows:hollow_sapling",
+          "Properties": {
+            "stage": "0"
+          }
+        }
+      }
+    }
+  ]
+}

@@ -14,14 +14,14 @@ public final class SleepyHollows {
         ObjectRegistry.init();
         CompostableRegistry.init();
         TabRegistry.init();
+        MobEffectRegistry.init();
         EntityTypeRegistry.init();
-        PlacerTypesRegistry.init();
+        FeatureTypeRegistry.init();
 
         Constants.LOG.info("Initialized the mod in Common.");
 
         if (Platform.getEnv() == EnvType.CLIENT) {
             ClientGuiEvent.RENDER_HUD.register(HUDRenderEvent::onRenderHUD);
-
             ClientTickEvent.CLIENT_POST.register(PlayerTickEvent::onClientTick);
         }
     }

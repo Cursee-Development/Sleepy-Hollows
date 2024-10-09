@@ -1,0 +1,36 @@
+{
+	"credit": "Made by Satisfy",
+	"textures": {
+		"0": "sleepy_hollows:block/large_tombstone_bottom",
+		"1": "sleepy_hollows:block/large_tombstone_front_active",
+		"2": "sleepy_hollows:block/large_tombstone_back",
+		"3": "sleepy_hollows:block/large_tombstone_side",
+		"particle": "sleepy_hollows:block/large_tombstone_bottom"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 4],
+			"to": [16, 4, 12],
+			"rotation": {"angle": 0, "axis": "y", "origin": [0, 0, 4]},
+			"faces": {
+				"north": {"uv": [0, 8, 16, 12], "texture": "#0"},
+				"east": {"uv": [8, 12, 16, 16], "texture": "#0"},
+				"south": {"uv": [0, 8, 16, 12], "texture": "#0"},
+				"west": {"uv": [0, 12, 8, 16], "texture": "#0"},
+				"up": {"uv": [0, 8, 16, 0], "texture": "#0"},
+				"down": {"uv": [0, 0, 16, 8], "texture": "#0"}
+			}
+		},
+		{
+			"from": [0, 4, 6],
+			"to": [16, 16, 10],
+			"rotation": {"angle": 0, "axis": "y", "origin": [0, 4, 6]},
+			"faces": {
+				"north": {"uv": [0, 4, 16, 16], "texture": "#1"},
+				"east": {"uv": [4, 2, 8, 14], "texture": "#3"},
+				"south": {"uv": [0, 4, 16, 16], "texture": "#2"},
+				"west": {"uv": [4, 2, 8, 14], "texture": "#3"}
+			}
+		}
+	]
+}

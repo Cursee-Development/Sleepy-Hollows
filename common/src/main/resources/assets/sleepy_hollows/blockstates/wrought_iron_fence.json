@@ -1,0 +1,43 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "sleepy_hollows:block/wrought_iron_fence_post"
+      }
+    },
+    {
+      "when": {
+        "north": "true"
+      },
+      "apply": {
+        "model": "sleepy_hollows:block/wrought_iron_fence_side"
+      }
+    },
+    {
+      "when": {
+        "west": "true"
+      },
+      "apply": {
+        "model": "sleepy_hollows:block/wrought_iron_fence_side",
+		"y": -90
+      }
+    },
+    {
+      "when": {
+        "south": "true"
+      },
+      "apply": {
+        "model": "sleepy_hollows:block/wrought_iron_fence_side_alt"
+      }
+    },
+    {
+      "when": {
+        "east": "true"
+      },
+      "apply": {
+        "model": "sleepy_hollows:block/wrought_iron_fence_side_alt",
+		"y": -90
+      }
+    }
+  ]
+}
