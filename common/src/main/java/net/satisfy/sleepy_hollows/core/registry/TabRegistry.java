@@ -77,6 +77,7 @@ public class TabRegistry {
                 out.accept(ObjectRegistry.BIG_TOMBSTONE.get());
                 out.accept(ObjectRegistry.WROUGHT_IRON_FENCE.get());
                 out.accept(ObjectRegistry.SPECTRAL_LANTERN.get());
+                out.accept(ObjectRegistry.COFFIN.get());
                 out.accept(ObjectRegistry.SPECTRAL_ESSENCE.get());
                 out.accept(ObjectRegistry.LOOTBAG.get());
                 out.accept(ObjectRegistry.HAUNTBOUND_HELMET.get());

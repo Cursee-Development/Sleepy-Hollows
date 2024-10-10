@@ -109,6 +109,7 @@ public class ObjectRegistry {
     public static final RegistrySupplier<Item> HAUNTBOUND_CHESTPLATE = registerItem("hauntbound_chestplate", () -> new Item(getSettings()));
     public static final RegistrySupplier<Item> HAUNTBOUND_LEGGINGS = registerItem("hauntbound_leggings", () -> new Item(getSettings()));
     public static final RegistrySupplier<Item> HAUNTBOUND_BOOTS = registerItem("hauntbound_boots", () -> new Item(getSettings()));
+    public static final RegistrySupplier<Block> COFFIN = registerBlockWithBlockItem("coffin", () -> new CoffinBlock(BlockBehaviour.Properties.copy(Blocks.STONE).pushReaction(PushReaction.DESTROY)));
     public static final RegistrySupplier<Item> SPECTRAL_ESSENCE = registerItem("spectral_essence", () -> new Item(getSettings()));
     public static final RegistrySupplier<Item> LUMINOUS_WATER = registerItem("luminous_water", () -> new LuminousWaterItem(getSettings().food(Foods.CHICKEN)));
     public static final RegistrySupplier<Item> DUSK_BERRIES = registerItem("dusk_berries", () -> new DuskBerryItem(DUSKBERRY_BUSH.get(), (new Item.Properties()).food(Foods.SWEET_BERRIES)));

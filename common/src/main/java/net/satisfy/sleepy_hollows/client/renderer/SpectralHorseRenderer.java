@@ -1,4 +1,4 @@
-package net.satisfy.sleepy_hollows.client.render;
+package net.satisfy.sleepy_hollows.client.renderer;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

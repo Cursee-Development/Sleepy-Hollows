@@ -1,4 +1,4 @@
-package net.satisfy.sleepy_hollows.client.render;
+package net.satisfy.sleepy_hollows.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
