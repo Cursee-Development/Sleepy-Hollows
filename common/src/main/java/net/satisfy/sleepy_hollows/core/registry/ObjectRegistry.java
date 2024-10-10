@@ -21,10 +21,7 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.satisfy.sleepy_hollows.Constants;
 import net.satisfy.sleepy_hollows.core.block.custom.*;
-import net.satisfy.sleepy_hollows.core.item.custom.CandyCornItem;
-import net.satisfy.sleepy_hollows.core.item.custom.DuskBerryItem;
-import net.satisfy.sleepy_hollows.core.item.custom.LuminousWaterItem;
-import net.satisfy.sleepy_hollows.core.item.custom.ReinsOfTheSpectralHorseItem;
+import net.satisfy.sleepy_hollows.core.item.custom.*;
 import net.satisfy.sleepy_hollows.core.util.SleepyHollowsIdentifier;
 import net.satisfy.sleepy_hollows.core.util.SleepyHollowsUtil;
 import org.jetbrains.annotations.NotNull;
@@ -97,6 +94,7 @@ public class ObjectRegistry {
     public static final RegistrySupplier<Block> SHADOWBLOOM = registerBlockWithBlockItem("shadowbloom", () -> new InfectedFlowerBlock(Objects.requireNonNull(MobEffect.byId(7)), 1, BlockBehaviour.Properties.copy(Blocks.RED_TULIP)));
     public static final RegistrySupplier<Block> TALL_DREAMSHADE = registerBlockWithBlockItem("tall_dreamshade", () -> new InfectedTallFlowerBlock(BlockBehaviour.Properties.copy(Blocks.ROSE_BUSH)));
 
+    public static final RegistrySupplier<Block> PEDESTAL = registerBlockWithBlockItem("pedestal", () -> new PedestalBlock(BlockBehaviour.Properties.copy(Blocks.STONE).pushReaction(PushReaction.IGNORE)));
     public static final RegistrySupplier<Block> WOODEN_TOMBSTONE = registerBlockWithBlockItem("wooden_tombstone", () -> new TombstoneBlock(BlockBehaviour.Properties.copy(GRAVESTONE.get()), TombstoneBlock.createWoodenTombstoneShape()));
     public static final RegistrySupplier<Block> SMALL_TOMBSTONE = registerBlockWithBlockItem("small_tombstone", () -> new TombstoneBlock(BlockBehaviour.Properties.copy(GRAVESTONE.get()), TombstoneBlock.createSmallTombstoneShape()));
     public static final RegistrySupplier<Block> MID_TOMBSTONE = registerBlockWithBlockItem("mid_tombstone", () -> new TombstoneBlock(BlockBehaviour.Properties.copy(GRAVESTONE.get()), TombstoneBlock.createMidTombstoneShape()));
@@ -115,8 +113,8 @@ public class ObjectRegistry {
     public static final RegistrySupplier<Item> LUMINOUS_WATER = registerItem("luminous_water", () -> new LuminousWaterItem(getSettings().food(Foods.CHICKEN)));
     public static final RegistrySupplier<Item> DUSK_BERRIES = registerItem("dusk_berries", () -> new DuskBerryItem(DUSKBERRY_BUSH.get(), (new Item.Properties()).food(Foods.SWEET_BERRIES)));
     public static final RegistrySupplier<Item> CANDY_CORN = registerItem("candy_corn", () -> new CandyCornItem(getSettings().food(Foods.APPLE)));
+    public static final RegistrySupplier<Item> LOOTBAG = registerItem("lootbag", () -> new LootBagItem(getSettings()));
     public static final RegistrySupplier<Item>  REINS_OF_THE_SPECTRAL_HORSE = registerItem("reins_of_the_spectral_horse",  () -> new ReinsOfTheSpectralHorseItem(EntityTypeRegistry.SPECTRAL_HORSE, -1, -1, getSettings()));
-
     public static final RegistrySupplier<Block> POTTED_HOLLOW_SAPLING = registerBlockWithoutItem("potted_hollow_sapling", () -> new FlowerPotBlock(HOLLOW_SAPLING.get(), BlockBehaviour.Properties.copy(Blocks.FLOWER_POT)));
     public static final RegistrySupplier<Block> POTTED_GRAVE_LILY = registerBlockWithoutItem("potted_grave_lily", () -> new FlowerPotBlock(GRAVE_LILY.get(), BlockBehaviour.Properties.copy(Blocks.FLOWER_POT)));
     public static final RegistrySupplier<Block> POTTED_DREAMSHADE = registerBlockWithoutItem("potted_dreamshade", () -> new FlowerPotBlock(DREAMSHADE.get(), BlockBehaviour.Properties.copy(Blocks.FLOWER_POT)));

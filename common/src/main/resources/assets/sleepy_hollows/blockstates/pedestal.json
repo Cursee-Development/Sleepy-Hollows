@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "sleepy_hollows:block/pedestal"
+    },
+    "active=true": {
+      "model": "sleepy_hollows:block/pedestal_active"
+    }
+  }
+}

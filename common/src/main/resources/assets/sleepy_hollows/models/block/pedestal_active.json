@@ -1,10 +1,10 @@
 {
 	"credit": "Made by Satisfy",
 	"textures": {
-		"0": "sleepy_hollows:block/pedestal_side",
+		"0": "sleepy_hollows:block/pedestal_side_active",
 		"1": "sleepy_hollows:block/pedestal_top",
 		"2": "sleepy_hollows:block/pedestal_bottom",
-		"particle": "sleepy_hollows:block/pedestal_side"
+		"particle": "sleepy_hollows:block/pedestal_side_active"
 	},
 	"elements": [
 		{

@@ -70,6 +70,7 @@ public class TabRegistry {
                 out.accept(ObjectRegistry.SPECTRAL_PUMPKIN.get());
                 out.accept(ObjectRegistry.SPECTRAL_CARVED_PUMPKIN.get());
                 out.accept(ObjectRegistry.SPECTRAL_JACK_O_LANTERN.get());
+                out.accept(ObjectRegistry.PEDESTAL.get());
                 out.accept(ObjectRegistry.WOODEN_TOMBSTONE.get());
                 out.accept(ObjectRegistry.SMALL_TOMBSTONE.get());
                 out.accept(ObjectRegistry.MID_TOMBSTONE.get());
@@ -77,6 +78,7 @@ public class TabRegistry {
                 out.accept(ObjectRegistry.WROUGHT_IRON_FENCE.get());
                 out.accept(ObjectRegistry.SPECTRAL_LANTERN.get());
                 out.accept(ObjectRegistry.SPECTRAL_ESSENCE.get());
+                out.accept(ObjectRegistry.LOOTBAG.get());
                 out.accept(ObjectRegistry.HAUNTBOUND_HELMET.get());
                 out.accept(ObjectRegistry.HAUNTBOUND_CHESTPLATE.get());
                 out.accept(ObjectRegistry.HAUNTBOUND_LEGGINGS.get());

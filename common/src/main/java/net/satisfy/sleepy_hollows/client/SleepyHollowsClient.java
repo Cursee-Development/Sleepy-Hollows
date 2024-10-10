@@ -2,11 +2,13 @@ package net.satisfy.sleepy_hollows.client;
 
 import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry;
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
+import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry;
 import dev.architectury.registry.client.rendering.RenderTypeRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.RenderType;
 import net.satisfy.sleepy_hollows.client.model.SpectralHorseModel;
+import net.satisfy.sleepy_hollows.client.render.PedestalBlockRenderer;
 import net.satisfy.sleepy_hollows.client.render.SpectralHorseRenderer;
 import net.satisfy.sleepy_hollows.core.registry.EntityTypeRegistry;
 
@@ -22,6 +24,9 @@ public class SleepyHollowsClient {
                 HOLLOW_WINDOW.get(), TALL_MOONVEIL_GRASS.get(), SHADOWBLOOM.get(), POTTED_SHADOWBLOOM.get(), DUSKBERRY_BUSH.get(),
                 SPECTRAL_LANTERN.get()
         );
+
+        BlockEntityRendererRegistry.register(EntityTypeRegistry.DISPLAY_BLOCK_ENTITY.get(), context -> new PedestalBlockRenderer());
+
     }
 
     public static void PreinitClient() {
