@@ -5,10 +5,8 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
-import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -24,6 +22,7 @@ import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.satisfy.sleepy_hollows.core.block.custom.CoffinBlock;
 import net.satisfy.sleepy_hollows.core.registry.EntityTypeRegistry;
+import net.satisfy.sleepy_hollows.core.registry.SoundEventRegistry;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -115,7 +114,7 @@ public class CoffinBlockEntity extends RandomizableContainerBlockEntity implemen
         double e = (double)this.worldPosition.getY() + 0.5D + (double)vec3i.getY() / 2.0D;
         double f = (double)this.worldPosition.getZ() + 0.5D + (double)vec3i.getZ() / 2.0D;
         assert this.level != null;
-        this.level.playSound(null, d, e, f, SoundEvents.WITHER_SPAWN, SoundSource.BLOCKS, 0.5F, this.level.random.nextFloat());
+        this.level.playSound(null, d, e, f, SoundEventRegistry.COFFIN_OPEN.get(), SoundSource.BLOCKS, 0.5F, this.level.random.nextFloat());
     }
 
     void playCloseSound(BlockState blockState) {
@@ -124,7 +123,7 @@ public class CoffinBlockEntity extends RandomizableContainerBlockEntity implemen
         double e = (double)this.worldPosition.getY() + 0.5D + (double)vec3i.getY() / 2.0D;
         double f = (double)this.worldPosition.getZ() + 0.5D + (double)vec3i.getZ() / 2.0D;
         assert this.level != null;
-        this.level.playSound(null, d, e, f, SoundEvents.WITHER_SPAWN, SoundSource.BLOCKS, 0.5F, this.level.random.nextFloat());
+        this.level.playSound(null, d, e, f, SoundEventRegistry.COFFIN_CLOSE.get(), SoundSource.BLOCKS, 0.5F, this.level.random.nextFloat());
     }
 
     @Override

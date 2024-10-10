@@ -16,6 +16,7 @@ public final class SleepyHollows {
         TabRegistry.init();
         MobEffectRegistry.init();
         EntityTypeRegistry.init();
+        SoundEventRegistry.init();
         FeatureTypeRegistry.init();
 
         Constants.LOG.info("Initialized the mod in Common.");

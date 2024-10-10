@@ -86,5 +86,9 @@
   "tooltip.sleepy_hollows.candy_corn": "§fDecreases §5Sanity§f by 4",
   "tooltip.sleepy_hollows.dusk_berry": "§fDecreases §5Sanity§f by 2",
   "tooltip.sleepy_hollows.luminous_water": "§fDecreases §5Sanity§f by 6",
-  "tooltip.sleepy_hollows.reins_of_the_spectral_horse": "A ghostly steed born from the shadows"
+  "tooltip.sleepy_hollows.reins_of_the_spectral_horse": "A ghostly steed born from the shadows",
+  "subtitles.sleepy_hollows.coffin_open": "Opening Coffin",
+  "subtitles.sleepy_hollows.coffin_close": "Closing Coffin",
+  "subtitles.sleepy_hollows.planks_creaking": "Planks Creaking",
+  "subtitles.sleepy_hollows.sleepy_hollows_ambient": "Eerie noises..."
 }

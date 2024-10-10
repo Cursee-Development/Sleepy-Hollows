@@ -1,0 +1,40 @@
+{
+  "coffin_open": {
+    "subtitle": "subtitles.sleepy_hollows.coffin_open",
+    "sounds": [
+      "sleepy_hollows:coffin_open"
+    ]
+  },
+  "coffin_close": {
+    "subtitle": "subtitles.sleepy_hollows.coffin_close",
+    "sounds": [
+      "sleepy_hollows:coffin_close"
+    ]
+  },
+  "planks_creaking": {
+    "subtitle": "subtitles.sleepy_hollows.planks_creaking",
+    "sounds": [
+      {
+        "name": "sleepy_hollows:planks_creaking",
+        "stream": true
+      }
+    ]
+  },
+  "sleepy_hollows_ambient": {
+    "subtitle": "subtitles.sleepy_hollows.sleepy_hollows_ambient",
+    "sounds": [
+      {
+        "name": "sleepy_hollows:sleepy_hollows_ambient_0",
+        "stream": true
+      },
+      {
+        "name": "sleepy_hollows:sleepy_hollows_ambient_1",
+        "stream": true
+      },
+      {
+        "name": "sleepy_hollows:sleepy_hollows_ambient_2",
+        "stream": true
+      }
+    ]
+  }
+}
