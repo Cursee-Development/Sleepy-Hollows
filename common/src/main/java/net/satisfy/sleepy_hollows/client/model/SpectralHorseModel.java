@@ -138,24 +138,24 @@ public class SpectralHorseModel<T extends AbstractHorse> extends AgeableListMode
 	}
 
 	public void setupAnim(T abstractHorse, float f, float g, float h, float i, float j) {
-		boolean bl = abstractHorse.isSaddled();
-		boolean bl2 = abstractHorse.isVehicle();
-		ModelPart[] var9 = this.saddleParts;
-		int var10 = var9.length;
+		boolean hasSaddle = abstractHorse.isSaddled();
+		boolean hasPassenger = abstractHorse.isVehicle();
+		ModelPart[] saddlePartsArray = this.saddleParts;
+		int saddlePartsArrayLength = saddlePartsArray.length;
 
-		int var11;
+		int index;
 		ModelPart modelPart;
-		for (var11 = 0; var11 < var10; ++var11) {
-			modelPart = var9[var11];
-			modelPart.visible = bl;
+		for (index = 0; index < saddlePartsArrayLength; ++index) {
+			modelPart = saddlePartsArray[index];
+			modelPart.visible = hasSaddle;
 		}
 
-		var9 = this.ridingParts;
-		var10 = var9.length;
+		saddlePartsArray = this.ridingParts;
+		saddlePartsArrayLength = saddlePartsArray.length;
 
-		for (var11 = 0; var11 < var10; ++var11) {
-			modelPart = var9[var11];
-			modelPart.visible = bl2 && bl;
+		for (index = 0; index < saddlePartsArrayLength; ++index) {
+			modelPart = saddlePartsArray[index];
+			modelPart.visible = hasPassenger && hasSaddle;
 		}
 
 		this.body.y = 11.0F;
