@@ -176,6 +176,7 @@ public class SpectralHorseModel<T extends AbstractHorse> extends AgeableListMode
 
 		// super.prepareMobModel(abstractHorse, limbSwing, limbSwingAmount, partialTick); // unnecessary, no implementation in super
 
+		// TODO: remove?
 		this.bodyParts().forEach(ModelPart::resetPose);
 		this.headParts().forEach(ModelPart::resetPose);
 
