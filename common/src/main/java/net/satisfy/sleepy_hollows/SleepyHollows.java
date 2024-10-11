@@ -12,7 +12,7 @@ public final class SleepyHollows {
 
     public static void init() {
         ObjectRegistry.init();
-        CompostableRegistry.init();
+        // CompostableRegistry.init();
         TabRegistry.init();
         MobEffectRegistry.init();
         EntityTypeRegistry.init();
