@@ -171,62 +171,81 @@ public class SpectralHorseModel<T extends AbstractHorse> extends AgeableListMode
 	}
 
 	//TODO @Jason these are just the horse animations - maybe we can refine these a bit?
-	public void prepareMobModel(@NotNull T abstractHorse, float f, float g, float h) {
-		super.prepareMobModel(abstractHorse, f, g, h);
-		float i = Mth.rotLerp(h, abstractHorse.yBodyRotO, abstractHorse.yBodyRot);
-		float j = Mth.rotLerp(h, abstractHorse.yHeadRotO, abstractHorse.yHeadRot);
-		float k = Mth.lerp(h, abstractHorse.xRotO, abstractHorse.getXRot());
-		float l = j - i;
-		float m = k * 0.017453292F;
-		if (l > 20.0F) {
-			l = 20.0F;
+	@Override
+	public void prepareMobModel(@NotNull T abstractHorse, float limbSwing, float limbSwingAmount, float partialTick) {
+
+		// super.prepareMobModel(abstractHorse, limbSwing, limbSwingAmount, partialTick); // unnecessary, no implementation in super
+
+		this.bodyParts().forEach(ModelPart::resetPose);
+		this.headParts().forEach(ModelPart::resetPose);
+
+		// rotLerp returns a float between 0.0 and 360.0 that is between the given points
+		float yBodyLerpedRotationDegrees = Mth.rotLerp(partialTick, abstractHorse.yBodyRotO, abstractHorse.yBodyRot);
+		float yHeadLerpedRotationDegrees = Mth.rotLerp(partialTick, abstractHorse.yHeadRotO, abstractHorse.yHeadRot);
+		float xEntityLerpedRotationDegrees = Mth.lerp(partialTick, abstractHorse.xRotO, abstractHorse.getXRot());
+		float headRotToBodyRotDifferenceDegrees = yHeadLerpedRotationDegrees - yBodyLerpedRotationDegrees;
+
+		float xEntityLerpedRotationRadians = xEntityLerpedRotationDegrees * 0.017453292F; // converting from degrees to radians
+
+		if (headRotToBodyRotDifferenceDegrees > 20.0F) {
+			headRotToBodyRotDifferenceDegrees = 20.0F;
 		}
 
-		if (l < -20.0F) {
-			l = -20.0F;
+		if (headRotToBodyRotDifferenceDegrees < -20.0F) {
+			headRotToBodyRotDifferenceDegrees = -20.0F;
 		}
 
-		if (g > 0.2F) {
-			m += Mth.cos(f * 0.8F) * 0.15F * g;
+		if (limbSwingAmount > 0.2F) {
+			xEntityLerpedRotationRadians += Mth.cos(limbSwing * 0.8F) * 0.15F * limbSwingAmount;
 		}
 
-		float n = abstractHorse.getEatAnim(h);
-		float o = abstractHorse.getStandAnim(h);
-		float p = 1.0F - o;
-		float q = abstractHorse.getMouthAnim(h);
-		boolean bl = abstractHorse.tailCounter != 0;
-		float r = (float) abstractHorse.tickCount + h;
+		float eatingAnimationNextValue = abstractHorse.getEatAnim(partialTick);
+		float standingAnimationNextValue = abstractHorse.getStandAnim(partialTick);
+		float standingAnimationOffset = 1.0F - standingAnimationNextValue;
+		float mouthAnimationNextValue = abstractHorse.getMouthAnim(partialTick);
+		boolean movingTail = abstractHorse.tailCounter != 0;
+		float tickCountNextValue = (float) abstractHorse.tickCount + partialTick;
+
+		// resets??
 		this.headParts.y = 4.0F;
 		this.headParts.z = -12.0F;
 		this.body.xRot = 0.0F;
-		this.headParts.xRot = 0.5235988F + m;
-		this.headParts.yRot = l * 0.017453292F;
-		float s = abstractHorse.isInWater() ? 0.2F : 1.0F;
-		float t = Mth.cos(s * f * 0.6662F + 3.1415927F);
-		float u = t * 0.8F * g;
-		float v = (1.0F - Math.max(o, n)) * (0.5235988F + m + q * Mth.sin(r) * 0.05F);
-		this.headParts.xRot = o * (0.2617994F + m) + n * (2.1816616F + Mth.sin(r) * 0.05F) + v;
-		this.headParts.yRot = o * l * 0.017453292F + (1.0F - Math.max(o, n)) * this.headParts.yRot;
-		this.headParts.y = o * -4.0F + n * 11.0F + (1.0F - Math.max(o, n)) * this.headParts.y;
-		this.headParts.z = o * -4.0F + n * -12.0F + (1.0F - Math.max(o, n)) * this.headParts.z;
-		this.body.xRot = o * -0.7853982F + p * this.body.xRot;
-		float w = 0.2617994F * o;
-		float x = Mth.cos(r * 0.6F + 3.1415927F);
-		this.leftFrontLeg.y = 2.0F * o + 14.0F * p;
-		this.leftFrontLeg.z = -6.0F * o - 10.0F * p;
+
+		this.headParts.xRot = 0.5235988F + xEntityLerpedRotationRadians;
+		this.headParts.yRot = headRotToBodyRotDifferenceDegrees * 0.017453292F;
+
+		float notSwimmingAnimationDampener = abstractHorse.isInWater() ? 0.2F : 1.0F;
+		float legSwingAnimationNextValueMultiplier = Mth.cos(notSwimmingAnimationDampener * limbSwing * 0.6662F + 3.1415927F);
+		float legSwingAnimationNextValue = legSwingAnimationNextValueMultiplier * 0.8F * limbSwingAmount;
+		float calculateHeadAdditionalRotation = (1.0F - Math.max(standingAnimationNextValue, eatingAnimationNextValue)) * (0.5235988F + xEntityLerpedRotationRadians + mouthAnimationNextValue * Mth.sin(tickCountNextValue) * 0.05F);
+
+		this.headParts.xRot = standingAnimationNextValue * (0.2617994F + xEntityLerpedRotationRadians) + eatingAnimationNextValue * (2.1816616F + Mth.sin(tickCountNextValue) * 0.05F) + calculateHeadAdditionalRotation;
+		this.headParts.yRot = standingAnimationNextValue * headRotToBodyRotDifferenceDegrees * 0.017453292F + (1.0F - Math.max(standingAnimationNextValue, eatingAnimationNextValue)) * this.headParts.yRot;
+		this.headParts.y = standingAnimationNextValue * -4.0F + eatingAnimationNextValue * 11.0F + (1.0F - Math.max(standingAnimationNextValue, eatingAnimationNextValue)) * this.headParts.y;
+		this.headParts.z = standingAnimationNextValue * -4.0F + eatingAnimationNextValue * -12.0F + (1.0F - Math.max(standingAnimationNextValue, eatingAnimationNextValue)) * this.headParts.z;
+		this.body.xRot = standingAnimationNextValue * -0.7853982F + standingAnimationOffset * this.body.xRot;
+
+		float updatedAnimationAmountWithStandingAnim = 0.2617994F * standingAnimationNextValue; // roughly multiplier by pi/12 in radians or 15 degrees
+		float smoothingValue = Mth.cos(tickCountNextValue * 0.6F + 3.1415927F);
+
+		this.leftFrontLeg.y = 2.0F * standingAnimationNextValue + 14.0F * standingAnimationOffset;
+		this.leftFrontLeg.z = -6.0F * standingAnimationNextValue - 10.0F * standingAnimationOffset;
 		this.rightFrontLeg.y = this.leftFrontLeg.y;
 		this.rightFrontLeg.z = this.leftFrontLeg.z;
-		float y = (-1.0471976F + x) * o + u * p;
-		float z = (-1.0471976F - x) * o - u * p;
-		this.leftHindLeg.xRot = w - t * 0.5F * g * p;
-		this.rightHindLeg.xRot = w + t * 0.5F * g * p;
-		this.leftFrontLeg.xRot = y;
-		this.rightFrontLeg.xRot = z;
-		this.tail.xRot = 0.5235988F + g * 0.75F;
-		this.tail.y = -5.0F + g;
-		this.tail.z = 2.0F + g * 2.0F;
-		if (bl) {
-			this.tail.yRot = Mth.cos(r * 0.7F);
+
+		float leftFrontLegNewRotation = (-1.0471976F + smoothingValue) * standingAnimationNextValue + legSwingAnimationNextValue * standingAnimationOffset;
+		float rightFrontLegNewRotation = (-1.0471976F - smoothingValue) * standingAnimationNextValue - legSwingAnimationNextValue * standingAnimationOffset;
+
+		this.leftHindLeg.xRot = updatedAnimationAmountWithStandingAnim - legSwingAnimationNextValueMultiplier * 0.5F * limbSwingAmount * standingAnimationOffset;
+		this.rightHindLeg.xRot = updatedAnimationAmountWithStandingAnim + legSwingAnimationNextValueMultiplier * 0.5F * limbSwingAmount * standingAnimationOffset;
+		this.leftFrontLeg.xRot = leftFrontLegNewRotation;
+		this.rightFrontLeg.xRot = rightFrontLegNewRotation;
+		this.tail.xRot = 0.5235988F + limbSwingAmount * 0.75F;
+		this.tail.y = -5.0F + limbSwingAmount;
+		this.tail.z = 2.0F + limbSwingAmount * 2.0F;
+
+		if (movingTail) {
+			this.tail.yRot = Mth.cos(tickCountNextValue * 0.7F);
 		} else {
 			this.tail.yRot = 0.0F;
 		}
@@ -243,15 +262,16 @@ public class SpectralHorseModel<T extends AbstractHorse> extends AgeableListMode
 		this.leftFrontBabyLeg.y = this.leftFrontLeg.y;
 		this.leftFrontBabyLeg.z = this.leftFrontLeg.z;
 		this.leftFrontBabyLeg.xRot = this.leftFrontLeg.xRot;
-		boolean bl2 = abstractHorse.isBaby();
-		this.rightHindLeg.visible = !bl2;
-		this.leftHindLeg.visible = !bl2;
-		this.rightFrontLeg.visible = !bl2;
-		this.leftFrontLeg.visible = !bl2;
-		this.rightHindBabyLeg.visible = bl2;
-		this.leftHindBabyLeg.visible = bl2;
-		this.rightFrontBabyLeg.visible = bl2;
-		this.leftFrontBabyLeg.visible = bl2;
-		this.body.y = bl2 ? 10.8F : 0.0F;
+
+		boolean isBabyHorse = abstractHorse.isBaby();
+		this.rightHindLeg.visible = !isBabyHorse;
+		this.leftHindLeg.visible = !isBabyHorse;
+		this.rightFrontLeg.visible = !isBabyHorse;
+		this.leftFrontLeg.visible = !isBabyHorse;
+		this.rightHindBabyLeg.visible = isBabyHorse;
+		this.leftHindBabyLeg.visible = isBabyHorse;
+		this.rightFrontBabyLeg.visible = isBabyHorse;
+		this.leftFrontBabyLeg.visible = isBabyHorse;
+		this.body.y = isBabyHorse ? 10.8F : 0.0F;
 	}
 }
