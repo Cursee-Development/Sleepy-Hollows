@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "item": "sleepy_hollows:spectral_carved_pumpkin"
+    },
+    "B": {
+      "item": "sleepy_hollows:spectral_essence"
+    }
+  },
+  "pattern": [
+    "A",
+    "B"
+  ],
+  "result": {
+    "item": "sleepy_hollows:spectral_jack_o_lantern"
+  },
+  "show_notification": true
+}

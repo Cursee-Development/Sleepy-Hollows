@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 1,
+  "ingredient": {
+    "item": "sleepy_hollows:mossy_cobbled_gravestone"
+  },
+  "result": "sleepy_hollows:mossy_chiseled_gravestone"
+}

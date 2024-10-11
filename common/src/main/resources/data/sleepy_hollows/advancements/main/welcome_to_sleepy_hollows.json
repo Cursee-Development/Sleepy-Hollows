@@ -1,0 +1,45 @@
+{
+  "parent": "sleepy_hollows:main/root",
+  "criteria": {
+    "sleepy_hollows": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "biome": "sleepy_hollows:sleepy_hollows"
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancement.sleepy_hollows.find_sleepy_hollows.desc"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "sleepy_hollows:hollow_sapling"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancement.sleepy_hollows.find_sleepy_hollows"
+    }
+  },
+  "requirements": [
+    [
+      "sleepy_hollows"
+    ]
+  ],
+  "rewards": {
+    "experience": 250
+  },
+  "sends_telemetry_event": true
+}

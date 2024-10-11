@@ -1,0 +1,30 @@
+{
+  "display": {
+    "icon": {
+      "item": "sleepy_hollows:grave_lily"
+    },
+    "title": {
+      "translate": "advancement.sleepy_hollows.root"
+    },
+    "description": {
+      "translate": "advancement.sleepy_hollows.root.desc"
+    },
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": false,
+    "background": "sleepy_hollows:textures/block/gravestone_bricks.png"
+  },
+  "criteria": {
+    "example_criterion": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "position": {
+          "x": {
+            "min": 1000000
+          }
+        }
+      }
+    }
+  }
+}

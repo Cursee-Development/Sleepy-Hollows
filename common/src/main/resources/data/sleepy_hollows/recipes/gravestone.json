@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "cookingtime": 200,
+  "experience": 0.1,
+  "ingredient": {
+    "item": "sleepy_hollows:cobbled_gravestone"
+  },
+  "result": "sleepy_hollows:gravestone"
+}

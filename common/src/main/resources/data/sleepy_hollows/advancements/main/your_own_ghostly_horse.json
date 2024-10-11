@@ -1,0 +1,40 @@
+{
+  "parent": "sleepy_hollows:main/protected_and_armored",
+  "display": {
+    "icon": {
+      "item": "sleepy_hollows:reins_of_the_spectral_horse"
+    },
+    "title": {
+      "translate": "advancement.sleepy_hollows.your_own_ghostly_horse"
+    },
+    "description": {
+      "translate": "advancement.sleepy_hollows.your_own_ghostly_horse.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "rewards": {
+    "experience": 750
+  },
+  "criteria": {
+    "reins_of_the_spectral_horse": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "sleepy_hollows:reins_of_the_spectral_horse"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "reins_of_the_spectral_horse"
+    ]
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "planks",
+  "ingredients": [
+    {
+      "tag": "sleepy_hollows:hollow_logs"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "item": "sleepy_hollows:hollow_planks"
+  }
+}

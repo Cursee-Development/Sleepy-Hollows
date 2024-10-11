@@ -1,0 +1,51 @@
+{
+  "parent": "sleepy_hollows:main/get_spectral_essence",
+  "criteria": {
+    "use_spectral_essence_on_tombstone": {
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "blocks": [
+                  "sleepy_hollows:mid_tombstone"
+                ]
+              }
+            }
+          },
+          {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "tags": [
+                "sleepy_hollows:spectral_essence"
+              ]
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:item_used_on_block"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancement.sleepy_hollows.use_spectral_essence_on_tombstone.desc"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "sleepy_hollows:mid_tombstone"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancement.sleepy_hollows.use_spectral_essence_on_tombstone"
+    }
+  },
+  "requirements": [
+    [
+      "use_spectral_essence_on_tombstone"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

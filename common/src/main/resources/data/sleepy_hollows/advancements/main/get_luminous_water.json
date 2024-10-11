@@ -1,0 +1,41 @@
+{
+  "parent": "sleepy_hollows:main/get_spectral_essence",
+  "display": {
+    "icon": {
+      "item": "sleepy_hollows:luminous_water"
+    },
+    "title": {
+      "translate": "advancement.sleepy_hollows.get_luminous_water"
+    },
+    "description": {
+      "translate": "advancement.sleepy_hollows.get_luminous_water.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "get_luminous_water": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "sleepy_hollows:luminous_water"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "get_luminous_water"
+    ]
+  ],
+  "rewards": {
+    "experience": 50
+  },
+  "sends_telemetry_event": true
+}

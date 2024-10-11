@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": {
+      "item": "sleepy_hollows:gravestone_slab"
+    }
+  },
+  "pattern": [
+    "## ",
+    "## "
+  ],
+  "result": {
+    "count": 4,
+    "item": "sleepy_hollows:chiseled_gravestone"
+  },
+  "show_notification": true
+}

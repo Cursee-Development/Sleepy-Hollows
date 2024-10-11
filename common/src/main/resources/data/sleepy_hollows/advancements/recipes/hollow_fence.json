@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "sleepy_hollows:hollow_fence"
+    ]
+  },
+  "criteria": {
+    "has_hollow_log": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "sleepy_hollows:hollow_log"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "sleepy_hollows:hollow_fence"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_hollow_log",
+      "has_the_recipe"
+    ]
+  ]
+}

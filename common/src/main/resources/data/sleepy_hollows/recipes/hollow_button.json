@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "group": "wooden_button",
+  "ingredients": [
+    {
+      "item": "sleepy_hollows:hollow_planks"
+    }
+  ],
+  "result": {
+    "item": "sleepy_hollows:hollow_button"
+  }
+}

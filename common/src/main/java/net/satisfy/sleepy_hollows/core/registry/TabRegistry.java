@@ -87,6 +87,7 @@ public class TabRegistry {
                 out.accept(ObjectRegistry.REINS_OF_THE_SPECTRAL_HORSE.get());
                 out.accept(ObjectRegistry.LUMINOUS_WATER.get());
                 out.accept(ObjectRegistry.DUSK_BERRIES.get());
+                out.accept(ObjectRegistry.SPECTRAL_PUMPKIN_PIE.get());
                 out.accept(ObjectRegistry.CANDY_CORN.get());
             }))
             .build());

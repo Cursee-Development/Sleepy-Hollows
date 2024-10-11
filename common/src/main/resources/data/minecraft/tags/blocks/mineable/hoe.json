@@ -1,6 +1,9 @@
 {
   "replace": false,
   "values": [
-    "sleepy_hollows:hollow_leaves"
+    "sleepy_hollows:hollow_leaves",
+    "sleepy_hollows:spectral_pumpkin",
+    "sleepy_hollows:spectral_jack_o_lantern",
+    "sleepy_hollows:spectral_carved_pumpkin"
   ]
 }

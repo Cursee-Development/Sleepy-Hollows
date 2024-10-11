@@ -1,0 +1,33 @@
+{
+  "parent": "sleepy_hollows:main/stay_sane_man",
+  "criteria": {
+    "sanity": {
+      "conditions": {
+        "effects": {
+          "sleepy_hollows:sanity": {}
+        }
+      },
+      "trigger": "minecraft:effects_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancement.sleepy_hollows.embrace_the_madness.desc"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "sleepy_hollows:coffin"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancement.sleepy_hollows.embrace_the_madness"
+    }
+  },
+  "requirements": [
+    [
+      "sanity"
+    ]
+  ]
+}

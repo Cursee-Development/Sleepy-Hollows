@@ -1,0 +1,58 @@
+{
+  "parent": "sleepy_hollows:main/open_a_lootbag",
+  "display": {
+    "icon": {
+      "item": "sleepy_hollows:hauntbound_helmet"
+    },
+    "title": {
+      "translate": "advancement.sleepy_hollows.protected_and_armored"
+    },
+    "description": {
+      "translate": "advancement.sleepy_hollows.protected_and_armored.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "rewards": {
+    "experience": 800,
+    "loot": [
+      "sleepy_hollows:advancements/completionist"
+    ]
+  },
+  "criteria": {
+    "hauntbound_armor": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "sleepy_hollows:hauntbound_helmet"
+            ]
+          },
+          {
+            "items": [
+              "sleepy_hollows:hauntbound_chestplate"
+            ]
+          },
+          {
+            "items": [
+              "sleepy_hollows:hauntbound_leggings"
+            ]
+          },
+          {
+            "items": [
+              "sleepy_hollows:hauntbound_boots"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "hauntbound_armor"
+    ]
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "parent": "sleepy_hollows:main/welcome_to_sleepy_hollows",
+  "criteria": {
+    "stay_sane_man": {
+      "conditions": {
+        "item": {
+          "items": [
+            "sleepy_hollows:candy_corn"
+          ]
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancement.sleepy_hollows.stay_sane_man.desc"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "sleepy_hollows:candy_corn"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancement.sleepy_hollows.stay_sane_man"
+    }
+  },
+  "requirements": [
+    [
+      "stay_sane_man"
+    ]
+  ],
+  "rewards": {
+    "experience": 25
+  },
+  "sends_telemetry_event": true
+}

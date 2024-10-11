@@ -1,0 +1,39 @@
+{
+  "parent": "sleepy_hollows:main/get_luminous_water",
+  "criteria": {
+    "open_a_lootbag": {
+      "conditions": {
+        "item": {
+          "items": [
+            "sleepy_hollows:lootbag"
+          ]
+        }
+      },
+      "trigger": "minecraft:using_item"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancement.sleepy_hollows.open_a_lootbag.desc"
+    },
+    "frame": "challenge",
+    "hidden": false,
+    "icon": {
+      "item": "sleepy_hollows:lootbag"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancement.sleepy_hollows.open_a_lootbag"
+    }
+  },
+  "requirements": [
+    [
+      "open_a_lootbag"
+    ]
+  ],
+  "rewards": {
+    "experience": 100
+  },
+  "sends_telemetry_event": true
+}

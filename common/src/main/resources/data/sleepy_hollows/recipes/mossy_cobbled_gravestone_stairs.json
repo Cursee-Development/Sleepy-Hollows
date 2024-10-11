@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+
+  "key": {
+    "#": {
+      "item": "sleepy_hollows:mossy_cobbled_gravestone"
+    }
+  },
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "result": {
+    "count": 4,
+    "item": "sleepy_hollows:mossy_cobbled_gravestone_stairs"
+  },
+  "show_notification": true
+}

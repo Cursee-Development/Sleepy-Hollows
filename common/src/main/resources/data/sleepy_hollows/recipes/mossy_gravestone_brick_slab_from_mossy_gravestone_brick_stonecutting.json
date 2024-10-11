@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 2,
+  "ingredient": {
+    "item": "sleepy_hollows:mossy_gravestone_bricks"
+  },
+  "result": "sleepy_hollows:mossy_gravestone_brick_slab"
+}

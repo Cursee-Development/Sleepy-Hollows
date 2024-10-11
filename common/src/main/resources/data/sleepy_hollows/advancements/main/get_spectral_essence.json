@@ -1,0 +1,41 @@
+{
+  "parent": "sleepy_hollows:main/welcome_to_sleepy_hollows",
+  "display": {
+    "icon": {
+      "item": "sleepy_hollows:spectral_essence"
+    },
+    "title": {
+      "translate": "advancement.sleepy_hollows.spectral_essence"
+    },
+    "description": {
+      "translate": "advancement.sleepy_hollows.spectral_essence.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "spectral_essence": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "sleepy_hollows:spectral_essence"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "spectral_essence"
+    ]
+  ],
+  "rewards": {
+    "experience": 25
+  },
+  "sends_telemetry_event": true
+}

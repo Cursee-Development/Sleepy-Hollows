@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG",
+    "G#G",
+    "GGG"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:glass_pane"
+    },
+    "G": {
+      "item": "sleepy_hollows:hollow_planks"
+    }
+  },
+  "result": {
+    "item": "sleepy_hollows:hollow_window",
+    "count": 16
+  }
+}
