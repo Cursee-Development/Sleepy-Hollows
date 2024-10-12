@@ -82,9 +82,9 @@ public class TombstoneBlock extends Block  {
 
         Random random = new Random();
         ItemStack[] armorPieces = {
-                new ItemStack(Items.CHAINMAIL_CHESTPLATE),
-                new ItemStack(Items.CHAINMAIL_LEGGINGS),
-                new ItemStack(Items.CHAINMAIL_BOOTS),
+                new ItemStack(ObjectRegistry.HAUNTBOUND_CHESTPLATE.get()),
+                new ItemStack(ObjectRegistry.HAUNTBOUND_LEGGINGS.get()),
+                new ItemStack(ObjectRegistry.HAUNTBOUND_BOOTS.get()),
                 new ItemStack(Items.SHIELD),
         };
         EquipmentSlot[] armorSlots = {
