@@ -1,0 +1,33 @@
+{
+  "parent": "sleepy_hollows:main/welcome_to_sleepy_hollows",
+  "criteria": {
+    "infected": {
+      "conditions": {
+        "effects": {
+          "sleepy_hollows:infected": {}
+        }
+      },
+      "trigger": "minecraft:effects_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancement.sleepy_hollows.mind_your_footing.desc"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "sleepy_hollows:dreamshade"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancement.sleepy_hollows.mind_your_footing"
+    }
+  },
+  "requirements": [
+    [
+      "infected"
+    ]
+  ]
+}

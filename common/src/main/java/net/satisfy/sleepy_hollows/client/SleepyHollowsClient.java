@@ -8,9 +8,8 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.RenderType;
 import net.satisfy.sleepy_hollows.client.model.SpectralHorseModel;
-import net.satisfy.sleepy_hollows.client.renderer.CoffinRenderer;
-import net.satisfy.sleepy_hollows.client.renderer.PedestalBlockRenderer;
-import net.satisfy.sleepy_hollows.client.renderer.SpectralHorseRenderer;
+import net.satisfy.sleepy_hollows.client.model.armor.HauntboundHelmetModel;
+import net.satisfy.sleepy_hollows.client.renderer.*;
 import net.satisfy.sleepy_hollows.core.registry.EntityTypeRegistry;
 
 import static net.satisfy.sleepy_hollows.core.registry.ObjectRegistry.*;
@@ -28,6 +27,7 @@ public class SleepyHollowsClient {
 
         BlockEntityRendererRegistry.register(EntityTypeRegistry.DISPLAY_BLOCK_ENTITY.get(), context -> new PedestalBlockRenderer());
         BlockEntityRendererRegistry.register(EntityTypeRegistry.COFFIN_BLOCK_ENTITY.get(), CoffinRenderer::new);
+        BlockEntityRendererRegistry.register(EntityTypeRegistry.COMPLETIONIST_BANNER_ENTITY.get(), CompletionistBannerRenderer::new);
 
     }
 
@@ -35,6 +35,9 @@ public class SleepyHollowsClient {
         EntityModelLayerRegistry.register(CoffinRenderer.LAYER_LOCATION, CoffinRenderer::getTexturedModelData);
         EntityModelLayerRegistry.register(SpectralHorseModel.LAYER_LOCATION, SpectralHorseModel::getTexturedModelData);
         EntityRendererRegistry.register(EntityTypeRegistry.SPECTRAL_HORSE, SpectralHorseRenderer::new);
+        EntityRendererRegistry.register(EntityTypeRegistry.INFECTED_ZOMBIE, InfectedZombieRenderer::new);
+        EntityModelLayerRegistry.register(CompletionistBannerRenderer.LAYER_LOCATION, CompletionistBannerRenderer::createBodyLayer);
+        EntityModelLayerRegistry.register(HauntboundHelmetModel.LAYER_LOCATION, HauntboundHelmetModel::createBodyLayer);
 
     }
 }

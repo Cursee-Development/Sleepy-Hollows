@@ -10,9 +10,8 @@ public final class SleepyHollowsFabric implements ModInitializer {
 
     @Override
     public void onInitialize() {
-
         SleepyHollows.init();
-
+        SleepyHollows.commonInit();
         CompostableRegistry.init();
 
         Constants.LOG.info("Initialized the mod in Fabric.");

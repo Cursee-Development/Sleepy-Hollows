@@ -10,10 +10,8 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -26,6 +24,8 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.satisfy.sleepy_hollows.core.registry.MobEffectRegistry;
+import net.satisfy.sleepy_hollows.core.registry.ObjectRegistry;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("deprecation")
@@ -63,17 +63,15 @@ public class InfectedFlowerBlock extends FlowerBlock {
         if (state.getValue(INFECTED) && !level.isClientSide && level.getDifficulty() != Difficulty.PEACEFUL) {
             if (entity instanceof Player player) {
                 if (!player.isInvulnerableTo(level.damageSources().wither())) {
-                    player.addEffect(new MobEffectInstance(MobEffects.WITHER, 40));
+                    player.addEffect(new MobEffectInstance(MobEffectRegistry.INFECTED.get(), 40));
                 }
             }
         }
     }
 
-    //TODO: Doesn't work yet
-    //TODO: Change WaterBucket to something more suitable
     @Override
     public @NotNull InteractionResult use(@NotNull BlockState state, @NotNull Level world, @NotNull BlockPos pos, Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
-        if (player.getItemInHand(hand).is(Items.WATER_BUCKET)) {
+        if (player.getItemInHand(hand).is(ObjectRegistry.LUMINOUS_WATER.get())) {
             if (state.getValue(INFECTED)) {
                 this.deactivateNearbyFlowers(world, pos);
                 world.playSound(null, pos, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);

@@ -17,6 +17,7 @@ public final class SleepyHollowsForge {
     public SleepyHollowsForge() {
         EventBuses.registerModEventBus(Constants.MOD_ID, FMLJavaModLoadingContext.get().getModEventBus());
         SleepyHollows.init();
+        SleepyHollows.commonInit();
         Constants.LOG.info("Initialized the mod in Forge.");
 
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();

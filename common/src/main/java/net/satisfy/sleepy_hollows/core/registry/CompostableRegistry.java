@@ -17,6 +17,6 @@ public class CompostableRegistry {
         ComposterBlock.COMPOSTABLES.put(ObjectRegistry.CANDY_CORN.get().asItem(), 0.1F);
         ComposterBlock.COMPOSTABLES.put(ObjectRegistry.DUSK_BERRIES.get().asItem(), 0.1F);
         ComposterBlock.COMPOSTABLES.put(ObjectRegistry.LUMINOUS_WATER.get().asItem(), 0.15F);
-
+        ComposterBlock.COMPOSTABLES.put(ObjectRegistry.SPECTRAL_PUMPKIN_PIE.get().asItem(), 0.35F);
     }
 }

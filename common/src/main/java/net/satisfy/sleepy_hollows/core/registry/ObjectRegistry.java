@@ -1,5 +1,6 @@
 package net.satisfy.sleepy_hollows.core.registry;
 
+import dev.architectury.core.item.ArchitecturySpawnEggItem;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.Registrar;
 import dev.architectury.registry.registries.RegistrySupplier;
@@ -10,11 +11,12 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.food.Foods;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.grower.AbstractTreeGrower;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.material.MapColor;
@@ -96,14 +98,13 @@ public class ObjectRegistry {
     public static final RegistrySupplier<Block> BIG_TOMBSTONE = registerBlockWithBlockItem("big_tombstone", () -> new BigTombstoneBlock(BlockBehaviour.Properties.copy(GRAVESTONE.get())));
     public static final RegistrySupplier<Block> WROUGHT_IRON_FENCE = registerBlockWithBlockItem("wrought_iron_fence", () -> new IronBarsBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BARS)));
     public static final RegistrySupplier<Block> SPECTRAL_LANTERN = registerBlockWithBlockItem("spectral_lantern", () -> new SpectralLanternBlock(BlockBehaviour.Properties.copy(Blocks.LANTERN)));
-    //TODO @Jason not sure about these - maybe we should delete them again :D
     public static final RegistrySupplier<Block> SPECTRAL_PUMPKIN = registerBlockWithBlockItem("spectral_pumpkin", () -> new SpectralPumpkinBlock(BlockBehaviour.Properties.copy(Blocks.PUMPKIN)));
     public static final RegistrySupplier<Block> SPECTRAL_CARVED_PUMPKIN = registerBlockWithBlockItem("spectral_carved_pumpkin", () -> new CarvedPumpkinBlock(BlockBehaviour.Properties.copy(Blocks.CARVED_PUMPKIN)));
     public static final RegistrySupplier<Block> SPECTRAL_JACK_O_LANTERN = registerBlockWithBlockItem("spectral_jack_o_lantern", () -> new CarvedPumpkinBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE).strength(1.0F).sound(SoundType.WOOD).lightLevel((blockStatex) -> 15).isValidSpawn((state, world, pos, entityType) -> true).pushReaction(PushReaction.DESTROY)));
-    public static final RegistrySupplier<Item> HAUNTBOUND_HELMET = registerItem("hauntbound_helmet", () -> new Item(getSettings()));
-    public static final RegistrySupplier<Item> HAUNTBOUND_CHESTPLATE = registerItem("hauntbound_chestplate", () -> new Item(getSettings()));
-    public static final RegistrySupplier<Item> HAUNTBOUND_LEGGINGS = registerItem("hauntbound_leggings", () -> new Item(getSettings()));
-    public static final RegistrySupplier<Item> HAUNTBOUND_BOOTS = registerItem("hauntbound_boots", () -> new Item(getSettings()));
+    public static final RegistrySupplier<Item> HAUNTBOUND_HELMET = registerItem("hauntbound_helmet", () -> new HauntboundHelmetItem(ArmorMaterialRegistry.HAUNTBOUND_ARMOR, ArmorItem.Type.HELMET, getSettings().rarity(Rarity.EPIC), new SleepyHollowsIdentifier("textures/models/armor/hauntbound_helmet.png")));
+    public static final RegistrySupplier<Item> HAUNTBOUND_CHESTPLATE = registerItem("hauntbound_chestplate", () -> new Item(getSettings().rarity(Rarity.EPIC)));
+    public static final RegistrySupplier<Item> HAUNTBOUND_LEGGINGS = registerItem("hauntbound_leggings", () -> new Item(getSettings().rarity(Rarity.EPIC)));
+    public static final RegistrySupplier<Item> HAUNTBOUND_BOOTS = registerItem("hauntbound_boots", () -> new Item(getSettings().rarity(Rarity.EPIC)));
     public static final RegistrySupplier<Block> COFFIN = registerBlockWithBlockItem("coffin", () -> new CoffinBlock(BlockBehaviour.Properties.copy(Blocks.STONE).pushReaction(PushReaction.DESTROY)));
     public static final RegistrySupplier<Item> SPECTRAL_ESSENCE = registerItem("spectral_essence", () -> new Item(getSettings()));
     public static final RegistrySupplier<Item> LUMINOUS_WATER = registerItem("luminous_water", () -> new LuminousWaterItem(getSettings().food(Foods.CHICKEN)));
@@ -112,6 +113,9 @@ public class ObjectRegistry {
     public static final RegistrySupplier<Item> CANDY_CORN = registerItem("candy_corn", () -> new CandyCornItem(getSettings().food(Foods.APPLE)));
     public static final RegistrySupplier<Item> LOOTBAG = registerItem("lootbag", () -> new LootBagItem(getSettings()));
     public static final RegistrySupplier<Item>  REINS_OF_THE_SPECTRAL_HORSE = registerItem("reins_of_the_spectral_horse",  () -> new ReinsOfTheSpectralHorseItem(EntityTypeRegistry.SPECTRAL_HORSE, -1, -1, getSettings()));
+    public static final RegistrySupplier<Item>  INFECTED_ZOMBIE_SPAWN_EGG = registerItem("infected_zombie_spawn_egg",  () -> new ArchitecturySpawnEggItem(EntityTypeRegistry.INFECTED_ZOMBIE, -1, -1, getSettings()));
+    public static final RegistrySupplier<Block> COMPLETIONIST_BANNER = registerBlockWithBlockItem("completionist_banner", () -> new CompletionistBannerBlock(BlockBehaviour.Properties.of().strength(1F).instrument(NoteBlockInstrument.BASS).noCollission().sound(SoundType.WOOD)));
+    public static final RegistrySupplier<Block> COMPLETIONIST_WALL_BANNER = registerBlockWithoutItem("completionist_wall_banner", () -> new CompletionistWallBannerBlock(BlockBehaviour.Properties.of().strength(1F).instrument(NoteBlockInstrument.BASS).noCollission().sound(SoundType.WOOD)));
     public static final RegistrySupplier<Block> POTTED_HOLLOW_SAPLING = registerBlockWithoutItem("potted_hollow_sapling", () -> new FlowerPotBlock(HOLLOW_SAPLING.get(), BlockBehaviour.Properties.copy(Blocks.FLOWER_POT)));
     public static final RegistrySupplier<Block> POTTED_GRAVE_LILY = registerBlockWithoutItem("potted_grave_lily", () -> new FlowerPotBlock(GRAVE_LILY.get(), BlockBehaviour.Properties.copy(Blocks.FLOWER_POT)));
     public static final RegistrySupplier<Block> POTTED_DREAMSHADE = registerBlockWithoutItem("potted_dreamshade", () -> new FlowerPotBlock(DREAMSHADE.get(), BlockBehaviour.Properties.copy(Blocks.FLOWER_POT)));

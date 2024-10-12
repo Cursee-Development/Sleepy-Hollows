@@ -72,6 +72,7 @@
   "block.sleepy_hollows.wrought_iron_fence": "Wrought Iron Fence",
   "block.sleepy_hollows.coffin": "Coffin",
   "entity.sleepy_hollows.spectral_horse": "Spectral Horse",
+  "entity.sleepy_hollows.infected_zombie": "Infected Zombie",
   "item.sleepy_hollows.candy_corn": "§6Candy Corn",
   "item.sleepy_hollows.dusk_berries": "§6Dusk Berries",
   "item.sleepy_hollows.hauntbound_boots": "§4Hauntbound Boots",
@@ -82,6 +83,7 @@
   "item.sleepy_hollows.reins_of_the_spectral_horse": "§5Spectral Horse Spawn Egg",
   "item.sleepy_hollows.spectral_essence": "§6Spectral Essence",
   "item.sleepy_hollows.lootbag": "§6Lootbag",
+  "item.sleepy_hollows.infected_zombie_spawn_egg": "Infected Zombie Spawn Egg",
   "item.sleepy_hollows.spectral_pumpkin_pie": "§6Spectral Pumpkin Pie",
   "itemGroup.sleepyHollows": "§4Sleepy Hollows",
   "tooltip.sleepy_hollows.candy_corn": "§fDecreases §5Sanity§f by 4",
@@ -110,8 +112,11 @@
   "advancement.sleepy_hollows.use_spectral_essence_on_tombstone": "They're Coming from the Walls!",
   "advancement.sleepy_hollows.use_spectral_essence_on_tombstone.desc": "Use §6Spectral Essence§r on a Tombstone",
   "advancement.sleepy_hollows.find_sleepy_hollows": "Into the Hollow",
-  "advancement.sleepy_hollows.find_sleepy_hollows.desc": "Discover the §6Sleepy Hollows§r Biome",
+  "advancement.sleepy_hollows.find_sleepy_hollows.desc": "Discover the §6Sleepy Hollows§r biome",
   "advancement.sleepy_hollows.your_own_ghostly_horse": "Steed of the Damned",
-  "advancement.sleepy_hollows.your_own_ghostly_horse.desc": "Summon the §5Ghostly Horse"
+  "advancement.sleepy_hollows.your_own_ghostly_horse.desc": "Summon the §5Ghostly Horse",
+  "advancement.sleepy_hollows.mind_your_footing": "Mind Your Footing!",
+  "advancement.sleepy_hollows.mind_your_footing.desc": "Avoid contact with the §6Infected Plants§r to stay sane"
+
 }
 

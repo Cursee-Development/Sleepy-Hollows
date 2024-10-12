@@ -7,6 +7,7 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.effect.MobEffect;
 import net.satisfy.sleepy_hollows.Constants;
+import net.satisfy.sleepy_hollows.core.effect.InfectedEffect;
 import net.satisfy.sleepy_hollows.core.effect.SanityEffect;
 import net.satisfy.sleepy_hollows.core.util.SleepyHollowsIdentifier;
 
@@ -17,6 +18,7 @@ public class MobEffectRegistry {
     private static final Registrar<MobEffect> MOB_EFFECTS_REGISTRAR = MOB_EFFECTS.getRegistrar();
 
     public static final RegistrySupplier<MobEffect> SANITY;
+    public static final RegistrySupplier<MobEffect> INFECTED;
 
     private static RegistrySupplier<MobEffect> registerEffect(String name, Supplier<MobEffect> effect){
         if(Platform.isForge()){
@@ -31,5 +33,6 @@ public class MobEffectRegistry {
 
     static {
         SANITY = registerEffect("sanity", SanityEffect::new);
+        INFECTED = registerEffect("infected", InfectedEffect::new);
     }
 }

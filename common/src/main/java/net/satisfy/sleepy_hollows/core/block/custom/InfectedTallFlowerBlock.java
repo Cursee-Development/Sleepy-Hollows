@@ -9,10 +9,8 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -26,6 +24,8 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.satisfy.sleepy_hollows.core.registry.MobEffectRegistry;
+import net.satisfy.sleepy_hollows.core.registry.ObjectRegistry;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("deprecation")
@@ -63,7 +63,7 @@ public class InfectedTallFlowerBlock extends TallFlowerBlock {
         if (state.getValue(INFECTED) && !level.isClientSide && level.getDifficulty() != Difficulty.PEACEFUL) {
             if (entity instanceof Player player) {
                 if (!player.isInvulnerableTo(level.damageSources().wither())) {
-                    player.addEffect(new MobEffectInstance(MobEffects.WITHER, 40));
+                    player.addEffect(new MobEffectInstance(MobEffectRegistry.INFECTED.get(), 40));
                 }
             }
         }
@@ -71,11 +71,14 @@ public class InfectedTallFlowerBlock extends TallFlowerBlock {
 
     @Override
     public @NotNull InteractionResult use(@NotNull BlockState state, @NotNull Level world, @NotNull BlockPos pos, Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
-        if (player.getItemInHand(hand).is(Items.WATER_BUCKET)) {
+        if (player.getItemInHand(hand).is(ObjectRegistry.LUMINOUS_WATER.get())) {
             if (state.getValue(INFECTED)) {
                 this.deactivateNearbyFlowers(world, pos);
                 world.playSound(null, pos, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
-                world.addParticle(ParticleTypes.SPLASH, pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D, 0.0D, 0.0D, 0.0D);
+
+                BlockPos.betweenClosedStream(pos.offset(-3, -3, -3), pos.offset(3, 3, 3))
+                        .forEach(p -> world.addParticle(ParticleTypes.FALLING_WATER, p.getX() + 0.5D, p.getY() + 0.5D, p.getZ() + 0.5D, 0.0D, 0.0D, 0.0D));
+
                 return InteractionResult.sidedSuccess(world.isClientSide);
             }
         }
@@ -84,9 +87,12 @@ public class InfectedTallFlowerBlock extends TallFlowerBlock {
 
     private void deactivateNearbyFlowers(Level world, BlockPos pos) {
         BlockPos.betweenClosedStream(pos.offset(-4, -4, -4), pos.offset(4, 4, 4))
-            .map(world::getBlockState)
-            .filter(state -> state.getBlock() instanceof InfectedTallFlowerBlock && state.getValue(INFECTED))
-            .forEach(state -> world.setBlock(pos, state.setValue(INFECTED, false), 3));
+                .forEach(p -> {
+                    BlockState state = world.getBlockState(p);
+                    if (state.getBlock() instanceof InfectedFlowerBlock && state.getValue(INFECTED)) {
+                        world.setBlock(p, state.setValue(INFECTED, false), 3);
+                    }
+                });
     }
 
     @Override

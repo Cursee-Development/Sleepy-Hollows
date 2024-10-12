@@ -4,10 +4,10 @@
     "item": "minecraft:netherite_ingot"
   },
   "base": {
-    "item": "sleepy_hollows:sleepy_hollows_standard"
+    "item": "sleepy_hollows:completionist_banner"
   },
   "result": {
-    "item": "sleepy_hollows:sleepy_hollows_standard",
+    "item": "sleepy_hollows:completionist_banner",
     "count": 2
   },
   "template": {

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:block_pile",
+  "config": {
+    "state_provider": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "data": {
+            "Name": "sleepy_hollows:spectral_pumpkin"
+          },
+          "weight": 15
+        },
+        {
+          "data": {
+            "Name": "sleepy_hollows:spectral_jack_o_lantern",
+            "Properties": {
+              "facing": "north"
+            }
+          },
+          "weight": 5
+        }
+      ]
+    }
+  }
+}

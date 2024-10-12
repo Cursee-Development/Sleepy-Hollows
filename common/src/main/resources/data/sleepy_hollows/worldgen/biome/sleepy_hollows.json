@@ -42,20 +42,8 @@
     ],
     "monster": [
       {
-        "type": "minecraft:spider",
-        "weight": 100,
-        "minCount": 4,
-        "maxCount": 4
-      },
-      {
-        "type": "minecraft:zombie",
+        "type": "sleepy_hollows:infected_zombie",
         "weight": 95,
-        "minCount": 4,
-        "maxCount": 4
-      },
-      {
-        "type": "minecraft:skeleton",
-        "weight": 100,
         "minCount": 4,
         "maxCount": 4
       },
@@ -151,7 +139,8 @@
       "minecraft:brown_mushroom_taiga",
       "minecraft:red_mushroom_taiga",
       "sleepy_hollows:patch_dusk_berry_checked",
-      "sleepy_hollows:tombstones_patch_checked"
+      "sleepy_hollows:tombstones_patch_checked",
+      "sleepy_hollows:pile_spectral_pumpkin_checked"
     ],
     [
       "minecraft:freeze_top_layer"
