@@ -87,7 +87,7 @@
   "item.sleepy_hollows.lootbag": "§6Lootbag",
   "item.sleepy_hollows.infected_zombie_spawn_egg": "Infected Zombie Spawn Egg",
   "item.sleepy_hollows.spectral_pumpkin_pie": "§6Spectral Pumpkin Pie",
-  "itemGroup.sleepyHollows": "§4Sleepy Hollows",
+  "itemGroup.sleepyHollows": "§5Sleepy Hollows",
   "tooltip.sleepy_hollows.candy_corn": "§fDecreases §5Sanity§f by 4",
   "tooltip.sleepy_hollows.dusk_berry": "§fDecreases §5Sanity§f by 2",
   "tooltip.sleepy_hollows.luminous_water": "§fDecreases §5Sanity§f by 6",
@@ -121,7 +121,8 @@
   "advancement.sleepy_hollows.your_own_ghostly_horse": "Steed of the Damned",
   "advancement.sleepy_hollows.your_own_ghostly_horse.desc": "Summon the §5Ghostly Horse",
   "advancement.sleepy_hollows.mind_your_footing": "Mind Your Footing!",
-  "advancement.sleepy_hollows.mind_your_footing.desc": "Avoid contact with the §6Infected Plants§r to stay sane"
-
+  "advancement.sleepy_hollows.mind_your_footing.desc": "Avoid contact with the §6Infected Plants§r to stay sane",
+  "effect.sleepy_hollorws.sanity": "Sanity",
+  "effect.sleepy_hollorws.infected": "Infected"
 }
 

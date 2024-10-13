@@ -12,9 +12,10 @@ import net.satisfy.sleepy_hollows.fabric.client.renderer.HauntboundHelmetRendere
 import net.satisfy.sleepy_hollows.fabric.player.layer.HauntboundBootsLayer;
 import net.satisfy.sleepy_hollows.fabric.player.layer.HauntboundChestplateLayer;
 import net.satisfy.sleepy_hollows.fabric.player.layer.HauntboundLeggingsLayer;
-import net.satisfy.sleepy_hollows.client.model.armor.HauntboundBootsModel;
-import net.satisfy.sleepy_hollows.client.model.armor.HauntboundChestplateModel;
-import net.satisfy.sleepy_hollows.client.model.armor.HauntboundLeggingsModel;
+import net.satisfy.sleepy_hollows.fabric.player.model.HauntboundBootsModel;
+import net.satisfy.sleepy_hollows.fabric.player.model.HauntboundChestplateModel;
+import net.satisfy.sleepy_hollows.fabric.player.model.HauntboundLeggingsModel;
+
 
 public final class SleepyHollowsFabricClient implements ClientModInitializer {
 
