@@ -1,4 +1,4 @@
-package net.satisfy.sleepy_hollows.client.model;
+package net.satisfy.sleepy_hollows.client.model.entity;
 
 import com.google.common.collect.ImmutableList;
 import net.fabricmc.api.EnvType;

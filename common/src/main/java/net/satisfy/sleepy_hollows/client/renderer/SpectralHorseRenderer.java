@@ -5,7 +5,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
-import net.satisfy.sleepy_hollows.client.model.SpectralHorseModel;
+import net.satisfy.sleepy_hollows.client.model.entity.SpectralHorseModel;
 import net.satisfy.sleepy_hollows.core.entity.SpectralHorse;
 import net.satisfy.sleepy_hollows.core.util.SleepyHollowsIdentifier;
 import org.jetbrains.annotations.NotNull;

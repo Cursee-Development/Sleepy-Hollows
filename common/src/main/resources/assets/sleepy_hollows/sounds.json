@@ -34,6 +34,41 @@
       {
         "name": "sleepy_hollows:sleepy_hollows_ambient_2",
         "stream": true
+      },
+      {
+        "name": "sleepy_hollows:sleepy_hollows_ambient_3",
+        "stream": true
+      },
+      {
+        "name": "sleepy_hollows:sleepy_hollows_ambient_4",
+        "stream": true
+      }
+    ]
+  },
+  "fleeing_pumpkin_ambient": {
+    "subtitle": "subtitles.sleepy_hollows.fleeing_pumpkin_ambient",
+    "sounds": [
+      {
+        "name": "sleepy_hollows:fleeing_pumpkin_head_ambient",
+        "stream": true
+      }
+    ]
+  },
+  "fleeing_pumpkin_summoning": {
+    "subtitle": "subtitles.sleepy_hollows.fleeing_pumpkin_summoning",
+    "sounds": [
+      {
+        "name": "sleepy_hollows:fleeing_pumpkin_head_summoning",
+        "stream": true
+      }
+    ]
+  },
+  "fleeing_pumpkin_death": {
+    "subtitle": "subtitles.sleepy_hollows.fleeing_pumpkin_death",
+    "sounds": [
+      {
+        "name": "sleepy_hollows:fleeing_pumpkin_head_death",
+        "stream": true
       }
     ]
   }

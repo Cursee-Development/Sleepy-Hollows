@@ -7,6 +7,7 @@ import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -15,8 +16,10 @@ import net.satisfy.sleepy_hollows.client.model.armor.HauntboundBootsModel;
 import net.satisfy.sleepy_hollows.client.model.armor.HauntboundChestplateModel;
 import net.satisfy.sleepy_hollows.client.model.armor.HauntboundHelmetModel;
 import net.satisfy.sleepy_hollows.client.model.armor.HauntboundLeggingsModel;
-import net.satisfy.sleepy_hollows.core.item.custom.HauntboundArmorItem;
+import net.satisfy.sleepy_hollows.core.item.custom.HauntboundBootsItem;
+import net.satisfy.sleepy_hollows.core.item.custom.HauntboundChestplateItem;
 import net.satisfy.sleepy_hollows.core.item.custom.HauntboundHelmetItem;
+import net.satisfy.sleepy_hollows.core.item.custom.HauntboundLeggingsItem;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -99,20 +102,25 @@ public class ArmorRegistry {
         ItemStack boots = player.getItemBySlot(EquipmentSlot.FEET);
 
         boolean hasFullSet = helmet.getItem() instanceof HauntboundHelmetItem &&
-                chestplate.getItem() instanceof HauntboundArmorItem &&
-                leggings.getItem() instanceof HauntboundArmorItem &&
-                boots.getItem() instanceof HauntboundArmorItem;
+                chestplate.getItem() instanceof HauntboundChestplateItem &&
+                leggings.getItem() instanceof HauntboundLeggingsItem &&
+                boots.getItem() instanceof HauntboundBootsItem;
 
         tooltip.add(Component.nullToEmpty(""));
         tooltip.add(Component.nullToEmpty(ChatFormatting.DARK_GREEN + I18n.get("tooltip.sleepy_hollows.hauntbound_armor_0")));
         tooltip.add(Component.nullToEmpty((helmet.getItem() instanceof HauntboundHelmetItem ? ChatFormatting.GREEN.toString() : ChatFormatting.GRAY.toString()) + "- [" + ObjectRegistry.HAUNTBOUND_HELMET.get().getDescription().getString() + "]"));
-        tooltip.add(Component.nullToEmpty((chestplate.getItem() instanceof HauntboundArmorItem ? ChatFormatting.GREEN.toString() : ChatFormatting.GRAY.toString()) + "- [" + ObjectRegistry.HAUNTBOUND_CHESTPLATE.get().getDescription().getString() + "]"));
-        tooltip.add(Component.nullToEmpty((leggings.getItem() instanceof HauntboundArmorItem ? ChatFormatting.GREEN.toString() : ChatFormatting.GRAY.toString()) + "- [" + ObjectRegistry.HAUNTBOUND_LEGGINGS.get().getDescription().getString() + "]"));
-        tooltip.add(Component.nullToEmpty((boots.getItem() instanceof HauntboundArmorItem ? ChatFormatting.GREEN.toString() : ChatFormatting.GRAY.toString()) + "- [" + ObjectRegistry.HAUNTBOUND_BOOTS.get().getDescription().getString() + "]"));
+        tooltip.add(Component.nullToEmpty((chestplate.getItem() instanceof HauntboundChestplateItem ? ChatFormatting.GREEN.toString() : ChatFormatting.GRAY.toString()) + "- [" + ObjectRegistry.HAUNTBOUND_CHESTPLATE.get().getDescription().getString() + "]"));
+        tooltip.add(Component.nullToEmpty((leggings.getItem() instanceof HauntboundLeggingsItem ? ChatFormatting.GREEN.toString() : ChatFormatting.GRAY.toString()) + "- [" + ObjectRegistry.HAUNTBOUND_LEGGINGS.get().getDescription().getString() + "]"));
+        tooltip.add(Component.nullToEmpty((boots.getItem() instanceof HauntboundBootsItem ? ChatFormatting.GREEN.toString() : ChatFormatting.GRAY.toString()) + "- [" + ObjectRegistry.HAUNTBOUND_BOOTS.get().getDescription().getString() + "]"));
         tooltip.add(Component.nullToEmpty(""));
 
         ChatFormatting color = hasFullSet ? ChatFormatting.GREEN : ChatFormatting.GRAY;
         tooltip.add(Component.nullToEmpty(color + I18n.get("tooltip.sleepy_hollows.hauntbound_armor_1")));
         tooltip.add(Component.nullToEmpty(color + I18n.get("tooltip.sleepy_hollows.hauntbound_armor_2")));
+        if (hasFullSet) {
+            if (!player.hasEffect(MobEffectRegistry.MENTAL_FORTITUDE.get())) {
+                player.addEffect(new MobEffectInstance(MobEffectRegistry.MENTAL_FORTITUDE.get(), 20, 0));
+            }
+        }
     }
 }

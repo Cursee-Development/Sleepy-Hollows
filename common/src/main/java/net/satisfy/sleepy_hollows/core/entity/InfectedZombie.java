@@ -2,6 +2,7 @@ package net.satisfy.sleepy_hollows.core.entity;
 
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -11,11 +12,12 @@ import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.satisfy.sleepy_hollows.core.registry.MobEffectRegistry;
 import net.satisfy.sleepy_hollows.core.registry.ObjectRegistry;
 import org.jetbrains.annotations.NotNull;
 
-public class InfectedZombieEntity extends Zombie {
-    public InfectedZombieEntity(EntityType<? extends Zombie> entityType, Level level) {
+public class InfectedZombie extends Zombie {
+    public InfectedZombie(EntityType<? extends Zombie> entityType, Level level) {
         super(entityType, level);
     }
 
@@ -36,7 +38,16 @@ public class InfectedZombieEntity extends Zombie {
     @Override
     protected void populateDefaultEquipmentSlots(@NotNull RandomSource randomSource, @NotNull DifficultyInstance difficulty) {
         this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.IRON_SWORD));
+        if (randomSource.nextFloat() < 0.3f) {
+            this.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(ObjectRegistry.SPECTRAL_LANTERN.get()));
+        }
+
         this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ObjectRegistry.SPECTRAL_JACK_O_LANTERN.get()));
         super.populateDefaultEquipmentSlots(randomSource, difficulty);
+    }
+
+
+    public boolean canBeAffected(MobEffectInstance effectInstance) {
+        return effectInstance.getEffect() != MobEffectRegistry.INFECTED.get() && super.canBeAffected(effectInstance);
     }
 }

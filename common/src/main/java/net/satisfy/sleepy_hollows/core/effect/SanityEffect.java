@@ -22,29 +22,46 @@ public class SanityEffect extends MobEffect {
     }
 
     public void applyEffectTick(@NotNull LivingEntity livingEntity, int amplifier) {
-        if (livingEntity.getUseItem().is(Items.MILK_BUCKET) || livingEntity.isUsingItem()) {
-            livingEntity.stopUsingItem();
-        }
         this.distractEntity(livingEntity);
 
-        Objects.requireNonNull(livingEntity.getAttributes().getInstance(Attributes.ATTACK_DAMAGE))
-                .setBaseValue(livingEntity.getAttributes().getBaseValue(Attributes.ATTACK_DAMAGE) * 0.5);
+        if (livingEntity.getAttributeBaseValue(Attributes.ATTACK_DAMAGE) == 1.0) {
+            Objects.requireNonNull(livingEntity.getAttributes().getInstance(Attributes.ATTACK_DAMAGE))
+                    .setBaseValue(0.5);
+        }
 
-        Objects.requireNonNull(livingEntity.getAttributes().getInstance(Attributes.ARMOR))
-                .setBaseValue(livingEntity.getAttributes().getBaseValue(Attributes.ARMOR) * 0.5);
+        if (livingEntity.getAttributeBaseValue(Attributes.ARMOR) == 1.0) {
+            Objects.requireNonNull(livingEntity.getAttributes().getInstance(Attributes.ARMOR))
+                    .setBaseValue(0.5);
+        }
 
-        Objects.requireNonNull(livingEntity.getAttributes().getInstance(Attributes.MOVEMENT_SPEED))
-                .setBaseValue(livingEntity.getAttributes().getBaseValue(Attributes.MOVEMENT_SPEED) * 0.8);
+        if (livingEntity.getAttributeBaseValue(Attributes.MOVEMENT_SPEED) == 1.0) {
+            Objects.requireNonNull(livingEntity.getAttributes().getInstance(Attributes.MOVEMENT_SPEED))
+                    .setBaseValue(0.8);
+        }
 
         if (!livingEntity.hasEffect(MobEffects.BLINDNESS)) {
             livingEntity.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20 * 25, 0));
         }
     }
 
+    @Override
+    public void removeAttributeModifiers(@NotNull LivingEntity livingEntity, @NotNull net.minecraft.world.entity.ai.attributes.AttributeMap attributeMap, int amplifier) {
+        Objects.requireNonNull(livingEntity.getAttributes().getInstance(Attributes.ATTACK_DAMAGE))
+                .setBaseValue(1.0);
+
+        Objects.requireNonNull(livingEntity.getAttributes().getInstance(Attributes.ARMOR))
+                .setBaseValue(1.0);
+
+        Objects.requireNonNull(livingEntity.getAttributes().getInstance(Attributes.MOVEMENT_SPEED))
+                .setBaseValue(1.0);
+
+        super.removeAttributeModifiers(livingEntity, attributeMap, amplifier);
+    }
+
     private void distractEntity(LivingEntity livingEntity) {
         double gaussian = livingEntity.level().getRandom().nextGaussian();
-        double newMotionDirection = 0.3 * gaussian;
-        double newRotationDirection = (Math.PI / 1.5) * gaussian;
+        double newMotionDirection = 0.25 * gaussian;
+        double newRotationDirection = (Math.PI / 0.75) * gaussian;
 
         this.rotationDirection = 0.45 * newRotationDirection + (1.1 - 0.45) * this.rotationDirection;
         livingEntity.setYRot((float) (livingEntity.getYRot() + this.rotationDirection));

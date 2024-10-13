@@ -60,6 +60,10 @@ public class SanityManager {
             }
         }
 
+        if (hasSanityImmunity(player)) {
+            return;
+        }
+
         if (!inSanityBiome) {
             int outsideBiomeTimer = playerSanityTimersOutsideBiome.getOrDefault(player, 0);
             if (outsideBiomeTimer <= 0) {
@@ -85,8 +89,18 @@ public class SanityManager {
         }
     }
 
+    private static final Map<Player, Boolean> playerSanityImmunityMap = new HashMap<>();
+
+    public static void setSanityImmunity(Player player, boolean isImmune) {
+        playerSanityImmunityMap.put(player, isImmune);
+    }
+
+    public static boolean hasSanityImmunity(Player player) {
+        return playerSanityImmunityMap.getOrDefault(player, false);
+    }
+
     private static void applyHighSanityEffect(Player player) {
-        int effectDuration = 1500;
+        int effectDuration = 400;
         player.addEffect(new MobEffectInstance(MobEffectRegistry.SANITY.get(), effectDuration, 1));
     }
 

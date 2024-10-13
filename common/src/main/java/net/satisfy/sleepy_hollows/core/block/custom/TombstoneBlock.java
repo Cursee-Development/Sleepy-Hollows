@@ -40,7 +40,7 @@ public class TombstoneBlock extends Block  {
     private final VoxelShape shape;
 
     public TombstoneBlock(Properties properties, VoxelShape shape) {
-        super(properties);
+        super(properties.lightLevel(state -> state.getValue(ACTIVE) ? 10 : 0));
         this.shape = shape;
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(ACTIVE, false));
     }
@@ -120,13 +120,11 @@ public class TombstoneBlock extends Block  {
         }
     }
 
-
     private void spawnParticles(Level world, BlockPos pos) {
         if (world instanceof ServerLevel serverLevel) {
             serverLevel.sendParticles(ParticleTypes.SOUL, pos.getX() + 0.5, pos.getY() + 1.5, pos.getZ() + 0.5, 10, 0.5, 0.5, 0.5, 0.05);
         }
     }
-
 
     @Override
     public void attack(BlockState state, @NotNull Level world, @NotNull BlockPos pos, @NotNull Player player) {

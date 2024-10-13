@@ -5,6 +5,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.satisfy.sleepy_hollows.client.util.SanityManager;
+import net.satisfy.sleepy_hollows.core.registry.MobEffectRegistry;
 import net.satisfy.sleepy_hollows.core.util.SleepyHollowsIdentifier;
 import net.satisfy.sleepy_hollows.core.world.SleepyHollowsBiomeKeys;
 
@@ -19,6 +20,10 @@ public class HUDRenderEvent {
         Player player = mc.player;
 
         if (player == null || mc.isPaused()) return;
+
+        if (player.hasEffect(MobEffectRegistry.MENTAL_FORTITUDE.get())) {
+            return;
+        }
 
         if (!player.level().getBiome(player.blockPosition()).is(SleepyHollowsBiomeKeys.SLEEPY_HOLLOWS)) return;
 
@@ -37,7 +42,7 @@ public class HUDRenderEvent {
         int fillWidth = (int) ((sanity / 100.0f) * barWidth);
 
         guiGraphics.blit(FILL_TEXTURE, x + barXOffset, y + barYOffset, 0, 0, fillWidth, frameHeight, barWidth, frameHeight);
-
         guiGraphics.blit(FRAME_TEXTURE, x, y, 0, 0, frameWidth, frameHeight, frameWidth, frameHeight);
     }
+
 }
