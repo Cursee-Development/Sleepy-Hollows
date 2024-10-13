@@ -1,3 +1,4 @@
+
 package net.satisfy.sleepy_hollows.forge.mixin;
 
 import net.minecraft.client.model.HumanoidModel;
@@ -10,7 +11,7 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import net.satisfy.sleepy_hollows.core.item.custom.HauntboundHelmetItem;
+import net.satisfy.sleepy_hollows.core.item.custom.HauntboundLeggingsItem;
 import net.satisfy.sleepy_hollows.core.registry.ArmorRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -20,11 +21,11 @@ import org.spongepowered.asm.mixin.Shadow;
 
 import java.util.function.Consumer;
 
-@Mixin(HauntboundHelmetItem.class)
-public abstract class HelmetItemMixin extends ArmorItem {
+@Mixin(HauntboundLeggingsItem.class)
+public abstract class LeggingsItemMixin extends ArmorItem {
     @Shadow
     @Final
-    private ResourceLocation hatTexture;
+    private ResourceLocation leggingsTexture;
 
     @Override
     public void initializeClient(Consumer<IClientItemExtensions> consumer) {
@@ -32,7 +33,7 @@ public abstract class HelmetItemMixin extends ArmorItem {
                 new IClientItemExtensions() {
                     @Override
                     public @NotNull Model getGenericArmorModel(LivingEntity livingEntity, ItemStack itemStack, EquipmentSlot equipmentSlot, HumanoidModel<?> original) {
-                        return ArmorRegistry.getHatModel(itemStack.getItem(), original.getHead());
+                        return ArmorRegistry.getLeggingsModel(itemStack.getItem(), original.rightLeg, original.leftLeg);
                     }
                 }
         );
@@ -40,10 +41,10 @@ public abstract class HelmetItemMixin extends ArmorItem {
 
     @Override
     public @Nullable String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-        return hatTexture.toString();
+        return leggingsTexture.toString();
     }
 
-    private HelmetItemMixin(ArmorMaterial armorMaterial, Type armorType, Properties itemProperties) {
+    private LeggingsItemMixin(ArmorMaterial armorMaterial, Type armorType, Properties itemProperties) {
         super(armorMaterial, armorType, itemProperties);
     }
 }

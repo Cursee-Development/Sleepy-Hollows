@@ -1,43 +1,37 @@
-package net.satisfy.sleepy_hollows.fabric.player.model;
+package net.satisfy.sleepy_hollows.client.model.armor;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.Entity;
 import net.satisfy.sleepy_hollows.core.util.SleepyHollowsIdentifier;
 import org.jetbrains.annotations.NotNull;
 
-public class HauntboundChestplateModel<T extends LivingEntity> extends HumanoidModel<T> {
+public class HauntboundChestplateModel<T extends Entity> extends EntityModel<T> {
 
-    public static final ResourceLocation HAUNTBOUND_CHESTPLATE_TEXTURE = new SleepyHollowsIdentifier("textures/models/armor/hauntbound_armor_outer_layer.png");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new SleepyHollowsIdentifier("hauntbound_chestplate"), "main");
 
     private final ModelPart body;
     private final ModelPart body_decor;
     private final ModelPart left_arm;
+
     private final ModelPart right_arm;
 
     public HauntboundChestplateModel(ModelPart root) {
-        super(root);
         this.body = root.getChild("body");
         this.body_decor = this.body.getChild("body_decor");
         this.left_arm = root.getChild("left_arm");
         this.right_arm = root.getChild("right_arm");
     }
 
-
     @SuppressWarnings("unused")
     public static LayerDefinition createBodyLayer() {
         MeshDefinition meshdefinition = new MeshDefinition();
         PartDefinition partdefinition = meshdefinition.getRoot();
-        partdefinition.addOrReplaceChild("head", CubeListBuilder.create(), PartPose.ZERO);
-        partdefinition.addOrReplaceChild("hat", CubeListBuilder.create(), PartPose.ZERO);
-        partdefinition.addOrReplaceChild("right_leg", CubeListBuilder.create(), PartPose.ZERO);
-        partdefinition.addOrReplaceChild("left_leg", CubeListBuilder.create(), PartPose.ZERO);
 
         PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, new CubeDeformation(0.25F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
@@ -80,27 +74,23 @@ public class HauntboundChestplateModel<T extends LivingEntity> extends HumanoidM
     }
 
     @Override
-    public void setupAnim(@NotNull T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-
-        this.left_arm.copyFrom(this.leftArm);
-        this.right_arm.copyFrom(this.rightArm);
-
-        if (entity instanceof Player player && (!player.getMainHandItem().isEmpty() || player.isUsingItem())) {
-            this.right_arm.xRot = this.rightArm.xRot;
-            this.right_arm.yRot = this.rightArm.yRot;
-            this.right_arm.zRot = this.rightArm.zRot;
-
-            this.left_arm.xRot = this.leftArm.xRot;
-            this.left_arm.yRot = this.leftArm.yRot;
-            this.left_arm.zRot = this.leftArm.zRot;
-        }
+    public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+        poseStack.pushPose();
+        poseStack.scale(1.05F, 1.05F, 1.05F);
+        body.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+        left_arm.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+        right_arm.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+        poseStack.popPose();
     }
 
     @Override
-    public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-        left_arm.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-        right_arm.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+    public void setupAnim(@NotNull T entity, float f, float g, float h, float i, float j) {
     }
+
+    public void copyBody(ModelPart baseBody, ModelPart leftArm, ModelPart rightArm) {
+        this.body.copyFrom(baseBody);
+        this.left_arm.copyFrom(leftArm);
+        this.right_arm.copyFrom(rightArm);
+    }
+
 }

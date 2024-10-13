@@ -4,7 +4,10 @@
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
   "mixins": [
-    "HelmetItemMixin"
+    "BootsItemMixin",
+    "ChestplateItemMixin",
+    "HelmetItemMixin",
+    "LeggingsItemMixin"
   ],
   "injectors": {
     "defaultRequire": 1

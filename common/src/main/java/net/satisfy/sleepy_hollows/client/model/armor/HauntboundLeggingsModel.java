@@ -1,27 +1,23 @@
-package net.satisfy.sleepy_hollows.fabric.player.model;
+package net.satisfy.sleepy_hollows.client.model.armor;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
-import net.satisfy.sleepy_hollows.Constants;
+import net.minecraft.world.entity.Entity;
+import net.satisfy.sleepy_hollows.core.util.SleepyHollowsIdentifier;
 import org.jetbrains.annotations.NotNull;
 
-public class HauntboundLeggingsModel<T extends LivingEntity> extends HumanoidModel<T> {
+public class HauntboundLeggingsModel<T extends Entity> extends EntityModel<T> {
 
-    public static final ResourceLocation HAUNTBOUND_LEGGINGS_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/models/armor/hauntbound_armor_inner_layer.png");
-    private final ModelPart body;
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new SleepyHollowsIdentifier("hauntbound_leggings"), "main");
     private final ModelPart right_leg;
     private final ModelPart left_leg;
 
-
     public HauntboundLeggingsModel(ModelPart root) {
-        super(root);
-        this.body = root.getChild("body");
         this.right_leg = root.getChild("right_leg");
         this.left_leg = root.getChild("left_leg");
     }
@@ -52,12 +48,21 @@ public class HauntboundLeggingsModel<T extends LivingEntity> extends HumanoidMod
         return LayerDefinition.create(meshdefinition, 64, 64);
     }
 
-
+    @Override
+    public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+        poseStack.pushPose();
+        poseStack.scale(1.05F, 1.05F, 1.05F);
+        right_leg.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+        left_leg.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+        poseStack.popPose();
+    }
 
     @Override
-    public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-        right_leg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-        left_leg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+    public void setupAnim(@NotNull T entity, float f, float g, float h, float i, float j) {
+    }
+
+    public void copyLegs(ModelPart rightLegModel, ModelPart leftLegModel) {
+        this.right_leg.copyFrom(rightLegModel);
+        this.left_leg.copyFrom(leftLegModel);
     }
 }

@@ -6,11 +6,12 @@ import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry;
 import dev.architectury.registry.client.rendering.RenderTypeRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.resources.ResourceLocation;
 import net.satisfy.sleepy_hollows.client.model.SpectralHorseModel;
+import net.satisfy.sleepy_hollows.client.model.armor.HauntboundBootsModel;
+import net.satisfy.sleepy_hollows.client.model.armor.HauntboundChestplateModel;
 import net.satisfy.sleepy_hollows.client.model.armor.HauntboundHelmetModel;
+import net.satisfy.sleepy_hollows.client.model.armor.HauntboundLeggingsModel;
 import net.satisfy.sleepy_hollows.client.renderer.*;
 import net.satisfy.sleepy_hollows.core.registry.EntityTypeRegistry;
 
@@ -40,14 +41,10 @@ public class SleepyHollowsClient {
         EntityRendererRegistry.register(EntityTypeRegistry.INFECTED_ZOMBIE, InfectedZombieRenderer::new);
         EntityModelLayerRegistry.register(CompletionistBannerRenderer.LAYER_LOCATION, CompletionistBannerRenderer::createBodyLayer);
         EntityModelLayerRegistry.register(HauntboundHelmetModel.LAYER_LOCATION, HauntboundHelmetModel::createBodyLayer);
-    }
+        EntityModelLayerRegistry.register(HauntboundChestplateModel.LAYER_LOCATION, HauntboundChestplateModel::createBodyLayer);
+        EntityModelLayerRegistry.register(HauntboundLeggingsModel.LAYER_LOCATION, HauntboundLeggingsModel::createBodyLayer);
+        EntityModelLayerRegistry.register(HauntboundBootsModel.LAYER_LOCATION, HauntboundBootsModel::createBodyLayer);
 
-    public static final ModelLayerLocation HAUNTBOUND_CHESTPLATE_LAYER = createModelLayerLocation("hauntbound_chestplate");
-    public static final ModelLayerLocation HAUNTBOUND_LEGGINGS_LAYER = createModelLayerLocation("hauntbound_leggings");
-    public static final ModelLayerLocation HAUNTBOUND_BOOTS_LAYER = createModelLayerLocation("hauntbound_boots");
-
-    private static ModelLayerLocation createModelLayerLocation(String layerName) {
-        return new ModelLayerLocation(new ResourceLocation("minecraft:player"), layerName);
     }
 }
 
