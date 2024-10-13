@@ -4,6 +4,7 @@ import dev.architectury.platform.forge.EventBuses;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
@@ -17,11 +18,17 @@ public final class SleepyHollowsForge {
     public SleepyHollowsForge() {
         EventBuses.registerModEventBus(Constants.MOD_ID, FMLJavaModLoadingContext.get().getModEventBus());
         SleepyHollows.init();
-        SleepyHollows.commonInit();
         Constants.LOG.info("Initialized the mod in Forge.");
 
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.register(this);
+    }
+
+    @SubscribeEvent
+    public void onCommonSetup(final FMLCommonSetupEvent event) {
+        event.enqueueWork(() -> {
+            SleepyHollows.commonInit();
+        });
     }
 
     @SubscribeEvent
