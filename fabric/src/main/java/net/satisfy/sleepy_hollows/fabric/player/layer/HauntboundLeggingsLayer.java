@@ -12,7 +12,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.satisfy.sleepy_hollows.client.SleepyHollowsClient;
 import net.satisfy.sleepy_hollows.core.item.custom.HauntboundArmorItem;
-import net.satisfy.sleepy_hollows.fabric.player.model.HauntboundLeggingsModel;
+import net.satisfy.sleepy_hollows.client.model.armor.HauntboundLeggingsModel;
 import org.jetbrains.annotations.NotNull;
 
 public class HauntboundLeggingsLayer<T extends LivingEntity, M extends HumanoidModel<T>> extends RenderLayer<T, M> {

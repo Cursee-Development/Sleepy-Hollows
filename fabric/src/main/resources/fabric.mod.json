@@ -5,14 +5,14 @@
   "name": "Sleepy Hollows",
   "description": "This is an example description! Tell everyone what your mod is about!",
   "authors": [
-    "Jason13, satisfy"
+    "Jason13, Satisfy"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://github.com/Cursee-Development/Sleepy-Hollows",
+    "issues": "https://github.com/Cursee-Development/Sleepy-Hollows/issues"
   },
-  "license": "CC0-1.0",
-  "icon": "assets/sleepy_hollows/icon.png",
+  "license": "MIT",
+  "icon": "pack.png",
   "environment": "*",
   "entrypoints": {
     "main": [
@@ -33,9 +33,7 @@
     "minecraft": "~1.20.1",
     "java": ">=17",
     "architectury": ">=9.2.14",
-    "fabric-api": "*"
-  },
-  "suggests": {
-    "another-mod": "*"
+    "fabric-api": "*",
+    "terrablender": ">=3.0.0"
   }
 }

@@ -15,7 +15,7 @@ public class TabRegistry {
 
     @SuppressWarnings("unused")
     public static final RegistrySupplier<CreativeModeTab> SLEEPY_HOLLOWS_TAB = SLEEPY_HOLLOWS_TABS.register(Constants.MOD_ID, () -> CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0)
-            .icon(() -> new ItemStack(ObjectRegistry.HOLLOW_SAPLING.get()))
+            .icon(() -> new ItemStack(ObjectRegistry.SPECTRAL_LANTERN.get()))
             .title(Component.translatable("itemGroup.sleepyHollows").withStyle(ChatFormatting.ITALIC))
             .displayItems(((itemDisplayParameters, out) -> {
                 out.accept(ObjectRegistry.GRAVESTONE.get());
@@ -57,6 +57,7 @@ public class TabRegistry {
                 out.accept(ObjectRegistry.HOLLOW_TRAPDOOR.get());
                 out.accept(ObjectRegistry.HOLLOW_DOOR.get());
                 out.accept(ObjectRegistry.HOLLOW_WINDOW.get());
+                out.accept(ObjectRegistry.WROUGHT_IRON_FENCE.get());
                 out.accept(ObjectRegistry.HOLLOW_FENCE.get());
                 out.accept(ObjectRegistry.HOLLOW_FENCE_GATE.get());
                 out.accept(ObjectRegistry.HOLLOW_LEAVES.get());
@@ -75,7 +76,6 @@ public class TabRegistry {
                 out.accept(ObjectRegistry.SMALL_TOMBSTONE.get());
                 out.accept(ObjectRegistry.MID_TOMBSTONE.get());
                 out.accept(ObjectRegistry.BIG_TOMBSTONE.get());
-                out.accept(ObjectRegistry.WROUGHT_IRON_FENCE.get());
                 out.accept(ObjectRegistry.SPECTRAL_LANTERN.get());
                 out.accept(ObjectRegistry.COFFIN.get());
                 out.accept(ObjectRegistry.SPECTRAL_ESSENCE.get());

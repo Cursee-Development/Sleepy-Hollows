@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "net.satisfy.sleepy_hollows.forge.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "minVersion": "0.8",
+  "mixins": [
+    "HelmetItemMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

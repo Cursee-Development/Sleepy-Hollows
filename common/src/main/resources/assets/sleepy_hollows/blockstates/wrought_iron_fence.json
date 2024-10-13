@@ -2,41 +2,98 @@
   "multipart": [
     {
       "apply": {
-        "model": "sleepy_hollows:block/wrought_iron_fence_post"
+        "model": "sleepy_hollows:block/wrought_iron_fence_post_ends"
       }
     },
     {
-      "when": {
-        "north": "true"
+      "apply": {
+        "model": "sleepy_hollows:block/wrought_iron_fence_post"
       },
+      "when": {
+        "east": "false",
+        "north": "false",
+        "south": "false",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "sleepy_hollows:block/wrought_iron_fence_cap"
+      },
+      "when": {
+        "east": "false",
+        "north": "true",
+        "south": "false",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "sleepy_hollows:block/wrought_iron_fence_cap",
+        "y": 90
+      },
+      "when": {
+        "east": "true",
+        "north": "false",
+        "south": "false",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "sleepy_hollows:block/wrought_iron_fence_cap_alt"
+      },
+      "when": {
+        "east": "false",
+        "north": "false",
+        "south": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "sleepy_hollows:block/wrought_iron_fence_cap_alt",
+        "y": 90
+      },
+      "when": {
+        "east": "false",
+        "north": "false",
+        "south": "false",
+        "west": "true"
+      }
+    },
+    {
       "apply": {
         "model": "sleepy_hollows:block/wrought_iron_fence_side"
+      },
+      "when": {
+        "north": "true"
       }
     },
     {
-      "when": {
-        "west": "true"
-      },
       "apply": {
         "model": "sleepy_hollows:block/wrought_iron_fence_side",
-		"y": -90
-      }
-    },
-    {
-      "when": {
-        "south": "true"
+        "y": 90
       },
-      "apply": {
-        "model": "sleepy_hollows:block/wrought_iron_fence_side_alt"
-      }
-    },
-    {
       "when": {
         "east": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "sleepy_hollows:block/wrought_iron_fence_side_alt"
       },
+      "when": {
+        "south": "true"
+      }
+    },
+    {
       "apply": {
         "model": "sleepy_hollows:block/wrought_iron_fence_side_alt",
-		"y": -90
+        "y": 90
+      },
+      "when": {
+        "west": "true"
       }
     }
   ]

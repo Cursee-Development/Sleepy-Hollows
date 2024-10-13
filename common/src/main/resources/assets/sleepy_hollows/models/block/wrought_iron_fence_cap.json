@@ -1,0 +1,26 @@
+{
+	"credit": "Made by Satisfy",
+	"ambientocclusion": false,
+	"textures": {
+		"particle": "sleepy_hollows:block/wrought_iron_fence_pane",
+		"edge": "sleepy_hollows:block/wrought_iron_fence_pane"
+	},
+	"elements": [
+		{
+			"from": [8, 0, 8],
+			"to": [8, 16, 9],
+			"faces": {
+				"east": {"uv": [7, 0, 8, 16], "texture": "#edge"},
+				"west": {"uv": [8, 0, 7, 16], "texture": "#edge"}
+			}
+		},
+		{
+			"from": [7, 0, 9],
+			"to": [9, 16, 9],
+			"faces": {
+				"north": {"uv": [9, 0, 7, 16], "texture": "#edge"},
+				"south": {"uv": [7, 0, 9, 16], "texture": "#edge"}
+			}
+		}
+	]
+}

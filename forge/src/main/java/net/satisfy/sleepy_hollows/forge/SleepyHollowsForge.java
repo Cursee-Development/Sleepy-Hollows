@@ -11,6 +11,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.satisfy.sleepy_hollows.Constants;
 import net.satisfy.sleepy_hollows.SleepyHollows;
 import net.satisfy.sleepy_hollows.core.registry.CompostableRegistry;
+import net.satisfy.sleepy_hollows.core.world.SleepyHollowsRegion;
 
 @Mod(Constants.MOD_ID)
 public final class SleepyHollowsForge {
@@ -22,6 +23,13 @@ public final class SleepyHollowsForge {
 
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.register(this);
+
+        modEventBus.addListener(this::commonSetup);
+    }
+
+    private void commonSetup(final FMLCommonSetupEvent event) {
+        event.enqueueWork(SleepyHollowsRegion::loadTerrablender);
+        SleepyHollows.commonInit();
     }
 
     @SubscribeEvent
@@ -33,8 +41,6 @@ public final class SleepyHollowsForge {
 
     @SubscribeEvent
     public void onLoadComplete(final FMLLoadCompleteEvent event) {
-        event.enqueueWork(() -> {
-            CompostableRegistry.init();
-        });
+        event.enqueueWork(CompostableRegistry::init);
     }
 }

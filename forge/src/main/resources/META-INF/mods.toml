@@ -1,17 +1,17 @@
 modLoader = "javafml"
 loaderVersion = "[47,)"
-#issueTrackerURL = ""
-license = "Insert License Here"
+issueTrackerURL = "https://github.com/Cursee-Development/Sleepy-Hollows/issues"
+license = "MIT"
 
 [[mods]]
 modId = "sleepy_hollows"
 version = "${version}"
 displayName = "Sleepy Hollows"
-authors = "Me!"
+authors = "Jason13, Satisfy"
 description = '''
 This is an example description! Tell everyone what your mod is about!
 '''
-#logoFile = ""
+logoFile = "pack.png"
 
 [[dependencies.sleepy_hollows]]
 modId = "forge"
@@ -31,5 +31,12 @@ side = "BOTH"
 modId = "architectury"
 mandatory = true
 versionRange = "[9.2.14,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.sleepy_hollows]]
+modId = "terrablender"
+mandatory = true
+versionRange = "[3.0.0,)"
 ordering = "AFTER"
 side = "BOTH"
