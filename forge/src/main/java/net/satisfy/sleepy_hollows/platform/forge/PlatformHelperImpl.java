@@ -1,9 +1,8 @@
-package net.satisfy.sleepy_hollows.platform.fabric;
+package net.satisfy.sleepy_hollows.platform.forge;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.satisfy.sleepy_hollows.core.block.custom.LuminousWaterFluid;
 import team.lodestar.lodestone.registry.common.particle.LodestoneParticleRegistry;
@@ -32,15 +31,15 @@ public class PlatformHelperImpl {
                             .setEasing(Easing.QUARTIC_IN).build())
                     .setLifetime(30 / particleIntensity)
                     .addMotion(0, 0.1 * particleIntensity, 0)
-                    .spawn(level, pos.getX() + random.nextDouble(), pos.getY() + 1.2, pos.getZ() + random.nextDouble());
+                    .spawn(level, pos.getX() + random.nextDouble(), pos.getY() + random.nextDouble(), pos.getZ() + random.nextDouble());
         }
     }
 
     public static LuminousWaterFluid.Source getLuminousWaterSource() {
-        return new LuminousWaterFluid.Source();
+        return new ForgeLuminousWater.Source();
     }
 
     public static LuminousWaterFluid.Flowing getLuminousWaterFlowing() {
-        return new LuminousWaterFluid.Flowing();
+        return new ForgeLuminousWater.Flowing();
     }
 }

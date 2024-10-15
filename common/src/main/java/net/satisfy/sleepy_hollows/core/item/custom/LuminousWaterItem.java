@@ -9,13 +9,14 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.satisfy.sleepy_hollows.client.util.SanityManager;
+import net.satisfy.sleepy_hollows.core.registry.FluidRegistry;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class LuminousWaterItem extends Item {
+public class LuminousWaterItem extends BucketItem {
     public LuminousWaterItem(Properties properties) {
-        super(properties.food(new FoodProperties.Builder().nutrition(4).saturationMod(0.3F).build()));
+        super(FluidRegistry.LUMINOUS_WATER_SOURCE.get(), properties.food(new FoodProperties.Builder().nutrition(4).saturationMod(0.3F).build()));
     }
 
     @Override
@@ -38,6 +39,7 @@ public class LuminousWaterItem extends Item {
 
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level world, @NotNull Player player, @NotNull InteractionHand hand) {
+        if (player.isShiftKeyDown()) return super.use(world, player, hand);
         return ItemUtils.startUsingInstantly(world, player, hand);
     }
 

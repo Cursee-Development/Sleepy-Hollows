@@ -12,6 +12,7 @@ import net.satisfy.sleepy_hollows.core.registry.*;
 public final class SleepyHollows {
 
     public static void init() {
+        FluidRegistry.init();
         ObjectRegistry.init();
         TabRegistry.init();
         MobEffectRegistry.init();
