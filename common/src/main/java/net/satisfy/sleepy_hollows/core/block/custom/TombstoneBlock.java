@@ -101,7 +101,7 @@ public class TombstoneBlock extends Block  {
                 skeleton.setPos(spawnPos.getX() + 0.5, spawnPos.getY() + 1, spawnPos.getZ() + 0.5);
 
                 skeleton.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ObjectRegistry.SPECTRAL_JACK_O_LANTERN.get()));
-                skeleton.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
+                skeleton.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(ObjectRegistry.SPECTRAL_WARAXE.get()));
 
                 for (int j = 0; j < armorPieces.length; j++) {
                     if (random.nextFloat() < 0.3) {
@@ -117,6 +117,11 @@ public class TombstoneBlock extends Block  {
                 world.scheduleTick(pos, this, i * 10);
                 world.playSound(null, spawnPos, SoundEvents.SCULK_SHRIEKER_SHRIEK, SoundSource.BLOCKS, 1.0F, 1.0F);
             }
+        }
+
+        if (!world.isClientSide) {
+            ItemStack dropItem = new ItemStack(ObjectRegistry.ESSENCE_OF_UNDEAD.get());
+            popResource(world, pos, dropItem);
         }
     }
 

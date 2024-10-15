@@ -8,8 +8,8 @@ import net.minecraft.world.level.block.LanternBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType;
-import net.satisfy.sleepy_hollows.core.registry.ObjectRegistry;
 import net.satisfy.sleepy_hollows.core.registry.FeatureTypeRegistry;
+import net.satisfy.sleepy_hollows.core.registry.ObjectRegistry;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

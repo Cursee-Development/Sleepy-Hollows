@@ -5,10 +5,10 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,26 +21,29 @@ public class SanityEffect extends MobEffect {
         super(MobEffectCategory.HARMFUL, 0x800080);
     }
 
+    @Override
     public void applyEffectTick(@NotNull LivingEntity livingEntity, int amplifier) {
-        this.distractEntity(livingEntity);
+        if (Objects.requireNonNull(livingEntity.getEffect(this)).getDuration() > 0) {
+            this.distractEntity(livingEntity);
 
-        if (livingEntity.getAttributeBaseValue(Attributes.ATTACK_DAMAGE) == 1.0) {
-            Objects.requireNonNull(livingEntity.getAttributes().getInstance(Attributes.ATTACK_DAMAGE))
-                    .setBaseValue(0.5);
-        }
+            if (livingEntity.getAttributeBaseValue(Attributes.ATTACK_DAMAGE) == 1.0) {
+                Objects.requireNonNull(livingEntity.getAttributes().getInstance(Attributes.ATTACK_DAMAGE))
+                        .setBaseValue(0.5);
+            }
 
-        if (livingEntity.getAttributeBaseValue(Attributes.ARMOR) == 1.0) {
-            Objects.requireNonNull(livingEntity.getAttributes().getInstance(Attributes.ARMOR))
-                    .setBaseValue(0.5);
-        }
+            if (livingEntity.getAttributeBaseValue(Attributes.ARMOR) == 1.0) {
+                Objects.requireNonNull(livingEntity.getAttributes().getInstance(Attributes.ARMOR))
+                        .setBaseValue(0.5);
+            }
 
-        if (livingEntity.getAttributeBaseValue(Attributes.MOVEMENT_SPEED) == 1.0) {
-            Objects.requireNonNull(livingEntity.getAttributes().getInstance(Attributes.MOVEMENT_SPEED))
-                    .setBaseValue(0.8);
-        }
+            if (livingEntity.getAttributeBaseValue(Attributes.MOVEMENT_SPEED) == 1.0) {
+                Objects.requireNonNull(livingEntity.getAttributes().getInstance(Attributes.MOVEMENT_SPEED))
+                        .setBaseValue(0.8);
+            }
 
-        if (!livingEntity.hasEffect(MobEffects.BLINDNESS)) {
-            livingEntity.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20 * 25, 0));
+            if (!livingEntity.hasEffect(MobEffects.BLINDNESS)) {
+                livingEntity.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20 * 25, 0));
+            }
         }
     }
 
@@ -79,6 +82,6 @@ public class SanityEffect extends MobEffect {
 
     @Override
     public boolean isDurationEffectTick(int duration, int amplifier) {
-        return true;
+        return duration > 0 && duration % 20 == 0;
     }
 }

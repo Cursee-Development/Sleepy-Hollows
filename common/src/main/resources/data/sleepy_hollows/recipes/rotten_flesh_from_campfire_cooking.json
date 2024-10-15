@@ -1,10 +1,10 @@
 {
   "type": "minecraft:campfire_cooking",
   "category": "food",
-  "cookingtime": 250,
+  "cookingtime": 300,
   "experience": 0.35,
   "ingredient": {
-    "item": "minecraft:sugar"
+    "item": "sleepy_hollows:spectral_essence"
   },
-  "result": "sleepy_hollows:candy_corn"
+  "result": "minecraft:rotten_flesh"
 }

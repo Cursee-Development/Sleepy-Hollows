@@ -1,9 +1,9 @@
 package net.satisfy.sleepy_hollows.client.event;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.satisfy.sleepy_hollows.client.util.SanityManager;
-import net.minecraft.core.BlockPos;
 import net.satisfy.sleepy_hollows.core.world.SleepyHollowsBiomeKeys;
 
 public class PlayerTickEvent {

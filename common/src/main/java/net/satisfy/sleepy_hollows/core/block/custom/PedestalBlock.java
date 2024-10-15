@@ -6,10 +6,10 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -66,7 +66,7 @@ public class PedestalBlock extends Block implements EntityBlock {
                     level.setBlock(pos, state.setValue(ACTIVE, true), 3);
                     level.playSound(null, pos, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS, 1.0F, 1.0F);
 
-                    if (singleItemStack.is(ObjectRegistry.SPECTRAL_ESSENCE.get())) {
+                    if (singleItemStack.is(ObjectRegistry.LUMINOUS_ESSENCE.get())) {
                         BlockPos spawnPos = pos.north(5);
                         SpectralHorse spectralHorse = EntityTypeRegistry.SPECTRAL_HORSE.get().create(level);
                         //TODO @Jason13 - just change this entity here to the actual boss entity. :) It will spawn 5 blocks north to the pedestal block

@@ -71,5 +71,14 @@
         "stream": true
       }
     ]
+  },
+  "fleeing_pumpkin_hurt": {
+    "subtitle": "subtitles.sleepy_hollows.fleeing_pumpkin_hurt",
+    "sounds": [
+      {
+        "name": "sleepy_hollows:fleeing_pumpkin_head_hurt",
+        "stream": true
+      }
+    ]
   }
 }

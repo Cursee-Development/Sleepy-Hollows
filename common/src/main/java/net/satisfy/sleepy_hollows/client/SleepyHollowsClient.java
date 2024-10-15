@@ -7,12 +7,12 @@ import dev.architectury.registry.client.rendering.RenderTypeRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.RenderType;
-import net.satisfy.sleepy_hollows.client.model.entity.FleeingPumpkinHeadModel;
-import net.satisfy.sleepy_hollows.client.model.entity.SpectralHorseModel;
 import net.satisfy.sleepy_hollows.client.model.armor.HauntboundBootsModel;
 import net.satisfy.sleepy_hollows.client.model.armor.HauntboundChestplateModel;
 import net.satisfy.sleepy_hollows.client.model.armor.HauntboundHelmetModel;
 import net.satisfy.sleepy_hollows.client.model.armor.HauntboundLeggingsModel;
+import net.satisfy.sleepy_hollows.client.model.entity.FleeingPumpkinHeadModel;
+import net.satisfy.sleepy_hollows.client.model.entity.SpectralHorseModel;
 import net.satisfy.sleepy_hollows.client.renderer.*;
 import net.satisfy.sleepy_hollows.core.registry.EntityTypeRegistry;
 

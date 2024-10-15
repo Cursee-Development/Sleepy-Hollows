@@ -82,14 +82,14 @@ public class SpectralHorseModel<T extends AbstractHorse> extends AgeableListMode
         PartDefinition partDefinition = meshDefinition.getRoot();
 
         PartDefinition partDefinition2 = partDefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 32).addBox(-5.0F, -8.0F, -17.0F, 10.0F, 10.0F, 22.0F, new CubeDeformation(0.05F)), PartPose.offset(0.0F, 11.0F, 5.0F));
-        PartDefinition additional_armor = partDefinition2.addOrReplaceChild("additional_armor", CubeListBuilder.create().texOffs(0, 64).addBox(-5.0F, -21.0F, -11.0F, 10.0F, 16.0F, 22.0F, new CubeDeformation(0.2F))
+        PartDefinition additional_armor = partDefinition2.addOrReplaceChild("additional_armor", CubeListBuilder.create().texOffs(64, 0).addBox(-5.0F, -21.0F, -11.0F, 10.0F, 16.0F, 22.0F, new CubeDeformation(0.2F))
                 .texOffs(0, 104).addBox(-5.0F, -21.0F, -11.0F, 10.0F, 15.0F, 9.0F, new CubeDeformation(0.25F))
                 .texOffs(64, 54).addBox(-5.0F, -21.0F, 4.0F, 10.0F, 16.0F, 10.0F, new CubeDeformation(0.25F))
                 .texOffs(32, 79).addBox(-6.0F, -26.0F, 3.99F, 12.0F, 5.0F, 2.0F, new CubeDeformation(0.0F))
                 .texOffs(32, 74).addBox(-4.0F, -29.0F, 3.99F, 8.0F, 3.0F, 2.0F, new CubeDeformation(0.0F))
                 .texOffs(32, 69).addBox(-5.0F, -32.0F, 3.99F, 10.0F, 3.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 13.0F, -9.0F));
 
-        PartDefinition saddle_decoration_r1 = additional_armor.addOrReplaceChild("saddle_decoration_r1", CubeListBuilder.create().texOffs(55, 0).addBox(-10.0F, -34.0F, 1.0F, 20.0F, 13.0F, 0.0F, new CubeDeformation(0.0F))
+          PartDefinition saddle_decoration_r1 = additional_armor.addOrReplaceChild("saddle_decoration_r1", CubeListBuilder.create().texOffs(88, 115).addBox(-10.0F, -34.0F, 1.0F, 20.0F, 13.0F, 0.0F, new CubeDeformation(0.0F))
                 .texOffs(0, 64).addBox(-5.0F, -19.0F, -16.0F, 10.0F, 15.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.2182F, 0.0F, 0.0F));
 
         PartDefinition armor_body_front_decoration_left_r1 = additional_armor.addOrReplaceChild("armor_body_front_decoration_left_r1", CubeListBuilder.create().texOffs(56, 4).addBox(-5.0F, -28.0F, 5.0F, 0.0F, 7.0F, 10.0F, new CubeDeformation(0.0F))

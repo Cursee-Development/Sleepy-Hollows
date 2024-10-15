@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:water_bucket"
+    },
+    {
+      "item": "sleepy_hollows:spectral_essence"
+    }
+  ],
+  "result": {
+    "item": "sleepy_hollows:luminous_water",
+    "count": 4
+  },
+  "show_notification": true
+}

@@ -34,9 +34,7 @@ public final class SleepyHollowsForge {
 
     @SubscribeEvent
     public void onCommonSetup(final FMLCommonSetupEvent event) {
-        event.enqueueWork(() -> {
-            SleepyHollows.commonInit();
-        });
+        event.enqueueWork(SleepyHollows::commonInit);
     }
 
     @SubscribeEvent

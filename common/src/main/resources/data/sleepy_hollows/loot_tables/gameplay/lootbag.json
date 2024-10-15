@@ -3,13 +3,41 @@
   "pools": [
     {
       "rolls": {
-        "min": 1,
-        "max": 2
+        "min": 8,
+        "max": 24
       },
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:diamond",
+          "name": "sleepy_hollows:raubbau",
+          "weight": 20,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "sleepy_hollows:spectral_waraxe",
+          "weight": 15,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "sleepy_hollows:shatterbrand",
           "weight": 10,
           "functions": [
             {
@@ -23,8 +51,92 @@
         },
         {
           "type": "minecraft:item",
-          "name": "sleepy_hollows:dusk_berries",
+          "name": "sleepy_hollows:hauntbound_helmet",
           "weight": 25,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "sleepy_hollows:hauntbound_chestplate",
+          "weight": 25,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "sleepy_hollows:hauntbound_leggings",
+          "weight": 25,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "sleepy_hollows:hauntbound_boots",
+          "weight": 25,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "sleepy_hollows:spectral_essence",
+          "weight": 100,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 1
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "sleepy_hollows:spectral_pumpkin_pie",
+          "weight": 100,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 3,
+                "max": 1
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "sleepy_hollows:dusk_berries",
+          "weight": 100,
           "functions": [
             {
               "function": "set_count",
@@ -52,13 +164,27 @@
         {
           "type": "minecraft:item",
           "name": "sleepy_hollows:reins_of_the_spectral_horse",
-          "weight": 1,
+          "weight": 5,
           "functions": [
             {
               "function": "set_count",
               "count": {
                 "min": 1,
                 "max": 1
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "sleepy_hollows:hollow_planks",
+          "weight": 90,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 12,
+                "max": 57
               }
             }
           ]

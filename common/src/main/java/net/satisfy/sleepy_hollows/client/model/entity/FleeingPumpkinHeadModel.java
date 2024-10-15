@@ -19,7 +19,9 @@ public class FleeingPumpkinHeadModel<T extends Entity> extends EntityModel<T> {
 		this.head = root.getChild("head");
 	}
 
+	@SuppressWarnings("unused")
 	public static LayerDefinition getTexturedModelData() {
+
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
@@ -29,9 +31,12 @@ public class FleeingPumpkinHeadModel<T extends Entity> extends EntityModel<T> {
 	}
 
 	@Override
-	public void setupAnim(@NotNull Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
+	public void setupAnim(@NotNull T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		float bounceHeight = 1.0F;
+		float bounceSpeed = 0.1F;
+		this.head.y = 24.0F + (float) Math.sin(ageInTicks * bounceSpeed) * bounceHeight;
 	}
+
 
 	@Override
 	public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {

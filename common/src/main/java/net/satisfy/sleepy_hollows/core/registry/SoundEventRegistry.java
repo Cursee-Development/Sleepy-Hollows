@@ -19,6 +19,7 @@ public class SoundEventRegistry {
     public static final RegistrySupplier<SoundEvent> FLEEING_PUMPKIN_AMBIENT = create("fleeing_pumpkin_ambient");
     public static final RegistrySupplier<SoundEvent> FLEEING_PUMPKIN_SUMMONING = create("fleeing_pumpkin_summoning");
     public static final RegistrySupplier<SoundEvent> FLEEING_PUMPKIN_DEATH = create("fleeing_pumpkin_death");
+    public static final RegistrySupplier<SoundEvent> FLEEING_PUMPKIN_HURT = create("fleeing_pumpkin_hurt");
 
     private static RegistrySupplier<SoundEvent> create(String name) {
         ResourceLocation id = new SleepyHollowsIdentifier(name);

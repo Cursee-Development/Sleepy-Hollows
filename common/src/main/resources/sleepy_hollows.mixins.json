@@ -1,12 +1,9 @@
 {
   "required": true,
   "package": "net.satisfy.sleepy_hollows.mixin",
-  "plugin": "net.satisfy.sleepy_hollows.mixin.MixinConfig",
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
-  "client": [
-    "CommonMinecraftMixin"
-  ],
+  "client": [],
   "mixins": [],
   "server": [],
   "injectors": {

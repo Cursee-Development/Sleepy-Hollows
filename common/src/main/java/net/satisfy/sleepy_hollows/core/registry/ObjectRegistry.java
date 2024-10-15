@@ -11,7 +11,9 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.food.Foods;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.grower.AbstractTreeGrower;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -115,8 +117,15 @@ public class ObjectRegistry {
     public static final RegistrySupplier<Item> LOOTBAG = registerItem("lootbag", () -> new LootBagItem(getSettings().rarity(Rarity.COMMON)));
     public static final RegistrySupplier<Item>  REINS_OF_THE_SPECTRAL_HORSE = registerItem("reins_of_the_spectral_horse",  () -> new ReinsOfTheSpectralHorseItem(EntityTypeRegistry.SPECTRAL_HORSE, -1, -1, getSettings().rarity(Rarity.EPIC)));
     public static final RegistrySupplier<Item>  INFECTED_ZOMBIE_SPAWN_EGG = registerItem("infected_zombie_spawn_egg",  () -> new ArchitecturySpawnEggItem(EntityTypeRegistry.INFECTED_ZOMBIE, -1, -1, getSettings()));
+    public static final RegistrySupplier<Item>  FLEEING_PUMPKIN_HEAD_SPAWN_EGG = registerItem("fleeing_pumpkin_head_spawn_egg",  () -> new ArchitecturySpawnEggItem(EntityTypeRegistry.FLEEING_PUMPKIN_HEAD, -1, -1, getSettings()));
     public static final RegistrySupplier<Block> COMPLETIONIST_BANNER = registerBlockWithBlockItem("completionist_banner", () -> new CompletionistBannerBlock(BlockBehaviour.Properties.of().strength(1F).instrument(NoteBlockInstrument.BASS).noCollission().sound(SoundType.WOOD)));
     public static final RegistrySupplier<Block> COMPLETIONIST_WALL_BANNER = registerBlockWithoutItem("completionist_wall_banner", () -> new CompletionistWallBannerBlock(BlockBehaviour.Properties.of().strength(1F).instrument(NoteBlockInstrument.BASS).noCollission().sound(SoundType.WOOD)));
+    public static final RegistrySupplier<Item> RAUBBAU = registerItem("raubbau", () -> new RaubbauItem(getSettings().fireResistant().rarity(Rarity.EPIC)));
+    public static final RegistrySupplier<Item> SPECTRAL_WARAXE = registerItem("spectral_waraxe", () -> new SpectralWarAxeItem(getSettings().fireResistant().rarity(Rarity.EPIC)));
+    public static final RegistrySupplier<Item> SHATTERBRAND = registerItem("shatterbrand", () -> new ShatterbrandSwordItem(getSettings().fireResistant().rarity(Rarity.EPIC)));
+    public static final RegistrySupplier<Item> HEADLESS_HORSEMAN_SPAWN_EGG = registerItem("headless_horseman_spawn_egg", () -> new Item(getSettings()));
+
+
     public static final RegistrySupplier<Block> POTTED_HOLLOW_SAPLING = registerBlockWithoutItem("potted_hollow_sapling", () -> new FlowerPotBlock(HOLLOW_SAPLING.get(), BlockBehaviour.Properties.copy(Blocks.FLOWER_POT)));
     public static final RegistrySupplier<Block> POTTED_GRAVE_LILY = registerBlockWithoutItem("potted_grave_lily", () -> new FlowerPotBlock(GRAVE_LILY.get(), BlockBehaviour.Properties.copy(Blocks.FLOWER_POT)));
     public static final RegistrySupplier<Block> POTTED_DREAMSHADE = registerBlockWithoutItem("potted_dreamshade", () -> new FlowerPotBlock(DREAMSHADE.get(), BlockBehaviour.Properties.copy(Blocks.FLOWER_POT)));
