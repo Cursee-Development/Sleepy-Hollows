@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -33,6 +34,10 @@ public class SleepyHollowsUtil {
         RegistrySupplier<T> toReturn = abstractBlockRegistration(registerB, registrarB, name, block);
         abstractItemRegistration(registerI, registrarI, name, () -> new BlockItem(toReturn.get(), new Item.Properties()));
         return toReturn;
+    }
+
+    public static <T extends Fluid> RegistrySupplier<T> abstractFluidRegistration(DeferredRegister<Fluid> register, Registrar<Fluid> registrar, ResourceLocation path, Supplier<T> itemSupplier) {
+        return Platform.isForge() ? register.register(path.getPath(), itemSupplier) : registrar.register(path, itemSupplier);
     }
 
     public static VoxelShape rotateShape(Direction from, Direction to, VoxelShape shape) {

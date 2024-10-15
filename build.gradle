@@ -28,6 +28,7 @@ subprojects {
     }
 
     repositories {
+        maven { url = "https://maven.blamejared.com/" }
     }
 
     loom {
