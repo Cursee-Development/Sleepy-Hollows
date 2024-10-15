@@ -21,6 +21,7 @@ public class LevelRendererMixin {
 
     @ModifyExpressionValue(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/DimensionSpecialEffects;isFoggyAt(II)Z"))
     private boolean foggyHollow(boolean original, @Local(name = "vec3") Vec3 cam, @Share("hollowed") LocalBooleanRef hollowed) {
+        assert this.minecraft.level != null;
         hollowed.set(this.minecraft.level.getBiome(
                 new BlockPos((int) cam.x, (int) cam.y, (int) cam.z)
         ).is(SleepyHollowsBiomeKeys.SLEEPY_HOLLOWS));

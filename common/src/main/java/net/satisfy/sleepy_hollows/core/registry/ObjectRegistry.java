@@ -123,7 +123,7 @@ public class ObjectRegistry {
     public static final RegistrySupplier<Item> RAUBBAU = registerItem("raubbau", () -> new RaubbauItem(getSettings().fireResistant().rarity(Rarity.EPIC)));
     public static final RegistrySupplier<Item> SPECTRAL_WARAXE = registerItem("spectral_waraxe", () -> new SpectralWarAxeItem(getSettings().fireResistant().rarity(Rarity.EPIC)));
     public static final RegistrySupplier<Item> SHATTERBRAND = registerItem("shatterbrand", () -> new ShatterbrandSwordItem(getSettings().fireResistant().rarity(Rarity.EPIC)));
-    public static final RegistrySupplier<Item> HEADLESS_HORSEMAN_SPAWN_EGG = registerItem("headless_horseman_spawn_egg", () -> new Item(getSettings()));
+    public static final RegistrySupplier<Item> HEADLESS_HORSEMAN_SPAWN_EGG = registerItem("headless_horseman_spawn_egg", () -> new ArchitecturySpawnEggItem(EntityTypeRegistry.HORSEMAN, -1, -1, getSettings()));
 
 
     public static final RegistrySupplier<Block> POTTED_HOLLOW_SAPLING = registerBlockWithoutItem("potted_hollow_sapling", () -> new FlowerPotBlock(HOLLOW_SAPLING.get(), BlockBehaviour.Properties.copy(Blocks.FLOWER_POT)));

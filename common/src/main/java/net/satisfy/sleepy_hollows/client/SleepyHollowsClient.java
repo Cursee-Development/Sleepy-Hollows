@@ -12,6 +12,7 @@ import net.satisfy.sleepy_hollows.client.model.armor.HauntboundChestplateModel;
 import net.satisfy.sleepy_hollows.client.model.armor.HauntboundHelmetModel;
 import net.satisfy.sleepy_hollows.client.model.armor.HauntboundLeggingsModel;
 import net.satisfy.sleepy_hollows.client.model.entity.FleeingPumpkinHeadModel;
+import net.satisfy.sleepy_hollows.client.model.entity.HorsemanModel;
 import net.satisfy.sleepy_hollows.client.model.entity.SpectralHorseModel;
 import net.satisfy.sleepy_hollows.client.renderer.*;
 import net.satisfy.sleepy_hollows.core.registry.EntityTypeRegistry;
@@ -39,15 +40,16 @@ public class SleepyHollowsClient {
         EntityModelLayerRegistry.register(CoffinRenderer.LAYER_LOCATION, CoffinRenderer::getTexturedModelData);
         EntityModelLayerRegistry.register(SpectralHorseModel.LAYER_LOCATION, SpectralHorseModel::getTexturedModelData);
         EntityModelLayerRegistry.register(FleeingPumpkinHeadModel.LAYER_LOCATION, FleeingPumpkinHeadModel::getTexturedModelData);
-        EntityRendererRegistry.register(EntityTypeRegistry.SPECTRAL_HORSE, SpectralHorseRenderer::new);
-        EntityRendererRegistry.register(EntityTypeRegistry.INFECTED_ZOMBIE, InfectedZombieRenderer::new);
-        EntityRendererRegistry.register(EntityTypeRegistry.FLEEING_PUMPKIN_HEAD, FleeingPumpkinHeadRenderer::new);
+        EntityModelLayerRegistry.register(HorsemanModel.LAYER_LOCATION, HorsemanModel::getTexturedModelData);
         EntityModelLayerRegistry.register(CompletionistBannerRenderer.LAYER_LOCATION, CompletionistBannerRenderer::createBodyLayer);
         EntityModelLayerRegistry.register(HauntboundHelmetModel.LAYER_LOCATION, HauntboundHelmetModel::createBodyLayer);
         EntityModelLayerRegistry.register(HauntboundChestplateModel.LAYER_LOCATION, HauntboundChestplateModel::createBodyLayer);
         EntityModelLayerRegistry.register(HauntboundLeggingsModel.LAYER_LOCATION, HauntboundLeggingsModel::createBodyLayer);
         EntityModelLayerRegistry.register(HauntboundBootsModel.LAYER_LOCATION, HauntboundBootsModel::createBodyLayer);
-
+        EntityRendererRegistry.register(EntityTypeRegistry.SPECTRAL_HORSE, SpectralHorseRenderer::new);
+        EntityRendererRegistry.register(EntityTypeRegistry.INFECTED_ZOMBIE, InfectedZombieRenderer::new);
+        EntityRendererRegistry.register(EntityTypeRegistry.FLEEING_PUMPKIN_HEAD, FleeingPumpkinHeadRenderer::new);
+        EntityRendererRegistry.register(EntityTypeRegistry.HORSEMAN, HorsemanRenderer::new);
     }
 }
 
