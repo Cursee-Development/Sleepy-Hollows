@@ -14,7 +14,7 @@ public final class ForgeLuminousWater {
         }
     }
 
-    public static class Flowing extends LuminousWaterFluid.Flowing implements IForgeFluid{
+    public static class Flowing extends LuminousWaterFluid.Flowing implements IForgeFluid {
         @Override
         public FluidType getFluidType() {
             return new FluidType(FluidType.Properties.create());

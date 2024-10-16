@@ -34,12 +34,4 @@ public class PlatformHelperImpl {
                     .spawn(level, pos.getX() + random.nextDouble(), pos.getY() + random.nextDouble(), pos.getZ() + random.nextDouble());
         }
     }
-
-    public static LuminousWaterFluid.Source getLuminousWaterSource() {
-        return new ForgeLuminousWater.Source();
-    }
-
-    public static LuminousWaterFluid.Flowing getLuminousWaterFlowing() {
-        return new ForgeLuminousWater.Flowing();
-    }
 }

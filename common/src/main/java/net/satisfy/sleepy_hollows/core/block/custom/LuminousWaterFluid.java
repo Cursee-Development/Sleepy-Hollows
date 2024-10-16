@@ -18,13 +18,21 @@ import net.satisfy.sleepy_hollows.core.registry.FluidRegistry;
 import net.satisfy.sleepy_hollows.core.registry.ObjectRegistry;
 import net.satisfy.sleepy_hollows.platform.PlatformHelper;
 
-import java.util.function.Supplier;
-
 public abstract class LuminousWaterFluid extends FlowingFluid {
 
     @Override
     public Fluid getSource() {
         return FluidRegistry.LUMINOUS_WATER_SOURCE.get();
+    }
+
+    @Override
+    public Fluid getFlowing() {
+        return FluidRegistry.LUMINOUS_WATER_FLOWING.get();
+    }
+
+    @Override
+    public Item getBucket() {
+        return ObjectRegistry.LUMINOUS_WATER.get();
     }
 
     @Override
@@ -46,16 +54,6 @@ public abstract class LuminousWaterFluid extends FlowingFluid {
     @Override
     protected int getDropOff(LevelReader level) {
         return 1;
-    }
-
-    @Override
-    public Fluid getFlowing() {
-        return FluidRegistry.LUMINOUS_WATER_FLOWING.get();
-    }
-
-    @Override
-    public Item getBucket() {
-        return ObjectRegistry.LUMINOUS_WATER.get();
     }
 
     @Override
