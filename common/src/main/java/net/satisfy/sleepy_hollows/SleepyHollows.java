@@ -85,13 +85,15 @@ public final class SleepyHollows {
 
     /**
      * General TODO List:
-     ***** - Implement networking functionality (currently being handled by Jason13Official)
-     *** - Fix Horseman entity spawning inside walls
-     **** - Balance adjustments for Horseman
-     ** - Ensure particle arcs are emitted from Horseman to Pumpkin Head
-     * - Make the Pumpkin model part invisible when the Head is active
-     ***** - Rename "Sanity Bar" to "Insanity Bar"
-     ***** - Modify the (In)Sanity Bar to function like a Boss Bar
+     * (5) - Implement networking functionality (currently being handled by Jason13Official)
+     * (3) - Fix Horseman entity spawning inside walls
+     * (2) - Balance adjustments for Horseman
+     * (2) - Health & Attack based on difficulty - currently disabled
+     * (1) - Ensure particle arcs are emitted from Horseman to Pumpkin Head
+     * (5) - Rename "Sanity Bar" to "Insanity Bar"
+     * (5) - Modify the (In)Sanity Bar to function like a Boss Bar
+     * ----
+     * 5 = highest Priority, 1 = lowest Priority
      */
 
 }

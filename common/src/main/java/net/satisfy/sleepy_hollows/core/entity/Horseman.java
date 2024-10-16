@@ -1,6 +1,7 @@
 package net.satisfy.sleepy_hollows.core.entity;
 
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -61,7 +62,8 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
 
     public Horseman(EntityType<? extends Monster> type, Level world) {
         super(type, world);
-        currentDifficulty = getCurrentServerDifficulty(world);
+        this.setCustomName(Component.translatable("entity.sleepy_hollows.horseman"));
+        this.setCustomNameVisible(true);
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
         this.goalSelector.addGoal(0, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(0, new WaterAvoidingRandomStrollGoal(this, 1.0));
@@ -109,6 +111,7 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
             public AttributeInstance getAttribute(Attribute movementSpeed) {
                 return Horseman.this.getAttribute(movementSpeed);
             }
+
         }));
         this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 25.0F));
     }
@@ -124,11 +127,19 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
 
     public void tick() {
         super.tick();
-        updateAttributesBasedOnDifficulty();
-
         if (this.level().isClientSide()) {
             setupAnimationStates();
         }
+
+        if (this.hasActivePumpkinHead() && !isPumpkinHeadAlive()) {
+            this.setActivePumpkinHead(false);
+        }
+
+        if (!this.level().isClientSide() && this.hasActivePumpkinHead()) {
+            this.level().broadcastEntityEvent(this, (byte) 10);
+        }
+
+
 
         if (this.isMoving()) {
             this.level().addParticle(ParticleTypes.ASH, this.getX(), this.getY() + 1.0D, this.getZ(), 0.0D, 0.0D, 0.0D);
@@ -169,6 +180,10 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
     }
 
     private void summonPumpkinHead() {
+        if (!this.hasActivePumpkinHead()) {
+            this.setActivePumpkinHead(true);
+        }
+
         Vec3 summonPos = this.position().add(this.random.nextGaussian() * 12, 0, this.random.nextGaussian() * 12);
 
         FleeingPumpkinHead pumpkinHead = EntityTypeRegistry.FLEEING_PUMPKIN_HEAD.get().create(this.level());
@@ -195,7 +210,7 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
             skeleton.setItemSlot(EquipmentSlot.FEET, new ItemStack(ObjectRegistry.HAUNTBOUND_BOOTS.get()));
             skeleton.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.BOW));
 
-            skeleton.setCustomName(Component.literal("Hauntbound Skeleton"));
+            skeleton.setCustomName(Component.translatable("entity.sleepy_hollows.hauntbound_skeleton"));
             skeleton.setCustomNameVisible(false);
 
             this.level().addFreshEntity(skeleton);
@@ -284,13 +299,39 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
 
     private boolean isPumpkinHeadAlive() {
         AABB searchArea = this.getBoundingBox().inflate(100);
-
         return !this.level().getEntitiesOfClass(FleeingPumpkinHead.class, searchArea, Entity::isAlive).isEmpty();
     }
 
     public boolean hasActivePumpkinHead() {
         return this.entityData.get(HAS_ACTIVE_PUMPKIN_HEAD);
     }
+
+    public void setActivePumpkinHead(boolean active) {
+        this.entityData.set(HAS_ACTIVE_PUMPKIN_HEAD, active);
+    }
+
+    @Override
+    public void addAdditionalSaveData(@NotNull CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.putBoolean("HasActivePumpkinHead", this.hasActivePumpkinHead());
+    }
+
+    @Override
+    public void readAdditionalSaveData(@NotNull CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+    }
+
+    @Override
+    public void handleEntityEvent(byte id) {
+        if (id == 10) {
+            this.setActivePumpkinHead(true);
+        } else if (id == 11) {
+            this.setActivePumpkinHead(false);
+        } else {
+            super.handleEntityEvent(id);
+        }
+    }
+
 
     @Override
     public boolean hurt(@NotNull DamageSource source, float amount) {
@@ -318,92 +359,4 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
     protected SoundEvent getAmbientSound() {
         return null;
     }
-
-    public enum DifficultyLevel {
-        EASY,
-        NORMAL,
-        HARD
-    }
-
-    private static DifficultyLevel currentDifficulty = DifficultyLevel.NORMAL;
-
-    public static void setDifficulty(DifficultyLevel difficulty) {
-        currentDifficulty = difficulty;
-    }
-
-    public void updateAttributesBasedOnDifficulty() {
-        AttributeInstance maxHealth = this.getAttribute(Attributes.MAX_HEALTH);
-        AttributeInstance attackDamage = this.getAttribute(Attributes.ATTACK_DAMAGE);
-        AttributeInstance movementSpeed = this.getAttribute(Attributes.MOVEMENT_SPEED);
-        AttributeInstance armor = this.getAttribute(Attributes.ARMOR);
-
-        if (maxHealth != null) {
-            switch (currentDifficulty) {
-                case EASY:
-                    maxHealth.setBaseValue(200.0);
-                    break;
-                case NORMAL:
-                    maxHealth.setBaseValue(400.0);
-                    break;
-                case HARD:
-                    maxHealth.setBaseValue(600.0);
-                    break;
-            }
-        }
-
-        if (attackDamage != null) {
-            switch (currentDifficulty) {
-                case EASY:
-                    attackDamage.setBaseValue(10.0);
-                    break;
-                case NORMAL:
-                    attackDamage.setBaseValue(16.0);
-                    break;
-                case HARD:
-                    attackDamage.setBaseValue(22.0);
-                    break;
-            }
-        }
-
-        if (movementSpeed != null) {
-            switch (currentDifficulty) {
-                case EASY:
-                    movementSpeed.setBaseValue(0.3);
-                    break;
-                case NORMAL:
-                    movementSpeed.setBaseValue(0.34);
-                    break;
-                case HARD:
-                    movementSpeed.setBaseValue(0.38);
-                    break;
-            }
-        }
-
-        if (armor != null) {
-            switch (currentDifficulty) {
-                case EASY:
-                    armor.setBaseValue(20.0);
-                    break;
-                case NORMAL:
-                    armor.setBaseValue(26.0);
-                    break;
-                case HARD:
-                    armor.setBaseValue(32.0);
-                    break;
-            }
-        }
-
-        assert maxHealth != null;
-        this.setHealth((float) maxHealth.getBaseValue());
-    }
-
-    public static DifficultyLevel getCurrentServerDifficulty(Level level) {
-        return switch (level.getDifficulty()) {
-            case PEACEFUL, EASY -> DifficultyLevel.EASY;
-            case HARD -> DifficultyLevel.HARD;
-            default -> DifficultyLevel.NORMAL;
-        };
-    }
-
-
 }
