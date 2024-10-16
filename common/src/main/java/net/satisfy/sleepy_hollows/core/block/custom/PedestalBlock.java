@@ -8,7 +8,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -26,7 +25,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.satisfy.sleepy_hollows.core.block.custom.entity.PedestalBlockEntity;
-import net.satisfy.sleepy_hollows.core.entity.SpectralHorse;
+import net.satisfy.sleepy_hollows.core.entity.Horseman;
 import net.satisfy.sleepy_hollows.core.registry.EntityTypeRegistry;
 import net.satisfy.sleepy_hollows.core.registry.ObjectRegistry;
 import org.jetbrains.annotations.NotNull;
@@ -68,18 +67,11 @@ public class PedestalBlock extends Block implements EntityBlock {
 
                     if (singleItemStack.is(ObjectRegistry.LUMINOUS_ESSENCE.get())) {
                         BlockPos spawnPos = pos.north(5);
-                        SpectralHorse spectralHorse = EntityTypeRegistry.SPECTRAL_HORSE.get().create(level);
-                        //TODO @Jason13 - just change this entity here to the actual boss entity. :) It will spawn 5 blocks north to the pedestal block
-                        //TODO on a spectral horse when you use a Spectral Essence on the Pedestal. It has a 5 Min cooldown.
-                        Zombie zombie = EntityType.ZOMBIE.create(level);
+                        Horseman horseman = EntityTypeRegistry.HORSEMAN.get().create(level);
 
-                        if (spectralHorse != null && zombie != null) {
-                            spectralHorse.setPos(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ());
-                            zombie.setPos(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ());
-
-                            level.addFreshEntity(spectralHorse);
-                            level.addFreshEntity(zombie);
-                            zombie.startRiding(spectralHorse);
+                        if (horseman != null) {
+                            horseman.setPos(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ());
+                            level.addFreshEntity(horseman);
 
                             LightningBolt lightningBolt1 = EntityType.LIGHTNING_BOLT.create(level);
                             if (lightningBolt1 != null) {

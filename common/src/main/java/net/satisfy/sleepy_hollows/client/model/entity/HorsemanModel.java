@@ -15,10 +15,16 @@ import org.jetbrains.annotations.NotNull;
 public class HorsemanModel<T extends Horseman> extends HierarchicalModel<T> {
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new SleepyHollowsIdentifier("horseman"), "main");
 	private final ModelPart root;
+	private final ModelPart PUMPKIN;
 
 
 	public HorsemanModel(ModelPart root) {
 		this.root = root;
+		this.PUMPKIN = root.getChild("root")
+				.getChild("horse")
+				.getChild("rider")
+				.getChild("head2")
+				.getChild("PUMPKIN");
 	}
 
 	@SuppressWarnings("unused")
@@ -170,6 +176,7 @@ public class HorsemanModel<T extends Horseman> extends HierarchicalModel<T> {
 		return LayerDefinition.create(meshdefinition, 256, 256);
 	}
 
+
 	@Override
 	public void setupAnim(@NotNull T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.root.getAllParts().forEach(ModelPart::resetPose);
@@ -177,6 +184,9 @@ public class HorsemanModel<T extends Horseman> extends HierarchicalModel<T> {
 		this.animate(entity.idleAnimationState, HorsemanAnimation.idle, ageInTicks, 1f);
 		this.animateWalk(HorsemanAnimation.walk, limbSwing, limbSwingAmount, 2f, 2.5f);
 		this.animate(entity.attackAnimationState, HorsemanAnimation.attack, ageInTicks, 1f);
+		this.animate(entity.laughingAnimationState, HorsemanAnimation.laugh, ageInTicks, 1f);
+
+		this.PUMPKIN.visible = !entity.hasActivePumpkinHead();
 	}
 
 	@Override

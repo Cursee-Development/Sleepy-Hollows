@@ -15,12 +15,11 @@ public class HorsemanRenderer<T extends Horseman> extends MobRenderer<T, Horsema
     private static final ResourceLocation TEXTURE = new SleepyHollowsIdentifier("textures/entity/horseman.png");
 
     public HorsemanRenderer(EntityRendererProvider.Context context) {
-        super(context, new HorsemanModel<>(context.bakeLayer(HorsemanModel.LAYER_LOCATION)), 0.75f);
+        super(context, new HorsemanModel<>(context.bakeLayer(HorsemanModel.LAYER_LOCATION)), 0.875f);
     }
 
     @Override
     public @NotNull ResourceLocation getTextureLocation(@NotNull Horseman entity) {
         return TEXTURE;
     }
-
 }

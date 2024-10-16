@@ -170,23 +170,18 @@ public class SpectralHorseModel<T extends AbstractHorse> extends AgeableListMode
         return ImmutableList.of(this.body, this.rightHindLeg, this.leftHindLeg, this.rightFrontLeg, this.leftFrontLeg, this.rightHindBabyLeg, this.leftHindBabyLeg, this.rightFrontBabyLeg, this.leftFrontBabyLeg);
     }
 
-    //TODO @Jason these are just the horse animations - maybe we can refine these a bit?
     @Override
     public void prepareMobModel(@NotNull T abstractHorse, float limbSwing, float limbSwingAmount, float partialTick) {
 
-        // super.prepareMobModel(abstractHorse, limbSwing, limbSwingAmount, partialTick); // unnecessary, no implementation in super
-
-        // TODO: remove?
         this.bodyParts().forEach(ModelPart::resetPose);
         this.headParts().forEach(ModelPart::resetPose);
 
-        // rotLerp returns a float between 0.0 and 360.0 that is between the given points
         float yBodyLerpedRotationDegrees = Mth.rotLerp(partialTick, abstractHorse.yBodyRotO, abstractHorse.yBodyRot);
         float yHeadLerpedRotationDegrees = Mth.rotLerp(partialTick, abstractHorse.yHeadRotO, abstractHorse.yHeadRot);
         float xEntityLerpedRotationDegrees = Mth.lerp(partialTick, abstractHorse.xRotO, abstractHorse.getXRot());
         float headRotToBodyRotDifferenceDegrees = yHeadLerpedRotationDegrees - yBodyLerpedRotationDegrees;
 
-        float xEntityLerpedRotationRadians = xEntityLerpedRotationDegrees * 0.017453292F; // converting from degrees to radians
+        float xEntityLerpedRotationRadians = xEntityLerpedRotationDegrees * 0.017453292F;
 
         if (headRotToBodyRotDifferenceDegrees > 20.0F) {
             headRotToBodyRotDifferenceDegrees = 20.0F;
@@ -207,7 +202,6 @@ public class SpectralHorseModel<T extends AbstractHorse> extends AgeableListMode
         boolean movingTail = abstractHorse.tailCounter != 0;
         float tickCountNextValue = (float) abstractHorse.tickCount + partialTick;
 
-        // resets??
         this.headParts.y = 4.0F;
         this.headParts.z = -12.0F;
         this.body.xRot = 0.0F;
@@ -226,7 +220,7 @@ public class SpectralHorseModel<T extends AbstractHorse> extends AgeableListMode
         this.headParts.z = standingAnimationNextValue * -4.0F + eatingAnimationNextValue * -12.0F + (1.0F - Math.max(standingAnimationNextValue, eatingAnimationNextValue)) * this.headParts.z;
         this.body.xRot = standingAnimationNextValue * -0.7853982F + standingAnimationOffset * this.body.xRot;
 
-        float updatedAnimationAmountWithStandingAnim = 0.2617994F * standingAnimationNextValue; // roughly multiplier by pi/12 in radians or 15 degrees
+        float updatedAnimationAmountWithStandingAnim = 0.2617994F * standingAnimationNextValue;
         float smoothingValue = Mth.cos(tickCountNextValue * 0.6F + 3.1415927F);
 
         this.leftFrontLeg.y = 2.0F * standingAnimationNextValue + 14.0F * standingAnimationOffset;

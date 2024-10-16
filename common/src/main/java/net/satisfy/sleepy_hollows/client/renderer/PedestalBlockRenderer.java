@@ -23,7 +23,7 @@ public class PedestalBlockRenderer implements BlockEntityRenderer<PedestalBlockE
             poseStack.pushPose();
 
             double offset = Math.sin((Objects.requireNonNull(blockEntity.getLevel()).getGameTime() + partialTick) / 4.0) * 0.1;
-            float rotation = (Objects.requireNonNull(blockEntity.getLevel()).getGameTime() + partialTick) * 4; // Adjust the speed of rotation
+            float rotation = (Objects.requireNonNull(blockEntity.getLevel()).getGameTime() + partialTick) * 4;
 
             poseStack.translate(0.5, 1.25 + offset * 0.05, 0.5);
 

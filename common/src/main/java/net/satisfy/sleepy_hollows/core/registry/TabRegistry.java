@@ -97,7 +97,7 @@ public class TabRegistry {
                 out.accept(ObjectRegistry.CANDY_CORN.get());
                 out.accept(ObjectRegistry.INFECTED_ZOMBIE_SPAWN_EGG.get());
                 out.accept(ObjectRegistry.FLEEING_PUMPKIN_HEAD_SPAWN_EGG.get());
-                out.accept(ObjectRegistry.HEADLESS_HORSEMAN_SPAWN_EGG.get());
+                out.accept(ObjectRegistry.HORSEMAN_SPAWN_EGG.get());
             }))
             .build());
 

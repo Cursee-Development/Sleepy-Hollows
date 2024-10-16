@@ -20,7 +20,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.*;
-import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.BlockHitResult;
@@ -88,39 +87,6 @@ public class CoffinBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
 		}
 	}
 
-	@Override
-	public void playerWillDestroy(Level level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull Player player) {
-		BedPart part = state.getValue(BED_PART);
-		Direction facing = state.getValue(FACING);
-		BlockPos otherPartPos = part == BedPart.HEAD ? pos.relative(facing) : pos.relative(facing.getOpposite());
-		BlockState otherPartState = level.getBlockState(otherPartPos);
-
-		if (otherPartState.is(this) && otherPartState.getValue(BED_PART) != part) {
-			level.setBlock(otherPartPos, Blocks.AIR.defaultBlockState(), 35);
-			level.levelEvent(player, 2001, otherPartPos, Block.getId(otherPartState));
-		}
-		if (part == BedPart.HEAD) {
-			BlockEntity blockEntity = level.getBlockEntity(pos);
-			if (blockEntity instanceof CoffinBlockEntity) {
-				if (!level.isClientSide && !player.isCreative()) {
-					Containers.dropContents(level, pos, (Container) blockEntity);
-				}
-				level.updateNeighbourForOutputSignal(pos, this);
-			}
-		}
-
-		super.playerWillDestroy(level, pos, state, player);
-	}
-
-
-	@Override
-	public void setPlacedBy(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state, LivingEntity placer, @NotNull ItemStack itemStack) {
-		Direction facing = state.getValue(FACING);
-		BlockPos footPos = pos.relative(facing);
-		level.setBlock(footPos, state.setValue(BED_PART, BedPart.FOOT), 3);
-	}
-
-
 	@Nullable
 	@Override
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @NotNull BlockState blockState, @NotNull BlockEntityType<T> blockEntityType) {
@@ -173,24 +139,47 @@ public class CoffinBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
 
 	@Nullable
 	@Override
-	public BlockState getStateForPlacement(BlockPlaceContext blockPlaceContext) {
-		FluidState fluidState = blockPlaceContext.getLevel().getFluidState(blockPlaceContext.getClickedPos());
-		Direction direction = blockPlaceContext.getHorizontalDirection();
-		BlockPos footPos = blockPlaceContext.getClickedPos().relative(direction);
-		BlockState footState = blockPlaceContext.getLevel().getBlockState(footPos);
+	public BlockState getStateForPlacement(BlockPlaceContext context) {
+		Direction direction = context.getHorizontalDirection();
+		BlockPos clickedPos = context.getClickedPos();
+		BlockPos footPos = clickedPos.relative(direction);
+		Level level = context.getLevel();
 
-		if (footState.is(this)) {
+		if (level.getBlockState(footPos).canBeReplaced(context) && level.getWorldBorder().isWithinBounds(footPos)) {
 			return this.defaultBlockState()
-					.setValue(FACING, direction.getOpposite())
+					.setValue(FACING, direction)
 					.setValue(BED_PART, BedPart.HEAD)
-					.setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER);
+					.setValue(WATERLOGGED, level.getFluidState(clickedPos).getType() == Fluids.WATER);
 		} else {
-			return this.defaultBlockState()
-					.setValue(FACING, direction.getOpposite())
-					.setValue(BED_PART, BedPart.HEAD)
-					.setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER);
+			return null;
 		}
 	}
+
+	@Override
+	public void setPlacedBy(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state, @Nullable LivingEntity placer, @NotNull ItemStack stack) {
+		super.setPlacedBy(level, pos, state, placer, stack);
+		if (!level.isClientSide) {
+			BlockPos footPos = pos.relative(state.getValue(FACING));
+			level.setBlock(footPos, state.setValue(BED_PART, BedPart.FOOT), 3);
+			level.blockUpdated(pos, Blocks.AIR);
+			state.updateNeighbourShapes(level, pos, 3);
+		}
+	}
+
+	@Override
+	public void playerWillDestroy(Level level, @NotNull BlockPos pos, BlockState state, @NotNull Player player) {
+		BedPart part = state.getValue(BED_PART);
+		BlockPos otherPartPos = part == BedPart.HEAD ? pos.relative(state.getValue(FACING)) : pos.relative(state.getValue(FACING).getOpposite());
+		BlockState otherPartState = level.getBlockState(otherPartPos);
+
+		if (otherPartState.is(this) && otherPartState.getValue(BED_PART) != part) {
+			level.setBlock(otherPartPos, Blocks.AIR.defaultBlockState(), 35);
+			level.levelEvent(player, 2001, otherPartPos, Block.getId(otherPartState));
+		}
+
+		super.playerWillDestroy(level, pos, state, player);
+	}
+
 
 	@Nullable
 	@Override

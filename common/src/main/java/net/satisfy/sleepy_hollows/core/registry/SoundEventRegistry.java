@@ -20,6 +20,10 @@ public class SoundEventRegistry {
     public static final RegistrySupplier<SoundEvent> FLEEING_PUMPKIN_SUMMONING = create("fleeing_pumpkin_summoning");
     public static final RegistrySupplier<SoundEvent> FLEEING_PUMPKIN_DEATH = create("fleeing_pumpkin_death");
     public static final RegistrySupplier<SoundEvent> FLEEING_PUMPKIN_HURT = create("fleeing_pumpkin_hurt");
+    public static final RegistrySupplier<SoundEvent> HORSEMAN_DEATH = create("horseman_death");
+    public static final RegistrySupplier<SoundEvent> HORSEMAN_LAUGH = create("horseman_laugh");
+    public static final RegistrySupplier<SoundEvent> HORSEMAN_HIT = create("horseman_hit");
+    public static final RegistrySupplier<SoundEvent> WELCOME_TO_SLEEPY_HOLLOWS = create("welcome_to_sleepy_hollows");
 
     private static RegistrySupplier<SoundEvent> create(String name) {
         ResourceLocation id = new SleepyHollowsIdentifier(name);

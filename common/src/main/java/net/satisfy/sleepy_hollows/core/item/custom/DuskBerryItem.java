@@ -30,7 +30,7 @@ public class DuskBerryItem extends ItemNameBlockItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, Level world, List<Component> tooltip, @NotNull TooltipFlag flag) {
-        tooltip.add(Component.translatable("tooltip.sleepy_hollows.dusk_berry").withStyle(style -> style.withColor(0xFFFFFF)));
+        tooltip.add(Component.translatable("tooltip.sleepy_hollows.item.dusk_berry").withStyle(style -> style.withColor(0xFFFFFF)));
         super.appendHoverText(stack, world, tooltip, flag);
     }
 }

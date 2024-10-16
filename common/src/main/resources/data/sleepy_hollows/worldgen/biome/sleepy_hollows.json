@@ -15,7 +15,7 @@
       "offset": 2
     },
     "music": {
-      "sound": "minecraft:music.end",
+      "sound": "sleepy_hollows:welcome_to_sleepy_hollows",
       "min_delay": 12000,
       "max_delay": 24000,
       "replace_current_music": false

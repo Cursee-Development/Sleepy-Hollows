@@ -28,7 +28,7 @@ public class SpectralPumpkinPieItem extends Item {
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, Level world, List<Component> tooltip, @NotNull TooltipFlag flag) {
-        tooltip.add(Component.translatable("tooltip.sleepy_hollows.spectral_pumpkin_pie"));
+        tooltip.add(Component.translatable("tooltip.sleepy_hollows.item.spectral_pumpkin_pie"));
         super.appendHoverText(stack, world, tooltip, flag);
     }
 }

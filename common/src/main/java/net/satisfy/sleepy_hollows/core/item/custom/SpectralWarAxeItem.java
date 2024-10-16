@@ -73,6 +73,6 @@ public class SpectralWarAxeItem extends AxeItem implements EnchantingBehavior {
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level world, @NotNull List<Component> tooltip, @NotNull TooltipFlag context) {
-        tooltip.add(Component.translatable("tooltip.sleepy_hollows.spectral_waraxe").withStyle(ChatFormatting.GOLD, ChatFormatting.ITALIC));
+        tooltip.add(Component.translatable("tooltip.sleepy_hollows.lore.spectral_waraxe").withStyle(ChatFormatting.GOLD, ChatFormatting.ITALIC));
     }
 }

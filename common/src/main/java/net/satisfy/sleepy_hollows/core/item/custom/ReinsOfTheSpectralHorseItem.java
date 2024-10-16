@@ -25,7 +25,7 @@ public class ReinsOfTheSpectralHorseItem extends ArchitecturySpawnEggItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level world, @NotNull List<Component> tooltip, @NotNull TooltipFlag context) {
-        tooltip.add(Component.translatable("tooltip.sleepy_hollows.reins_of_the_spectral_horse").withStyle(ChatFormatting.GOLD, ChatFormatting.ITALIC));
+        tooltip.add(Component.translatable("tooltip.sleepy_hollows.lore.reins_of_the_spectral_horse").withStyle(ChatFormatting.GOLD, ChatFormatting.ITALIC));
     }
 
     @Override

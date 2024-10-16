@@ -1,82 +1,114 @@
 {
   "coffin_open": {
-    "subtitle": "subtitles.sleepy_hollows.coffin_open",
+    "subtitle": "subtitles.sleepy_hollows.block.coffin_open",
     "sounds": [
-      "sleepy_hollows:coffin_open"
+      "sleepy_hollows:block/coffin_open"
     ]
   },
   "coffin_close": {
-    "subtitle": "subtitles.sleepy_hollows.coffin_close",
+    "subtitle": "subtitles.sleepy_hollows.block.coffin_close",
     "sounds": [
-      "sleepy_hollows:coffin_close"
+      "sleepy_hollows:block/coffin_close"
     ]
   },
   "planks_creaking": {
-    "subtitle": "subtitles.sleepy_hollows.planks_creaking",
+    "subtitle": "subtitles.sleepy_hollows.block.planks_creaking",
     "sounds": [
       {
-        "name": "sleepy_hollows:planks_creaking",
-        "stream": true
+        "name": "sleepy_hollows:block/planks_creaking"
       }
     ]
   },
   "sleepy_hollows_ambient": {
-    "subtitle": "subtitles.sleepy_hollows.sleepy_hollows_ambient",
+    "subtitle": "subtitles.sleepy_hollows.ambient.sleepy_hollows",
     "sounds": [
       {
-        "name": "sleepy_hollows:sleepy_hollows_ambient_0",
-        "stream": true
+        "name": "sleepy_hollows:ambient/sleepy_hollows_ambient_0"
       },
       {
-        "name": "sleepy_hollows:sleepy_hollows_ambient_1",
-        "stream": true
+        "name": "sleepy_hollows:ambient/sleepy_hollows_ambient_1"
       },
       {
-        "name": "sleepy_hollows:sleepy_hollows_ambient_2",
-        "stream": true
+        "name": "sleepy_hollows:ambient/sleepy_hollows_ambient_2"
       },
       {
-        "name": "sleepy_hollows:sleepy_hollows_ambient_3",
-        "stream": true
+        "name": "sleepy_hollows:ambient/sleepy_hollows_ambient_3"
       },
       {
-        "name": "sleepy_hollows:sleepy_hollows_ambient_4",
-        "stream": true
+        "name": "sleepy_hollows:ambient/sleepy_hollows_ambient_4"
       }
     ]
   },
   "fleeing_pumpkin_ambient": {
-    "subtitle": "subtitles.sleepy_hollows.fleeing_pumpkin_ambient",
+    "subtitle": "subtitles.sleepy_hollows.entity.fleeing_pumpkin_ambient",
     "sounds": [
       {
-        "name": "sleepy_hollows:fleeing_pumpkin_head_ambient",
-        "stream": true
+        "name": "sleepy_hollows:entity/fleeing_pumpkin_head_ambient"
       }
     ]
   },
   "fleeing_pumpkin_summoning": {
-    "subtitle": "subtitles.sleepy_hollows.fleeing_pumpkin_summoning",
+    "subtitle": "subtitles.sleepy_hollows.entity.fleeing_pumpkin_summoning",
     "sounds": [
       {
-        "name": "sleepy_hollows:fleeing_pumpkin_head_summoning",
-        "stream": true
+        "name": "sleepy_hollows:entity/fleeing_pumpkin_head_summoning"
       }
     ]
   },
   "fleeing_pumpkin_death": {
-    "subtitle": "subtitles.sleepy_hollows.fleeing_pumpkin_death",
+    "subtitle": "subtitles.sleepy_hollows.entity.fleeing_pumpkin_death",
     "sounds": [
       {
-        "name": "sleepy_hollows:fleeing_pumpkin_head_death",
-        "stream": true
+        "name": "sleepy_hollows:entity/fleeing_pumpkin_head_death"
       }
     ]
   },
   "fleeing_pumpkin_hurt": {
-    "subtitle": "subtitles.sleepy_hollows.fleeing_pumpkin_hurt",
+    "subtitle": "subtitles.sleepy_hollows.entity.fleeing_pumpkin_hurt",
     "sounds": [
       {
-        "name": "sleepy_hollows:fleeing_pumpkin_head_hurt",
+        "name": "sleepy_hollows:entity/fleeing_pumpkin_head_hurt"
+      }
+    ]
+  },
+  "horseman_laugh": {
+    "subtitle": "subtitles.sleepy_hollows.entity.horseman_laugh",
+    "sounds": [
+      {
+        "name": "sleepy_hollows:entity/horseman_laugh"
+      }
+    ]
+  },
+  "horseman_hit": {
+    "subtitle": "subtitles.sleepy_hollows.entity.horseman_hit",
+    "sounds": [
+      {
+        "name": "sleepy_hollows:entity/horseman_hit_0"
+      },
+      {
+        "name": "sleepy_hollows:entity/horseman_hit_1"
+      },
+      {
+        "name": "sleepy_hollows:entity/horseman_hit_2"
+      }
+    ]
+  },
+  "horseman_death": {
+    "subtitle": "subtitles.sleepy_hollows.entity.horseman_death",
+    "sounds": [
+      {
+        "name": "sleepy_hollows:entity/horseman_death"
+      }
+    ]
+  },
+  "welcome_to_sleepy_hollows": {
+    "sounds": [
+      {
+        "name": "music.game",
+        "type": "event"
+      },
+      {
+        "name": "sleepy_hollows:music/welcome_to_sleepy_hollows",
         "stream": true
       }
     ]

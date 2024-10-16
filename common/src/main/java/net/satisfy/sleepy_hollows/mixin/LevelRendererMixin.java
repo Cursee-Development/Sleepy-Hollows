@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
+//TODO: Currently disabled, conflicting with Oculus / Iris
 @Mixin(net.minecraft.client.renderer.LevelRenderer.class)
 public class LevelRendererMixin {
 

@@ -1,6 +1,0 @@
-{
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "sleepy_hollows:item/headless_horseman_spawn_egg"
-  }
-}
