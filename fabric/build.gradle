@@ -49,6 +49,8 @@ dependencies {
             "model_generators", "models", "networking", "tool_actions"
     }) { modImplementation("io.github.fabricators_of_create.Porting-Lib:$module:2.3.4") }
 
+    implementation(include("com.github.bawnorton.mixinsquared:mixinsquared-fabric:0.2.0"))
+
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionFabric')
 }

@@ -1,5 +1,6 @@
 package net.satisfy.sleepy_hollows.forge;
 
+import com.mojang.datafixers.util.Pair;
 import dev.architectury.platform.forge.EventBuses;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.MinecraftServer;
@@ -16,13 +17,19 @@ import net.satisfy.sleepy_hollows.Constants;
 import net.satisfy.sleepy_hollows.SleepyHollows;
 import net.satisfy.sleepy_hollows.client.SleepyHollowsClient;
 import net.satisfy.sleepy_hollows.core.registry.CompostableRegistry;
+import net.satisfy.sleepy_hollows.core.registry.FluidRegistry;
 import net.satisfy.sleepy_hollows.core.world.SleepyHollowsRegion;
+import net.satisfy.sleepy_hollows.platform.forge.ForgeLuminousWater;
 
 @Mod(Constants.MOD_ID)
 public final class SleepyHollowsForge {
 
     public SleepyHollowsForge() {
         EventBuses.registerModEventBus(Constants.MOD_ID, FMLJavaModLoadingContext.get().getModEventBus());
+        FluidRegistry.LUMINOUS_WATER = Pair.of(
+                ForgeLuminousWater.Source::new,
+                ForgeLuminousWater.Flowing::new
+        );
         SleepyHollows.init();
         Constants.LOG.info("Initialized the mod in Forge.");
 

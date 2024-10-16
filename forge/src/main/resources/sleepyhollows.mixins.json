@@ -6,7 +6,6 @@
   "mixins": [
     "BootsItemMixin",
     "ChestplateItemMixin",
-    "ForgeHooksMixin",
     "HelmetItemMixin",
     "LeggingsItemMixin"
   ],
