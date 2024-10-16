@@ -1,17 +1,14 @@
 package net.satisfy.sleepy_hollows.client;
 
-import dev.architectury.networking.NetworkManager;
 import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry;
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
 import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry;
 import dev.architectury.registry.client.rendering.RenderTypeRegistry;
-import io.netty.buffer.Unpooled;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Holder;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.level.biome.Biome;
 import net.satisfy.sleepy_hollows.client.model.armor.HauntboundBootsModel;
 import net.satisfy.sleepy_hollows.client.model.armor.HauntboundChestplateModel;

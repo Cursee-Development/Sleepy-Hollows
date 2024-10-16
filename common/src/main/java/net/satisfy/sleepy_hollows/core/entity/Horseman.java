@@ -61,6 +61,7 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
 
     public Horseman(EntityType<? extends Monster> type, Level world) {
         super(type, world);
+        currentDifficulty = getCurrentServerDifficulty(world);
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
         this.goalSelector.addGoal(0, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(0, new WaterAvoidingRandomStrollGoal(this, 1.0));
@@ -109,20 +110,22 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
                 return Horseman.this.getAttribute(movementSpeed);
             }
         }));
-        this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 15.0F));
+        this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 25.0F));
     }
 
     public static AttributeSupplier.@NotNull Builder createAttributes() {
         return Monster.createMonsterAttributes()
-                .add(Attributes.MOVEMENT_SPEED, 0.33000000417232513)
-                .add(Attributes.MAX_HEALTH, 300.0)
-                .add(Attributes.ATTACK_DAMAGE, 8.0)
+                .add(Attributes.MOVEMENT_SPEED, 0.34000000417232513)
+                .add(Attributes.MAX_HEALTH, 400.0)
+                .add(Attributes.ATTACK_DAMAGE, 16.0)
                 .add(Attributes.ATTACK_KNOCKBACK, 0)
-                .add(Attributes.ARMOR, 24.0);
+                .add(Attributes.ARMOR, 26.0);
     }
 
     public void tick() {
         super.tick();
+        updateAttributesBasedOnDifficulty();
+
         if (this.level().isClientSide()) {
             setupAnimationStates();
         }
@@ -191,6 +194,9 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
             skeleton.setItemSlot(EquipmentSlot.LEGS, new ItemStack(ObjectRegistry.HAUNTBOUND_LEGGINGS.get()));
             skeleton.setItemSlot(EquipmentSlot.FEET, new ItemStack(ObjectRegistry.HAUNTBOUND_BOOTS.get()));
             skeleton.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.BOW));
+
+            skeleton.setCustomName(Component.literal("Hauntbound Skeleton"));
+            skeleton.setCustomNameVisible(false);
 
             this.level().addFreshEntity(skeleton);
         }
@@ -312,4 +318,92 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
     protected SoundEvent getAmbientSound() {
         return null;
     }
+
+    public enum DifficultyLevel {
+        EASY,
+        NORMAL,
+        HARD
+    }
+
+    private static DifficultyLevel currentDifficulty = DifficultyLevel.NORMAL;
+
+    public static void setDifficulty(DifficultyLevel difficulty) {
+        currentDifficulty = difficulty;
+    }
+
+    public void updateAttributesBasedOnDifficulty() {
+        AttributeInstance maxHealth = this.getAttribute(Attributes.MAX_HEALTH);
+        AttributeInstance attackDamage = this.getAttribute(Attributes.ATTACK_DAMAGE);
+        AttributeInstance movementSpeed = this.getAttribute(Attributes.MOVEMENT_SPEED);
+        AttributeInstance armor = this.getAttribute(Attributes.ARMOR);
+
+        if (maxHealth != null) {
+            switch (currentDifficulty) {
+                case EASY:
+                    maxHealth.setBaseValue(200.0);
+                    break;
+                case NORMAL:
+                    maxHealth.setBaseValue(400.0);
+                    break;
+                case HARD:
+                    maxHealth.setBaseValue(600.0);
+                    break;
+            }
+        }
+
+        if (attackDamage != null) {
+            switch (currentDifficulty) {
+                case EASY:
+                    attackDamage.setBaseValue(10.0);
+                    break;
+                case NORMAL:
+                    attackDamage.setBaseValue(16.0);
+                    break;
+                case HARD:
+                    attackDamage.setBaseValue(22.0);
+                    break;
+            }
+        }
+
+        if (movementSpeed != null) {
+            switch (currentDifficulty) {
+                case EASY:
+                    movementSpeed.setBaseValue(0.3);
+                    break;
+                case NORMAL:
+                    movementSpeed.setBaseValue(0.34);
+                    break;
+                case HARD:
+                    movementSpeed.setBaseValue(0.38);
+                    break;
+            }
+        }
+
+        if (armor != null) {
+            switch (currentDifficulty) {
+                case EASY:
+                    armor.setBaseValue(20.0);
+                    break;
+                case NORMAL:
+                    armor.setBaseValue(26.0);
+                    break;
+                case HARD:
+                    armor.setBaseValue(32.0);
+                    break;
+            }
+        }
+
+        assert maxHealth != null;
+        this.setHealth((float) maxHealth.getBaseValue());
+    }
+
+    public static DifficultyLevel getCurrentServerDifficulty(Level level) {
+        return switch (level.getDifficulty()) {
+            case PEACEFUL, EASY -> DifficultyLevel.EASY;
+            case HARD -> DifficultyLevel.HARD;
+            default -> DifficultyLevel.NORMAL;
+        };
+    }
+
+
 }

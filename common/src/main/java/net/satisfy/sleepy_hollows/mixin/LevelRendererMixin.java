@@ -1,7 +1,6 @@
 package net.satisfy.sleepy_hollows.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
 import net.minecraft.client.Minecraft;
@@ -14,15 +13,15 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
-//TODO: Currently disabled, conflicting with Oculus / Iris
 @Mixin(net.minecraft.client.renderer.LevelRenderer.class)
 public class LevelRendererMixin {
 
     @Shadow @Final private Minecraft minecraft;
 
     @ModifyExpressionValue(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/DimensionSpecialEffects;isFoggyAt(II)Z"))
-    private boolean foggyHollow(boolean original, @Local(name = "vec3") Vec3 cam, @Share("hollowed") LocalBooleanRef hollowed) {
+    private boolean foggyHollow(boolean original, @Share("hollowed") LocalBooleanRef hollowed) {
         assert this.minecraft.level != null;
+        Vec3 cam = this.minecraft.gameRenderer.getMainCamera().getPosition();
         hollowed.set(this.minecraft.level.getBiome(
                 new BlockPos((int) cam.x, (int) cam.y, (int) cam.z)
         ).is(SleepyHollowsBiomeKeys.SLEEPY_HOLLOWS));
@@ -32,7 +31,7 @@ public class LevelRendererMixin {
     @ModifyArg(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/FogRenderer;setupFog(Lnet/minecraft/client/Camera;Lnet/minecraft/client/renderer/FogRenderer$FogMode;FZF)V"), index = 4)
     private float modifyFogDensity(float farPlaneDistance, @Share("hollowed") LocalBooleanRef hollowed) {
         if (hollowed.get()) {
-            return 3F;
+            return 1F;
         }
         return farPlaneDistance;
     }

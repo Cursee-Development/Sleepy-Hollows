@@ -174,6 +174,10 @@ public class FleeingPumpkinHead extends Monster {
                         Objects.requireNonNull(zombie.getAttribute(Attributes.ARMOR)).setBaseValue(Math.max(0, currentArmor - 10)); // Verhindern, dass der Wert negativ wird
                     }
 
+                    zombie.setCustomName(Component.translatable("entity.sleepy_hollows.hauntbound_zombie"));
+                    zombie.setCustomNameVisible(false);
+
+
                     this.level().addFreshEntity(zombie);
                     spawnSummonParticles(xPos, zPos);
                 }
@@ -203,9 +207,12 @@ public class FleeingPumpkinHead extends Monster {
                     skeleton.setDropChance(EquipmentSlot.FEET, 0.01f);
 
                     ItemStack enchantedBow = new ItemStack(Items.BOW);
-                    enchantedBow.enchant(Enchantments.POWER_ARROWS, 5);
+                    enchantedBow.enchant(Enchantments.POWER_ARROWS, 10);
                     skeleton.setItemSlot(EquipmentSlot.MAINHAND, enchantedBow);
                     skeleton.setDropChance(EquipmentSlot.MAINHAND, 0.01f);
+
+                    skeleton.setCustomName(Component.translatable("entity.sleepy_hollows.hauntbound_marksman"));
+                    skeleton.setCustomNameVisible(false);
 
                     this.level().addFreshEntity(skeleton);
                     spawnSummonParticles(xPos, zPos);
@@ -213,8 +220,6 @@ public class FleeingPumpkinHead extends Monster {
             }
         }
     }
-
-
     private void spawnSummonParticles(double x, double z) {
         level().addParticle(ParticleTypes.SOUL, x, this.getY() + 0.5D, z, 0.0D, 0.0D, 0.0D);
     }

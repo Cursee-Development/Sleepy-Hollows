@@ -15,6 +15,7 @@ import net.minecraft.world.level.biome.Biome;
 import net.satisfy.sleepy_hollows.client.event.HUDRenderEvent;
 import net.satisfy.sleepy_hollows.client.event.PlayerTickEvent;
 import net.satisfy.sleepy_hollows.client.util.SanityManager;
+import net.satisfy.sleepy_hollows.core.entity.Horseman;
 import net.satisfy.sleepy_hollows.core.network.SleepyHollowsNetwork;
 import net.satisfy.sleepy_hollows.core.network.message.SanityPacketMessage;
 import net.satisfy.sleepy_hollows.core.registry.*;
@@ -33,7 +34,7 @@ public final class SleepyHollows {
 
         SleepyHollowsNetwork.init(); // registers the channel for our message to pass through
 
-        Constants.LOG.info("Initialized the mod in Common.");
+        Constants.LOG.info("Sleepy Hollows has been initialized in the common setup phase.");
 
         if (Platform.getEnv() == EnvType.CLIENT) {
             ClientGuiEvent.RENDER_HUD.register(HUDRenderEvent::onRenderHUD);
@@ -80,4 +81,17 @@ public final class SleepyHollows {
             }
         }
     }
+
+
+    /**
+     * General TODO List:
+     ***** - Implement networking functionality (currently being handled by Jason13Official)
+     *** - Fix Horseman entity spawning inside walls
+     **** - Balance adjustments for Horseman
+     ** - Ensure particle arcs are emitted from Horseman to Pumpkin Head
+     * - Make the Pumpkin model part invisible when the Head is active
+     ***** - Rename "Sanity Bar" to "Insanity Bar"
+     ***** - Modify the (In)Sanity Bar to function like a Boss Bar
+     */
+
 }

@@ -19,6 +19,6 @@ public final class SleepyHollowsFabric implements ModInitializer {
         CompostableRegistry.init();
         ServerTickEvents.START_SERVER_TICK.register(SleepyHollows::onServerTick);
 
-        Constants.LOG.info("Initialized the mod in Fabric.");
+        Constants.LOG.info("Sleepy Hollows initialized successfully on the Fabric platform.");
     }
 }

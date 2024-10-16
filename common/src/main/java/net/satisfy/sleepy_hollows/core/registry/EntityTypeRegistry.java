@@ -50,6 +50,7 @@ public class EntityTypeRegistry {
     public static void init() {
         ENTITY_TYPES.register();
         BLOCK_ENTITY_TYPES.register();
+        Horseman.setDifficulty(Horseman.DifficultyLevel.NORMAL);
         registerAttributes();
     }
 }
