@@ -5,9 +5,11 @@ import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.Registrar;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.shapes.BooleanOp;
@@ -53,5 +55,10 @@ public class SleepyHollowsUtil {
         }
 
         return buffer[0];
+    }
+
+    // from DebugScreenOverlay
+    public static String unwrappedBiome(Holder<Biome> biomeHolder) {
+        return biomeHolder.unwrap().map((arg) -> arg.location().toString(), (arg) -> "[unregistered " + arg + "]");
     }
 }
