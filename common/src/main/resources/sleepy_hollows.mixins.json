@@ -4,9 +4,10 @@
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
   "client": [
-    "SpectralPumpkinOverlayMixin",
+    "BossHealthOverlayMixin",
     "LevelRendererMixin",
-    "SodiumAcceptAnyLWJGL"
+    "SodiumAcceptAnyLWJGL",
+    "SpectralPumpkinOverlayMixin"
   ],
   "mixins": [],
   "server": [],

@@ -88,10 +88,11 @@ public final class SleepyHollows {
      * (5) - Implement networking functionality (currently being handled by Jason13Official)
      * (3) - Fix Horseman entity spawning inside walls
      * (2) - Balance adjustments for Horseman
+     * (1) - Pumpkin Nametag
+     * (1) - Explosion particles on Horseman death
      * (2) - Health & Attack based on difficulty - currently disabled
      * (1) - Ensure particle arcs are emitted from Horseman to Pumpkin Head
-     * (5) - Rename "Sanity Bar" to "Insanity Bar"
-     * (5) - Modify the (In)Sanity Bar to function like a Boss Bar
+     * (5) - Rename "Sanity Bar" to "Insanity Bar" -> instead of filling up it should start at 100 and slowly decrease
      * ----
      * 5 = highest Priority, 1 = lowest Priority
      */

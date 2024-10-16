@@ -9,7 +9,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
@@ -25,11 +24,6 @@ public class ShatterbrandSwordItem extends SwordItem implements EnchantingBehavi
         public ShatterbrandSwordItem(Properties properties) {
             super(ToolTiersRegistry.SPECTRAL, 3, -2.5F, properties);
         }
-
-    @Override
-    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
-        return enchantment != Enchantments.FIRE_ASPECT;
-    }
 
     @Override
     public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
