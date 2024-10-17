@@ -80,22 +80,14 @@ public final class SleepyHollows {
 
     /**
      General TODO List:
-     (5) - Effects don't run out - only affecting sanity and mental fortitude
+     (5) - Effects don't run out - only affecting sanity and mental fortitude -> I will do this as soon as Networking is done.
      (5) - Implement networking functionality (currently being handled by Jason13Official).
      (5) - Rename "Sanity Bar" to "Insanity Bar" -> Instead of filling up, it should start at 100 and slowly decrease (currently being handled by Jason13Official).
-     (4) - Documentation / Wiki
-     (4) - Fix Horseman summoned entities spawning inside walls (Skeletons, Zombies, and Pumpkin Head).
-     (2) - Balance adjustments for Horseman -> A few people (3) are currently playtesting this, but we might need more input data for further adjustments.
-     (1) - Explosion particles on Horseman death.
-     (2) - Health & attack based on difficulty - currently disabled.
-     (4) - Ensure particle arcs are emitted from Horseman to Pumpkin Head -> Let's change the Pumpkin Head spawning method: it spawns at the Horseman's 'head' part and
-     then 'flies' 10 blocks in a random direction, immune to any damage for 3 seconds. This might be easier to do and would visually make more sense. :)
+     (4) - Documentation -> Readme should be enough, right?
+     (2) - Health & attack based on difficulty - currently disabled - no clue. Wtf! :D
      ----
      5 = highest Priority, 1 = lowest Priority
 
-
-     Further adjustments planned for the Horseman Fight:
-     * New Attack: Casts a Soulfire Spiral every X seconds, setting blocks on fire and making the boss fight less static/tank & spank only during the fighting phase.
 
      */
 

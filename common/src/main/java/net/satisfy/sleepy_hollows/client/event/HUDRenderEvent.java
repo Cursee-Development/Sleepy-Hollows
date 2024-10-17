@@ -17,6 +17,8 @@ public class HUDRenderEvent {
     @SuppressWarnings("unused")
     public static void onRenderHUD(GuiGraphics guiGraphics, float tickDelta) {
         Minecraft mc = Minecraft.getInstance();
+
+
         Player player = mc.player;
 
         if (player == null || mc.isPaused()) return;

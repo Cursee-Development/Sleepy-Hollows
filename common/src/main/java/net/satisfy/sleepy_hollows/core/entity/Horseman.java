@@ -8,6 +8,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerBossEvent;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -28,6 +29,7 @@ import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.AABB;
@@ -56,8 +58,7 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
     private static final EntityDataAccessor<Boolean> LAUGHING = SynchedEntityData.defineId(Horseman.class, EntityDataSerializers.BOOLEAN);
     public final AnimationState attackAnimationState = new AnimationState();
     public final AnimationState idleAnimationState = new AnimationState();
-    private final ServerBossEvent bossEvent = new ServerBossEvent(Component.translatable("entity.sleepy_hollows.horseman"),
-            BossEvent.BossBarColor.PURPLE, BossEvent.BossBarOverlay.PROGRESS);
+    private final ServerBossEvent bossEvent = new ServerBossEvent(Component.translatable("entity.sleepy_hollows.horseman"), BossEvent.BossBarColor.PURPLE, BossEvent.BossBarOverlay.PROGRESS);
     private final List<ParticleArc> activeParticleArcs = new ArrayList<>();
     public AnimationState laughingAnimationState = new AnimationState();
     private int nextSummonIndex = 0;
@@ -223,22 +224,27 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
         return this.getDeltaMovement().lengthSqr() > 0.01;
     }
 
+    @Override
+    public @NotNull MobType getMobType() {
+        return MobType.UNDEAD;
+    }
+
     private void summonPumpkinHead() {
         if (!this.hasActivePumpkinHead()) {
             this.setActivePumpkinHead(true);
         }
 
-        Vec3 summonPos = this.position().add(this.random.nextGaussian() * 12, 0, this.random.nextGaussian() * 12);
+        Vec3 spawnPos = this.position().add(0, 1.5D, 0);
 
         FleeingPumpkinHead pumpkinHead = EntityTypeRegistry.FLEEING_PUMPKIN_HEAD.get().create(this.level());
 
         if (pumpkinHead != null) {
-            pumpkinHead.setPos(summonPos.x(), summonPos.y(), summonPos.z());
+            pumpkinHead.setPos(spawnPos.x(), spawnPos.y(), spawnPos.z());
             pumpkinHead.setSummoner(this);
             this.level().addFreshEntity(pumpkinHead);
             this.entityData.set(IMMUNE, true);
 
-            activeParticleArcs.add(new ParticleArc(this.position(), summonPos, 40));
+            pumpkinHead.startFlyingAway();
         }
     }
 
@@ -392,6 +398,7 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
 
     @Override
     public void die(@NotNull DamageSource cause) {
+        super.die(cause);
         for (int i = 0; i < 70; ++i) {
             double offsetX = this.getX() + (this.random.nextDouble() - 0.5) * 2.0;
             double offsetY = this.getY() + this.random.nextDouble() * 2.0;
@@ -399,8 +406,10 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
             this.level().addParticle(ParticleTypes.SMOKE, offsetX, offsetY, offsetZ, 0.0, 0.0, 0.0);
             this.level().addParticle(ParticleTypes.SOUL, offsetX, offsetY, offsetZ, 0.0, 0.0, 0.0);
         }
-
-        super.die(cause);
+        if (!this.level().isClientSide && this.level().getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
+            int experienceAmount = 250;
+            ExperienceOrb.award((ServerLevel) this.level(), this.position(), experienceAmount);
+        }
     }
 
     private void removeWaterInRadius() {
@@ -454,5 +463,10 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
             thresholds[i] = maxHealth * (1 - (i * 0.1f));
         }
         return thresholds;
+    }
+
+    @Override
+    public boolean shouldDropExperience() {
+        return true;
     }
 }

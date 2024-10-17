@@ -48,7 +48,7 @@ public class SoulfireSpiral {
 
             double x = center.x + radius * Math.cos(angle);
             double z = center.z + radius * Math.sin(angle);
-            double y = this.y + 1;
+            double y = this.y + 0.3;
 
             BlockPos pos = BlockPos.containing(x, y, z);
             BlockPos belowPos = pos.below();
@@ -65,8 +65,8 @@ public class SoulfireSpiral {
                     double particleX = x + (level.random.nextDouble() - 0.5);
                     double particleY = y + (level.random.nextDouble() - 0.5);
                     double particleZ = z + (level.random.nextDouble() - 0.5);
-                    serverLevel.sendParticles(ParticleTypes.SOUL_FIRE_FLAME, particleX, particleY, particleZ, 3, 0.2, 0.2, 0.2, 0.05);
-                    serverLevel.sendParticles(ParticleTypes.ASH, particleX, particleY, particleZ, 2, 0.2, 0.2, 0.2, 0.05);
+                    serverLevel.sendParticles(ParticleTypes.SOUL_FIRE_FLAME, particleX, particleY, particleZ, 2, 0.2, 0.2, 0.2, 0.05);
+                    serverLevel.sendParticles(ParticleTypes.ASH, particleX, particleY, particleZ, 1, 0.2, 0.2, 0.2, 0.05);
 
                     AABB detectionBox = new AABB(particleX - 0.5, particleY - 0.5, particleZ - 0.5, particleX + 0.5, particleY + 0.5, particleZ + 0.5);
                     List<Player> players = serverLevel.getEntitiesOfClass(Player.class, detectionBox, EntitySelector.NO_SPECTATORS);

@@ -1,16 +1,19 @@
 package net.satisfy.sleepy_hollows.core.entity;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -32,18 +35,23 @@ import net.satisfy.sleepy_hollows.core.registry.ObjectRegistry;
 import net.satisfy.sleepy_hollows.core.registry.SoundEventRegistry;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.EnumSet;
-import java.util.Objects;
+import java.util.*;
 
 public class FleeingPumpkinHead extends Monster {
-    private final ServerBossEvent bossEvent = new ServerBossEvent(Component.translatable("entity.sleepy_hollows.fleeing_pumpkin_head"),
-            BossEvent.BossBarColor.PURPLE, BossEvent.BossBarOverlay.PROGRESS);
+    private final ServerBossEvent bossEvent = new ServerBossEvent(Component.translatable("entity.sleepy_hollows.fleeing_pumpkin_head"), BossEvent.BossBarColor.PURPLE, BossEvent.BossBarOverlay.PROGRESS);
     private boolean summonedZombiesAndSkeletonsAt75 = false;
     private boolean summonedZombiesAndSkeletonsAt25 = false;
     private boolean isFrozen = false;
     private long frozenUntil = 0;
     private boolean increasedArmor = false;
     private Horseman summoner;
+    private final Map<LivingEntity, Integer> flyingEntities = new HashMap<>();
+    private boolean isFlyingAway = false;
+    private int flightDuration;
+    private int flightTicks;
+    private Vec3 flightStartPos;
+    private Vec3 flightEndPos;
+    private double flightArcHeight;
 
     public FleeingPumpkinHead(EntityType<? extends Monster> type, Level world) {
         super(type, world);
@@ -74,38 +82,65 @@ public class FleeingPumpkinHead extends Monster {
         if (this.isMoving()) {
             this.level().addParticle(ParticleTypes.SOUL, this.getX(), this.getY() + 1.0D, this.getZ(), 0.0D, 0.0D, 0.0D);
         }
-
-        if (this.summoner != null && this.summoner.isAlive()) {
-            double distanceSq = this.distanceToSqr(this.summoner);
-            if (distanceSq > 75 * 75) {
-                this.getNavigation().moveTo(this.summoner, 1.0D);
+        Iterator<Map.Entry<LivingEntity, Integer>> iterator = flyingEntities.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<LivingEntity, Integer> entry = iterator.next();
+            LivingEntity entity = entry.getKey();
+            int flightTicks = entry.getValue();
+            this.level().addParticle(ParticleTypes.SOUL_FIRE_FLAME, entity.getX(), entity.getY() + 0.5D, entity.getZ(), 0.0D, 0.0D, 0.0D);
+            flightTicks--;
+            if (flightTicks <= 0) {
+                entity.setNoGravity(false);
+                iterator.remove();
+            } else {
+                entry.setValue(flightTicks);
+            }
+        }
+        if (this.isFlyingAway) {
+            double t = (double) this.flightTicks / (double) this.flightDuration;
+            if (t >= 1.0) {
+                this.isFlyingAway = false;
+                this.noPhysics = false;
+            } else {
+                double x = this.flightStartPos.x + (this.flightEndPos.x - this.flightStartPos.x) * t;
+                double z = this.flightStartPos.z + (this.flightEndPos.z - this.flightStartPos.z) * t;
+                double y = this.flightStartPos.y + this.flightArcHeight * Math.sin(Math.PI * t);
+                this.setPos(x, y, z);
+                this.yRotO = this.getYRot();
+                this.setYRot(this.getYRot() + 10);
+                this.yHeadRot = this.getYRot();
+                this.yBodyRot = this.getYRot();
+                this.level().addParticle(ParticleTypes.SOUL, this.getX(), this.getY() + 0.5D, this.getZ(), 0.0D, 0.0D, 0.0D);
+                this.flightTicks++;
             }
         } else {
-            this.summoner = null;
-        }
-
-        if (isFrozen && level().getGameTime() >= frozenUntil) {
-            isFrozen = false;
-        }
-
-        if (isFrozen) {
-            this.setDeltaMovement(Vec3.ZERO);
-            applyTremblingEffect();
-        }
-
-        if (this.getHealth() <= this.getMaxHealth() * 0.75 && !summonedZombiesAndSkeletonsAt75) {
-            summonZombiesAndSkeletons();
-            summonedZombiesAndSkeletonsAt75 = true;
-        }
-
-        if (this.getHealth() <= this.getMaxHealth() * 0.25 && !summonedZombiesAndSkeletonsAt25) {
-            summonZombiesAndSkeletons();
-            summonedZombiesAndSkeletonsAt25 = true;
-        }
-
-        if (this.getHealth() <= this.getMaxHealth() * 0.50 && !increasedArmor) {
-            increaseArmorByTenPercent();
-            increasedArmor = true;
+            if (this.summoner != null && this.summoner.isAlive()) {
+                double distanceSq = this.distanceToSqr(this.summoner);
+                if (distanceSq > 75 * 75) {
+                    this.getNavigation().moveTo(this.summoner, 1.0D);
+                }
+            } else {
+                this.summoner = null;
+            }
+            if (isFrozen && level().getGameTime() >= frozenUntil) {
+                isFrozen = false;
+            }
+            if (isFrozen) {
+                this.setDeltaMovement(Vec3.ZERO);
+                applyTremblingEffect();
+            }
+            if (this.getHealth() <= this.getMaxHealth() * 0.75 && !summonedZombiesAndSkeletonsAt75) {
+                summonZombiesAndSkeletons();
+                summonedZombiesAndSkeletonsAt75 = true;
+            }
+            if (this.getHealth() <= this.getMaxHealth() * 0.25 && !summonedZombiesAndSkeletonsAt25) {
+                summonZombiesAndSkeletons();
+                summonedZombiesAndSkeletonsAt25 = true;
+            }
+            if (this.getHealth() <= this.getMaxHealth() * 0.50 && !increasedArmor) {
+                increaseArmorByTenPercent();
+                increasedArmor = true;
+            }
         }
     }
 
@@ -128,6 +163,9 @@ public class FleeingPumpkinHead extends Monster {
 
     @Override
     public boolean hurt(@NotNull DamageSource source, float amount) {
+        if (isFlyingAway) {
+            return false;
+        }
         boolean damaged = super.hurt(source, amount);
         if (damaged) {
             freezeFor();
@@ -143,91 +181,93 @@ public class FleeingPumpkinHead extends Monster {
     private void summonZombiesAndSkeletons() {
         level().playSound(null, this.blockPosition(), SoundEventRegistry.FLEEING_PUMPKIN_SUMMONING.get(), SoundSource.HOSTILE, 1.0F, 1.0F);
 
+        for (Player player : this.level().players()) {
+            if (player instanceof ServerPlayer serverPlayer && serverPlayer.hasLineOfSight(this) && serverPlayer.distanceTo(this) <= 20) {
+                serverPlayer.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 30, 3));
+            }
+        }
+
         for (int i = 0; i < 5; i++) {
-            double xPos = this.getX() + randomPosition();
-            double zPos = this.getZ() + randomPosition();
-            BlockPos spawnPos = new BlockPos((int) xPos, (int) this.getY(), (int) zPos);
-
-            if (level().getBlockState(spawnPos).isAir() && level().getBlockState(spawnPos.above()).isAir()) {
-                Zombie zombie = EntityTypeRegistry.INFECTED_ZOMBIE.get().create(this.level());
-                if (zombie != null) {
-                    zombie.setPos(xPos, this.getY(), zPos);
-
-                    zombie.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ObjectRegistry.SPECTRAL_JACK_O_LANTERN.get()));
-                    zombie.setDropChance(EquipmentSlot.HEAD, 0.1f);
-
-                    zombie.setItemSlot(EquipmentSlot.CHEST, new ItemStack(ObjectRegistry.HAUNTBOUND_CHESTPLATE.get()));
-                    zombie.setDropChance(EquipmentSlot.CHEST, 0.01f);
-
-                    zombie.setItemSlot(EquipmentSlot.LEGS, new ItemStack(ObjectRegistry.HAUNTBOUND_LEGGINGS.get()));
-                    zombie.setDropChance(EquipmentSlot.LEGS, 0.01f);
-
-                    zombie.setItemSlot(EquipmentSlot.FEET, new ItemStack(ObjectRegistry.HAUNTBOUND_BOOTS.get()));
-                    zombie.setDropChance(EquipmentSlot.FEET, 0.01f);
-
-                    ItemStack enchantedSword = new ItemStack(ObjectRegistry.SPECTRAL_WARAXE.get());
-                    enchantedSword.enchant(Enchantments.SHARPNESS, 3);
-                    enchantedSword.enchant(Enchantments.FIRE_ASPECT, 1);
-                    zombie.setItemSlot(EquipmentSlot.MAINHAND, enchantedSword);
-                    zombie.setDropChance(EquipmentSlot.MAINHAND, 0.03f);
-
-                    if (zombie.getAttribute(Attributes.ARMOR) != null) {
-                        double currentArmor = Objects.requireNonNull(zombie.getAttribute(Attributes.ARMOR)).getBaseValue();
-                        Objects.requireNonNull(zombie.getAttribute(Attributes.ARMOR)).setBaseValue(Math.max(0, currentArmor - 10)); // Verhindern, dass der Wert negativ wird
-                    }
-
-                    zombie.setCustomName(Component.translatable("entity.sleepy_hollows.hauntbound_zombie"));
-                    zombie.setCustomNameVisible(false);
-
-
-                    this.level().addFreshEntity(zombie);
-                    spawnSummonParticles(xPos, zPos);
+            Zombie zombie = EntityTypeRegistry.INFECTED_ZOMBIE.get().create(this.level());
+            if (zombie != null) {
+                zombie.setPos(this.getX(), this.getY(), this.getZ());
+                double speed = 0.3;
+                double angle = this.random.nextDouble() * 2 * Math.PI;
+                double vx = Math.cos(angle) * speed;
+                double vz = Math.sin(angle) * speed;
+                double vy = this.random.nextDouble() * 0.125 + 0.125;
+                zombie.setDeltaMovement(new Vec3(vx, vy, vz));
+                zombie.setNoGravity(true);
+                flyingEntities.put(zombie, 20);
+                zombie.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ObjectRegistry.SPECTRAL_JACK_O_LANTERN.get()));
+                zombie.setDropChance(EquipmentSlot.HEAD, 0.1f);
+                zombie.setItemSlot(EquipmentSlot.CHEST, new ItemStack(ObjectRegistry.HAUNTBOUND_CHESTPLATE.get()));
+                zombie.setDropChance(EquipmentSlot.CHEST, 0.01f);
+                zombie.setItemSlot(EquipmentSlot.LEGS, new ItemStack(ObjectRegistry.HAUNTBOUND_LEGGINGS.get()));
+                zombie.setDropChance(EquipmentSlot.LEGS, 0.01f);
+                zombie.setItemSlot(EquipmentSlot.FEET, new ItemStack(ObjectRegistry.HAUNTBOUND_BOOTS.get()));
+                zombie.setDropChance(EquipmentSlot.FEET, 0.01f);
+                ItemStack enchantedSword = new ItemStack(ObjectRegistry.SPECTRAL_WARAXE.get());
+                enchantedSword.enchant(Enchantments.SHARPNESS, 3);
+                enchantedSword.enchant(Enchantments.FIRE_ASPECT, 1);
+                zombie.setItemSlot(EquipmentSlot.MAINHAND, enchantedSword);
+                zombie.setDropChance(EquipmentSlot.MAINHAND, 0.03f);
+                if (zombie.getAttribute(Attributes.ARMOR) != null) {
+                    double currentArmor = Objects.requireNonNull(zombie.getAttribute(Attributes.ARMOR)).getBaseValue();
+                    Objects.requireNonNull(zombie.getAttribute(Attributes.ARMOR)).setBaseValue(Math.max(0, currentArmor - 10));
                 }
+                zombie.setCustomName(Component.translatable("entity.sleepy_hollows.hauntbound_zombie"));
+                zombie.setCustomNameVisible(false);
+                this.level().addFreshEntity(zombie);
+                this.level().addParticle(ParticleTypes.FLASH, zombie.getX(), zombie.getY() + 0.5D, zombie.getZ(), 0.0D, 0.0D, 0.0D);
             }
         }
-
         for (int i = 0; i < 2; i++) {
-            double xPos = this.getX() + randomPosition();
-            double zPos = this.getZ() + randomPosition();
-            BlockPos spawnPos = new BlockPos((int) xPos, (int) this.getY(), (int) zPos);
-
-            if (level().getBlockState(spawnPos).isAir() && level().getBlockState(spawnPos.above()).isAir()) {
-                Skeleton skeleton = EntityType.SKELETON.create(this.level());
-                if (skeleton != null) {
-                    skeleton.setPos(xPos, this.getY(), zPos);
-
-                    skeleton.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ObjectRegistry.SPECTRAL_JACK_O_LANTERN.get()));
-                    skeleton.setDropChance(EquipmentSlot.HEAD, 0.1f);
-
-                    skeleton.setItemSlot(EquipmentSlot.CHEST, new ItemStack(ObjectRegistry.HAUNTBOUND_CHESTPLATE.get()));
-                    skeleton.setDropChance(EquipmentSlot.CHEST, 0.01f);
-
-                    skeleton.setItemSlot(EquipmentSlot.LEGS, new ItemStack(ObjectRegistry.HAUNTBOUND_LEGGINGS.get()));
-                    skeleton.setDropChance(EquipmentSlot.LEGS, 0.01f);
-
-                    skeleton.setItemSlot(EquipmentSlot.FEET, new ItemStack(ObjectRegistry.HAUNTBOUND_BOOTS.get()));
-                    skeleton.setDropChance(EquipmentSlot.FEET, 0.01f);
-
-                    ItemStack enchantedBow = new ItemStack(Items.BOW);
-                    enchantedBow.enchant(Enchantments.POWER_ARROWS, 10);
-                    skeleton.setItemSlot(EquipmentSlot.MAINHAND, enchantedBow);
-                    skeleton.setDropChance(EquipmentSlot.MAINHAND, 0.01f);
-
-                    skeleton.setCustomName(Component.translatable("entity.sleepy_hollows.hauntbound_marksman"));
-                    skeleton.setCustomNameVisible(false);
-
-                    this.level().addFreshEntity(skeleton);
-                    spawnSummonParticles(xPos, zPos);
-                }
+            Skeleton skeleton = EntityType.SKELETON.create(this.level());
+            if (skeleton != null) {
+                skeleton.setPos(this.getX(), this.getY(), this.getZ());
+                double speed = 0.3;
+                double angle = this.random.nextDouble() * 2 * Math.PI;
+                double vx = Math.cos(angle) * speed;
+                double vz = Math.sin(angle) * speed;
+                double vy = this.random.nextDouble() * 0.125 + 0.125;
+                skeleton.setDeltaMovement(new Vec3(vx, vy, vz));
+                skeleton.setNoGravity(true);
+                flyingEntities.put(skeleton, 20);
+                skeleton.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ObjectRegistry.SPECTRAL_JACK_O_LANTERN.get()));
+                skeleton.setDropChance(EquipmentSlot.HEAD, 0.1f);
+                skeleton.setItemSlot(EquipmentSlot.CHEST, new ItemStack(ObjectRegistry.HAUNTBOUND_CHESTPLATE.get()));
+                skeleton.setDropChance(EquipmentSlot.CHEST, 0.01f);
+                skeleton.setItemSlot(EquipmentSlot.LEGS, new ItemStack(ObjectRegistry.HAUNTBOUND_LEGGINGS.get()));
+                skeleton.setDropChance(EquipmentSlot.LEGS, 0.01f);
+                skeleton.setItemSlot(EquipmentSlot.FEET, new ItemStack(ObjectRegistry.HAUNTBOUND_BOOTS.get()));
+                skeleton.setDropChance(EquipmentSlot.FEET, 0.01f);
+                ItemStack enchantedBow = new ItemStack(Items.BOW);
+                enchantedBow.enchant(Enchantments.POWER_ARROWS, 10);
+                skeleton.setItemSlot(EquipmentSlot.MAINHAND, enchantedBow);
+                skeleton.setDropChance(EquipmentSlot.MAINHAND, 0.01f);
+                skeleton.setCustomName(Component.translatable("entity.sleepy_hollows.hauntbound_marksman"));
+                skeleton.setCustomNameVisible(false);
+                this.level().addFreshEntity(skeleton);
+                this.level().addParticle(ParticleTypes.FLASH, skeleton.getX(), skeleton.getY() + 0.5D, skeleton.getZ(), 0.0D, 0.0D, 0.0D);
             }
         }
     }
-    private void spawnSummonParticles(double x, double z) {
-        level().addParticle(ParticleTypes.SOUL, x, this.getY() + 0.5D, z, 0.0D, 0.0D, 0.0D);
-    }
 
-    private double randomPosition() {
-        return (Math.random() - 0.5) * 20;
+    public void startFlyingAway() {
+        this.isFlyingAway = true;
+        this.flightDuration = 40;
+        this.flightTicks = 0;
+        this.flightStartPos = this.position();
+        double angle = this.random.nextDouble() * 2 * Math.PI;
+        double distance = 12;
+        double dx = Math.cos(angle) * distance;
+        double dz = Math.sin(angle) * distance;
+        this.flightEndPos = this.flightStartPos.add(dx, 0, dz);
+        this.flightArcHeight = 5;
+        this.noPhysics = true;
+
+        this.level().playSound(null, this.blockPosition(), SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.HOSTILE, 1.0F, 1.0F);
     }
 
     @Override
@@ -309,5 +349,9 @@ public class FleeingPumpkinHead extends Monster {
     @Override
     protected SoundEvent getAmbientSound() {
         return SoundEventRegistry.FLEEING_PUMPKIN_AMBIENT.get();
+    }
+
+    public boolean shouldDropExperience() {
+        return false;
     }
 }

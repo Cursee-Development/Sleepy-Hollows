@@ -121,7 +121,10 @@ public class SanityManager {
         playerSanityMap.put(player, sanity);
     }
 
-    
+    public static boolean isSanityBarVisible(Player player) {
+        return getSanity(player) < MAX_SANITY;
+    }
+
     private static void decreaseSanityOutsideBiome(Player player) {
         int sanity = playerSanityMap.getOrDefault(player, 0);
         sanity -= OUTSIDE_BIOME_SANITY_LOSS;
