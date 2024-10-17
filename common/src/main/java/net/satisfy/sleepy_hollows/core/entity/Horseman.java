@@ -41,6 +41,7 @@ import net.satisfy.sleepy_hollows.core.registry.EntityTypeRegistry;
 import net.satisfy.sleepy_hollows.core.registry.ObjectRegistry;
 import net.satisfy.sleepy_hollows.core.registry.SoundEventRegistry;
 import net.satisfy.sleepy_hollows.core.util.ParticleArc;
+import net.satisfy.sleepy_hollows.core.util.SoulfireSpiral;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -162,6 +163,26 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
             }
         }
 
+        float[] SOULFIRE_THRESHOLDS = getSoulfireThresholds();
+
+        if (nextSoulfireIndex < SOULFIRE_THRESHOLDS.length && this.getHealth() <= SOULFIRE_THRESHOLDS[nextSoulfireIndex]) {
+            castSoulfireSpiral();
+            nextSoulfireIndex++;
+        }
+
+        if (!this.level().isClientSide()) {
+            if (!activeSoulfireSpirals.isEmpty()) {
+                Iterator<SoulfireSpiral> iterator = activeSoulfireSpirals.iterator();
+                while (iterator.hasNext()) {
+                    SoulfireSpiral spiral = iterator.next();
+                    spiral.tick();
+                    if (spiral.isFinished()) {
+                        iterator.remove();
+                    }
+                }
+            }
+        }
+
         if (!activeParticleArcs.isEmpty()) {
             Iterator<ParticleArc> iterator = activeParticleArcs.iterator();
             while (iterator.hasNext()) {
@@ -187,6 +208,15 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
         }
 
         this.bossEvent.setProgress(this.getHealth() / this.getMaxHealth());
+    }
+
+    private void castSoulfireSpiral() {
+        SoulfireSpiral spiral = new SoulfireSpiral(this.level(), this.position());
+        activeSoulfireSpirals.add(spiral);
+
+        if (!this.level().isClientSide()) {
+            this.level().playSound(null, this.blockPosition(), SoundEvents.BLAZE_BURN, SoundSource.HOSTILE, 1.0F, 1.0F);
+        }
     }
 
     private boolean isMoving() {
@@ -291,7 +321,6 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
         this.entityData.set(LAUGHING, laughing);
     }
 
-
     @Override
     public Vec3 getPosition_(int i) {
         return super.getPosition(i);
@@ -374,7 +403,6 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
         super.die(cause);
     }
 
-
     private void removeWaterInRadius() {
         AABB area = new AABB(this.blockPosition()).inflate(10);
 
@@ -414,5 +442,17 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
     @Override
     protected SoundEvent getAmbientSound() {
         return SoundEvents.SKELETON_HORSE_AMBIENT;
+    }
+
+    private final List<SoulfireSpiral> activeSoulfireSpirals = new ArrayList<>();
+    private int nextSoulfireIndex = 0;
+
+    private float[] getSoulfireThresholds() {
+        float maxHealth = this.getMaxHealth();
+        float[] thresholds = new float[10];
+        for (int i = 0; i < 10; i++) {
+            thresholds[i] = maxHealth * (1 - (i * 0.1f));
+        }
+        return thresholds;
     }
 }
