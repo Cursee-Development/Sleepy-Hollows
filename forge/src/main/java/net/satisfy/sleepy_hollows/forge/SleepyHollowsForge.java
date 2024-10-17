@@ -31,24 +31,17 @@ public final class SleepyHollowsForge {
                 ForgeLuminousWater.Flowing::new
         );
         SleepyHollows.init();
-        Constants.LOG.info("Initialized the mod in Forge.");
+        Constants.LOG.info("Sleepy Hollows initialized successfully on the Forge platform.");
 
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.register(this);
 
-        modEventBus.addListener(this::commonSetup);
-        modEventBus.addListener(this::onClientTick);
-        modEventBus.addListener(this::onServerTick);
+        modEventBus.addListener(this::onCommonSetup);
     }
 
-    private void commonSetup(final FMLCommonSetupEvent event) {
+    private void onCommonSetup(final FMLCommonSetupEvent event) {
         event.enqueueWork(SleepyHollowsRegion::loadTerrablender);
         SleepyHollows.commonInit();
-    }
-
-    @SubscribeEvent
-    public void onCommonSetup(final FMLCommonSetupEvent event) {
-        event.enqueueWork(SleepyHollows::commonInit);
     }
 
     @SubscribeEvent
@@ -56,20 +49,19 @@ public final class SleepyHollowsForge {
         event.enqueueWork(CompostableRegistry::init);
     }
 
-    private void onClientTick(TickEvent.ClientTickEvent event) {
-
-        if (event.side == LogicalSide.CLIENT) return;
-        if (event.phase == TickEvent.Phase.END) return;
+    @SubscribeEvent
+    public void onClientTick(TickEvent.ClientTickEvent event) {
+        if (event.side != LogicalSide.CLIENT) return;
+        if (event.phase != TickEvent.Phase.START) return;
 
         Minecraft instance = Minecraft.getInstance();
-
         SleepyHollowsClient.onClientTick(instance);
     }
 
-    private void onServerTick(final TickEvent.ServerTickEvent event) {
-
-        if (event.side == LogicalSide.CLIENT) return;
-        if (event.phase == TickEvent.Phase.END) return;
+    @SubscribeEvent
+    public void onServerTick(final TickEvent.ServerTickEvent event) {
+        if (event.side != LogicalSide.SERVER) return;
+        if (event.phase != TickEvent.Phase.START) return;
 
         MinecraftServer server = event.getServer();
         SleepyHollows.onServerTick(server);

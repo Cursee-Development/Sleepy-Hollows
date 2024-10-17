@@ -28,7 +28,7 @@ public class CandyCornItem extends Item {
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, Level world, List<Component> tooltip, @NotNull TooltipFlag flag) {
-        tooltip.add(Component.translatable("tooltip.sleepy_hollows.candy_corn"));
+        tooltip.add(Component.translatable("tooltip.sleepy_hollows.item.candy_corn"));
         super.appendHoverText(stack, world, tooltip, flag);
     }
 }

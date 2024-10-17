@@ -12,6 +12,7 @@ import net.satisfy.sleepy_hollows.core.block.custom.entity.CoffinBlockEntity;
 import net.satisfy.sleepy_hollows.core.block.custom.entity.CompletionistBannerEntity;
 import net.satisfy.sleepy_hollows.core.block.custom.entity.PedestalBlockEntity;
 import net.satisfy.sleepy_hollows.core.entity.FleeingPumpkinHead;
+import net.satisfy.sleepy_hollows.core.entity.Horseman;
 import net.satisfy.sleepy_hollows.core.entity.InfectedZombie;
 import net.satisfy.sleepy_hollows.core.entity.SpectralHorse;
 import net.satisfy.sleepy_hollows.core.entity.ThrownLuminousWater;
@@ -30,6 +31,7 @@ public class EntityTypeRegistry {
     public static final RegistrySupplier<EntityType<SpectralHorse>> SPECTRAL_HORSE = registerEntity("spectral_horse",  () -> EntityType.Builder.of(SpectralHorse::new, MobCategory.CREATURE).sized(0.9f, 1.87f).clientTrackingRange(10).updateInterval(3).build(new SleepyHollowsIdentifier("spectral_horse").toString()));
     public static final RegistrySupplier<EntityType<InfectedZombie>> INFECTED_ZOMBIE = registerEntity("infected_zombie", () -> EntityType.Builder.of(InfectedZombie::new, MobCategory.MONSTER).sized(0.6F, 1.95F).build(new SleepyHollowsIdentifier("infected_zombie").toString()));
     public static final RegistrySupplier<EntityType<FleeingPumpkinHead>> FLEEING_PUMPKIN_HEAD = registerEntity("fleeing_pumpkin_head", () -> EntityType.Builder.of(FleeingPumpkinHead::new, MobCategory.MONSTER).sized(0.6F, 1.95F).build(new SleepyHollowsIdentifier("fleeing_pumpkin_head").toString()));
+    public static final RegistrySupplier<EntityType<Horseman>> HORSEMAN = registerEntity("horseman", () -> EntityType.Builder.of(Horseman::new, MobCategory.MONSTER).sized(1.4F, 2.6F).build(new SleepyHollowsIdentifier("horseman").toString()));
     public static final RegistrySupplier<EntityType<ThrownLuminousWater>> LUMINOUS_WATER_THROWN = registerEntity("luminous_water_thrown", () -> EntityType.Builder.<ThrownLuminousWater>of(ThrownLuminousWater::new, MobCategory.MISC).sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(10).build(new SleepyHollowsIdentifier("luminous_water_thrown").toString()));
 
 
@@ -45,7 +47,7 @@ public class EntityTypeRegistry {
         EntityAttributeRegistry.register(SPECTRAL_HORSE, SpectralHorse::createAttributes);
         EntityAttributeRegistry.register(INFECTED_ZOMBIE, InfectedZombie::createAttributes);
         EntityAttributeRegistry.register(FLEEING_PUMPKIN_HEAD, FleeingPumpkinHead::createAttributes);
-
+        EntityAttributeRegistry.register(HORSEMAN, Horseman::createAttributes);
     }
 
     public static void init() {

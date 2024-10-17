@@ -43,6 +43,7 @@ public class FleeingPumpkinHead extends Monster {
     private boolean isFrozen = false;
     private long frozenUntil = 0;
     private boolean increasedArmor = false;
+    private Horseman summoner;
 
     public FleeingPumpkinHead(EntityType<? extends Monster> type, Level world) {
         super(type, world);
@@ -50,7 +51,6 @@ public class FleeingPumpkinHead extends Monster {
         this.goalSelector.addGoal(1, new WaterAvoidingRandomStrollGoal(this, 1.0));
         this.goalSelector.addGoal(2, new AvoidPlayerGoal(this, 1.1D));
         this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 15.0F));
-
     }
 
     public static AttributeSupplier.@NotNull Builder createAttributes() {
@@ -61,13 +61,25 @@ public class FleeingPumpkinHead extends Monster {
                 .add(Attributes.ARMOR, 18.0);
     }
 
+    public void setSummoner(Horseman summoner) {
+        this.summoner = summoner;
+    }
+
     @Override
     public void tick() {
         super.tick();
         bossEvent.setProgress(this.getHealth() / this.getMaxHealth());
-
         if (this.isMoving()) {
             this.level().addParticle(ParticleTypes.SOUL, this.getX(), this.getY() + 1.0D, this.getZ(), 0.0D, 0.0D, 0.0D);
+        }
+
+        if (this.summoner != null && this.summoner.isAlive()) {
+            double distanceSq = this.distanceToSqr(this.summoner);
+            if (distanceSq > 75 * 75) {
+                this.getNavigation().moveTo(this.summoner, 1.0D);
+            }
+        } else {
+            this.summoner = null;
         }
 
         if (isFrozen && level().getGameTime() >= frozenUntil) {
@@ -138,14 +150,33 @@ public class FleeingPumpkinHead extends Monster {
                 Zombie zombie = EntityTypeRegistry.INFECTED_ZOMBIE.get().create(this.level());
                 if (zombie != null) {
                     zombie.setPos(xPos, this.getY(), zPos);
+
                     zombie.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ObjectRegistry.SPECTRAL_JACK_O_LANTERN.get()));
+                    zombie.setDropChance(EquipmentSlot.HEAD, 0.1f);
+
                     zombie.setItemSlot(EquipmentSlot.CHEST, new ItemStack(ObjectRegistry.HAUNTBOUND_CHESTPLATE.get()));
+                    zombie.setDropChance(EquipmentSlot.CHEST, 0.01f);
+
                     zombie.setItemSlot(EquipmentSlot.LEGS, new ItemStack(ObjectRegistry.HAUNTBOUND_LEGGINGS.get()));
+                    zombie.setDropChance(EquipmentSlot.LEGS, 0.01f);
+
                     zombie.setItemSlot(EquipmentSlot.FEET, new ItemStack(ObjectRegistry.HAUNTBOUND_BOOTS.get()));
+                    zombie.setDropChance(EquipmentSlot.FEET, 0.01f);
+
                     ItemStack enchantedSword = new ItemStack(ObjectRegistry.SPECTRAL_WARAXE.get());
                     enchantedSword.enchant(Enchantments.SHARPNESS, 3);
                     enchantedSword.enchant(Enchantments.FIRE_ASPECT, 1);
                     zombie.setItemSlot(EquipmentSlot.MAINHAND, enchantedSword);
+                    zombie.setDropChance(EquipmentSlot.MAINHAND, 0.03f);
+
+                    if (zombie.getAttribute(Attributes.ARMOR) != null) {
+                        double currentArmor = Objects.requireNonNull(zombie.getAttribute(Attributes.ARMOR)).getBaseValue();
+                        Objects.requireNonNull(zombie.getAttribute(Attributes.ARMOR)).setBaseValue(Math.max(0, currentArmor - 10)); // Verhindern, dass der Wert negativ wird
+                    }
+
+                    zombie.setCustomName(Component.translatable("entity.sleepy_hollows.hauntbound_zombie"));
+                    zombie.setCustomNameVisible(false);
+
 
                     this.level().addFreshEntity(zombie);
                     spawnSummonParticles(xPos, zPos);
@@ -162,13 +193,26 @@ public class FleeingPumpkinHead extends Monster {
                 Skeleton skeleton = EntityType.SKELETON.create(this.level());
                 if (skeleton != null) {
                     skeleton.setPos(xPos, this.getY(), zPos);
+
                     skeleton.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ObjectRegistry.SPECTRAL_JACK_O_LANTERN.get()));
+                    skeleton.setDropChance(EquipmentSlot.HEAD, 0.1f);
+
                     skeleton.setItemSlot(EquipmentSlot.CHEST, new ItemStack(ObjectRegistry.HAUNTBOUND_CHESTPLATE.get()));
+                    skeleton.setDropChance(EquipmentSlot.CHEST, 0.01f);
+
                     skeleton.setItemSlot(EquipmentSlot.LEGS, new ItemStack(ObjectRegistry.HAUNTBOUND_LEGGINGS.get()));
+                    skeleton.setDropChance(EquipmentSlot.LEGS, 0.01f);
+
                     skeleton.setItemSlot(EquipmentSlot.FEET, new ItemStack(ObjectRegistry.HAUNTBOUND_BOOTS.get()));
+                    skeleton.setDropChance(EquipmentSlot.FEET, 0.01f);
+
                     ItemStack enchantedBow = new ItemStack(Items.BOW);
-                    enchantedBow.enchant(Enchantments.POWER_ARROWS, 5);
+                    enchantedBow.enchant(Enchantments.POWER_ARROWS, 10);
                     skeleton.setItemSlot(EquipmentSlot.MAINHAND, enchantedBow);
+                    skeleton.setDropChance(EquipmentSlot.MAINHAND, 0.01f);
+
+                    skeleton.setCustomName(Component.translatable("entity.sleepy_hollows.hauntbound_marksman"));
+                    skeleton.setCustomNameVisible(false);
 
                     this.level().addFreshEntity(skeleton);
                     spawnSummonParticles(xPos, zPos);
@@ -176,7 +220,6 @@ public class FleeingPumpkinHead extends Monster {
             }
         }
     }
-
     private void spawnSummonParticles(double x, double z) {
         level().addParticle(ParticleTypes.SOUL, x, this.getY() + 0.5D, z, 0.0D, 0.0D, 0.0D);
     }

@@ -40,6 +40,6 @@ public class RaubbauItem extends ShovelItem  {
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level world, @NotNull List<Component> tooltip, @NotNull TooltipFlag context) {
-        tooltip.add(Component.translatable("tooltip.sleepy_hollows.raubbau").withStyle(ChatFormatting.GOLD, ChatFormatting.ITALIC));
+        tooltip.add(Component.translatable("tooltip.sleepy_hollows.lore.raubbau").withStyle(ChatFormatting.GOLD, ChatFormatting.ITALIC));
     }
 }

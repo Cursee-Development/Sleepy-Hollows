@@ -11,7 +11,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
@@ -26,11 +25,6 @@ import java.util.Objects;
 public class SpectralWarAxeItem extends AxeItem implements EnchantingBehavior {
     public SpectralWarAxeItem(Properties properties) {
         super(ToolTiersRegistry.SPECTRAL, 3.3F, -2.8F, properties);
-    }
-
-    @Override
-    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
-        return enchantment != Enchantments.FIRE_ASPECT;
     }
 
     @Override
@@ -73,6 +67,6 @@ public class SpectralWarAxeItem extends AxeItem implements EnchantingBehavior {
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level world, @NotNull List<Component> tooltip, @NotNull TooltipFlag context) {
-        tooltip.add(Component.translatable("tooltip.sleepy_hollows.spectral_waraxe").withStyle(ChatFormatting.GOLD, ChatFormatting.ITALIC));
+        tooltip.add(Component.translatable("tooltip.sleepy_hollows.lore.spectral_waraxe").withStyle(ChatFormatting.GOLD, ChatFormatting.ITALIC));
     }
 }

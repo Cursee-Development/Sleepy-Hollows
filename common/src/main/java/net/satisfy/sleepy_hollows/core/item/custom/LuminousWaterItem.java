@@ -45,7 +45,7 @@ public class LuminousWaterItem extends BucketItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, Level world, List<Component> tooltip, @NotNull TooltipFlag flag) {
-        tooltip.add(Component.translatable("tooltip.sleepy_hollows.luminous_water"));
+        tooltip.add(Component.translatable("tooltip.sleepy_hollows.item.luminous_water"));
         super.appendHoverText(stack, world, tooltip, flag);
     }
 }

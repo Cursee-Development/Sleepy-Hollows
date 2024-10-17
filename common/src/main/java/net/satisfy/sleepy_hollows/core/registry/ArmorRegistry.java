@@ -107,7 +107,7 @@ public class ArmorRegistry {
                 boots.getItem() instanceof HauntboundBootsItem;
 
         tooltip.add(Component.nullToEmpty(""));
-        tooltip.add(Component.nullToEmpty(ChatFormatting.DARK_GREEN + I18n.get("tooltip.sleepy_hollows.hauntbound_armor_0")));
+        tooltip.add(Component.nullToEmpty(ChatFormatting.DARK_GREEN + I18n.get("tooltip.sleepy_hollows.armor.hauntbound_armor_0")));
         tooltip.add(Component.nullToEmpty((helmet.getItem() instanceof HauntboundHelmetItem ? ChatFormatting.GREEN.toString() : ChatFormatting.GRAY.toString()) + "- [" + ObjectRegistry.HAUNTBOUND_HELMET.get().getDescription().getString() + "]"));
         tooltip.add(Component.nullToEmpty((chestplate.getItem() instanceof HauntboundChestplateItem ? ChatFormatting.GREEN.toString() : ChatFormatting.GRAY.toString()) + "- [" + ObjectRegistry.HAUNTBOUND_CHESTPLATE.get().getDescription().getString() + "]"));
         tooltip.add(Component.nullToEmpty((leggings.getItem() instanceof HauntboundLeggingsItem ? ChatFormatting.GREEN.toString() : ChatFormatting.GRAY.toString()) + "- [" + ObjectRegistry.HAUNTBOUND_LEGGINGS.get().getDescription().getString() + "]"));
@@ -115,8 +115,8 @@ public class ArmorRegistry {
         tooltip.add(Component.nullToEmpty(""));
 
         ChatFormatting color = hasFullSet ? ChatFormatting.GREEN : ChatFormatting.GRAY;
-        tooltip.add(Component.nullToEmpty(color + I18n.get("tooltip.sleepy_hollows.hauntbound_armor_1")));
-        tooltip.add(Component.nullToEmpty(color + I18n.get("tooltip.sleepy_hollows.hauntbound_armor_2")));
+        tooltip.add(Component.nullToEmpty(color + I18n.get("tooltip.sleepy_hollows.armor.hauntbound_armor_1")));
+        tooltip.add(Component.nullToEmpty(color + I18n.get("tooltip.sleepy_hollows.armor.hauntbound_armor_2")));
         if (hasFullSet) {
             if (!player.hasEffect(MobEffectRegistry.MENTAL_FORTITUDE.get())) {
                 player.addEffect(new MobEffectInstance(MobEffectRegistry.MENTAL_FORTITUDE.get(), 20, 0));
