@@ -46,7 +46,7 @@ public class SleepyHollowsClient {
         // NetworkManager.registerReceiver(NetworkManager.Side.S2C, SleepyHollowsNetwork.Packets.SANITY_PACKET, SleepyHollowsNetwork.Packets::receiverForClient);
     }
 
-    public static void PreinitClient() {
+    public static void preInitClient() {
         EntityModelLayerRegistry.register(CoffinRenderer.LAYER_LOCATION, CoffinRenderer::getTexturedModelData);
         EntityModelLayerRegistry.register(SpectralHorseModel.LAYER_LOCATION, SpectralHorseModel::getTexturedModelData);
         EntityModelLayerRegistry.register(FleeingPumpkinHeadModel.LAYER_LOCATION, FleeingPumpkinHeadModel::getTexturedModelData);

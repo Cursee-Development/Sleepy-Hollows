@@ -82,6 +82,7 @@ public class TabRegistry {
                 out.accept(ObjectRegistry.ESSENCE_OF_UNDEAD.get());
                 out.accept(ObjectRegistry.LUMINOUS_ESSENCE.get());
                 out.accept(ObjectRegistry.LUMINOUS_WATER.get());
+                out.accept(ObjectRegistry.LUMINOUS_WATER_SPLASH.get());
                 out.accept(ObjectRegistry.LOOTBAG.get());
                 out.accept(ObjectRegistry.HAUNTBOUND_HELMET.get());
                 out.accept(ObjectRegistry.HAUNTBOUND_CHESTPLATE.get());

@@ -6,7 +6,6 @@
   "client": [
     "BossHealthOverlayMixin",
     "LevelRendererMixin",
-    "SodiumAcceptAnyLWJGL",
     "SpectralPumpkinOverlayMixin"
   ],
   "mixins": [],
