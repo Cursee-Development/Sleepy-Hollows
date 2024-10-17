@@ -2,7 +2,6 @@ package net.satisfy.sleepy_hollows.core.network.message;
 
 import dev.architectury.networking.NetworkManager;
 import dev.architectury.utils.Env;
-import net.fabricmc.api.EnvType;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;

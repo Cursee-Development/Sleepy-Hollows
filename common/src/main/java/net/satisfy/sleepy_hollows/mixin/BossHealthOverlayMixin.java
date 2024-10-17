@@ -3,8 +3,8 @@ package net.satisfy.sleepy_hollows.mixin;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.BossHealthOverlay;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.BossEvent;
+import net.minecraft.world.entity.player.Player;
 import net.satisfy.sleepy_hollows.Constants;
 import net.satisfy.sleepy_hollows.client.util.SanityManager;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,7 +19,6 @@ import java.util.UUID;
 
 @Mixin(BossHealthOverlay.class)
 public class BossHealthOverlayMixin {
-
     @Inject(method = "render", at = @At("HEAD"))
     private void adjustBossBarYOffset(GuiGraphics guiGraphics, CallbackInfo ci) {
         Minecraft mc = Minecraft.getInstance();

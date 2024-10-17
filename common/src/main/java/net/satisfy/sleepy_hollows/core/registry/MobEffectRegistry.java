@@ -8,7 +8,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.world.effect.MobEffect;
 import net.satisfy.sleepy_hollows.Constants;
 import net.satisfy.sleepy_hollows.core.effect.InfectedEffect;
-import net.satisfy.sleepy_hollows.core.effect.MentalFortidueEffect;
+import net.satisfy.sleepy_hollows.core.effect.MentalFortitudeEffect;
 import net.satisfy.sleepy_hollows.core.effect.SanityEffect;
 import net.satisfy.sleepy_hollows.core.util.SleepyHollowsIdentifier;
 
@@ -36,6 +36,6 @@ public class MobEffectRegistry {
     static {
         SANITY = registerEffect("sanity", SanityEffect::new);
         INFECTED = registerEffect("infected", InfectedEffect::new);
-        MENTAL_FORTITUDE = registerEffect("mental_fortitude", MentalFortidueEffect::new);
+        MENTAL_FORTITUDE = registerEffect("mental_fortitude", MentalFortitudeEffect::new);
     }
 }

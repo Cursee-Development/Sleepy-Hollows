@@ -7,8 +7,8 @@ import net.minecraft.world.entity.player.Player;
 import net.satisfy.sleepy_hollows.client.util.SanityManager;
 import org.jetbrains.annotations.NotNull;
 
-public class MentalFortidueEffect extends MobEffect {
-    public MentalFortidueEffect() {
+public class MentalFortitudeEffect extends MobEffect {
+    public MentalFortitudeEffect() {
         super(MobEffectCategory.BENEFICIAL, 0x00FF00);
     }
 
