@@ -60,5 +60,5 @@ Maybe, during your expeditions, you'll even uncover the secret identity of the H
 
 ### Run Minecraft:
 
-1. Launch Minecraft again with the Forge profile, and the mod should be loaded.  
+1. Launch Minecraft again with your Mod Profile, and the mod should be loaded.  
 2. **Have fun!**
