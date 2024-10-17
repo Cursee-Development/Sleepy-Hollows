@@ -57,12 +57,12 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
     public final AnimationState idleAnimationState = new AnimationState();
     private final ServerBossEvent bossEvent = new ServerBossEvent(Component.translatable("entity.sleepy_hollows.horseman"),
             BossEvent.BossBarColor.PURPLE, BossEvent.BossBarOverlay.PROGRESS);
+    private final List<ParticleArc> activeParticleArcs = new ArrayList<>();
     public AnimationState laughingAnimationState = new AnimationState();
     private int nextSummonIndex = 0;
     private int idleAnimationTimeout = 0;
     private int skeletonSpawnTimer = 25 * 20;
     private int attackCounter = 0;
-    private final List<ParticleArc> activeParticleArcs = new ArrayList<>();
 
     public Horseman(EntityType<? extends Monster> type, Level world) {
         super(type, world);
@@ -396,7 +396,6 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
             }
         });
     }
-
 
     @Override
     public void knockback(double strength, double xRatio, double zRatio) {

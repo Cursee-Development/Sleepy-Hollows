@@ -27,7 +27,7 @@ public class InfectedZombie extends Zombie {
                 .add(Attributes.MOVEMENT_SPEED, 0.23000000417232513)
                 .add(Attributes.MAX_HEALTH, 30.0)
                 .add(Attributes.ATTACK_DAMAGE, 5.0)
-                .add(Attributes.ARMOR, 3.0)
+                .add(Attributes.ARMOR, 1.0)
                 .add(Attributes.SPAWN_REINFORCEMENTS_CHANCE);
     }
 
