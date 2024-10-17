@@ -3,26 +3,21 @@ package net.satisfy.sleepy_hollows;
 import dev.architectury.event.events.client.ClientGuiEvent;
 import dev.architectury.event.events.client.ClientTickEvent;
 import dev.architectury.hooks.item.tool.AxeItemHooks;
-import dev.architectury.networking.NetworkManager;
 import dev.architectury.platform.Platform;
-import io.netty.buffer.Unpooled;
 import net.fabricmc.api.EnvType;
 import net.minecraft.core.Holder;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.biome.Biome;
 import net.satisfy.sleepy_hollows.client.event.HUDRenderEvent;
 import net.satisfy.sleepy_hollows.client.event.PlayerTickEvent;
 import net.satisfy.sleepy_hollows.client.util.SanityManager;
-import net.satisfy.sleepy_hollows.core.entity.Horseman;
 import net.satisfy.sleepy_hollows.core.network.SleepyHollowsNetwork;
 import net.satisfy.sleepy_hollows.core.network.message.SanityPacketMessage;
 import net.satisfy.sleepy_hollows.core.registry.*;
 import net.satisfy.sleepy_hollows.core.util.SleepyHollowsUtil;
 
 public final class SleepyHollows {
-
     public static void init() {
         FluidRegistry.init();
         ObjectRegistry.init();
@@ -84,17 +79,28 @@ public final class SleepyHollows {
 
 
     /**
-     * General TODO List:
-     * (5) - Implement networking functionality (currently being handled by Jason13Official)
-     * (3) - Fix Horseman entity spawning inside walls
-     * (2) - Balance adjustments for Horseman
-     * (1) - Pumpkin Nametag
-     * (1) - Explosion particles on Horseman death
-     * (2) - Health & Attack based on difficulty - currently disabled
-     * (1) - Ensure particle arcs are emitted from Horseman to Pumpkin Head
-     * (5) - Rename "Sanity Bar" to "Insanity Bar" -> instead of filling up it should start at 100 and slowly decrease (currently being handled by Jason13Official)
-     * ----
-     * 5 = highest Priority, 1 = lowest Priority
+     General TODO List:
+     (5) - Effects don't run out - only affecting sanity and mental fortitude
+     (5) - Implement networking functionality (currently being handled by Jason13Official).
+     (5) - Rename "Sanity Bar" to "Insanity Bar" -> Instead of filling up, it should start at 100 and slowly decrease (currently being handled by Jason13Official).
+     (4) - Documentation / Wiki
+     (4) - Fix Horseman summoned entities spawning inside walls (Skeletons, Zombies, and Pumpkin Head).
+     (2) - Balance adjustments for Horseman -> A few people (3) are currently playtesting this, but we might need more input data for further adjustments.
+     (1) - Explosion particles on Horseman death.
+     (1) - In addition to particles on death, we could also use something similar to the Wither immunity effect during the Horseman immunity phase.
+     (2) - Health & attack based on difficulty - currently disabled.
+     (4) - Ensure particle arcs are emitted from Horseman to Pumpkin Head -> Let's change the Pumpkin Head spawning method: it spawns at the Horseman's 'head' part and
+     then 'flies' 10 blocks in a random direction, immune to any damage for 3 seconds. This might be easier to do and would visually make more sense. :)
+     ----
+     5 = highest Priority, 1 = lowest Priority
+
+
+     Further adjustments planned for the Horseman Fight:
+     * New Attack: Casts a Soulfire Spiral every X seconds, setting blocks on fire and making the boss fight less static/tank & spank only during the fighting phase.
+     * New Ability: Removes water/fluids in an X-block range every X seconds, so players can't hold him off with water.
+
+
+
      */
 
 }

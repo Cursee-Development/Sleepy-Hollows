@@ -9,6 +9,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.damagesource.DamageSource;
@@ -63,7 +64,7 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
     public Horseman(EntityType<? extends Monster> type, Level world) {
         super(type, world);
         this.setCustomName(Component.translatable("entity.sleepy_hollows.horseman"));
-        this.setCustomNameVisible(true);
+        this.setCustomNameVisible(false);
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
         this.goalSelector.addGoal(0, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(0, new WaterAvoidingRandomStrollGoal(this, 1.0));
@@ -104,7 +105,7 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
 
             @Override
             public float chance() {
-                return 0.005f;
+                return 0.01f;
             }
 
             @Override
@@ -139,8 +140,6 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
             this.level().broadcastEntityEvent(this, (byte) 10);
         }
 
-
-
         if (this.isMoving()) {
             this.level().addParticle(ParticleTypes.ASH, this.getX(), this.getY() + 1.0D, this.getZ(), 0.0D, 0.0D, 0.0D);
             this.level().addParticle(ParticleTypes.WHITE_ASH, this.getX(), this.getY() + 1.0D, this.getZ(), 0.0D, 0.0D, 0.0D);
@@ -151,7 +150,6 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
             summonPumpkinHead();
             nextSummonIndex++;
         }
-
 
         if (!this.level().isClientSide()) {
             skeletonSpawnTimer--;
@@ -332,7 +330,6 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
         }
     }
 
-
     @Override
     public boolean hurt(@NotNull DamageSource source, float amount) {
         if (isPumpkinHeadAlive()) {
@@ -357,6 +354,6 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return null;
+        return SoundEvents.SKELETON_HORSE_AMBIENT;
     }
 }
