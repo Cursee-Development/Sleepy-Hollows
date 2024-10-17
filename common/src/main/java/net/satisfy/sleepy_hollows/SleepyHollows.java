@@ -92,7 +92,7 @@ public final class SleepyHollows {
      * (1) - Explosion particles on Horseman death
      * (2) - Health & Attack based on difficulty - currently disabled
      * (1) - Ensure particle arcs are emitted from Horseman to Pumpkin Head
-     * (5) - Rename "Sanity Bar" to "Insanity Bar" -> instead of filling up it should start at 100 and slowly decrease
+     * (5) - Rename "Sanity Bar" to "Insanity Bar" -> instead of filling up it should start at 100 and slowly decrease (currently being handled by Jason13Official)
      * ----
      * 5 = highest Priority, 1 = lowest Priority
      */
