@@ -8,6 +8,7 @@ import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
@@ -48,7 +49,7 @@ public class SanityEffect extends MobEffect {
     }
 
     @Override
-    public void removeAttributeModifiers(@NotNull LivingEntity livingEntity, @NotNull net.minecraft.world.entity.ai.attributes.AttributeMap attributeMap, int amplifier) {
+    public void removeAttributeModifiers(@NotNull LivingEntity livingEntity, @NotNull AttributeMap attributeMap, int amplifier) {
         Objects.requireNonNull(livingEntity.getAttributes().getInstance(Attributes.ATTACK_DAMAGE))
                 .setBaseValue(1.0);
 
@@ -63,10 +64,10 @@ public class SanityEffect extends MobEffect {
 
     private void distractEntity(LivingEntity livingEntity) {
         double gaussian = livingEntity.level().getRandom().nextGaussian();
-        double newMotionDirection = 0.25 * gaussian;
+        double newMotionDirection = 0.35 * gaussian;
         double newRotationDirection = (Math.PI / 0.75) * gaussian;
 
-        this.rotationDirection = 0.45 * newRotationDirection + (1.1 - 0.45) * this.rotationDirection;
+        this.rotationDirection = 0.75 * newRotationDirection + (1.2 - 0.5) * this.rotationDirection;
         livingEntity.setYRot((float) (livingEntity.getYRot() + this.rotationDirection));
         livingEntity.setXRot((float) (livingEntity.getXRot() + this.rotationDirection));
 
@@ -76,7 +77,7 @@ public class SanityEffect extends MobEffect {
         if (livingEntity.level() instanceof ServerLevel serverLevel) {
             serverLevel.sendParticles(new ItemParticleOption(ParticleTypes.ITEM, Items.PURPLE_DYE.getDefaultInstance()),
                     livingEntity.getX(), livingEntity.getY() + livingEntity.getBbHeight() * 0.8, livingEntity.getZ(),
-                    2, 0.0, 0.0, 0.0, 0.0);
+                    15, 0.0, 0.0, 0.0, 0.0);
         }
     }
 
