@@ -1,5 +1,6 @@
 package net.satisfy.sleepy_hollows.core.entity;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -28,6 +29,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.satisfy.sleepy_hollows.core.entity.ai.AnimationAttackGoal;
@@ -59,6 +61,7 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
     private int nextSummonIndex = 0;
     private int idleAnimationTimeout = 0;
     private int skeletonSpawnTimer = 25 * 20;
+    private int attackCounter = 0;
     private final List<ParticleArc> activeParticleArcs = new ArrayList<>();
 
     public Horseman(EntityType<? extends Monster> type, Level world) {
@@ -166,6 +169,19 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
                 arc.tick(level());
                 if (arc.isFinished()) {
                     iterator.remove();
+                }
+            }
+        }
+
+        if (this.hasActivePumpkinHead()) {
+            for (int i = 0; i < 3; ++i) {
+                double offsetX = this.getX() + this.random.nextGaussian() * 0.3;
+                double offsetY = this.getY() + 1.0 + this.random.nextGaussian() * 0.3;
+                double offsetZ = this.getZ() + this.random.nextGaussian() * 0.3;
+                this.level().addParticle(ParticleTypes.SMOKE, offsetX, offsetY, offsetZ, 0.0, 0.0, 0.0);
+
+                if (this.random.nextInt(4) == 0) {
+                    this.level().addParticle(ParticleTypes.ENTITY_EFFECT, offsetX, offsetY, offsetZ, 0.7, 0.7, 0.5);
                 }
             }
         }
@@ -284,6 +300,13 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
     @Override
     public void doHurtTarget_(LivingEntity targetEntity) {
         super.doHurtTarget(targetEntity);
+
+        attackCounter++;
+
+        if (attackCounter >= 7) {
+            removeWaterInRadius();
+            attackCounter = 0;
+        }
     }
 
     @Override
@@ -337,6 +360,43 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
         }
         return super.hurt(source, amount);
     }
+
+    @Override
+    public void die(@NotNull DamageSource cause) {
+        for (int i = 0; i < 70; ++i) {
+            double offsetX = this.getX() + (this.random.nextDouble() - 0.5) * 2.0;
+            double offsetY = this.getY() + this.random.nextDouble() * 2.0;
+            double offsetZ = this.getZ() + (this.random.nextDouble() - 0.5) * 2.0;
+            this.level().addParticle(ParticleTypes.SMOKE, offsetX, offsetY, offsetZ, 0.0, 0.0, 0.0);
+            this.level().addParticle(ParticleTypes.SOUL, offsetX, offsetY, offsetZ, 0.0, 0.0, 0.0);
+        }
+
+        super.die(cause);
+    }
+
+
+    private void removeWaterInRadius() {
+        AABB area = new AABB(this.blockPosition()).inflate(10);
+
+        BlockPos.betweenClosedStream(area).forEach(pos -> {
+            if (level().getFluidState(pos).isSource()) {
+                if (this.level().isClientSide()) {
+                    level().levelEvent(2001, pos, Block.getId(level().getBlockState(pos)));
+                }
+
+                level().setBlock(pos, ObjectRegistry.GRAVESTONE.get().defaultBlockState(), 3);
+
+                if (this.level().isClientSide()) {
+                    Vec3 targetPos = new Vec3(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+                    Vec3 horsemanPos = new Vec3(this.getX(), this.getY() + 1.0D, this.getZ());
+
+                    ParticleArc arc = new ParticleArc(targetPos, horsemanPos, 40);
+                    activeParticleArcs.add(arc);
+                }
+            }
+        });
+    }
+
 
     @Override
     public void knockback(double strength, double xRatio, double zRatio) {

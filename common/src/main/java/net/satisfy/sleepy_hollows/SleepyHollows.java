@@ -87,7 +87,6 @@ public final class SleepyHollows {
      (4) - Fix Horseman summoned entities spawning inside walls (Skeletons, Zombies, and Pumpkin Head).
      (2) - Balance adjustments for Horseman -> A few people (3) are currently playtesting this, but we might need more input data for further adjustments.
      (1) - Explosion particles on Horseman death.
-     (1) - In addition to particles on death, we could also use something similar to the Wither immunity effect during the Horseman immunity phase.
      (2) - Health & attack based on difficulty - currently disabled.
      (4) - Ensure particle arcs are emitted from Horseman to Pumpkin Head -> Let's change the Pumpkin Head spawning method: it spawns at the Horseman's 'head' part and
      then 'flies' 10 blocks in a random direction, immune to any damage for 3 seconds. This might be easier to do and would visually make more sense. :)
@@ -97,9 +96,6 @@ public final class SleepyHollows {
 
      Further adjustments planned for the Horseman Fight:
      * New Attack: Casts a Soulfire Spiral every X seconds, setting blocks on fire and making the boss fight less static/tank & spank only during the fighting phase.
-     * New Ability: Removes water/fluids in an X-block range every X seconds, so players can't hold him off with water.
-
-
 
      */
 

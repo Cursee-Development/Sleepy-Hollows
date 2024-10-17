@@ -83,7 +83,6 @@ public class TabRegistry {
                 out.accept(ObjectRegistry.LUMINOUS_ESSENCE.get());
                 out.accept(ObjectRegistry.LUMINOUS_WATER.get());
                 out.accept(ObjectRegistry.LUMINOUS_WATER_SPLASH.get());
-                out.accept(ObjectRegistry.LOOTBAG.get());
                 out.accept(ObjectRegistry.HAUNTBOUND_HELMET.get());
                 out.accept(ObjectRegistry.HAUNTBOUND_CHESTPLATE.get());
                 out.accept(ObjectRegistry.HAUNTBOUND_LEGGINGS.get());
@@ -91,6 +90,7 @@ public class TabRegistry {
                 out.accept(ObjectRegistry.SPECTRAL_WARAXE.get());
                 out.accept(ObjectRegistry.SHATTERBRAND.get());
                 out.accept(ObjectRegistry.RAUBBAU.get());
+                out.accept(ObjectRegistry.LOOTBAG.get());
                 out.accept(ObjectRegistry.REINS_OF_THE_SPECTRAL_HORSE.get());
                 out.accept(ObjectRegistry.COMPLETIONIST_BANNER.get());
                 out.accept(ObjectRegistry.DUSK_BERRIES.get());
