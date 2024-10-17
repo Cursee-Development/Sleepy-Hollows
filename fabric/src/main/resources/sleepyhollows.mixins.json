@@ -1,13 +1,11 @@
 {
   "required": true,
-  "package": "net.satisfy.sleepy_hollows.mixin",
+  "package": "net.satisfy.sleepy_hollows.fabric.mixin",
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
-  "client": [
-    "LevelRendererMixin",
+  "mixins": [
+    "SodiumAcceptAnyLWJGL"
   ],
-  "mixins": [],
-  "server": [],
   "injectors": {
     "defaultRequire": 1
   }

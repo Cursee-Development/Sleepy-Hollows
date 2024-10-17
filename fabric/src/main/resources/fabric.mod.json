@@ -26,7 +26,8 @@
     ]
   },
   "mixins": [
-    "sleepy_hollows.mixins.json"
+    "sleepy_hollows.mixins.json",
+    "sleepyhollows.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.16.5",

@@ -1,4 +1,4 @@
-package net.satisfy.sleepy_hollows.mixin;
+package net.satisfy.sleepy_hollows.fabric.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;

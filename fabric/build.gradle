@@ -51,6 +51,9 @@ dependencies {
 
     implementation(include("com.github.bawnorton.mixinsquared:mixinsquared-fabric:0.2.0"))
 
+    modCompileOnlyApi("maven.modrinth:sodium:mc1.20.1-0.5.11")
+    modCompileOnlyApi("maven.modrinth:iris:1.7.5+1.20.1")
+
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionFabric')
 }

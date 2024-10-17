@@ -16,7 +16,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.satisfy.sleepy_hollows.core.registry.FluidRegistry;
 import net.satisfy.sleepy_hollows.core.registry.ObjectRegistry;
-import net.satisfy.sleepy_hollows.platform.PlatformHelper;
+import net.satisfy.sleepy_hollows.platform.LuminousWaterParticles;
 
 public abstract class LuminousWaterFluid extends FlowingFluid {
 
@@ -78,7 +78,7 @@ public abstract class LuminousWaterFluid extends FlowingFluid {
 
     @Override
     public void animateTick(Level level, BlockPos pos, FluidState state, RandomSource random) {
-        PlatformHelper.spawnHolyFluidParticles(level, pos, state, random, 1);
+        LuminousWaterParticles.spawnBlock(level, pos, state, random, 1);
     }
 
     @Override
