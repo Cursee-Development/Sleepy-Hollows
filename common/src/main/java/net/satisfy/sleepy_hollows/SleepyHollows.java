@@ -9,17 +9,21 @@ import io.netty.buffer.Unpooled;
 import net.fabricmc.api.EnvType;
 import net.minecraft.core.Holder;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.biome.Biome;
 import net.satisfy.sleepy_hollows.client.event.HUDRenderEvent;
 import net.satisfy.sleepy_hollows.client.event.PlayerTickEvent;
+import net.satisfy.sleepy_hollows.client.util.PlayerSanityProvider;
 import net.satisfy.sleepy_hollows.client.util.SanityManager;
 import net.satisfy.sleepy_hollows.core.entity.Horseman;
 import net.satisfy.sleepy_hollows.core.network.SleepyHollowsNetwork;
 import net.satisfy.sleepy_hollows.core.network.message.SanityPacketMessage;
 import net.satisfy.sleepy_hollows.core.registry.*;
+import net.satisfy.sleepy_hollows.core.util.IEntityDataSaver;
 import net.satisfy.sleepy_hollows.core.util.SleepyHollowsUtil;
+import net.satisfy.sleepy_hollows.core.world.SleepyHollowsBiomeKeys;
 
 public final class SleepyHollows {
 
@@ -63,21 +67,31 @@ public final class SleepyHollows {
                 if (SanityManager.hasSanityImmunity(serverPlayer)) return;
 
                 Holder<Biome> biomeHolder = serverPlayer.level().getBiome(serverPlayer.getOnPos());
-                if (!SleepyHollowsUtil.unwrappedBiome(biomeHolder).contains("sleepy_hollow")) return;
+//                if (!SleepyHollowsUtil.unwrappedBiome(biomeHolder).contains("sleepy_hollow")) {
+                if (!serverPlayer.level().getBiome(serverPlayer.getOnPos()).is(SleepyHollowsBiomeKeys.SLEEPY_HOLLOWS)) {
+                    IEntityDataSaver dataPlayer = (IEntityDataSaver) serverPlayer;
+                    PlayerSanityProvider.increaseSanity(dataPlayer, 5);
+                    serverPlayer.sendSystemMessage(Component.literal("your server sanity: " + String.valueOf(PlayerSanityProvider.getSanity(dataPlayer))));
+                }
+                else {
+                    IEntityDataSaver dataPlayer = (IEntityDataSaver) serverPlayer;
+                    PlayerSanityProvider.decreaseSanity(dataPlayer, 20);
+                    serverPlayer.sendSystemMessage(Component.literal("your server sanity: " + String.valueOf(PlayerSanityProvider.getSanity(dataPlayer))));
 
-                // MANUAL ???
-//                // create a new buffer to store encoded data
-//                FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
+                    // MANUAL ???
+//                    // create a new buffer to store encoded data
+//                    FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
 //
-//                // create a new message to store raw information
-//                SanityPacketMessage sanityPacketMessage = new SanityPacketMessage(true);
+//                    // create a new message to store raw information
+//                    SanityPacketMessage sanityPacketMessage = new SanityPacketMessage(true);
 //
-//                // encode our message onto the buffer
-//                sanityPacketMessage.encode(buf);
+//                    // encode our message onto the buffer
+//                    sanityPacketMessage.encode(buf);
 //
-//                NetworkManager.sendToPlayer(serverPlayer, SleepyHollowsNetwork.Packets.SANITY_PACKET, buf);
+//                    NetworkManager.sendToPlayer(serverPlayer, SleepyHollowsNetwork.Packets.SANITY_PACKET, buf);
 
-                SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer(serverPlayer, new SanityPacketMessage(true));
+                    SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer(serverPlayer, new SanityPacketMessage(true));
+                }
             }
         }
     }
@@ -97,4 +111,5 @@ public final class SleepyHollows {
      * 5 = highest Priority, 1 = lowest Priority
      */
 
+    // https://github.com/Tutorials-By-Kaupenjoe/Fabric-Tutorial-1.19/commit/d1ab9ccf6909eef6e257a0b88b2851637b48ed42
 }

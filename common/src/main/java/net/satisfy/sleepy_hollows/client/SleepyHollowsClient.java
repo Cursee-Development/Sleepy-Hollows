@@ -9,6 +9,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Holder;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.biome.Biome;
 import net.satisfy.sleepy_hollows.client.model.armor.HauntboundBootsModel;
 import net.satisfy.sleepy_hollows.client.model.armor.HauntboundChestplateModel;
@@ -18,10 +19,12 @@ import net.satisfy.sleepy_hollows.client.model.entity.FleeingPumpkinHeadModel;
 import net.satisfy.sleepy_hollows.client.model.entity.HorsemanModel;
 import net.satisfy.sleepy_hollows.client.model.entity.SpectralHorseModel;
 import net.satisfy.sleepy_hollows.client.renderer.*;
+import net.satisfy.sleepy_hollows.client.util.PlayerSanityProvider;
 import net.satisfy.sleepy_hollows.client.util.SanityManager;
 import net.satisfy.sleepy_hollows.core.network.SleepyHollowsNetwork;
 import net.satisfy.sleepy_hollows.core.network.message.SanityPacketMessage;
 import net.satisfy.sleepy_hollows.core.registry.EntityTypeRegistry;
+import net.satisfy.sleepy_hollows.core.util.IEntityDataSaver;
 import net.satisfy.sleepy_hollows.core.util.SleepyHollowsUtil;
 
 import static net.satisfy.sleepy_hollows.core.registry.ObjectRegistry.*;
@@ -76,6 +79,9 @@ public class SleepyHollowsClient {
 
             if (SleepyHollowsUtil.unwrappedBiome(biomeHolder).contains("sleepy_hollow")) {
 
+                IEntityDataSaver dataPlayer = (IEntityDataSaver) instance.player;
+                // PlayerSanityProvider.decreaseSanity(dataPlayer, 20);
+                instance.player.sendSystemMessage(Component.literal("your client sanity: " + String.valueOf(PlayerSanityProvider.getSanity(dataPlayer))));
                 // MANUAL ???
 //                // create a new buffer to store encoded data
 //                FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
@@ -89,6 +95,11 @@ public class SleepyHollowsClient {
 //                NetworkManager.sendToServer(SleepyHollowsNetwork.Packets.SANITY_PACKET, buf);
 
                 SleepyHollowsNetwork.SANITY_CHANNEL.sendToServer(new SanityPacketMessage(true));
+            } else {
+
+                IEntityDataSaver dataPlayer = (IEntityDataSaver) instance.player;
+                // PlayerSanityProvider.increaseSanity(dataPlayer, 5);
+                instance.player.sendSystemMessage(Component.literal("your client sanity: " + String.valueOf(PlayerSanityProvider.getSanity(dataPlayer))));
             }
         }
     }
