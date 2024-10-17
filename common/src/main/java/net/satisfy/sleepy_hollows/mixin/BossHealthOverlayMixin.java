@@ -7,6 +7,7 @@ import net.minecraft.world.entity.player.Player;
 import net.satisfy.sleepy_hollows.client.util.SanityManager;
 import net.satisfy.sleepy_hollows.core.world.SleepyHollowsBiomeKeys;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -18,9 +19,7 @@ public class BossHealthOverlayMixin {
         Minecraft mc = Minecraft.getInstance();
         Player player = mc.player;
 
-        // Überprüfen, ob der Spieler existiert und die SanityBar angezeigt wird
-        if (player != null && SanityManager.isSanityBarVisible(player) && isInSleepyHollowsBiome(player)) {
-            // Sanity ist unter 100 und die SanityBar wird angezeigt, also wird die BossBar nach unten verschoben
+        if (player != null && SanityManager.isSanityBarVisible(player) && sleepy_Hollows$isInSleepyHollowsBiome(player)) {
             guiGraphics.pose().pushPose();
             guiGraphics.pose().translate(0, 30, 0);
         }
@@ -31,15 +30,13 @@ public class BossHealthOverlayMixin {
         Minecraft mc = Minecraft.getInstance();
         Player player = mc.player;
 
-        // Überprüfen, ob der Spieler existiert und die SanityBar angezeigt wird
-        if (player != null && SanityManager.isSanityBarVisible(player) && isInSleepyHollowsBiome(player)) {
-            // Sanity ist unter 100 und die SanityBar wird angezeigt, also wird die Verschiebung der BossBar zurückgesetzt
+        if (player != null && SanityManager.isSanityBarVisible(player) && sleepy_Hollows$isInSleepyHollowsBiome(player)) {
             guiGraphics.pose().popPose();
         }
     }
 
-    private boolean isInSleepyHollowsBiome(Player player) {
-        // Überprüfen, ob der Spieler sich in der Sleepy Hollows-Biome befindet
+    @Unique
+    private boolean sleepy_Hollows$isInSleepyHollowsBiome(Player player) {
         return player.level().getBiome(player.blockPosition()).is(SleepyHollowsBiomeKeys.SLEEPY_HOLLOWS);
     }
 }
