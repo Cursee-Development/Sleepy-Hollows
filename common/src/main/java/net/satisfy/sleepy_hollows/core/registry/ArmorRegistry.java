@@ -16,6 +16,7 @@ import net.satisfy.sleepy_hollows.client.model.armor.HauntboundBootsModel;
 import net.satisfy.sleepy_hollows.client.model.armor.HauntboundChestplateModel;
 import net.satisfy.sleepy_hollows.client.model.armor.HauntboundHelmetModel;
 import net.satisfy.sleepy_hollows.client.model.armor.HauntboundLeggingsModel;
+import net.satisfy.sleepy_hollows.client.util.SanityManager;
 import net.satisfy.sleepy_hollows.core.item.custom.HauntboundBootsItem;
 import net.satisfy.sleepy_hollows.core.item.custom.HauntboundChestplateItem;
 import net.satisfy.sleepy_hollows.core.item.custom.HauntboundHelmetItem;
@@ -118,7 +119,7 @@ public class ArmorRegistry {
         tooltip.add(Component.nullToEmpty(color + I18n.get("tooltip.sleepy_hollows.armor.hauntbound_armor_1")));
         tooltip.add(Component.nullToEmpty(color + I18n.get("tooltip.sleepy_hollows.armor.hauntbound_armor_2")));
         if (hasFullSet) {
-            if (!player.hasEffect(MobEffectRegistry.MENTAL_FORTITUDE.get())) {
+            if (!SanityManager.isImmune(player)) {
                 player.addEffect(new MobEffectInstance(MobEffectRegistry.MENTAL_FORTITUDE.get(), 20, 0));
             }
         }

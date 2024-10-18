@@ -24,7 +24,7 @@ public class HUDRenderEvent {
 
         if (player == null || level == null || mc.isPaused()) return;
 
-        if (player.hasEffect(MobEffectRegistry.MENTAL_FORTITUDE.get()) || mc.level.getBlockState(player.blockPosition()).is(TagRegistry.RESET_SANITY)) return;
+        if (SanityManager.isImmune(player) || mc.level.getBlockState(player.blockPosition()).is(TagRegistry.RESET_SANITY)) return;
 
         int sanity = SanityManager.getSanity(player);
 

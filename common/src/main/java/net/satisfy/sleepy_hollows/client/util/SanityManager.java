@@ -60,7 +60,7 @@ public class SanityManager {
     private static int decreaseSanity(Player player, int amount) {
 
         final int currentSanity = getSanity(player);
-        if (player.hasEffect(MobEffectRegistry.MENTAL_FORTITUDE.get())) return currentSanity;
+        if (SanityManager.isImmune(player)) return currentSanity;
         final int newSanity = Math.max(MINIMUM_SANITY, currentSanity + amount);
         getSanityTag(getSavedData(player)).putInt(SANITY, safeSanity(newSanity));
 
@@ -82,7 +82,7 @@ public class SanityManager {
      *  @param amount A positive or negative integer to change the Sanity by
      *  @return The amount by which sanity was modified */
     public static int changeSanity(Player player, int amount) {
-        if (isImmune(player)) return 0;
+        if (SanityManager.isImmune(player)) return 0;
         // if 0 return 0, else if more than 0 increase, else decrease
         return amount == 0 ? 0 : amount > 0 ? increaseSanity(player, amount) : decreaseSanity(player, amount);
     }
@@ -91,7 +91,7 @@ public class SanityManager {
      *  @param amount A positive or negative integer to change the Sanity by
      *  @return The amount by which sanity was modified */
     public static int changeLocalSanity(LocalPlayer player, int amount) {
-        if (isImmune(player)) return 0;
+        if (SanityManager.isImmune(player)) return 0;
         // if 0 return 0, else if more than 0 increase, else decrease
         return amount == 0 ? 0 : amount > 0 ? increaseSanity(player, amount) : decreaseSanity(player, amount);
     }
@@ -114,7 +114,7 @@ public class SanityManager {
             SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer(serverPlayer, new SanityPacketMessage(Modifiers.RESET_SANITY.getValue())); // update client
         }
 
-        if (!isImmune(serverPlayer) && blockState.is(TagRegistry.DECREASE_SANITY)) {
+        if (!SanityManager.isImmune(serverPlayer) && blockState.is(TagRegistry.DECREASE_SANITY)) {
             changeSanity(serverPlayer, Modifiers.DECREASE_SANITY.getValue()); // update server
             SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer(serverPlayer, new SanityPacketMessage(Modifiers.DECREASE_SANITY.getValue())); // update client
         }

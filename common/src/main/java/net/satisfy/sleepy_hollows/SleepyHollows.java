@@ -57,7 +57,7 @@ public final class SleepyHollows {
             // for every player
             for (ServerPlayer player : server.getPlayerList().getPlayers()) {
 
-                if (player.hasEffect(MobEffectRegistry.MENTAL_FORTITUDE.get())  || player.level().getBlockState(player.blockPosition()).is(TagRegistry.RESET_SANITY)) return;
+                if (SanityManager.isImmune(player) || player.level().getBlockState(player.blockPosition()).is(TagRegistry.RESET_SANITY)) return;
 
                 // if they do not have mental fortitude
                 if (!player.level().getBiome(player.getOnPos()).is(SleepyHollowsBiomeKeys.SLEEPY_HOLLOWS)) {
