@@ -18,7 +18,7 @@ public class MentalFortitudeEffect extends MobEffect {
 
     @Override
     public void applyEffectTick(@NotNull LivingEntity livingEntity, int amplifier) {
-        if (livingEntity instanceof Player player) {
+        if (livingEntity instanceof Player player && !player.level().isClientSide()) {
             if (SanityManager.getSanity(player) < 100) {
                 SanityManager.changeSanity(player, SanityManager.Modifiers.MENTAL_FORTITUDE.getValue()); // update server
                 SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer((ServerPlayer) player, new SanityPacketMessage(SanityManager.Modifiers.MENTAL_FORTITUDE.getValue())); // update client
