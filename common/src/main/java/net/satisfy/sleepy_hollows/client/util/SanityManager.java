@@ -57,7 +57,7 @@ public class SanityManager {
 
     /** @param amount expects a negative integer
      *  @return The amount by which sanity was modified */
-    private static int decreaseSanity(Player player, int amount) {
+    public static int decreaseSanity(Player player, int amount) {
 
         final int currentSanity = getSanity(player);
         if (SanityManager.isImmune(player)) return currentSanity;
@@ -116,6 +116,10 @@ public class SanityManager {
             changeSanity(serverPlayer, Modifiers.DECREASE_SANITY.getValue()); // update server
             SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer(serverPlayer, new SanityPacketMessage(Modifiers.DECREASE_SANITY.getValue())); // update client
         }
+    }
+
+    public static boolean isSanityBarVisible(Player player) {
+        return getSanity(player) < MAXIMUM_SANITY;
     }
 
     public static boolean isImmune(Player player) {
