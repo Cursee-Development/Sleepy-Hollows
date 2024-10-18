@@ -94,9 +94,4 @@ public class InfectedTallFlowerBlock extends TallFlowerBlock {
                     }
                 });
     }
-
-    @Override
-    public boolean isPathfindable(@NotNull BlockState state, @NotNull BlockGetter world, @NotNull BlockPos pos, @NotNull PathComputationType type) {
-        return false;
-    }
 }

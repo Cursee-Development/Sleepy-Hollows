@@ -61,4 +61,7 @@ public class SleepyHollowsUtil {
     public static String unwrappedBiome(Holder<Biome> biomeHolder) {
         return biomeHolder.unwrap().map((arg) -> arg.location().toString(), (arg) -> "[unregistered " + arg + "]");
     }
+
+    public static final int NEW_STRUCTURE_SIZE = 512;
+
 }

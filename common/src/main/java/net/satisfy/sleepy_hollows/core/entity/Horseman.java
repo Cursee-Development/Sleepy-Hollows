@@ -63,7 +63,7 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
     public AnimationState laughingAnimationState = new AnimationState();
     private int nextSummonIndex = 0;
     private int idleAnimationTimeout = 0;
-    private int skeletonSpawnTimer = 25 * 20;
+    private int skeletonSpawnTimer = 500;
     private int attackCounter = 0;
 
     public Horseman(EntityType<? extends Monster> type, Level world) {
@@ -98,7 +98,7 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
 
             @Override
             public void onTick(int tick) {
-                if (tick == 20) {
+                if (tick == 2) {
                     level().playSound(null, Horseman.this, SoundEventRegistry.HORSEMAN_LAUGH.get(), SoundSource.NEUTRAL, 1, 1);
                 }
             }

@@ -28,6 +28,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.satisfy.sleepy_hollows.core.block.custom.entity.CoffinBlockEntity;
+import net.satisfy.sleepy_hollows.core.block.custom.entity.DummyCoffinBlockEntity;
 import net.satisfy.sleepy_hollows.core.registry.EntityTypeRegistry;
 import net.satisfy.sleepy_hollows.core.util.SleepyHollowsUtil;
 import org.jetbrains.annotations.NotNull;
@@ -39,6 +40,7 @@ import java.util.function.Supplier;
 
 @SuppressWarnings("deprecation")
 public class CoffinBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
+
 	public static final DirectionProperty FACING;
 	public static final BooleanProperty WATERLOGGED;
 	public static final EnumProperty<BedPart> BED_PART;
@@ -180,14 +182,13 @@ public class CoffinBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
 		super.playerWillDestroy(level, pos, state, player);
 	}
 
-
 	@Nullable
 	@Override
 	public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
 		if (state.getValue(BED_PART) == BedPart.HEAD) {
 			return new CoffinBlockEntity(pos, state);
 		} else {
-			return null;
+			return new DummyCoffinBlockEntity(pos, state);
 		}
 	}
 

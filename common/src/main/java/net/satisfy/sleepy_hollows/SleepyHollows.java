@@ -31,6 +31,7 @@ public final class SleepyHollows {
 
         Constants.LOG.info("Sleepy Hollows has been initialized in the common setup phase.");
 
+
         if (Platform.getEnv() == EnvType.CLIENT) {
             ClientGuiEvent.RENDER_HUD.register(HUDRenderEvent::onRenderHUD);
             ClientTickEvent.CLIENT_POST.register(PlayerTickEvent::onClientTick);
@@ -40,6 +41,9 @@ public final class SleepyHollows {
         // register a receiver for a Client-to-Server (C2S) packet, to handle the packet when the server acquires it
         // NetworkManager.registerReceiver(NetworkManager.Side.C2S, SleepyHollowsNetwork.Packets.SANITY_PACKET, SleepyHollowsNetwork.Packets::receiverForServer);
     }
+
+    public static final int NEW_STRUCTURE_SIZE = 512;
+
 
     public static void commonInit() {
         FlammableBlockRegistry.init();
