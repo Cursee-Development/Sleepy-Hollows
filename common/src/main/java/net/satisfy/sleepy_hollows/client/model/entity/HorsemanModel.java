@@ -15,16 +15,10 @@ import org.jetbrains.annotations.NotNull;
 public class HorsemanModel<T extends Horseman> extends HierarchicalModel<T> {
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new SleepyHollowsIdentifier("horseman"), "main");
 	private final ModelPart root;
-	private final ModelPart PUMPKIN;
 
 
 	public HorsemanModel(ModelPart root) {
 		this.root = root;
-		this.PUMPKIN = root.getChild("root")
-				.getChild("horse")
-				.getChild("rider")
-				.getChild("head2")
-				.getChild("PUMPKIN");
 	}
 
 	@SuppressWarnings("unused")
@@ -185,8 +179,6 @@ public class HorsemanModel<T extends Horseman> extends HierarchicalModel<T> {
 		this.animateWalk(HorsemanAnimation.walk, limbSwing, limbSwingAmount, 2f, 2.5f);
 		this.animate(entity.attackAnimationState, HorsemanAnimation.attack, ageInTicks, 1f);
 		this.animate(entity.laughingAnimationState, HorsemanAnimation.laugh, ageInTicks, 1f);
-
-		this.PUMPKIN.visible = !entity.hasActivePumpkinHead();
 	}
 
 	@Override

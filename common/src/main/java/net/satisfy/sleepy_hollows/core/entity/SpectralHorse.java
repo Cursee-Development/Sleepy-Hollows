@@ -36,14 +36,13 @@ public class SpectralHorse extends AbstractChestedHorse {
 		this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
 	}
 
-
 	public static AttributeSupplier.Builder createAttributes() {
 		return Horse.createMobAttributes()
 				.add(Attributes.MAX_HEALTH, 20.0)
 				.add(Attributes.ARMOR, 1.5)
 				.add(Attributes.ARMOR_TOUGHNESS, 1.5)
-				.add(Attributes.JUMP_STRENGTH, 0.7)
-				.add(Attributes.MOVEMENT_SPEED, 0.15);
+				.add(Attributes.JUMP_STRENGTH, 0.6)
+				.add(Attributes.MOVEMENT_SPEED, 0.19499999701976776);
 	}
 
 	@Override

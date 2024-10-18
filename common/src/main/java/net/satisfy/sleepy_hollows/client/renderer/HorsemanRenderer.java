@@ -23,7 +23,7 @@ public class HorsemanRenderer<T extends Horseman> extends MobRenderer<T, Horsema
 
     @Override
     public @NotNull ResourceLocation getTextureLocation(@NotNull Horseman entity) {
-        return entity.hasActivePumpkinHead() ? TEXTURE_PUMPKIN_ACTIVE : TEXTURE;
+        return entity.getState() == Horseman.HorsemanState.IMMUNE ? TEXTURE_PUMPKIN_ACTIVE : TEXTURE;
     }
 
     @Override

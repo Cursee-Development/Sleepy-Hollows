@@ -47,29 +47,32 @@ import net.satisfy.sleepy_hollows.core.util.SoulfireSpiral;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class Horseman extends Monster implements EntityWithAttackAnimation {
-    private static final EntityDataAccessor<Boolean> IMMUNE = SynchedEntityData.defineId(Horseman.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> STATE = SynchedEntityData.defineId(Horseman.class, EntityDataSerializers.INT);
     private static final float[] HEALTH_THRESHOLDS = {0.75f, 0.50f, 0.25f};
-    private static final EntityDataAccessor<Boolean> HAS_ACTIVE_PUMPKIN_HEAD = SynchedEntityData.defineId(Horseman.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> ATTACKING = SynchedEntityData.defineId(Horseman.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> LAUGHING = SynchedEntityData.defineId(Horseman.class, EntityDataSerializers.BOOLEAN);
+    private static final int SKELETON_SPAWN_INTERVAL = 25 * 20;
+    private static final int ATTACK_THRESHOLD = 7;
+    private static final int PARTICLE_ARC_DURATION = 40;
     public final AnimationState attackAnimationState = new AnimationState();
     public final AnimationState idleAnimationState = new AnimationState();
     private final ServerBossEvent bossEvent = new ServerBossEvent(Component.translatable("entity.sleepy_hollows.horseman"), BossEvent.BossBarColor.PURPLE, BossEvent.BossBarOverlay.PROGRESS);
     private final List<ParticleArc> activeParticleArcs = new ArrayList<>();
     public AnimationState laughingAnimationState = new AnimationState();
     private int nextSummonIndex = 0;
-    private int idleAnimationTimeout = 0;
-    private int skeletonSpawnTimer = 25 * 20;
+    private int skeletonSpawnTimer = SKELETON_SPAWN_INTERVAL;
     private int attackCounter = 0;
+    private final List<SoulfireSpiral> activeSoulfireSpirals = new ArrayList<>();
+    private int nextSoulfireIndex = 0;
+    private final float[] SOULFIRE_THRESHOLDS;
 
     public Horseman(EntityType<? extends Monster> type, Level world) {
         super(type, world);
         this.setCustomName(Component.translatable("entity.sleepy_hollows.horseman"));
         this.setCustomNameVisible(false);
+        this.SOULFIRE_THRESHOLDS = calculateSoulfireThresholds();
+
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
         this.goalSelector.addGoal(0, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(0, new WaterAvoidingRandomStrollGoal(this, 1.0));
@@ -83,12 +86,12 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
 
             @Override
             public void onStart() {
-                setLaughing(true);
+                setState(HorsemanState.LAUGHING);
             }
 
             @Override
             public void onStop() {
-                setLaughing(false);
+                setState(HorsemanState.IDLE);
             }
 
             @Override
@@ -124,7 +127,7 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
 
     public static AttributeSupplier.@NotNull Builder createAttributes() {
         return Monster.createMonsterAttributes()
-                .add(Attributes.MOVEMENT_SPEED, 0.34000000417232513)
+                .add(Attributes.MOVEMENT_SPEED, 0.24100000417232513)
                 .add(Attributes.MAX_HEALTH, 400.0)
                 .add(Attributes.ATTACK_DAMAGE, 16.0)
                 .add(Attributes.ATTACK_KNOCKBACK, 0)
@@ -133,81 +136,94 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
 
     public void tick() {
         super.tick();
+        handleClientSideAnimations();
+        updatePumpkinHeadStatus();
+        applyMovementParticles();
+        checkHealthThresholds();
+        spawnSkeletonsPeriodically();
+        updateSoulfireSpirals();
+        updateParticleArcs();
+        updateBossEventProgress();
+    }
+
+    private void handleClientSideAnimations() {
         if (this.level().isClientSide()) {
             setupAnimationStates();
         }
+    }
 
-        if (this.hasActivePumpkinHead() && !isPumpkinHeadAlive()) {
-            this.setActivePumpkinHead(false);
+    private void updatePumpkinHeadStatus() {
+        if (!this.level().isClientSide()) {
+            if (hasState(HorsemanState.HAS_ACTIVE_PUMPKIN_HEAD) && !isPumpkinHeadAlive()) {
+                setState(HorsemanState.IDLE);
+            }
         }
+    }
 
-        if (!this.level().isClientSide() && this.hasActivePumpkinHead()) {
-            this.level().broadcastEntityEvent(this, (byte) 10);
-        }
 
+    private void applyMovementParticles() {
         if (this.isMoving()) {
             this.level().addParticle(ParticleTypes.ASH, this.getX(), this.getY() + 1.0D, this.getZ(), 0.0D, 0.0D, 0.0D);
             this.level().addParticle(ParticleTypes.WHITE_ASH, this.getX(), this.getY() + 1.0D, this.getZ(), 0.0D, 0.0D, 0.0D);
         }
+    }
 
+    private void checkHealthThresholds() {
         float currentHealthRatio = this.getHealth() / this.getMaxHealth();
+
+        if (currentHealthRatio < 0.5 && !hasState(Horseman.HorsemanState.HAS_ACTIVE_PUMPKIN_HEAD)) {
+            setActivePumpkinHead(true);
+        } else if (currentHealthRatio >= 0.5 && hasState(Horseman.HorsemanState.HAS_ACTIVE_PUMPKIN_HEAD)) {
+            setActivePumpkinHead(false);
+        }
         if (nextSummonIndex < HEALTH_THRESHOLDS.length && currentHealthRatio <= HEALTH_THRESHOLDS[nextSummonIndex]) {
             summonPumpkinHead();
             nextSummonIndex++;
         }
 
-        if (!this.level().isClientSide()) {
-            skeletonSpawnTimer--;
-            if (skeletonSpawnTimer <= 0) {
-                spawnArmoredSkeleton();
-                skeletonSpawnTimer = 25 * 20;
-            }
-        }
-
-        float[] SOULFIRE_THRESHOLDS = getSoulfireThresholds();
-
         if (nextSoulfireIndex < SOULFIRE_THRESHOLDS.length && this.getHealth() <= SOULFIRE_THRESHOLDS[nextSoulfireIndex]) {
             castSoulfireSpiral();
             nextSoulfireIndex++;
         }
+    }
 
+    private void spawnSkeletonsPeriodically() {
+        if (!this.level().isClientSide()) {
+            skeletonSpawnTimer--;
+            if (skeletonSpawnTimer <= 0) {
+                spawnArmoredSkeleton();
+                skeletonSpawnTimer = SKELETON_SPAWN_INTERVAL;
+            }
+        }
+    }
+
+    private void updateSoulfireSpirals() {
         if (!this.level().isClientSide()) {
             if (!activeSoulfireSpirals.isEmpty()) {
-                Iterator<SoulfireSpiral> iterator = activeSoulfireSpirals.iterator();
-                while (iterator.hasNext()) {
-                    SoulfireSpiral spiral = iterator.next();
+                for (int i = activeSoulfireSpirals.size() - 1; i >= 0; i--) {
+                    SoulfireSpiral spiral = activeSoulfireSpirals.get(i);
                     spiral.tick();
                     if (spiral.isFinished()) {
-                        iterator.remove();
+                        activeSoulfireSpirals.remove(i);
                     }
                 }
             }
         }
+    }
 
+    private void updateParticleArcs() {
         if (!activeParticleArcs.isEmpty()) {
-            Iterator<ParticleArc> iterator = activeParticleArcs.iterator();
-            while (iterator.hasNext()) {
-                ParticleArc arc = iterator.next();
+            for (int i = activeParticleArcs.size() - 1; i >= 0; i--) {
+                ParticleArc arc = activeParticleArcs.get(i);
                 arc.tick(level());
                 if (arc.isFinished()) {
-                    iterator.remove();
+                    activeParticleArcs.remove(i);
                 }
             }
         }
+    }
 
-        if (this.hasActivePumpkinHead()) {
-            for (int i = 0; i < 3; ++i) {
-                double offsetX = this.getX() + this.random.nextGaussian() * 0.3;
-                double offsetY = this.getY() + 1.0 + this.random.nextGaussian() * 0.3;
-                double offsetZ = this.getZ() + this.random.nextGaussian() * 0.3;
-                this.level().addParticle(ParticleTypes.SMOKE, offsetX, offsetY, offsetZ, 0.0, 0.0, 0.0);
-
-                if (this.random.nextInt(4) == 0) {
-                    this.level().addParticle(ParticleTypes.ENTITY_EFFECT, offsetX, offsetY, offsetZ, 0.7, 0.7, 0.5);
-                }
-            }
-        }
-
+    private void updateBossEventProgress() {
         this.bossEvent.setProgress(this.getHealth() / this.getMaxHealth());
     }
 
@@ -230,8 +246,8 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
     }
 
     private void summonPumpkinHead() {
-        if (!this.hasActivePumpkinHead()) {
-            this.setActivePumpkinHead(true);
+        if (!hasState(Horseman.HorsemanState.HAS_ACTIVE_PUMPKIN_HEAD)) {
+            setActivePumpkinHead(true);
         }
 
         Vec3 spawnPos = this.position().add(0, 1.5D, 0);
@@ -242,7 +258,7 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
             pumpkinHead.setPos(spawnPos.x(), spawnPos.y(), spawnPos.z());
             pumpkinHead.setSummoner(this);
             this.level().addFreshEntity(pumpkinHead);
-            this.entityData.set(IMMUNE, true);
+            setState(HorsemanState.IMMUNE);
 
             pumpkinHead.startFlyingAway();
         }
@@ -270,10 +286,7 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
-        this.entityData.define(HAS_ACTIVE_PUMPKIN_HEAD, false);
-        this.entityData.define(ATTACKING, false);
-        this.entityData.define(IMMUNE, false);
-        this.entityData.define(LAUGHING, false);
+        this.entityData.define(STATE, HorsemanState.IDLE.ordinal());
     }
 
     @Override
@@ -289,14 +302,9 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
     }
 
     private void setupAnimationStates() {
-        if (this.idleAnimationTimeout <= 0) {
-            this.idleAnimationTimeout = this.random.nextInt(40) + 80;
-            this.idleAnimationState.start(this.tickCount);
-        } else {
-            --this.idleAnimationTimeout;
-        }
-        attackAnimationState.animateWhen(this.isAttacking(), tickCount);
-        this.laughingAnimationState.animateWhen(this.isLaughing(), this.tickCount);
+        this.idleAnimationState.animateWhen(hasState(HorsemanState.IDLE), this.tickCount);
+        attackAnimationState.animateWhen(hasState(HorsemanState.ATTACKING), tickCount);
+        this.laughingAnimationState.animateWhen(hasState(HorsemanState.LAUGHING), this.tickCount);
     }
 
     @Override
@@ -311,25 +319,17 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
         this.walkAnimation.update(f, 0.2f);
     }
 
-    public boolean isAttacking() {
-        return this.entityData.get(ATTACKING);
+    public HorsemanState getState() {
+        int stateIndex = this.entityData.get(STATE);
+        return HorsemanState.values()[stateIndex];
     }
 
-    public void setAttacking_(boolean attacking) {
-        this.entityData.set(ATTACKING, attacking);
+    public boolean hasState(HorsemanState state) {
+        return getState() == state;
     }
 
-    private boolean isLaughing() {
-        return this.entityData.get(LAUGHING);
-    }
-
-    public void setLaughing(boolean laughing) {
-        this.entityData.set(LAUGHING, laughing);
-    }
-
-    @Override
-    public Vec3 getPosition_(int i) {
-        return super.getPosition(i);
+    public void setState(HorsemanState state) {
+        this.entityData.set(STATE, state.ordinal());
     }
 
     @Override
@@ -338,7 +338,7 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
 
         attackCounter++;
 
-        if (attackCounter >= 7) {
+        if (attackCounter >= ATTACK_THRESHOLD) {
             removeWaterInRadius();
             attackCounter = 0;
         }
@@ -353,44 +353,46 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
         return super.getMeleeAttackRangeSqr(entity);
     }
 
+    public void setAttacking_(boolean attacking) {
+        if (attacking) {
+            setState(HorsemanState.ATTACKING);
+        } else {
+            setState(HorsemanState.IDLE);
+        }
+    }
+
+    @Override
+    public Vec3 getPosition_(int i) {
+        return super.getPosition(i);
+    }
+
     private boolean isPumpkinHeadAlive() {
-        AABB searchArea = this.getBoundingBox().inflate(100);
+        AABB searchArea = this.getBoundingBox().inflate(50);
         return !this.level().getEntitiesOfClass(FleeingPumpkinHead.class, searchArea, Entity::isAlive).isEmpty();
     }
 
-    public boolean hasActivePumpkinHead() {
-        return this.entityData.get(HAS_ACTIVE_PUMPKIN_HEAD);
-    }
 
     public void setActivePumpkinHead(boolean active) {
-        this.entityData.set(HAS_ACTIVE_PUMPKIN_HEAD, active);
+        setState(active ? Horseman.HorsemanState.HAS_ACTIVE_PUMPKIN_HEAD : Horseman.HorsemanState.IDLE);
     }
 
     @Override
     public void addAdditionalSaveData(@NotNull CompoundTag tag) {
         super.addAdditionalSaveData(tag);
-        tag.putBoolean("HasActivePumpkinHead", this.hasActivePumpkinHead());
+        tag.putString("State", getState().name());
     }
 
     @Override
     public void readAdditionalSaveData(@NotNull CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-    }
-
-    @Override
-    public void handleEntityEvent(byte id) {
-        if (id == 10) {
-            this.setActivePumpkinHead(true);
-        } else if (id == 11) {
-            this.setActivePumpkinHead(false);
-        } else {
-            super.handleEntityEvent(id);
+        if (tag.contains("State")) {
+            this.setState(HorsemanState.valueOf(tag.getString("State")));
         }
     }
 
     @Override
     public boolean hurt(@NotNull DamageSource source, float amount) {
-        if (isPumpkinHeadAlive()) {
+        if (hasState(HorsemanState.IMMUNE)) {
             return false;
         }
         return super.hurt(source, amount);
@@ -399,6 +401,11 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
     @Override
     public void die(@NotNull DamageSource cause) {
         super.die(cause);
+        spawnDeathParticles();
+        dropExperience();
+    }
+
+    private void spawnDeathParticles() {
         for (int i = 0; i < 70; ++i) {
             double offsetX = this.getX() + (this.random.nextDouble() - 0.5) * 2.0;
             double offsetY = this.getY() + this.random.nextDouble() * 2.0;
@@ -406,6 +413,10 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
             this.level().addParticle(ParticleTypes.SMOKE, offsetX, offsetY, offsetZ, 0.0, 0.0, 0.0);
             this.level().addParticle(ParticleTypes.SOUL, offsetX, offsetY, offsetZ, 0.0, 0.0, 0.0);
         }
+    }
+
+    @Override
+    protected void dropExperience() {
         if (!this.level().isClientSide && this.level().getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
             int experienceAmount = 250;
             ExperienceOrb.award((ServerLevel) this.level(), this.position(), experienceAmount);
@@ -427,7 +438,7 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
                     Vec3 targetPos = new Vec3(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
                     Vec3 horsemanPos = new Vec3(this.getX(), this.getY() + 1.0D, this.getZ());
 
-                    ParticleArc arc = new ParticleArc(targetPos, horsemanPos, 40);
+                    ParticleArc arc = new ParticleArc(targetPos, horsemanPos, PARTICLE_ARC_DURATION);
                     activeParticleArcs.add(arc);
                 }
             }
@@ -453,14 +464,11 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
         return SoundEvents.SKELETON_HORSE_AMBIENT;
     }
 
-    private final List<SoulfireSpiral> activeSoulfireSpirals = new ArrayList<>();
-    private int nextSoulfireIndex = 0;
-
-    private float[] getSoulfireThresholds() {
+    private float[] calculateSoulfireThresholds() {
         float maxHealth = this.getMaxHealth();
-        float[] thresholds = new float[10];
-        for (int i = 0; i < 10; i++) {
-            thresholds[i] = maxHealth * (1 - (i * 0.1f));
+        float[] thresholds = new float[9];
+        for (int i = 0; i < thresholds.length; i++) {
+            thresholds[i] = maxHealth * (1 - ((i + 1) * 0.1f));
         }
         return thresholds;
     }
@@ -468,5 +476,13 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
     @Override
     public boolean shouldDropExperience() {
         return true;
+    }
+
+    public enum HorsemanState {
+        IDLE,
+        ATTACKING,
+        LAUGHING,
+        IMMUNE,
+        HAS_ACTIVE_PUMPKIN_HEAD
     }
 }
