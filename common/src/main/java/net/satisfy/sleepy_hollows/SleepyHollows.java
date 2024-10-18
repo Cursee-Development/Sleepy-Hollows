@@ -6,6 +6,7 @@ import dev.architectury.platform.Platform;
 import net.fabricmc.api.EnvType;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.satisfy.sleepy_hollows.client.event.HUDRenderEvent;
 import net.satisfy.sleepy_hollows.client.util.SanityManager;
 import net.satisfy.sleepy_hollows.core.network.SleepyHollowsNetwork;
@@ -40,22 +41,29 @@ public final class SleepyHollows {
 
     public static void onServerTick(MinecraftServer server) {
 
-        // every second
-        if (server.getTickCount() % 20 == 0) {
+        // every tick
+        for (ServerPlayer player : server.getPlayerList().getPlayers()) {
 
-            // for every player
-            for (ServerPlayer player : server.getPlayerList().getPlayers()) {
+            // if any player's sanity has reached 0
+            if (SanityManager.getSanity(player) <= 0) {
+
+                // apply the Sanity effect
+                player.addEffect(new MobEffectInstance(MobEffectRegistry.SANITY.get(), (8 * 20)));
+
+                // reset the player's sanity todo: more elegant solution? tp player back home with effect? remove?
+                SanityManager.changeSanity(player, 100); // update server
+                SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer(player, new SanityPacketMessage(100)); // update client
+            }
+
+            // every second
+            if (server.getTickCount() % 20 == 0) {
 
                 // check for valid blocks
                 SanityManager.doBlockCheck(player);
             }
-        }
 
-        // every five seconds
-        if (server.getTickCount() % (5 * 20) == 0) {
-
-            // for every player
-            for (ServerPlayer player : server.getPlayerList().getPlayers()) {
+            // every five seconds
+            if (server.getTickCount() % (5 * 20) == 0) {
 
                 if (SanityManager.isImmune(player) || player.level().getBlockState(player.blockPosition()).is(TagRegistry.RESET_SANITY)) return;
 
