@@ -1,9 +1,10 @@
 package net.satisfy.sleepy_hollows.mixin;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.world.entity.Entity;
 import net.satisfy.sleepy_hollows.Constants;
-import net.satisfy.sleepy_hollows.core.util.IEntityDataSaver;
+import net.satisfy.sleepy_hollows.core.util.IEntitySavedData;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -12,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
-public abstract class EntityMixin implements IEntityDataSaver {
+public abstract class EntityMixin implements IEntitySavedData {
 
     @Unique
     private CompoundTag unique$persistentData;
@@ -31,9 +32,10 @@ public abstract class EntityMixin implements IEntityDataSaver {
             nbt.put(Constants.MOD_DATA_ID, unique$persistentData);
         }
     }
+
     @Inject(method = "load", at = @At("HEAD"))
     protected void inject$load(CompoundTag nbt, CallbackInfo info) {
-        if (nbt.contains(Constants.MOD_DATA_ID, 10)) {
+        if (nbt.contains(Constants.MOD_DATA_ID, Tag.TAG_COMPOUND)) {
             unique$persistentData = nbt.getCompound(Constants.MOD_DATA_ID);
         }
     }

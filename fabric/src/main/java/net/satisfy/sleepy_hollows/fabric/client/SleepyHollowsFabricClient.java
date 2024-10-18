@@ -22,7 +22,5 @@ public final class SleepyHollowsFabricClient implements ClientModInitializer {
         ArmorRenderer.register(new HauntboundChestplateRenderer(), ObjectRegistry.HAUNTBOUND_CHESTPLATE.get());
         ArmorRenderer.register(new HauntboundLeggingsRenderer(), ObjectRegistry.HAUNTBOUND_LEGGINGS.get());
         ArmorRenderer.register(new HauntboundBootsRenderer(), ObjectRegistry.HAUNTBOUND_BOOTS.get());
-
-        ClientTickEvent.CLIENT_PRE.register(SleepyHollowsClient::onClientTick);
     }
 }

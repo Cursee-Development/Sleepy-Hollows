@@ -1,136 +1,98 @@
 package net.satisfy.sleepy_hollows.client.util;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.satisfy.sleepy_hollows.core.network.SleepyHollowsNetwork;
+import net.satisfy.sleepy_hollows.core.network.message.SanityPacketMessage;
 import net.satisfy.sleepy_hollows.core.registry.MobEffectRegistry;
 import net.satisfy.sleepy_hollows.core.registry.TagRegistry;
-
-import java.util.HashMap;
-import java.util.Map;
+import net.satisfy.sleepy_hollows.core.util.IEntitySavedData;
+import org.jetbrains.annotations.NotNull;
 
 public class SanityManager {
-    private static final int MAX_SANITY = 100;
-    private static final int INCREASE_SANITY_INTERVAL = 60;
-    private static final int RESET_SANITY_INTERVAL = 300;
-    private static final int OUTSIDE_BIOME_SANITY_LOSS_INTERVAL = 200;
-    private static final int OUTSIDE_BIOME_SANITY_LOSS = 5;
 
-    private static final Map<Player, Integer> playerSanityMap = new HashMap<>();
-    private static final Map<Player, Integer> playerSanityTimersIncrease = new HashMap<>();
-    private static final Map<Player, Integer> playerSanityTimersReset = new HashMap<>();
-    private static final Map<Player, Integer> playerSanityTimersOutsideBiome = new HashMap<>();
+    public static final String SANITY = "sanity";
+    public static final int MINIMUM_SANITY = 0;
+    public static final int MAXIMUM_SANITY = 100;
 
-    public static void checkSanityBlocks(Player player) {
-        Level level = player.level();
-        BlockPos playerPos = player.blockPosition();
-        BlockState blockState = level.getBlockState(playerPos);
-        Block block = blockState.getBlock();
-
-        ResourceLocation blockId = level.registryAccess().registryOrThrow(Registries.BLOCK).getKey(block);
-
-        boolean inSanityBiome = false;
-
-        if (blockId != null) {
-            if (blockState.is(TagRegistry.INCREASE_SANITY)) {
-                inSanityBiome = true;
-                int timer = playerSanityTimersIncrease.getOrDefault(player, 0);
-                if (timer <= 0) {
-                    increaseSanity(player);
-                    playerSanityTimersIncrease.put(player, INCREASE_SANITY_INTERVAL);
-                } else {
-                    playerSanityTimersIncrease.put(player, timer - 1);
-                }
-            }
-
-            if (blockState.is(TagRegistry.RESET_SANITY)) {
-                inSanityBiome = true;
-                int timer = playerSanityTimersReset.getOrDefault(player, 0);
-                if (timer <= 0) {
-                    resetSanity(player);
-                    playerSanityTimersReset.put(player, RESET_SANITY_INTERVAL);
-                } else {
-                    playerSanityTimersReset.put(player, timer - 1);
-                }
-            }
-        }
-
-        if (hasSanityImmunity(player)) {
-            return;
-        }
-
-        if (!inSanityBiome) {
-            int outsideBiomeTimer = playerSanityTimersOutsideBiome.getOrDefault(player, 0);
-            if (outsideBiomeTimer <= 0) {
-                decreaseSanityOutsideBiome(player);
-                playerSanityTimersOutsideBiome.put(player, OUTSIDE_BIOME_SANITY_LOSS_INTERVAL);
-            } else {
-                playerSanityTimersOutsideBiome.put(player, outsideBiomeTimer - 1);
-            }
-        } else {
-            playerSanityTimersOutsideBiome.put(player, OUTSIDE_BIOME_SANITY_LOSS_INTERVAL);
-        }
+    public static IEntitySavedData getSavedData(Player player) {
+        return (IEntitySavedData) player;
     }
 
-    public static void increaseSanity(Player player) {
-        int sanity = playerSanityMap.getOrDefault(player, 0);
-        if (sanity < MAX_SANITY) {
-            sanity += 2;
-            playerSanityMap.put(player, sanity);
-
-            if (sanity >= MAX_SANITY) {
-                applyHighSanityEffect(player);
-            }
-        }
-    }
-
-    private static final Map<Player, Boolean> playerSanityImmunityMap = new HashMap<>();
-
-    public static void setSanityImmunity(Player player, boolean isImmune) {
-        playerSanityImmunityMap.put(player, isImmune);
-    }
-
-    public static boolean hasSanityImmunity(Player player) {
-        return playerSanityImmunityMap.getOrDefault(player, false);
-    }
-
-    private static void applyHighSanityEffect(Player player) {
-        int effectDuration = 400;
-        player.addEffect(new MobEffectInstance(MobEffectRegistry.SANITY.get(), effectDuration, 1));
-    }
-
-    public static void decreaseSanity(Player player, int amount) {
-        int sanity = playerSanityMap.getOrDefault(player, 0);
-        sanity -= amount;
-        sanity = Math.max(0, sanity);
-        playerSanityMap.put(player, sanity);
-    }
-
-    private static void resetSanity(Player player) {
-        int sanity = playerSanityMap.getOrDefault(player, 0);
-        if (sanity >= 6) {
-            sanity -= 6;
-        } else {
-            sanity = 0;
-        }
-        playerSanityMap.put(player, sanity);
-    }
-
-    
-    private static void decreaseSanityOutsideBiome(Player player) {
-        int sanity = playerSanityMap.getOrDefault(player, 0);
-        sanity -= OUTSIDE_BIOME_SANITY_LOSS;
-        sanity = Math.max(0, sanity);
-        playerSanityMap.put(player, sanity);
+    public static CompoundTag getSanityTag(IEntitySavedData playerData) {
+        return playerData.impl$getPersistentData();
     }
 
     public static int getSanity(Player player) {
-        return playerSanityMap.getOrDefault(player, 0);
+        CompoundTag nbt = getSanityTag(getSavedData(player));
+        if (!nbt.contains(SANITY, Tag.TAG_INT)) nbt.putInt(SANITY, 100);
+        return nbt.getInt(SANITY);
+    }
+
+    /** @param amount expects a negative integer
+     *  @return The amount by which sanity was modified */
+    private static int decreaseSanity(Player player, int amount) {
+
+        final int currentSanity = getSanity(player);
+        if (player.hasEffect(MobEffectRegistry.MENTAL_FORTITUDE.get())) return currentSanity;
+        final int newSanity = Math.max(MINIMUM_SANITY, currentSanity + amount);
+        getSanityTag(getSavedData(player)).putInt(SANITY, safeSanity(newSanity));
+
+        return amount; // to synch
+    }
+
+    /** @param amount expects a positive integer
+     *  @return The amount by which sanity was modified */
+    private static int increaseSanity(Player player, int amount) {
+
+        final int currentSanity = getSanity(player);
+        final int newSanity = Math.min(MAXIMUM_SANITY, currentSanity + amount);
+        getSanityTag(getSavedData(player)).putInt(SANITY, safeSanity(newSanity));
+
+        return amount; // to synch
+    }
+
+    /** @param player An instance of a Player
+     *  @param amount A positive or negative integer to change the Sanity by
+     *  @return The amount by which sanity was modified */
+    public static int changeSanity(Player player, int amount) {
+        if (isImmune(player)) return 0;
+        // if 0 return 0, else if more than 0 increase, else decrease
+        return amount == 0 ? 0 : amount > 0 ? increaseSanity(player, amount) : decreaseSanity(player, amount);
+    }
+
+    /** Used to ensure that a given value is within the bounds of 0 to 100 */
+    private static int safeSanity(int amount) {
+        if (amount < MINIMUM_SANITY) amount = MINIMUM_SANITY;
+        if (amount > MAXIMUM_SANITY) amount = MAXIMUM_SANITY;
+        return amount;
+    }
+
+    public static void doBlockCheck(@NotNull ServerPlayer serverPlayer) {
+
+        Level level = serverPlayer.level();
+        BlockPos blockPos = serverPlayer.blockPosition();
+        BlockState blockState = level.getBlockState(blockPos);
+
+        if (blockState.is(TagRegistry.RESET_SANITY)) {
+            final int amount = MAXIMUM_SANITY;
+            changeSanity(serverPlayer, amount); // update server
+            SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer(serverPlayer, new SanityPacketMessage(amount)); // update client
+        }
+
+        if (!isImmune(serverPlayer) && blockState.is(TagRegistry.INCREASE_SANITY)) {
+            final int amount = -2;
+            changeSanity(serverPlayer, amount); // update server
+            SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer(serverPlayer, new SanityPacketMessage(amount)); // update client
+        }
+    }
+
+    public static boolean isImmune(Player player) {
+        return player.hasEffect(MobEffectRegistry.MENTAL_FORTITUDE.get());
     }
 }
-

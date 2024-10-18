@@ -1,28 +1,16 @@
 package net.satisfy.sleepy_hollows;
 
 import dev.architectury.event.events.client.ClientGuiEvent;
-import dev.architectury.event.events.client.ClientTickEvent;
 import dev.architectury.hooks.item.tool.AxeItemHooks;
-import dev.architectury.networking.NetworkManager;
 import dev.architectury.platform.Platform;
-import io.netty.buffer.Unpooled;
 import net.fabricmc.api.EnvType;
-import net.minecraft.core.Holder;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.biome.Biome;
 import net.satisfy.sleepy_hollows.client.event.HUDRenderEvent;
-import net.satisfy.sleepy_hollows.client.event.PlayerTickEvent;
-import net.satisfy.sleepy_hollows.client.util.PlayerSanityProvider;
 import net.satisfy.sleepy_hollows.client.util.SanityManager;
-import net.satisfy.sleepy_hollows.core.entity.Horseman;
 import net.satisfy.sleepy_hollows.core.network.SleepyHollowsNetwork;
 import net.satisfy.sleepy_hollows.core.network.message.SanityPacketMessage;
 import net.satisfy.sleepy_hollows.core.registry.*;
-import net.satisfy.sleepy_hollows.core.util.IEntityDataSaver;
-import net.satisfy.sleepy_hollows.core.util.SleepyHollowsUtil;
 import net.satisfy.sleepy_hollows.core.world.SleepyHollowsBiomeKeys;
 
 public final class SleepyHollows {
@@ -35,19 +23,13 @@ public final class SleepyHollows {
         EntityTypeRegistry.init();
         SoundEventRegistry.init();
         FeatureTypeRegistry.init();
-
-        SleepyHollowsNetwork.init(); // registers the channel for our message to pass through
+        SleepyHollowsNetwork.init();
 
         Constants.LOG.info("Sleepy Hollows has been initialized in the common setup phase.");
 
         if (Platform.getEnv() == EnvType.CLIENT) {
             ClientGuiEvent.RENDER_HUD.register(HUDRenderEvent::onRenderHUD);
-            ClientTickEvent.CLIENT_POST.register(PlayerTickEvent::onClientTick);
         }
-
-        // MANUAL ???
-        // register a receiver for a Client-to-Server (C2S) packet, to handle the packet when the server acquires it
-        // NetworkManager.registerReceiver(NetworkManager.Side.C2S, SleepyHollowsNetwork.Packets.SANITY_PACKET, SleepyHollowsNetwork.Packets::receiverForServer);
     }
 
     public static void commonInit() {
@@ -56,41 +38,37 @@ public final class SleepyHollows {
         AxeItemHooks.addStrippable(ObjectRegistry.HOLLOW_WOOD.get(), ObjectRegistry.STRIPPED_HOLLOW_WOOD.get());
     }
 
-    // send a packet to every player, once every ten seconds
     public static void onServerTick(MinecraftServer server) {
 
-        // every ten seconds
-        if (server.getTickCount() % (10 * 20) == 0) {
+        // every second
+        if (server.getTickCount() % 20 == 0) {
 
-            for (ServerPlayer serverPlayer : server.getPlayerList().getPlayers()) {
+            // for every player
+            for (ServerPlayer player : server.getPlayerList().getPlayers()) {
 
-                if (SanityManager.hasSanityImmunity(serverPlayer)) return;
+                // check for valid blocks
+                SanityManager.doBlockCheck(player);
+            }
+        }
 
-                Holder<Biome> biomeHolder = serverPlayer.level().getBiome(serverPlayer.getOnPos());
-//                if (!SleepyHollowsUtil.unwrappedBiome(biomeHolder).contains("sleepy_hollow")) {
-                if (!serverPlayer.level().getBiome(serverPlayer.getOnPos()).is(SleepyHollowsBiomeKeys.SLEEPY_HOLLOWS)) {
-                    IEntityDataSaver dataPlayer = (IEntityDataSaver) serverPlayer;
-                    PlayerSanityProvider.increaseSanity(dataPlayer, 5);
-                    serverPlayer.sendSystemMessage(Component.literal("your server sanity: " + String.valueOf(PlayerSanityProvider.getSanity(dataPlayer))));
+        // every five seconds
+        if (server.getTickCount() % (5 * 20) == 0) {
+
+            // for every player
+            for (ServerPlayer player : server.getPlayerList().getPlayers()) {
+
+                if (player.hasEffect(MobEffectRegistry.MENTAL_FORTITUDE.get())  || player.level().getBlockState(player.blockPosition()).is(TagRegistry.RESET_SANITY)) return;
+
+                // if they do not have mental fortitude
+                if (!player.level().getBiome(player.getOnPos()).is(SleepyHollowsBiomeKeys.SLEEPY_HOLLOWS)) {
+                    final int amount = 5;
+                    SanityManager.changeSanity(player, amount); // update server
+                    SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer(player, new SanityPacketMessage(amount)); // update client
                 }
                 else {
-                    IEntityDataSaver dataPlayer = (IEntityDataSaver) serverPlayer;
-                    PlayerSanityProvider.decreaseSanity(dataPlayer, 20);
-                    serverPlayer.sendSystemMessage(Component.literal("your server sanity: " + String.valueOf(PlayerSanityProvider.getSanity(dataPlayer))));
-
-                    // MANUAL ???
-//                    // create a new buffer to store encoded data
-//                    FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
-//
-//                    // create a new message to store raw information
-//                    SanityPacketMessage sanityPacketMessage = new SanityPacketMessage(true);
-//
-//                    // encode our message onto the buffer
-//                    sanityPacketMessage.encode(buf);
-//
-//                    NetworkManager.sendToPlayer(serverPlayer, SleepyHollowsNetwork.Packets.SANITY_PACKET, buf);
-
-                    SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer(serverPlayer, new SanityPacketMessage(true));
+                    final int amount = -20;
+                    SanityManager.changeSanity(player, amount); // update server
+                    SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer(player, new SanityPacketMessage(amount)); // update client
                 }
             }
         }
@@ -110,6 +88,4 @@ public final class SleepyHollows {
      * ----
      * 5 = highest Priority, 1 = lowest Priority
      */
-
-    // https://github.com/Tutorials-By-Kaupenjoe/Fabric-Tutorial-1.19/commit/d1ab9ccf6909eef6e257a0b88b2851637b48ed42
 }
