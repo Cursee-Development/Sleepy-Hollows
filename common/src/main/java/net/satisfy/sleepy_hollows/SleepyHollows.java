@@ -61,14 +61,12 @@ public final class SleepyHollows {
 
                 // if they do not have mental fortitude
                 if (!player.level().getBiome(player.getOnPos()).is(SleepyHollowsBiomeKeys.SLEEPY_HOLLOWS)) {
-                    final int amount = 5;
-                    SanityManager.changeSanity(player, amount); // update server
-                    SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer(player, new SanityPacketMessage(amount)); // update client
+                    SanityManager.changeSanity(player, SanityManager.Modifiers.OUTSIDE_BIOME.getValue()); // update server
+                    SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer(player, new SanityPacketMessage(SanityManager.Modifiers.OUTSIDE_BIOME.getValue())); // update client
                 }
                 else {
-                    final int amount = -20;
-                    SanityManager.changeSanity(player, amount); // update server
-                    SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer(player, new SanityPacketMessage(amount)); // update client
+                    SanityManager.changeSanity(player, SanityManager.Modifiers.INSIDE_BIOME.getValue()); // update server
+                    SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer(player, new SanityPacketMessage(SanityManager.Modifiers.INSIDE_BIOME.getValue())); // update client
                 }
             }
         }

@@ -2,6 +2,7 @@ package net.satisfy.sleepy_hollows.core.network.message;
 
 import dev.architectury.networking.NetworkManager;
 import dev.architectury.utils.Env;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -37,8 +38,7 @@ public class SanityPacketMessage {
         if (environment == Env.CLIENT) {
 
             // we update the player's sanity to match the packet
-            final int amount = this.amountToChangeSanity;
-            SanityManager.changeSanity(player, amount); // update client
+            SanityManager.changeLocalSanity((LocalPlayer) player, this.amountToChangeSanity); // update client
         }
     } // after a message was decoded
 }

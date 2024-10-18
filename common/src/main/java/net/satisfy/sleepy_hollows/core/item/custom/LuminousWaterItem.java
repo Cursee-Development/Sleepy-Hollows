@@ -26,9 +26,8 @@ public class LuminousWaterItem extends BucketItem {
     public @NotNull ItemStack finishUsingItem(@NotNull ItemStack stack, @NotNull Level world, @NotNull LivingEntity entity) {
         if (entity instanceof Player player) {
             if (!world.isClientSide()) {
-                final int amount = -6;
-                SanityManager.changeSanity(player, amount); // update server
-                SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer((ServerPlayer) player, new SanityPacketMessage(amount)); // update client
+                SanityManager.changeSanity(player, SanityManager.Modifiers.LUMINOUS_WATER.getValue()); // update server
+                SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer((ServerPlayer) player, new SanityPacketMessage(SanityManager.Modifiers.LUMINOUS_WATER.getValue())); // update client
             }
         }
         return super.finishUsingItem(stack, world, entity);

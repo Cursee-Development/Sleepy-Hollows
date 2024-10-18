@@ -1,5 +1,6 @@
 package net.satisfy.sleepy_hollows.client.util;
 
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
@@ -15,6 +16,26 @@ import net.satisfy.sleepy_hollows.core.util.IEntitySavedData;
 import org.jetbrains.annotations.NotNull;
 
 public class SanityManager {
+
+    public enum Modifiers {
+
+        CANDY_CORN(-4), DUSK_BERRY(-2),
+        LUMINOUS_WATER(-6), SPECTRAL_PUMPKIN_PIE(-10),
+
+        INSIDE_BIOME(-20), OUTSIDE_BIOME(5),
+        RESET_SANITY(SanityManager.MAXIMUM_SANITY), DECREASE_SANITY(-2),
+        INFECTED_EFFECT(-2), MENTAL_FORTITUDE(SanityManager.MAXIMUM_SANITY);
+
+        final int value;
+
+        Modifiers(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
+    }
 
     public static final String SANITY = "sanity";
     public static final int MINIMUM_SANITY = 0;
@@ -66,6 +87,15 @@ public class SanityManager {
         return amount == 0 ? 0 : amount > 0 ? increaseSanity(player, amount) : decreaseSanity(player, amount);
     }
 
+    /** @param player An instance of a Player
+     *  @param amount A positive or negative integer to change the Sanity by
+     *  @return The amount by which sanity was modified */
+    public static int changeLocalSanity(LocalPlayer player, int amount) {
+        if (isImmune(player)) return 0;
+        // if 0 return 0, else if more than 0 increase, else decrease
+        return amount == 0 ? 0 : amount > 0 ? increaseSanity(player, amount) : decreaseSanity(player, amount);
+    }
+
     /** Used to ensure that a given value is within the bounds of 0 to 100 */
     private static int safeSanity(int amount) {
         if (amount < MINIMUM_SANITY) amount = MINIMUM_SANITY;
@@ -80,15 +110,13 @@ public class SanityManager {
         BlockState blockState = level.getBlockState(blockPos);
 
         if (blockState.is(TagRegistry.RESET_SANITY)) {
-            final int amount = MAXIMUM_SANITY;
-            changeSanity(serverPlayer, amount); // update server
-            SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer(serverPlayer, new SanityPacketMessage(amount)); // update client
+            changeSanity(serverPlayer, Modifiers.RESET_SANITY.getValue()); // update server
+            SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer(serverPlayer, new SanityPacketMessage(Modifiers.RESET_SANITY.getValue())); // update client
         }
 
-        if (!isImmune(serverPlayer) && blockState.is(TagRegistry.INCREASE_SANITY)) {
-            final int amount = -2;
-            changeSanity(serverPlayer, amount); // update server
-            SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer(serverPlayer, new SanityPacketMessage(amount)); // update client
+        if (!isImmune(serverPlayer) && blockState.is(TagRegistry.DECREASE_SANITY)) {
+            changeSanity(serverPlayer, Modifiers.DECREASE_SANITY.getValue()); // update server
+            SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer(serverPlayer, new SanityPacketMessage(Modifiers.DECREASE_SANITY.getValue())); // update client
         }
     }
 
