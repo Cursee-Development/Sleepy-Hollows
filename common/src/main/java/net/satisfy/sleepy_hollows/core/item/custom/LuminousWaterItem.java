@@ -1,6 +1,7 @@
 package net.satisfy.sleepy_hollows.core.item.custom;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
@@ -9,6 +10,8 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.satisfy.sleepy_hollows.client.util.SanityManager;
+import net.satisfy.sleepy_hollows.core.network.SleepyHollowsNetwork;
+import net.satisfy.sleepy_hollows.core.network.message.SanityPacketMessage;
 import net.satisfy.sleepy_hollows.core.registry.FluidRegistry;
 import org.jetbrains.annotations.NotNull;
 
@@ -22,7 +25,10 @@ public class LuminousWaterItem extends BucketItem {
     @Override
     public @NotNull ItemStack finishUsingItem(@NotNull ItemStack stack, @NotNull Level world, @NotNull LivingEntity entity) {
         if (entity instanceof Player player) {
-            SanityManager.decreaseSanity(player, 6);
+            if (!world.isClientSide()) {
+                SanityManager.changeSanity(player, SanityManager.Modifiers.LUMINOUS_WATER.getValue()); // update server
+                SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer((ServerPlayer) player, new SanityPacketMessage(SanityManager.Modifiers.LUMINOUS_WATER.getValue())); // update client
+            }
         }
         return super.finishUsingItem(stack, world, entity);
     }

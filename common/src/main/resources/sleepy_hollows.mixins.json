@@ -8,7 +8,9 @@
     "LevelRendererMixin",
     "SpectralPumpkinOverlayMixin"
   ],
-  "mixins": [],
+  "mixins": [
+    "EntityMixin"
+  ],
   "server": [],
   "injectors": {
     "defaultRequire": 1

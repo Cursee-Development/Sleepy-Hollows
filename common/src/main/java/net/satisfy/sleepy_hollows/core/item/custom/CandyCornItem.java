@@ -1,6 +1,7 @@
 package net.satisfy.sleepy_hollows.core.item.custom;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
@@ -9,6 +10,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.satisfy.sleepy_hollows.client.util.SanityManager;
+import net.satisfy.sleepy_hollows.core.network.SleepyHollowsNetwork;
+import net.satisfy.sleepy_hollows.core.network.message.SanityPacketMessage;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -21,7 +24,10 @@ public class CandyCornItem extends Item {
     @Override
     public @NotNull ItemStack finishUsingItem(@NotNull ItemStack stack, @NotNull Level world, @NotNull LivingEntity entity) {
         if (entity instanceof Player player) {
-            SanityManager.decreaseSanity(player, 4);
+            if (!world.isClientSide()) {
+                SanityManager.changeSanity(player, SanityManager.Modifiers.CANDY_CORN.getValue()); // update server
+                SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer((ServerPlayer) player, new SanityPacketMessage(SanityManager.Modifiers.CANDY_CORN.getValue())); // update client
+            }
         }
         return super.finishUsingItem(stack, world, entity);
     }

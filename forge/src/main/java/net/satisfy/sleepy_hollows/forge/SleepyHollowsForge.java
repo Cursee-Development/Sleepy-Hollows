@@ -50,15 +50,6 @@ public final class SleepyHollowsForge {
     }
 
     @SubscribeEvent
-    public void onClientTick(TickEvent.ClientTickEvent event) {
-        if (event.side != LogicalSide.CLIENT) return;
-        if (event.phase != TickEvent.Phase.START) return;
-
-        Minecraft instance = Minecraft.getInstance();
-        SleepyHollowsClient.onClientTick(instance);
-    }
-
-    @SubscribeEvent
     public void onServerTick(final TickEvent.ServerTickEvent event) {
         if (event.side != LogicalSide.SERVER) return;
         if (event.phase != TickEvent.Phase.START) return;

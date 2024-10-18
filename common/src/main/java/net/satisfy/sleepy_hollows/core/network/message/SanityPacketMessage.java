@@ -2,48 +2,43 @@ package net.satisfy.sleepy_hollows.core.network.message;
 
 import dev.architectury.networking.NetworkManager;
 import dev.architectury.utils.Env;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+import net.satisfy.sleepy_hollows.client.util.SanityManager;
 
 import java.util.function.Supplier;
 
 public class SanityPacketMessage {
 
-    public final boolean inSleepyHollows;
+    public final int amountToChangeSanity;
 
-    public SanityPacketMessage(boolean inSleepyHollows) {
-        this.inSleepyHollows = inSleepyHollows;
+    public SanityPacketMessage(int amountToChangeSanity) {
+        this.amountToChangeSanity = amountToChangeSanity;
     } // create message, then encode
 
     public SanityPacketMessage(FriendlyByteBuf buffer) {
-        this(buffer.readBoolean());
+        this(buffer.readInt());
     } // decode message, then apply
 
     public void encode(FriendlyByteBuf buffer) {
-        buffer.writeBoolean(this.inSleepyHollows);
+        buffer.writeInt(this.amountToChangeSanity);
     } // after a message was created
 
     public void apply(Supplier<NetworkManager.PacketContext> contextSupplier) {
 
-        if (!inSleepyHollows) return;
+        if (amountToChangeSanity == 0) return;
 
         NetworkManager.PacketContext context = contextSupplier.get();
-
         Env environment = context.getEnvironment();
-
         Player player = context.getPlayer();
 
+        // when a client receives a packet from the server
         if (environment == Env.CLIENT) {
-            player.displayClientMessage(Component.literal("client received a sanity packet to apply"), true);
-        }
 
-        if (environment == Env.SERVER) {
-
-            ServerPlayer serverPlayer = (ServerPlayer) player;
-
-            serverPlayer.sendSystemMessage(Component.literal("server received a sanity packet to apply"));
+            // we update the player's sanity to match the packet
+            SanityManager.changeLocalSanity((LocalPlayer) player, this.amountToChangeSanity); // update client
         }
     } // after a message was decoded
 }
