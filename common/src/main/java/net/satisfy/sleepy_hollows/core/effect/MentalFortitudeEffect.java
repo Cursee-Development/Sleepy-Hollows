@@ -30,9 +30,4 @@ public class MentalFortitudeEffect extends MobEffect {
     public void removeAttributeModifiers(@NotNull LivingEntity livingEntity, @NotNull net.minecraft.world.entity.ai.attributes.AttributeMap attributeMap, int amplifier) {
         super.removeAttributeModifiers(livingEntity, attributeMap, amplifier);
     }
-
-    @Override
-    public boolean isDurationEffectTick(int duration, int amplifier) {
-        return true;
-    }
 }

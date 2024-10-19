@@ -57,7 +57,7 @@ public class SleepyHollowsUtil {
         return buffer[0];
     }
 
-    // from DebugScreenOverlay
+    
     public static String unwrappedBiome(Holder<Biome> biomeHolder) {
         return biomeHolder.unwrap().map((arg) -> arg.location().toString(), (arg) -> "[unregistered " + arg + "]");
     }

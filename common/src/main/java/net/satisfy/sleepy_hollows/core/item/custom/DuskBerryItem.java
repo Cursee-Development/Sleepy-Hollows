@@ -27,8 +27,8 @@ public class DuskBerryItem extends ItemNameBlockItem {
     public @NotNull ItemStack finishUsingItem(@NotNull ItemStack stack, @NotNull Level world, @NotNull LivingEntity entity) {
         if (entity instanceof Player player) {
             if (!world.isClientSide()) {
-                SanityManager.changeSanity(player, SanityManager.Modifiers.DUSK_BERRY.getValue()); // update server
-                SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer((ServerPlayer) player, new SanityPacketMessage(SanityManager.Modifiers.DUSK_BERRY.getValue())); // update client
+                SanityManager.changeSanity(player, SanityManager.Modifiers.DUSK_BERRY.getValue()); 
+                SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer((ServerPlayer) player, new SanityPacketMessage(SanityManager.Modifiers.DUSK_BERRY.getValue())); 
             }
         }
         return super.finishUsingItem(stack, world, entity);

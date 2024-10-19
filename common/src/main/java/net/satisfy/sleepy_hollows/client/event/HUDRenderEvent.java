@@ -6,7 +6,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.satisfy.sleepy_hollows.client.util.SanityManager;
-import net.satisfy.sleepy_hollows.core.registry.MobEffectRegistry;
 import net.satisfy.sleepy_hollows.core.registry.TagRegistry;
 import net.satisfy.sleepy_hollows.core.util.SleepyHollowsIdentifier;
 import net.satisfy.sleepy_hollows.core.world.SleepyHollowsBiomeKeys;

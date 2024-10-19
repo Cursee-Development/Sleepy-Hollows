@@ -4,7 +4,6 @@ import dev.architectury.networking.NetworkManager;
 import dev.architectury.utils.Env;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.satisfy.sleepy_hollows.client.util.SanityManager;
 
@@ -16,15 +15,15 @@ public class SanityPacketMessage {
 
     public SanityPacketMessage(int amountToChangeSanity) {
         this.amountToChangeSanity = amountToChangeSanity;
-    } // create message, then encode
+    } 
 
     public SanityPacketMessage(FriendlyByteBuf buffer) {
         this(buffer.readInt());
-    } // decode message, then apply
+    } 
 
     public void encode(FriendlyByteBuf buffer) {
         buffer.writeInt(this.amountToChangeSanity);
-    } // after a message was created
+    } 
 
     public void apply(Supplier<NetworkManager.PacketContext> contextSupplier) {
 
@@ -34,11 +33,11 @@ public class SanityPacketMessage {
         Env environment = context.getEnvironment();
         Player player = context.getPlayer();
 
-        // when a client receives a packet from the server
+        
         if (environment == Env.CLIENT) {
 
-            // we update the player's sanity to match the packet
-            SanityManager.changeLocalSanity((LocalPlayer) player, this.amountToChangeSanity); // update client
+            
+            SanityManager.changeLocalSanity((LocalPlayer) player, this.amountToChangeSanity); 
         }
-    } // after a message was decoded
+    } 
 }

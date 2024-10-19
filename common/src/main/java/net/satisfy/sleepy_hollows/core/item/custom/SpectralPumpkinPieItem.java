@@ -25,8 +25,8 @@ public class SpectralPumpkinPieItem extends Item {
     public @NotNull ItemStack finishUsingItem(@NotNull ItemStack stack, @NotNull Level world, @NotNull LivingEntity entity) {
         if (entity instanceof Player player) {
             if (!world.isClientSide()) {
-                SanityManager.changeSanity(player, SanityManager.Modifiers.SPECTRAL_PUMPKIN_PIE.getValue()); // update server
-                SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer((ServerPlayer) player, new SanityPacketMessage(SanityManager.Modifiers.SPECTRAL_PUMPKIN_PIE.getValue())); // update client
+                SanityManager.changeSanity(player, SanityManager.Modifiers.SPECTRAL_PUMPKIN_PIE.getValue()); 
+                SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer((ServerPlayer) player, new SanityPacketMessage(SanityManager.Modifiers.SPECTRAL_PUMPKIN_PIE.getValue())); 
             }
         }
         return super.finishUsingItem(stack, world, entity);

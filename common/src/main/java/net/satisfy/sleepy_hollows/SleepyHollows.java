@@ -9,6 +9,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.satisfy.sleepy_hollows.client.event.HUDRenderEvent;
 import net.satisfy.sleepy_hollows.client.util.SanityManager;
+import net.satisfy.sleepy_hollows.core.event.ArmorEffectHandler;
 import net.satisfy.sleepy_hollows.core.network.SleepyHollowsNetwork;
 import net.satisfy.sleepy_hollows.core.network.message.SanityPacketMessage;
 import net.satisfy.sleepy_hollows.core.registry.*;
@@ -25,7 +26,7 @@ public final class SleepyHollows {
         SoundEventRegistry.init();
         FeatureTypeRegistry.init();
         SleepyHollowsNetwork.init();
-
+        ArmorEffectHandler.init();
         Constants.LOG.info("Sleepy Hollows has been initialized in the common setup phase.");
 
         if (Platform.getEnv() == EnvType.CLIENT) {
@@ -41,40 +42,40 @@ public final class SleepyHollows {
 
     public static void onServerTick(MinecraftServer server) {
 
-        // every tick
+        
         for (ServerPlayer player : server.getPlayerList().getPlayers()) {
 
-            // if any player's sanity has reached 0
+            
             if (SanityManager.getSanity(player) <= 0) {
 
-                // apply the Sanity effect
+                
                 player.addEffect(new MobEffectInstance(MobEffectRegistry.SANITY.get(), (8 * 20)));
 
-                // reset the player's sanity todo: more elegant solution? tp player back home with effect? remove?
-                SanityManager.changeSanity(player, 100); // update server
-                SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer(player, new SanityPacketMessage(100)); // update client
+                
+                SanityManager.changeSanity(player, 100); 
+                SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer(player, new SanityPacketMessage(100)); 
             }
 
-            // every second
+            
             if (server.getTickCount() % 20 == 0) {
 
-                // check for valid blocks
+                
                 SanityManager.doBlockCheck(player);
             }
 
-            // every five seconds
+            
             if (server.getTickCount() % (5 * 20) == 0) {
 
                 if (SanityManager.isImmune(player) || player.level().getBlockState(player.blockPosition()).is(TagRegistry.RESET_SANITY)) return;
 
-                // if they do not have mental fortitude
+                
                 if (!player.level().getBiome(player.getOnPos()).is(SleepyHollowsBiomeKeys.SLEEPY_HOLLOWS)) {
-                    SanityManager.changeSanity(player, SanityManager.Modifiers.OUTSIDE_BIOME.getValue()); // update server
-                    SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer(player, new SanityPacketMessage(SanityManager.Modifiers.OUTSIDE_BIOME.getValue())); // update client
+                    SanityManager.changeSanity(player, SanityManager.Modifiers.OUTSIDE_BIOME.getValue()); 
+                    SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer(player, new SanityPacketMessage(SanityManager.Modifiers.OUTSIDE_BIOME.getValue())); 
                 }
                 else {
-                    SanityManager.changeSanity(player, SanityManager.Modifiers.INSIDE_BIOME.getValue()); // update server
-                    SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer(player, new SanityPacketMessage(SanityManager.Modifiers.INSIDE_BIOME.getValue())); // update client
+                    SanityManager.changeSanity(player, SanityManager.Modifiers.INSIDE_BIOME.getValue()); 
+                    SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer(player, new SanityPacketMessage(SanityManager.Modifiers.INSIDE_BIOME.getValue())); 
                 }
             }
         }
