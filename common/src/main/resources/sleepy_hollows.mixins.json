@@ -8,7 +8,10 @@
     "LevelRendererMixin",
     "SpectralPumpkinOverlayMixin"
   ],
-  "mixins": [],
+  "mixins": [
+    "LivingEntityAccessor",
+    "TamableAnimalMixin"
+  ],
   "server": [],
   "injectors": {
     "defaultRequire": 1

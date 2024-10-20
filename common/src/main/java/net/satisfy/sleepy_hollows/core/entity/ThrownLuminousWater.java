@@ -11,6 +11,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.satisfy.sleepy_hollows.client.util.SanityManager;
+import net.satisfy.sleepy_hollows.core.registry.EntityTypeRegistry;
 import net.satisfy.sleepy_hollows.core.registry.ObjectRegistry;
 import net.satisfy.sleepy_hollows.platform.LuminousWaterParticles;
 
@@ -23,11 +24,11 @@ public class ThrownLuminousWater extends ThrowableItemProjectile implements Item
     }
 
     public ThrownLuminousWater(Level level, LivingEntity shooter) {
-        super(EntityType.POTION, shooter, level);
+        super(EntityTypeRegistry.LUMINOUS_WATER_THROWN.get(), shooter, level);
     }
 
     public ThrownLuminousWater(Level level, double x, double y, double z) {
-        super(EntityType.POTION, x, y, z, level);
+        super(EntityTypeRegistry.LUMINOUS_WATER_THROWN.get(), x, y, z, level);
     }
 
     @Override
@@ -54,6 +55,8 @@ public class ThrownLuminousWater extends ThrowableItemProjectile implements Item
         AABB aABB = this.getBoundingBox().inflate(4.0, 2.0, 4.0);
         List<Player> list = this.level().getEntitiesOfClass(Player.class, aABB);
         list.forEach(player -> SanityManager.decreaseSanity(player, 4));
+        List<LingeringSoul> ohICant = this.level().getEntitiesOfClass(LingeringSoul.class, aABB);
+        ohICant.forEach(LingeringSoul::resurrect);
         this.discard();
     }
 

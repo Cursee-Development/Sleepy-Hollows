@@ -10,7 +10,7 @@ import net.satisfy.sleepy_hollows.core.entity.SpectralHorse;
 import net.satisfy.sleepy_hollows.core.util.SleepyHollowsIdentifier;
 import org.jetbrains.annotations.NotNull;
 
-@Environment(value= EnvType.CLIENT)
+@Environment(EnvType.CLIENT)
 public class SpectralHorseRenderer<T extends SpectralHorse> extends MobRenderer<T, SpectralHorseModel<T>> {
     private static final ResourceLocation TEXTURE = new SleepyHollowsIdentifier("textures/entity/spectral_horse.png");
 

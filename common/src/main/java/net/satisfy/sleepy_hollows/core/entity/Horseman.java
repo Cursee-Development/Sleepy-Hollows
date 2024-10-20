@@ -50,7 +50,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Horseman extends Monster implements EntityWithAttackAnimation {
+public class Horseman extends Monster implements EntityWithAttackAnimation, PowerableMob {
     private static final EntityDataAccessor<Boolean> IMMUNE = SynchedEntityData.defineId(Horseman.class, EntityDataSerializers.BOOLEAN);
     private static final float[] HEALTH_THRESHOLDS = {0.75f, 0.50f, 0.25f};
     private static final EntityDataAccessor<Boolean> HAS_ACTIVE_PUMPKIN_HEAD = SynchedEntityData.defineId(Horseman.class, EntityDataSerializers.BOOLEAN);
@@ -468,5 +468,10 @@ public class Horseman extends Monster implements EntityWithAttackAnimation {
     @Override
     public boolean shouldDropExperience() {
         return true;
+    }
+
+    @Override
+    public boolean isPowered() {
+        return this.entityData.get(IMMUNE);
     }
 }

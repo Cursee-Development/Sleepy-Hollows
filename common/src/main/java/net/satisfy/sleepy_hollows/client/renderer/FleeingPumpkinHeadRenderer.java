@@ -10,7 +10,7 @@ import net.satisfy.sleepy_hollows.core.entity.FleeingPumpkinHead;
 import net.satisfy.sleepy_hollows.core.util.SleepyHollowsIdentifier;
 import org.jetbrains.annotations.NotNull;
 
-@Environment(value= EnvType.CLIENT)
+@Environment(EnvType.CLIENT)
 public class FleeingPumpkinHeadRenderer<T extends FleeingPumpkinHead> extends MobRenderer<T, FleeingPumpkinHeadModel<T>> {
     private static final ResourceLocation TEXTURE = new SleepyHollowsIdentifier("textures/entity/fleeing_pumpkin_head.png");
 

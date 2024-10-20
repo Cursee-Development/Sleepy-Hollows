@@ -1,4 +1,4 @@
-package net.satisfy.sleepy_hollows.platform.fabric;
+package net.satisfy.sleepy_hollows.platform.forge;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;

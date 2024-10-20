@@ -8,6 +8,8 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.core.Holder;
 import net.minecraft.world.level.biome.Biome;
 import net.satisfy.sleepy_hollows.client.model.armor.HauntboundBootsModel;
@@ -60,6 +62,7 @@ public class SleepyHollowsClient {
         EntityRendererRegistry.register(EntityTypeRegistry.INFECTED_ZOMBIE, InfectedZombieRenderer::new);
         EntityRendererRegistry.register(EntityTypeRegistry.FLEEING_PUMPKIN_HEAD, FleeingPumpkinHeadRenderer::new);
         EntityRendererRegistry.register(EntityTypeRegistry.HORSEMAN, HorsemanRenderer::new);
+        EntityRendererRegistry.register(EntityTypeRegistry.LUMINOUS_WATER_THROWN, ThrownItemRenderer::new);
     }
 
     // randomly send a packet to the server
