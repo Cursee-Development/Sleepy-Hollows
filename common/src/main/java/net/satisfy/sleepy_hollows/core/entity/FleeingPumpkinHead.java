@@ -56,7 +56,7 @@ public class FleeingPumpkinHead extends Monster {
     public FleeingPumpkinHead(EntityType<? extends Monster> type, Level world) {
         super(type, world);
         this.setCustomName(Component.translatable("entity.sleepy_hollows.fleeing_pumpkin_head"));
-        this.setCustomNameVisible(false);
+        this.setCustomNameVisible(true);
         this.goalSelector.addGoal(0, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(1, new WaterAvoidingRandomStrollGoal(this, 1.0));
         this.goalSelector.addGoal(2, new AvoidPlayerGoal(this, 1.1D));

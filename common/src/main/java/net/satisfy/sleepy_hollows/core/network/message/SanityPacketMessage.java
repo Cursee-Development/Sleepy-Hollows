@@ -2,48 +2,42 @@ package net.satisfy.sleepy_hollows.core.network.message;
 
 import dev.architectury.networking.NetworkManager;
 import dev.architectury.utils.Env;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+import net.satisfy.sleepy_hollows.client.util.SanityManager;
 
 import java.util.function.Supplier;
 
 public class SanityPacketMessage {
 
-    public final boolean inSleepyHollows;
+    public final int amountToChangeSanity;
 
-    public SanityPacketMessage(boolean inSleepyHollows) {
-        this.inSleepyHollows = inSleepyHollows;
-    } // create message, then encode
+    public SanityPacketMessage(int amountToChangeSanity) {
+        this.amountToChangeSanity = amountToChangeSanity;
+    } 
 
     public SanityPacketMessage(FriendlyByteBuf buffer) {
-        this(buffer.readBoolean());
-    } // decode message, then apply
+        this(buffer.readInt());
+    } 
 
     public void encode(FriendlyByteBuf buffer) {
-        buffer.writeBoolean(this.inSleepyHollows);
-    } // after a message was created
+        buffer.writeInt(this.amountToChangeSanity);
+    } 
 
     public void apply(Supplier<NetworkManager.PacketContext> contextSupplier) {
 
-        if (!inSleepyHollows) return;
+        if (amountToChangeSanity == 0) return;
 
         NetworkManager.PacketContext context = contextSupplier.get();
-
         Env environment = context.getEnvironment();
-
         Player player = context.getPlayer();
 
+        
         if (environment == Env.CLIENT) {
-            player.displayClientMessage(Component.literal("client received a sanity packet to apply"), true);
+
+            
+            SanityManager.changeLocalSanity((LocalPlayer) player, this.amountToChangeSanity); 
         }
-
-        if (environment == Env.SERVER) {
-
-            ServerPlayer serverPlayer = (ServerPlayer) player;
-
-            serverPlayer.sendSystemMessage(Component.literal("server received a sanity packet to apply"));
-        }
-    } // after a message was decoded
+    } 
 }

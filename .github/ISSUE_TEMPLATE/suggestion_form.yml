@@ -1,0 +1,36 @@
+name: Suggestion
+description: Share your improvement idea with us using this form. We're excited to hear from you!
+body:
+  - type: markdown
+    attributes:
+      value: "What’s your idea? We can’t wait to hear all about it!"
+  - type: textarea
+    id: suggestion_detail
+    attributes:
+      label: Suggestion Details
+      description: "Tell us more about your suggestion. The more details, the better!"
+    validations:
+      required: true
+  - type: textarea
+    id: expected_benefits
+    attributes:
+      label: Expected Benefits
+      description: "What positive changes do you think your suggestion will bring? We’d love to hear your thoughts!"
+    validations:
+      required: true
+  - type: textarea
+    id: potential_drawbacks
+    attributes:
+      label: Potential Drawbacks
+      description: "Are there any challenges or downsides to your idea? Let’s figure them out together!"
+  - type: checkboxes
+    id: has_checked_for_similar_suggestions
+    attributes:
+      label: Check for Similar Suggestions
+      description: "Have you taken a look to see if someone else had a similar idea? It’s always great to build on each other’s thoughts!"
+      options:
+        - label: "Yes, I’ve checked for similar ideas."
+          required: true
+  - type: markdown
+    attributes:
+      value: "Thank you so much for sharing your suggestion! We’re thrilled to review it and will get back to you soon!"

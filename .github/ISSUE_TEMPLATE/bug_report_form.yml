@@ -1,0 +1,60 @@
+name: Issue Report
+description: Use this form to report an issue. We're here to help and appreciate your input!
+
+body:
+  - type: markdown
+    attributes:
+      value: "Thank you so much for taking the time to let us know about an issue! We know bugs happen unintentionally, and we truly appreciate your patience and understanding. Let’s work together to make things better!"
+  - type: markdown
+    attributes:
+      value: "Please share the details of the issue below. 
+      Note: This form is specifically for reporting issues. For general questions or help, please reach out through our other channels."
+  - type: input
+    id: mod_version
+    attributes:
+      label: Mod Version
+      placeholder: "e.g., 1.0.8"
+    validations:
+      required: true
+  - type: checkboxes
+    id: using_the_latest_version
+    attributes:
+      label: Latest Version
+      description: "Are you using the latest version? Staying updated helps us ensure the best experience!"
+      options:
+        - label: "Yes, I’m using the latest version."
+          required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Issue Description
+      description: "Please describe the issue in detail so we can understand what’s happening and address it effectively."
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction_steps
+    attributes:
+      label: Steps to Reproduce
+      description: "Walk us through how to replicate the issue. The more detail, the quicker we can find a solution!"
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: "Share your logs via https://pastebin.com/ and provide the link here. This helps us diagnose the issue faster."
+  - type: checkboxes
+    id: has_tested_minimal_instance
+    attributes:
+      label: Minimal Instance Test
+      description: "Have you checked if the issue still occurs with only this mod and its required dependencies? This helps us pinpoint the problem!"
+      options:
+        - label: "Yes, I’ve tested it with a minimal instance."
+  - type: checkboxes
+    id: has_checked_for_similar_issues
+    attributes:
+      label: Check for Similar Issues
+      description: "Did you look around to see if someone else has reported a similar issue? It’s always good to avoid duplicates!"
+      options:
+        - label: "Yes, I have checked for similar issues."
+          required: true

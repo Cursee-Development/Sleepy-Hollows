@@ -1,4 +1,6 @@
-<p align="center">Place Logo here</p>
+<p align="center">
+  <img src="https://github.com/Cursee-Development/Sleepy-Hollows/blob/main/.github/assets/logo/sleepy_hollows.png" alt="logo" width="700">
+</p>
 
 <p align="center" style="color:beige;"><i>In <strong>Sleepy Hollows</strong>, shadows grow,<br>
 Where mysteries and whispers flow.<br>
