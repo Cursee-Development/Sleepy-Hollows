@@ -33,7 +33,5 @@ public final class SleepyHollowsFabricClient implements ClientModInitializer {
                         new ResourceLocation("sleepy_hollows", "block/luminous_water")
                 )
         );
-
-        ClientTickEvent.CLIENT_PRE.register(SleepyHollowsClient::onClientTick);
     }
 }
