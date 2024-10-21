@@ -1,5 +1,6 @@
 package net.satisfy.sleepy_hollows.core.entity;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerBossEvent;
@@ -68,7 +69,7 @@ public class FleeingPumpkinHead extends Monster {
                 .add(Attributes.MOVEMENT_SPEED, 0.43000000417232513)
                 .add(Attributes.MAX_HEALTH, 100.0)
                 .add(Attributes.ATTACK_DAMAGE, 0.0)
-                .add(Attributes.ARMOR, 18.0);
+                .add(Attributes.ARMOR, 22.0);
     }
 
     public void setSummoner(Horseman summoner) {
@@ -79,15 +80,28 @@ public class FleeingPumpkinHead extends Monster {
     public void tick() {
         super.tick();
         bossEvent.setProgress(this.getHealth() / this.getMaxHealth());
+
         if (this.isMoving()) {
             this.level().addParticle(ParticleTypes.SOUL, this.getX(), this.getY() + 1.0D, this.getZ(), 0.0D, 0.0D, 0.0D);
         }
+
         Iterator<Map.Entry<LivingEntity, Integer>> iterator = flyingEntities.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry<LivingEntity, Integer> entry = iterator.next();
             LivingEntity entity = entry.getKey();
             int flightTicks = entry.getValue();
+
             this.level().addParticle(ParticleTypes.SOUL_FIRE_FLAME, entity.getX(), entity.getY() + 0.5D, entity.getZ(), 0.0D, 0.0D, 0.0D);
+
+            Vec3 position = entity.position();
+            BlockPos currentPos = new BlockPos((int) position.x,(int) position.y,(int) position.z);
+
+            if (!this.level().getBlockState(currentPos).isAir()) {
+                entity.setNoGravity(false);
+                iterator.remove();
+                continue;
+            }
+
             flightTicks--;
             if (flightTicks <= 0) {
                 entity.setNoGravity(false);
@@ -96,6 +110,7 @@ public class FleeingPumpkinHead extends Monster {
                 entry.setValue(flightTicks);
             }
         }
+
         if (this.isFlyingAway) {
             double t = (double) this.flightTicks / (double) this.flightDuration;
             if (t >= 1.0) {
@@ -105,6 +120,14 @@ public class FleeingPumpkinHead extends Monster {
                 double x = this.flightStartPos.x + (this.flightEndPos.x - this.flightStartPos.x) * t;
                 double z = this.flightStartPos.z + (this.flightEndPos.z - this.flightStartPos.z) * t;
                 double y = this.flightStartPos.y + this.flightArcHeight * Math.sin(Math.PI * t);
+
+                BlockPos currentPos = new BlockPos((int) x, (int) y, (int) z);
+                if (!this.level().getBlockState(currentPos).isAir()) {
+                    this.isFlyingAway = false;
+                    this.noPhysics = false;
+                    return;
+                }
+
                 this.setPos(x, y, z);
                 this.yRotO = this.getYRot();
                 this.setYRot(this.getYRot() + 10);
@@ -122,13 +145,16 @@ public class FleeingPumpkinHead extends Monster {
             } else {
                 this.summoner = null;
             }
+
             if (isFrozen && level().getGameTime() >= frozenUntil) {
                 isFrozen = false;
             }
+
             if (isFrozen) {
                 this.setDeltaMovement(Vec3.ZERO);
                 applyTremblingEffect();
             }
+
             if (this.getHealth() <= this.getMaxHealth() * 0.75 && !summonedZombiesAndSkeletonsAt75) {
                 summonZombiesAndSkeletons();
                 summonedZombiesAndSkeletonsAt75 = true;
@@ -175,14 +201,14 @@ public class FleeingPumpkinHead extends Monster {
 
     private void freezeFor() {
         isFrozen = true;
-        frozenUntil = level().getGameTime() + 20;
+        frozenUntil = level().getGameTime() + 10;
     }
 
     private void summonZombiesAndSkeletons() {
         level().playSound(null, this.blockPosition(), SoundEventRegistry.FLEEING_PUMPKIN_SUMMONING.get(), SoundSource.HOSTILE, 1.0F, 1.0F);
 
         for (Player player : this.level().players()) {
-            if (player instanceof ServerPlayer serverPlayer && serverPlayer.hasLineOfSight(this) && serverPlayer.distanceTo(this) <= 20) {
+            if (player instanceof ServerPlayer serverPlayer && serverPlayer.hasLineOfSight(this) && serverPlayer.distanceTo(this) <= 10) {
                 serverPlayer.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 30, 3));
             }
         }
@@ -214,7 +240,7 @@ public class FleeingPumpkinHead extends Monster {
                 zombie.setDropChance(EquipmentSlot.MAINHAND, 0.03f);
                 if (zombie.getAttribute(Attributes.ARMOR) != null) {
                     double currentArmor = Objects.requireNonNull(zombie.getAttribute(Attributes.ARMOR)).getBaseValue();
-                    Objects.requireNonNull(zombie.getAttribute(Attributes.ARMOR)).setBaseValue(Math.max(0, currentArmor - 10));
+                    Objects.requireNonNull(zombie.getAttribute(Attributes.ARMOR)).setBaseValue(Math.max(0, currentArmor - 8));
                 }
                 zombie.setCustomName(Component.translatable("entity.sleepy_hollows.hauntbound_zombie"));
                 zombie.setCustomNameVisible(false);
@@ -256,11 +282,11 @@ public class FleeingPumpkinHead extends Monster {
 
     public void startFlyingAway() {
         this.isFlyingAway = true;
-        this.flightDuration = 40;
+        this.flightDuration = 60;
         this.flightTicks = 0;
         this.flightStartPos = this.position();
         double angle = this.random.nextDouble() * 2 * Math.PI;
-        double distance = 12;
+        double distance = 15;
         double dx = Math.cos(angle) * distance;
         double dz = Math.sin(angle) * distance;
         this.flightEndPos = this.flightStartPos.add(dx, 0, dz);
@@ -291,11 +317,11 @@ public class FleeingPumpkinHead extends Monster {
     public void die(@NotNull DamageSource cause) {
         super.die(cause);
         bossEvent.removeAllPlayers();
-        spawnFireworkExplosionParticles();
+        spawnFlashParticles();
     }
 
-    private void spawnFireworkExplosionParticles() {
-        for (int i = 0; i < 50; i++) {
+    private void spawnFlashParticles() {
+        for (int i = 0; i < 60; i++) {
             double xOffset = (Math.random() - 0.5) * 2.0;
             double yOffset = Math.random() * 2.0;
             double zOffset = (Math.random() - 0.5) * 2.0;
