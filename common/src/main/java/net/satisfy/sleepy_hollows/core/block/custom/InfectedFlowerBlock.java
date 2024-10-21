@@ -45,12 +45,12 @@ public class InfectedFlowerBlock extends FlowerBlock {
         if (state.getValue(INFECTED)) {
             VoxelShape voxelShape = this.getShape(state, level, pos, CollisionContext.empty());
             Vec3 center = voxelShape.bounds().getCenter();
-            double x = (double)pos.getX() + center.x;
-            double z = (double)pos.getZ() + center.z;
+            double x = (double) pos.getX() + center.x;
+            double z = (double) pos.getZ() + center.z;
 
             for (int i = 0; i < 3; ++i) {
                 if (random.nextBoolean()) {
-                    level.addParticle(ParticleTypes.SPORE_BLOSSOM_AIR, x + random.nextDouble() / 5.0, (double)pos.getY() + (0.5 - random.nextDouble()), z + random.nextDouble() / 5.0, 0.0, 0.0, 0.0);
+                    level.addParticle(ParticleTypes.SPORE_BLOSSOM_AIR, x + random.nextDouble() / 5.0, (double) pos.getY() + (0.5 - random.nextDouble()), z + random.nextDouble() / 5.0, 0.0, 0.0, 0.0);
                 }
             }
         }

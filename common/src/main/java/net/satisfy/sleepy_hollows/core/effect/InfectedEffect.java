@@ -28,8 +28,8 @@ public class InfectedEffect extends MobEffect {
 
                 int effectDuration = Objects.requireNonNull(player.getEffect(this)).getDuration();
                 if (effectDuration % SANITY_INCREASE_INTERVAL == 0 && effectDuration <= TOTAL_SANITY_DURATION) {
-                    SanityManager.changeSanity(player, SanityManager.Modifiers.INFECTED_EFFECT.getValue()); 
-                    SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer((ServerPlayer) player, new SanityPacketMessage(SanityManager.Modifiers.INFECTED_EFFECT.getValue())); 
+                    SanityManager.changeSanity(player, SanityManager.Modifiers.INFECTED_EFFECT.getValue());
+                    SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer((ServerPlayer) player, new SanityPacketMessage(SanityManager.Modifiers.INFECTED_EFFECT.getValue()));
                 }
             }
         }

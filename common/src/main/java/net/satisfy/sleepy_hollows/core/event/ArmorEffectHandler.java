@@ -16,6 +16,7 @@ public class ArmorEffectHandler {
     public static void init() {
         TickEvent.PLAYER_POST.register(ArmorEffectHandler::onPlayerTick);
     }
+
     private static int tickCounter = 0;
 
     private static void onPlayerTick(Player player) {

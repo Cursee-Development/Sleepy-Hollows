@@ -1,4 +1,3 @@
-
 package net.satisfy.sleepy_hollows.forge.mixin;
 
 import net.minecraft.client.model.HumanoidModel;

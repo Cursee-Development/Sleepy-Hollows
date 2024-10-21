@@ -10,7 +10,7 @@ public class AnimationAttackGoal extends MeleeAttackGoal {
     private int counter;
     private int attackDelay;
     private int attackTick;
-    private int timeout=0;
+    private int timeout = 0;
 
     public AnimationAttackGoal(EntityWithAttackAnimation pMob, double pSpeedModifier, boolean pFollowingTargetEvenIfNotSeen, int attackDelay, int attackTick) {
         super((PathfinderMob) pMob, pSpeedModifier, pFollowingTargetEvenIfNotSeen);
@@ -21,43 +21,42 @@ public class AnimationAttackGoal extends MeleeAttackGoal {
 
     @Override
     public void start() {
-        timeout=0;
+        timeout = 0;
         super.start();
     }
 
     @Override
     public boolean canContinueToUse() {
-        return super.canContinueToUse() && timeout<20*3;
+        return super.canContinueToUse() && timeout < 20 * 3;
     }
 
     @Override
     public void tick() {
         super.tick();
         var target = animationEntity.getTarget_();
-        if(target!=null){
+        if (target != null) {
             checkAndPerformAttack(target, animationEntity.getMeleeAttackRangeSqr_(target));
         }
-        animationEntity.setAttacking_(counter!=0);
+        animationEntity.setAttacking_(counter != 0);
 
-        if(counter!=0)
+        if (counter != 0)
             counter++;
-        if(counter>=attackDelay){
-            counter=0;
+        if (counter >= attackDelay) {
+            counter = 0;
         }
     }
 
     @Override
     protected void checkAndPerformAttack(LivingEntity targetEntity, double discanceSqr) {
         if (targetEntity.getPosition(0).distanceToSqr(animationEntity.getPosition_(0)) < discanceSqr) {
-            if(counter==0){
+            if (counter == 0) {
                 counter++;
             }
             if (counter == attackTick) {
                 this.animationEntity.doHurtTarget_(targetEntity);
             }
-            timeout=0;
-        }
-        else{
+            timeout = 0;
+        } else {
             timeout++;
         }
     }

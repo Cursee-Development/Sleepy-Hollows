@@ -14,7 +14,7 @@ public class TamableAnimalMixin {
 
     @Inject(method = "remove", at = @At("HEAD"))
     private void dontLeaveMeIBegYou(Entity.RemovalReason reason, CallbackInfo ci) {
-        if ((Object)this instanceof TamableAnimal pet) {
+        if ((Object) this instanceof TamableAnimal pet) {
             if (pet.isTame()) {
                 LingeringSoul lingeringSoul = EntityTypeRegistry.LINGERING_SOUL.get().create(pet.level());
                 lingeringSoul.setPos(pet.getX(), pet.getY(), pet.getZ());

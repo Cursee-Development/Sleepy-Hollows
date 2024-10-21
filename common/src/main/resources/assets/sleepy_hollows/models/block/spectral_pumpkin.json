@@ -1,14 +1,26 @@
 {
-    "parent": "block/cube_column",
-    "display": {
-        "firstperson_righthand": {
-            "rotation": [ 0, 135, 0 ],
-            "translation": [ 0, 0, 0 ],
-            "scale": [ 0.40, 0.40, 0.40 ]
-        }
-    },
-    "textures": {
-        "end": "sleepy_hollows:block/spectral_pumpkin_top",
-        "side": "sleepy_hollows:block/spectral_pumpkin_side"
+  "parent": "block/cube_column",
+  "display": {
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        135,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.40,
+        0.40,
+        0.40
+      ]
     }
+  },
+  "textures": {
+    "end": "sleepy_hollows:block/spectral_pumpkin_top",
+    "side": "sleepy_hollows:block/spectral_pumpkin_side"
+  }
 }

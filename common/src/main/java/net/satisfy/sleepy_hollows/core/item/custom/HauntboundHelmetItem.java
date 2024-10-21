@@ -22,8 +22,7 @@ public class HauntboundHelmetItem extends ArmorItem {
         this.hatTexture = hatTexture;
     }
 
-    public ResourceLocation getHatTexture()
-    {
+    public ResourceLocation getHatTexture() {
         return hatTexture;
     }
 
@@ -34,7 +33,7 @@ public class HauntboundHelmetItem extends ArmorItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level world, @NotNull List<Component> tooltip, @NotNull TooltipFlag context) {
-        if(world != null && world.isClientSide()){
+        if (world != null && world.isClientSide()) {
             ArmorRegistry.appendToolTip(tooltip);
         }
     }

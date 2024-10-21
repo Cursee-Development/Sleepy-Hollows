@@ -20,7 +20,7 @@ public abstract class EntityMixin implements IEntitySavedData {
 
     @Override
     public CompoundTag impl$getPersistentData() {
-        if(this.unique$persistentData == null) {
+        if (this.unique$persistentData == null) {
             this.unique$persistentData = new CompoundTag();
         }
         return unique$persistentData;
@@ -28,7 +28,7 @@ public abstract class EntityMixin implements IEntitySavedData {
 
     @Inject(method = "save", at = @At("HEAD"))
     protected void inject$save(CompoundTag nbt, CallbackInfoReturnable<Boolean> info) {
-        if(unique$persistentData != null) {
+        if (unique$persistentData != null) {
             nbt.put(Constants.MOD_DATA_ID, unique$persistentData);
         }
     }

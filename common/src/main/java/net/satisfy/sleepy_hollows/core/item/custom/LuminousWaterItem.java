@@ -17,17 +17,18 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class LuminousWaterItem extends BucketItem {
+public class LuminousWaterItem extends Item {
     public LuminousWaterItem(Properties properties) {
-        super(FluidRegistry.LUMINOUS_WATER_SOURCE.get(), properties.food(new FoodProperties.Builder().nutrition(4).saturationMod(0.3F).build()));
+        super(properties);
+        //super(FluidRegistry.LUMINOUS_WATER_SOURCE.get(), properties.food(new FoodProperties.Builder().nutrition(4).saturationMod(0.3F).build()));
     }
 
     @Override
     public @NotNull ItemStack finishUsingItem(@NotNull ItemStack stack, @NotNull Level world, @NotNull LivingEntity entity) {
         if (entity instanceof Player player) {
             if (!world.isClientSide()) {
-                SanityManager.changeSanity(player, SanityManager.Modifiers.LUMINOUS_WATER.getValue()); 
-                SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer((ServerPlayer) player, new SanityPacketMessage(SanityManager.Modifiers.LUMINOUS_WATER.getValue())); 
+                SanityManager.changeSanity(player, SanityManager.Modifiers.LUMINOUS_WATER.getValue());
+                SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer((ServerPlayer) player, new SanityPacketMessage(SanityManager.Modifiers.LUMINOUS_WATER.getValue()));
             }
         }
         return super.finishUsingItem(stack, world, entity);

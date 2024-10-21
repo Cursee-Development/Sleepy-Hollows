@@ -30,7 +30,8 @@ Together weave the endless night.</i></p>
 - **The Sleepy Hollows**: A new, mystical biome. Characterized by thick fog, eerie gravestones, and ancient structures.
 - **Wood and Plants**: What would a new biome be without its own wood, flowers, stones, and grass?  
   The biome feels... threatening to you. Be cautious and keep an eye on your sanity!
-- **New Encounters**: Infected zombies roam the Sleepy Hollows, slightly stronger than regular zombies, and are the main foes of the biome.  
+- **New Encounters**: Infected zombies roam the Sleepy Hollows, slightly stronger than regular zombies, and are the main
+  foes of the biome.  
   For those with enough courage and the right gear, there's a new boss to fight: the Horseman.
 - **New Gear**: Unique weapons and a new armor set await to be collected.
 - **A... horse**. A very special one! I think.
@@ -57,10 +58,12 @@ Maybe, during your expeditions, you'll even uncover the secret identity of the H
 
 ### Place the Mod and its Dependencies in the Mods Folder:
 
-1. Navigate to your Minecraft installation folder (`%appdata%/.minecraft` on Windows, `~/Library/Application Support/minecraft` on macOS).
-2. Open the `mods` folder (create it if it doesn't exist) and place the downloaded mod and its dependencies (usually `.jar` files) inside.
+1. Navigate to your Minecraft installation folder (`%appdata%/.minecraft` on
+   Windows, `~/Library/Application Support/minecraft` on macOS).
+2. Open the `mods` folder (create it if it doesn't exist) and place the downloaded mod and its dependencies (
+   usually `.jar` files) inside.
 
 ### Run Minecraft:
 
-1. Launch Minecraft again with your Mod Profile, and the mod should be loaded.  
+1. Launch Minecraft again with your Mod Profile, and the mod should be loaded.
 2. **Have fun!**

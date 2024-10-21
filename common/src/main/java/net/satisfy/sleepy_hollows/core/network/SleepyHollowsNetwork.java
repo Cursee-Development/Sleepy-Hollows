@@ -19,15 +19,14 @@ public class SleepyHollowsNetwork {
         SANITY_CHANNEL.register(SanityPacketMessage.class, SanityPacketMessage::encode, SanityPacketMessage::new, SanityPacketMessage::apply);
     }
 
-    
-    
+
     public static class Packets {
         public static final ResourceLocation SANITY_PACKET = new SleepyHollowsIdentifier("sanity_packet");
 
-        
+
         public static void receiverForClient(FriendlyByteBuf buffer, NetworkManager.PacketContext context) {
 
-            
+
             Player player = context.getPlayer();
             player.sendSystemMessage(Component.literal("You have received a Sanity Packet!"));
 
@@ -35,10 +34,10 @@ public class SleepyHollowsNetwork {
             message.apply(() -> context);
         }
 
-        
+
         public static void receiverForServer(FriendlyByteBuf buffer, NetworkManager.PacketContext context) {
 
-            
+
             Player player = context.getPlayer();
             player.sendSystemMessage(Component.literal("The server has received your Sanity Packet!"));
             Constants.LOG.info("The server received a Sanity Packet from {}", player.getScoreboardName());

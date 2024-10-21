@@ -25,8 +25,8 @@ public class CandyCornItem extends Item {
     public @NotNull ItemStack finishUsingItem(@NotNull ItemStack stack, @NotNull Level world, @NotNull LivingEntity entity) {
         if (entity instanceof Player player) {
             if (!world.isClientSide()) {
-                SanityManager.changeSanity(player, SanityManager.Modifiers.CANDY_CORN.getValue()); 
-                SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer((ServerPlayer) player, new SanityPacketMessage(SanityManager.Modifiers.CANDY_CORN.getValue())); 
+                SanityManager.changeSanity(player, SanityManager.Modifiers.CANDY_CORN.getValue());
+                SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer((ServerPlayer) player, new SanityPacketMessage(SanityManager.Modifiers.CANDY_CORN.getValue()));
             }
         }
         return super.finishUsingItem(stack, world, entity);

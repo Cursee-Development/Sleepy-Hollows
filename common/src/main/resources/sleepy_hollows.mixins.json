@@ -9,9 +9,9 @@
     "SpectralPumpkinOverlayMixin"
   ],
   "mixins": [
+    "EntityMixin",
     "LivingEntityAccessor",
-    "TamableAnimalMixin",
-    "EntityMixin"
+    "TamableAnimalMixin"
   ],
   "server": [],
   "injectors": {

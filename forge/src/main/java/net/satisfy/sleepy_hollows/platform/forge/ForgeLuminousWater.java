@@ -8,8 +8,11 @@ import net.minecraftforge.fluids.FluidType;
 import net.satisfy.sleepy_hollows.core.block.custom.LuminousWaterFluid;
 
 public interface ForgeLuminousWater extends IForgeFluid, IClientFluidTypeExtensions {
-    class Source extends LuminousWaterFluid.Source implements ForgeLuminousWater {}
-    class Flowing extends LuminousWaterFluid.Flowing implements ForgeLuminousWater {}
+    class Source extends LuminousWaterFluid.Source implements ForgeLuminousWater {
+    }
+
+    class Flowing extends LuminousWaterFluid.Flowing implements ForgeLuminousWater {
+    }
 
     @Override
     default FluidType getFluidType() {

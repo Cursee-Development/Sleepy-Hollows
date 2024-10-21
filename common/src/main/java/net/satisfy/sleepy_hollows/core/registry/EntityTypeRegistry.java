@@ -28,7 +28,7 @@ public class EntityTypeRegistry {
     public static final RegistrySupplier<BlockEntityType<CompletionistBannerEntity>> COMPLETIONIST_BANNER_ENTITY = registerBlockEntity("completionist_banner", () -> BlockEntityType.Builder.of(CompletionistBannerEntity::new, ObjectRegistry.COMPLETIONIST_BANNER.get(), ObjectRegistry.COMPLETIONIST_WALL_BANNER.get()).build(null));
     public static final RegistrySupplier<BlockEntityType<DummyCoffinBlockEntity>> DUMMY_COFFIN_BLOCK_ENTITY = registerBlockEntity("dummy_coffin", () -> BlockEntityType.Builder.of(DummyCoffinBlockEntity::new, ObjectRegistry.COFFIN.get()).build(null));
 
-    public static final RegistrySupplier<EntityType<SpectralHorse>> SPECTRAL_HORSE = registerEntity("spectral_horse",  () -> EntityType.Builder.of(SpectralHorse::new, MobCategory.CREATURE).sized(0.9f, 1.87f).clientTrackingRange(10).updateInterval(3).build(new SleepyHollowsIdentifier("spectral_horse").toString()));
+    public static final RegistrySupplier<EntityType<SpectralHorse>> SPECTRAL_HORSE = registerEntity("spectral_horse", () -> EntityType.Builder.of(SpectralHorse::new, MobCategory.CREATURE).sized(0.9f, 1.87f).clientTrackingRange(10).updateInterval(3).build(new SleepyHollowsIdentifier("spectral_horse").toString()));
     public static final RegistrySupplier<EntityType<InfectedZombie>> INFECTED_ZOMBIE = registerEntity("infected_zombie", () -> EntityType.Builder.of(InfectedZombie::new, MobCategory.MONSTER).sized(0.6F, 1.95F).build(new SleepyHollowsIdentifier("infected_zombie").toString()));
     public static final RegistrySupplier<EntityType<FleeingPumpkinHead>> FLEEING_PUMPKIN_HEAD = registerEntity("fleeing_pumpkin_head", () -> EntityType.Builder.of(FleeingPumpkinHead::new, MobCategory.MONSTER).sized(0.6F, 1.95F).build(new SleepyHollowsIdentifier("fleeing_pumpkin_head").toString()));
     public static final RegistrySupplier<EntityType<Horseman>> HORSEMAN = registerEntity("horseman", () -> EntityType.Builder.of(Horseman::new, MobCategory.MONSTER).sized(1.4F, 2.6F).build(new SleepyHollowsIdentifier("horseman").toString()));
@@ -44,7 +44,7 @@ public class EntityTypeRegistry {
         return BLOCK_ENTITY_TYPES.register(new SleepyHollowsIdentifier(path), type);
     }
 
-    static void registerAttributes(){
+    static void registerAttributes() {
         EntityAttributeRegistry.register(SPECTRAL_HORSE, SpectralHorse::createAttributes);
         EntityAttributeRegistry.register(INFECTED_ZOMBIE, InfectedZombie::createAttributes);
         EntityAttributeRegistry.register(FLEEING_PUMPKIN_HEAD, FleeingPumpkinHead::createAttributes);

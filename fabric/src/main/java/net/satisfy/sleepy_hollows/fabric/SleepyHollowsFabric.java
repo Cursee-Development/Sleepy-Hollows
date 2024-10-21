@@ -1,7 +1,6 @@
 package net.satisfy.sleepy_hollows.fabric;
 
 import net.fabricmc.api.ModInitializer;
-
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.satisfy.sleepy_hollows.Constants;
 import net.satisfy.sleepy_hollows.SleepyHollows;

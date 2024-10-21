@@ -41,16 +41,21 @@ public class LingeringSoul extends Entity {
     }
 
     @Override
-    protected void defineSynchedData() {}
+    protected void defineSynchedData() {
+    }
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag compound) {}
+    protected void readAdditionalSaveData(CompoundTag compound) {
+    }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag compound) {}
+    protected void addAdditionalSaveData(CompoundTag compound) {
+    }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) { return false; }
+    public boolean hurt(DamageSource source, float amount) {
+        return false;
+    }
 
     /*@Override
     public boolean shouldRender(double x, double y, double z) { return false; }*/

@@ -18,7 +18,8 @@ public class SpectralLanternDecorator extends TreeDecorator {
 
     public static final Codec<SpectralLanternDecorator> CODEC = Codec.unit(SpectralLanternDecorator::new);
 
-    public SpectralLanternDecorator() {}
+    public SpectralLanternDecorator() {
+    }
 
     @Override
     protected @NotNull TreeDecoratorType<?> type() {

@@ -36,6 +36,7 @@ public class HauntboundBootsModel<T extends Entity> extends EntityModel<T> {
 
         return LayerDefinition.create(meshdefinition, 64, 64);
     }
+
     @Override
     public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         poseStack.pushPose();
@@ -45,6 +46,7 @@ public class HauntboundBootsModel<T extends Entity> extends EntityModel<T> {
         left_leg.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
         poseStack.popPose();
     }
+
     @Override
     public void setupAnim(@NotNull T entity, float f, float g, float h, float i, float j) {
     }

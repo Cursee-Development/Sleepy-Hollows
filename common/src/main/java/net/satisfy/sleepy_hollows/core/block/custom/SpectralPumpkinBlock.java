@@ -37,8 +37,8 @@ SpectralPumpkinBlock extends PumpkinBlock {
                 Direction direction2 = direction.getAxis() == Axis.Y ? player.getDirection().getOpposite() : direction;
                 level.playSound(null, pos, SoundEvents.PUMPKIN_CARVE, SoundSource.BLOCKS, 1.0F, 1.0F);
                 level.setBlock(pos, ObjectRegistry.SPECTRAL_CARVED_PUMPKIN.get().defaultBlockState().setValue(CarvedPumpkinBlock.FACING, direction2), 11);
-                ItemEntity itemEntity = new ItemEntity(level, (double)pos.getX() + 0.5 + (double)direction2.getStepX() * 0.65, (double)pos.getY() + 0.1, (double)pos.getZ() + 0.5 + (double)direction2.getStepZ() * 0.65, new ItemStack(Items.PUMPKIN_SEEDS, 4));
-                itemEntity.setDeltaMovement(0.05 * (double)direction2.getStepX() + level.random.nextDouble() * 0.02, 0.05, 0.05 * (double)direction2.getStepZ() + level.random.nextDouble() * 0.02);
+                ItemEntity itemEntity = new ItemEntity(level, (double) pos.getX() + 0.5 + (double) direction2.getStepX() * 0.65, (double) pos.getY() + 0.1, (double) pos.getZ() + 0.5 + (double) direction2.getStepZ() * 0.65, new ItemStack(Items.PUMPKIN_SEEDS, 4));
+                itemEntity.setDeltaMovement(0.05 * (double) direction2.getStepX() + level.random.nextDouble() * 0.02, 0.05, 0.05 * (double) direction2.getStepZ() + level.random.nextDouble() * 0.02);
                 level.addFreshEntity(itemEntity);
                 itemStack.hurtAndBreak(1, player, (playerx) -> playerx.broadcastBreakEvent(hand));
                 level.gameEvent(player, GameEvent.SHEAR, pos);

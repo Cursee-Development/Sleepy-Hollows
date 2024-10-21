@@ -150,5 +150,8 @@
   "tooltip.sleepy_hollows.lore.raubbau": "MissLilitus' alte Schaufel... da hat sie sie also gelassen!",
   "tooltip.sleepy_hollows.lore.reins_of_the_spectral_horse": "Ein geisterhaftes Ross, geboren in den Schatten",
   "tooltip.sleepy_hollows.lore.shatterbrand": "Schwingt mit dem Gewicht der Vergessenen",
-  "tooltip.sleepy_hollows.lore.spectral_waraxe": "Das Leuchten verkündet das Schicksal der Getroffenen..."
+  "tooltip.sleepy_hollows.lore.spectral_waraxe": "Das Leuchten verkündet das Schicksal der Getroffenen...",
+  "effect.sleepy_hollows.bad_dream": "Schlecht geträumt.",
+  "message.sleepy_hollows.insanity": "... war alles nur ein böser, schrecklicher Traum?",
+  "item.sleepy_hollows.splash_luminous_water": "Leuchtendes Wurfwasser"
 }

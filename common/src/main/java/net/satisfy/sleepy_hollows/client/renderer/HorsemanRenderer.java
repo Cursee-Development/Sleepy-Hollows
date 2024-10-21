@@ -7,7 +7,6 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
-import net.satisfy.sleepy_hollows.client.model.entity.HorsemanEnergyLayer;
 import net.satisfy.sleepy_hollows.client.model.entity.HorsemanModel;
 import net.satisfy.sleepy_hollows.core.entity.Horseman;
 import net.satisfy.sleepy_hollows.core.util.SleepyHollowsIdentifier;

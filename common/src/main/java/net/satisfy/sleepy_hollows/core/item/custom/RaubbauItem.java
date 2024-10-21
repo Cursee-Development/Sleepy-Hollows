@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class RaubbauItem extends ShovelItem  {
+public class RaubbauItem extends ShovelItem {
     public RaubbauItem(Properties properties) {
         super(ToolTiersRegistry.RAUBBAU, ToolTiersRegistry.RAUBBAU.getAttackDamageBonus(), ToolTiersRegistry.RAUBBAU.getSpeed(), properties);
     }

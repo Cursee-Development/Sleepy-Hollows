@@ -15,15 +15,15 @@ public class SanityPacketMessage {
 
     public SanityPacketMessage(int amountToChangeSanity) {
         this.amountToChangeSanity = amountToChangeSanity;
-    } 
+    }
 
     public SanityPacketMessage(FriendlyByteBuf buffer) {
         this(buffer.readInt());
-    } 
+    }
 
     public void encode(FriendlyByteBuf buffer) {
         buffer.writeInt(this.amountToChangeSanity);
-    } 
+    }
 
     public void apply(Supplier<NetworkManager.PacketContext> contextSupplier) {
 
@@ -33,11 +33,11 @@ public class SanityPacketMessage {
         Env environment = context.getEnvironment();
         Player player = context.getPlayer();
 
-        
+
         if (environment == Env.CLIENT) {
 
-            
-            SanityManager.changeLocalSanity((LocalPlayer) player, this.amountToChangeSanity); 
+
+            SanityManager.changeLocalSanity((LocalPlayer) player, this.amountToChangeSanity);
         }
-    } 
+    }
 }

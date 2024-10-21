@@ -8,7 +8,8 @@ public interface RandomAction {
 
     void onStart();
 
-    default void onTick(int tick) {}
+    default void onTick(int tick) {
+    }
 
     void onStop();
 
@@ -18,7 +19,7 @@ public interface RandomAction {
 
     float chance();
 
-    default boolean canMove(){
+    default boolean canMove() {
         return false;
     }
 

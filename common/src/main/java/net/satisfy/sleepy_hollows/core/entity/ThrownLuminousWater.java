@@ -14,6 +14,7 @@ import net.satisfy.sleepy_hollows.client.util.SanityManager;
 import net.satisfy.sleepy_hollows.core.registry.EntityTypeRegistry;
 import net.satisfy.sleepy_hollows.core.registry.ObjectRegistry;
 import net.satisfy.sleepy_hollows.platform.LuminousWaterParticles;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class ThrownLuminousWater extends ThrowableItemProjectile implements Item
     }
 
     @Override
-    protected Item getDefaultItem() {
+    protected @NotNull Item getDefaultItem() {
         return ObjectRegistry.LUMINOUS_WATER_SPLASH.get();
     }
 
@@ -42,12 +43,12 @@ public class ThrownLuminousWater extends ThrowableItemProjectile implements Item
     }
 
     @Override
-    protected void onHitBlock(BlockHitResult result) {
+    protected void onHitBlock(@NotNull BlockHitResult result) {
         applySplash();
     }
 
     @Override
-    protected void onHit(HitResult result) {
+    protected void onHit(@NotNull HitResult result) {
         applySplash();
     }
 

@@ -42,40 +42,39 @@ public final class SleepyHollows {
 
     public static void onServerTick(MinecraftServer server) {
 
-        
+
         for (ServerPlayer player : server.getPlayerList().getPlayers()) {
 
-            
-            if (SanityManager.getSanity(player) <= 0) {
 
-                
-                player.addEffect(new MobEffectInstance(MobEffectRegistry.SANITY.get(), (8 * 20)));
+            if (SanityManager.getSanity(player) <= 0 && player.gameMode.isSurvival()) {
 
-                
-                SanityManager.changeSanity(player, 100); 
-                SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer(player, new SanityPacketMessage(100)); 
+                player.addEffect(new MobEffectInstance(MobEffectRegistry.INSANITY.get(), 1200));
+
+                SanityManager.changeSanity(player, 100);
+                SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer(player, new SanityPacketMessage(100));
             }
 
-            
+
+
             if (server.getTickCount() % 20 == 0) {
 
-                
+
                 SanityManager.doBlockCheck(player);
             }
 
-            
+
             if (server.getTickCount() % (5 * 20) == 0) {
 
-                if (SanityManager.isImmune(player) || player.level().getBlockState(player.blockPosition()).is(TagRegistry.RESET_SANITY)) return;
+                if (SanityManager.isImmune(player) || player.level().getBlockState(player.blockPosition()).is(TagRegistry.RESET_SANITY))
+                    return;
 
-                
+
                 if (!player.level().getBiome(player.getOnPos()).is(SleepyHollowsBiomeKeys.SLEEPY_HOLLOWS)) {
-                    SanityManager.changeSanity(player, SanityManager.Modifiers.OUTSIDE_BIOME.getValue()); 
-                    SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer(player, new SanityPacketMessage(SanityManager.Modifiers.OUTSIDE_BIOME.getValue())); 
-                }
-                else {
-                    SanityManager.changeSanity(player, SanityManager.Modifiers.INSIDE_BIOME.getValue()); 
-                    SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer(player, new SanityPacketMessage(SanityManager.Modifiers.INSIDE_BIOME.getValue())); 
+                    SanityManager.changeSanity(player, SanityManager.Modifiers.OUTSIDE_BIOME.getValue());
+                    SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer(player, new SanityPacketMessage(SanityManager.Modifiers.OUTSIDE_BIOME.getValue()));
+                } else {
+                    SanityManager.changeSanity(player, SanityManager.Modifiers.INSIDE_BIOME.getValue());
+                    SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer(player, new SanityPacketMessage(SanityManager.Modifiers.INSIDE_BIOME.getValue()));
                 }
             }
         }

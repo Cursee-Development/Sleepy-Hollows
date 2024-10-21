@@ -8,58 +8,30 @@ import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeMap;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Items;
+import net.satisfy.sleepy_hollows.core.registry.MobEffectRegistry;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
-public class SanityEffect extends MobEffect {
+public class InsanityEffect extends MobEffect {
     private double rotationDirection, motionDirection;
 
-    public SanityEffect() {
+    public InsanityEffect() {
         super(MobEffectCategory.HARMFUL, 0x800080);
     }
 
     @Override
     public void applyEffectTick(@NotNull LivingEntity livingEntity, int amplifier) {
-        if (Objects.requireNonNull(livingEntity.getEffect(this)).getDuration() > 0) {
+        MobEffectInstance currentEffect = livingEntity.getEffect(this);
+        if (currentEffect != null && currentEffect.getDuration() > 0) {
             this.distractEntity(livingEntity);
 
-            if (livingEntity.getAttributeBaseValue(Attributes.ATTACK_DAMAGE) == 1.0) {
-                Objects.requireNonNull(livingEntity.getAttributes().getInstance(Attributes.ATTACK_DAMAGE))
-                        .setBaseValue(0.5);
-            }
+            int remainingDuration = currentEffect.getDuration();
+            livingEntity.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, remainingDuration, 0, false, false));
 
-            if (livingEntity.getAttributeBaseValue(Attributes.ARMOR) == 1.0) {
-                Objects.requireNonNull(livingEntity.getAttributes().getInstance(Attributes.ARMOR))
-                        .setBaseValue(0.5);
-            }
-
-            if (livingEntity.getAttributeBaseValue(Attributes.MOVEMENT_SPEED) == 1.0) {
-                Objects.requireNonNull(livingEntity.getAttributes().getInstance(Attributes.MOVEMENT_SPEED))
-                        .setBaseValue(0.8);
-            }
-
-            if (!livingEntity.hasEffect(MobEffects.BLINDNESS)) {
-                livingEntity.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20 * 25, 0));
+            if (remainingDuration == 20) {
+                livingEntity.addEffect(new MobEffectInstance(MobEffectRegistry.BAD_DREAM.get(), 10, 1));
             }
         }
-    }
-
-    @Override
-    public void removeAttributeModifiers(@NotNull LivingEntity livingEntity, @NotNull AttributeMap attributeMap, int amplifier) {
-        Objects.requireNonNull(livingEntity.getAttributes().getInstance(Attributes.ATTACK_DAMAGE))
-                .setBaseValue(1.0);
-
-        Objects.requireNonNull(livingEntity.getAttributes().getInstance(Attributes.ARMOR))
-                .setBaseValue(1.0);
-
-        Objects.requireNonNull(livingEntity.getAttributes().getInstance(Attributes.MOVEMENT_SPEED))
-                .setBaseValue(1.0);
-
-        super.removeAttributeModifiers(livingEntity, attributeMap, amplifier);
     }
 
     private void distractEntity(LivingEntity livingEntity) {
@@ -83,6 +55,6 @@ public class SanityEffect extends MobEffect {
 
     @Override
     public boolean isDurationEffectTick(int duration, int amplifier) {
-        return duration > 0 && duration % 20 == 0;
+        return duration > 0 && (duration % 20 == 0);
     }
 }

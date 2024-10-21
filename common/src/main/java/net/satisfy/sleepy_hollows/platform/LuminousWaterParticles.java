@@ -10,9 +10,11 @@ import net.satisfy.sleepy_hollows.core.entity.ThrownLuminousWater;
 public class LuminousWaterParticles {
 
     @ExpectPlatform
-    public static void spawnBlock(Level level, BlockPos pos, FluidState state, RandomSource random, int particleIntensity) {}
+    public static void spawnBlock(Level level, BlockPos pos, FluidState state, RandomSource random, int particleIntensity) {
+    }
 
     @ExpectPlatform
-    public static void spawnItem(ThrownLuminousWater bottle, RandomSource random) {}
+    public static void spawnItem(ThrownLuminousWater bottle, RandomSource random) {
+    }
 
 }

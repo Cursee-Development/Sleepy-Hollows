@@ -34,7 +34,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Random;
 
 @SuppressWarnings("deprecation")
-public class TombstoneBlock extends Block  {
+public class TombstoneBlock extends Block {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
     private final VoxelShape shape;

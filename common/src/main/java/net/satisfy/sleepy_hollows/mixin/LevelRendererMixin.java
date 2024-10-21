@@ -16,7 +16,9 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @Mixin(net.minecraft.client.renderer.LevelRenderer.class)
 public class LevelRendererMixin {
 
-    @Shadow @Final private Minecraft minecraft;
+    @Shadow
+    @Final
+    private Minecraft minecraft;
 
     @ModifyExpressionValue(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/DimensionSpecialEffects;isFoggyAt(II)Z"))
     private boolean foggyHollow(boolean original, @Share("hollowed") LocalBooleanRef hollowed) {

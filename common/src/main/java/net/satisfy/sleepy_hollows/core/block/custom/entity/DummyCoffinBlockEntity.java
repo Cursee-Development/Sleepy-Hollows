@@ -14,9 +14,11 @@ public class DummyCoffinBlockEntity extends BlockEntity {
 
     @Override
     public void load(@NotNull CompoundTag tag) {
+        super.load(tag);
     }
 
     @Override
-    protected void saveAdditional(@NotNull CompoundTag compoundTag) {
+    public void saveAdditional(@NotNull CompoundTag tag) {
+        super.saveAdditional(tag);
     }
 }

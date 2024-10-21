@@ -51,7 +51,7 @@ public class CoffinBlockEntity extends RandomizableContainerBlockEntity implemen
 
             protected boolean isOwnContainer(@NotNull Player player) {
                 if (player.containerMenu instanceof ChestMenu) {
-                    Container container = ((ChestMenu)player.containerMenu).getContainer();
+                    Container container = ((ChestMenu) player.containerMenu).getContainer();
                     return container == CoffinBlockEntity.this;
                 } else {
                     return false;
@@ -110,18 +110,18 @@ public class CoffinBlockEntity extends RandomizableContainerBlockEntity implemen
 
     void playOpenSound(BlockState blockState) {
         Vec3i vec3i = blockState.getValue(CoffinBlock.FACING).getNormal();
-        double d = (double)this.worldPosition.getX() + 0.5D + (double)vec3i.getX() / 2.0D;
-        double e = (double)this.worldPosition.getY() + 0.5D + (double)vec3i.getY() / 2.0D;
-        double f = (double)this.worldPosition.getZ() + 0.5D + (double)vec3i.getZ() / 2.0D;
+        double d = (double) this.worldPosition.getX() + 0.5D + (double) vec3i.getX() / 2.0D;
+        double e = (double) this.worldPosition.getY() + 0.5D + (double) vec3i.getY() / 2.0D;
+        double f = (double) this.worldPosition.getZ() + 0.5D + (double) vec3i.getZ() / 2.0D;
         assert this.level != null;
         this.level.playSound(null, d, e, f, SoundEventRegistry.COFFIN_OPEN.get(), SoundSource.BLOCKS, 0.5F, this.level.random.nextFloat());
     }
 
     void playCloseSound(BlockState blockState) {
         Vec3i vec3i = blockState.getValue(CoffinBlock.FACING).getNormal();
-        double d = (double)this.worldPosition.getX() + 0.5D + (double)vec3i.getX() / 2.0D;
-        double e = (double)this.worldPosition.getY() + 0.5D + (double)vec3i.getY() / 2.0D;
-        double f = (double)this.worldPosition.getZ() + 0.5D + (double)vec3i.getZ() / 2.0D;
+        double d = (double) this.worldPosition.getX() + 0.5D + (double) vec3i.getX() / 2.0D;
+        double e = (double) this.worldPosition.getY() + 0.5D + (double) vec3i.getY() / 2.0D;
+        double f = (double) this.worldPosition.getZ() + 0.5D + (double) vec3i.getZ() / 2.0D;
         assert this.level != null;
         this.level.playSound(null, d, e, f, SoundEventRegistry.COFFIN_CLOSE.get(), SoundSource.BLOCKS, 0.5F, this.level.random.nextFloat());
     }

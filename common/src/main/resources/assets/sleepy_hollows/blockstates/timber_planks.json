@@ -16,7 +16,6 @@
       "model": "sleepy_hollows:block/timber_planks",
       "y": 270
     },
-
     "facing=north,corner=outer": {
       "model": "sleepy_hollows:block/timber_planks_outer_corner",
       "y": 0
@@ -33,7 +32,6 @@
       "model": "sleepy_hollows:block/timber_planks_outer_corner",
       "y": 270
     },
-
     "facing=north,corner=inner": {
       "model": "sleepy_hollows:block/timber_planks_inner_corner",
       "y": 0

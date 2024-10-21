@@ -24,7 +24,7 @@
     "client": [
       "net.satisfy.sleepy_hollows.fabric.client.SleepyHollowsFabricClient"
     ],
-    "terrablender":  [
+    "terrablender": [
       "net.satisfy.sleepy_hollows.fabric.terrablender.TerrablenderFabric"
     ]
   },

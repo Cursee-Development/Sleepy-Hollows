@@ -46,7 +46,7 @@ public class SleepyHollowsUtil {
         VoxelShape[] buffer = new VoxelShape[]{shape, Shapes.empty()};
         int times = (to.get2DDataValue() - from.get2DDataValue() + 4) % 4;
 
-        for(int i = 0; i < times; ++i) {
+        for (int i = 0; i < times; ++i) {
             buffer[0].forAllBoxes((minX, minY, minZ, maxX, maxY, maxZ) -> {
                 buffer[1] = Shapes.joinUnoptimized(buffer[1], Shapes.box(1.0 - maxZ, minY, minX, 1.0 - minZ, maxY, maxX), BooleanOp.OR);
             });
@@ -57,7 +57,7 @@ public class SleepyHollowsUtil {
         return buffer[0];
     }
 
-    
+
     public static String unwrappedBiome(Holder<Biome> biomeHolder) {
         return biomeHolder.unwrap().map((arg) -> arg.location().toString(), (arg) -> "[unregistered " + arg + "]");
     }

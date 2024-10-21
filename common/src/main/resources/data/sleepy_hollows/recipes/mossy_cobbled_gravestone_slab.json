@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-
   "key": {
     "#": {
       "item": "sleepy_hollows:mossy_cobbled_gravestone"

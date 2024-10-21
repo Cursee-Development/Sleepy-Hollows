@@ -21,9 +21,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class ShatterbrandSwordItem extends SwordItem implements EnchantingBehavior {
-        public ShatterbrandSwordItem(Properties properties) {
-            super(ToolTiersRegistry.SPECTRAL, 3, -2.5F, properties);
-        }
+    public ShatterbrandSwordItem(Properties properties) {
+        super(ToolTiersRegistry.SPECTRAL, 3, -2.5F, properties);
+    }
 
     @Override
     public boolean isBookEnchantable(ItemStack stack, ItemStack book) {

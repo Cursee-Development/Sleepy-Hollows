@@ -2,7 +2,6 @@ package net.satisfy.sleepy_hollows.forge;
 
 import com.mojang.datafixers.util.Pair;
 import dev.architectury.platform.forge.EventBuses;
-import net.minecraft.client.Minecraft;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -12,10 +11,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-
 import net.satisfy.sleepy_hollows.Constants;
 import net.satisfy.sleepy_hollows.SleepyHollows;
-import net.satisfy.sleepy_hollows.client.SleepyHollowsClient;
 import net.satisfy.sleepy_hollows.core.registry.CompostableRegistry;
 import net.satisfy.sleepy_hollows.core.registry.FluidRegistry;
 import net.satisfy.sleepy_hollows.core.world.SleepyHollowsRegion;
@@ -49,12 +46,14 @@ public final class SleepyHollowsForge {
         event.enqueueWork(CompostableRegistry::init);
     }
 
-    @SubscribeEvent
-    public void onServerTick(final TickEvent.ServerTickEvent event) {
-        if (event.side != LogicalSide.SERVER) return;
-        if (event.phase != TickEvent.Phase.START) return;
-
-        MinecraftServer server = event.getServer();
-        SleepyHollows.onServerTick(server);
+    @Mod.EventBusSubscriber(modid = Constants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+    public static class SleepyHollowsEventHandlers {
+        @SubscribeEvent
+        public static void onServerTick(final TickEvent.ServerTickEvent event) {
+            if (event.side == LogicalSide.SERVER && event.phase == TickEvent.Phase.START) {
+                MinecraftServer server = event.getServer();
+                SleepyHollows.onServerTick(server);
+            }
+        }
     }
 }
