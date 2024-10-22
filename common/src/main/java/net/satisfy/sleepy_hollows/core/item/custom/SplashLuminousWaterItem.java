@@ -10,13 +10,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.satisfy.sleepy_hollows.core.entity.ThrownLuminousWater;
 import net.satisfy.sleepy_hollows.core.registry.ObjectRegistry;
+import org.jetbrains.annotations.NotNull;
 
 public class SplashLuminousWaterItem extends Item implements ItemSupplier {
     public SplashLuminousWaterItem(Properties properties) {
         super(properties);
     }
 
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
+    public @NotNull InteractionResultHolder<ItemStack> use(Level level, Player player, @NotNull InteractionHand usedHand) {
         ItemStack itemStack = player.getItemInHand(usedHand);
         if (!level.isClientSide) {
             ThrownLuminousWater thrownPotion = new ThrownLuminousWater(level, player);
@@ -34,7 +35,7 @@ public class SplashLuminousWaterItem extends Item implements ItemSupplier {
     }
 
     @Override
-    public ItemStack getItem() {
+    public @NotNull ItemStack getItem() {
         return ObjectRegistry.LUMINOUS_WATER_SPLASH.get().getDefaultInstance();
     }
 }

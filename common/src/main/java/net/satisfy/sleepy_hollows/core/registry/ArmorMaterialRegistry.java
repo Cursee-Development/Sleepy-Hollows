@@ -13,12 +13,12 @@ public class ArmorMaterialRegistry {
 
         @Override
         public int getDurabilityForType(ArmorItem.@NotNull Type type) {
-            return ArmorMaterials.DIAMOND.getDurabilityForType(type) + 2;
+            return ArmorMaterials.DIAMOND.getDurabilityForType(type);
         }
 
         @Override
         public int getDefenseForType(ArmorItem.@NotNull Type type) {
-            return ArmorMaterials.DIAMOND.getDefenseForType(type) + 1;
+            return ArmorMaterials.DIAMOND.getDefenseForType(type);
         }
 
         @Override
@@ -38,12 +38,12 @@ public class ArmorMaterialRegistry {
 
         @Override
         public @NotNull String getName() {
-            return "custom";
+            return "hauntbound";
         }
 
         @Override
         public float getToughness() {
-            return (ArmorMaterials.DIAMOND.getToughness() + ArmorMaterials.NETHERITE.getToughness()) / 2;
+            return (ArmorMaterials.DIAMOND.getToughness());
         }
 
         @Override

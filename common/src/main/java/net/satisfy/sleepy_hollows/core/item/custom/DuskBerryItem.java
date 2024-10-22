@@ -20,7 +20,7 @@ import java.util.List;
 public class DuskBerryItem extends ItemNameBlockItem {
 
     public DuskBerryItem(Block block, Properties properties) {
-        super(block, properties.food(new FoodProperties.Builder().nutrition(4).saturationMod(0.3F).build()));
+        super(block, properties.food(new FoodProperties.Builder().nutrition(4).saturationMod(0.3F).alwaysEat().build()));
     }
 
     @Override

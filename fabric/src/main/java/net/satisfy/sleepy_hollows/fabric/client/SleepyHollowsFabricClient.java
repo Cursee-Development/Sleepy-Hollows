@@ -30,8 +30,8 @@ public final class SleepyHollowsFabricClient implements ClientModInitializer {
                 FluidRegistry.LUMINOUS_WATER_SOURCE.get(),
                 FluidRegistry.LUMINOUS_WATER_FLOWING.get(),
                 new SimpleFluidRenderHandler(
-                        new ResourceLocation("sleepy_hollows", "block/luminous_water"),
-                        new ResourceLocation("sleepy_hollows", "block/luminous_water")
+                        new ResourceLocation("sleepy_hollows", "block/luminous_water_still"),
+                        new ResourceLocation("sleepy_hollows", "block/luminous_water_flow")
                 )
         );
     }

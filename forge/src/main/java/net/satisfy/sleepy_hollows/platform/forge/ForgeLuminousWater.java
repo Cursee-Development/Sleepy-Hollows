@@ -21,11 +21,11 @@ public interface ForgeLuminousWater extends IForgeFluid, IClientFluidTypeExtensi
 
     @Override
     default ResourceLocation getStillTexture() {
-        return new ResourceLocation("sleepy_hollows", "block/luminous_water");
+        return new ResourceLocation("sleepy_hollows", "block/luminous_water_still");
     }
 
     @Override
     default ResourceLocation getFlowingTexture() {
-        return new ResourceLocation("sleepy_hollows", "block/luminous_water");
+        return new ResourceLocation("sleepy_hollows", "block/luminous_water_flow");
     }
 }

@@ -17,10 +17,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class LuminousWaterItem extends Item {
+public class LuminousWaterItem extends BucketItem {
     public LuminousWaterItem(Properties properties) {
-        super(properties);
-        //super(FluidRegistry.LUMINOUS_WATER_SOURCE.get(), properties.food(new FoodProperties.Builder().nutrition(4).saturationMod(0.3F).build()));
+        super(FluidRegistry.LUMINOUS_WATER_SOURCE.get(), properties.food(new FoodProperties.Builder().nutrition(4).saturationMod(0.3F).build()));
     }
 
     @Override

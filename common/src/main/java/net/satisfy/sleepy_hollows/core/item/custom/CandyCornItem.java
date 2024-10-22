@@ -18,7 +18,7 @@ import java.util.List;
 
 public class CandyCornItem extends Item {
     public CandyCornItem(Properties properties) {
-        super(properties.food(new FoodProperties.Builder().nutrition(4).saturationMod(0.3F).build()));
+        super(properties.food(new FoodProperties.Builder().nutrition(4).saturationMod(0.3F).alwaysEat().build()));
     }
 
     @Override

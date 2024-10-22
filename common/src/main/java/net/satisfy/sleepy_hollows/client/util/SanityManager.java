@@ -19,10 +19,10 @@ public class SanityManager {
 
     public enum Modifiers {
 
-        CANDY_CORN(-4), DUSK_BERRY(-2),
-        LUMINOUS_WATER(-6), SPECTRAL_PUMPKIN_PIE(-10),
+        CANDY_CORN(4), DUSK_BERRY(2),
+        LUMINOUS_WATER(6), SPECTRAL_PUMPKIN_PIE(10),
 
-        INSIDE_BIOME(-20), OUTSIDE_BIOME(5),
+        INSIDE_BIOME(-1), OUTSIDE_BIOME(5),
         RESET_SANITY(SanityManager.MAXIMUM_SANITY), DECREASE_SANITY(-2),
         INFECTED_EFFECT(-2), MENTAL_FORTITUDE(SanityManager.MAXIMUM_SANITY);
 
@@ -57,50 +57,56 @@ public class SanityManager {
 
     /**
      * @param amount expects a negative integer
-     * @return The amount by which sanity was modified
      */
-    public static int decreaseSanity(Player player, int amount) {
+    public static void decreaseSanity(Player player, int amount) {
 
         final int currentSanity = getSanity(player);
-        if (SanityManager.isImmune(player)) return currentSanity;
+        if (SanityManager.isImmune(player)) return;
         final int newSanity = Math.max(MINIMUM_SANITY, currentSanity + amount);
         getSanityTag(getSavedData(player)).putInt(SANITY, safeSanity(newSanity));
 
-        return amount;
     }
 
     /**
      * @param amount expects a positive integer
-     * @return The amount by which sanity was modified
      */
-    private static int increaseSanity(Player player, int amount) {
+    private static void increaseSanity(Player player, int amount) {
 
         final int currentSanity = getSanity(player);
         final int newSanity = Math.min(MAXIMUM_SANITY, currentSanity + amount);
         getSanityTag(getSavedData(player)).putInt(SANITY, safeSanity(newSanity));
 
-        return amount;
     }
 
     /**
      * @param player An instance of a Player
      * @param amount A positive or negative integer to change the Sanity by
-     * @return The amount by which sanity was modified
      */
-    public static int changeSanity(Player player, int amount) {
-        if (SanityManager.isImmune(player)) return 0;
+    public static void changeSanity(Player player, int amount) {
+        if (SanityManager.isImmune(player)) return;
 
-        return amount == 0 ? 0 : amount > 0 ? increaseSanity(player, amount) : decreaseSanity(player, amount);
+        if (amount != 0) {
+            if (amount > 0) {
+                increaseSanity(player, amount);
+            } else {
+                decreaseSanity(player, amount);
+            }
+        }
     }
 
     /**
      * @param player An instance of a Player
      * @param amount A positive or negative integer to change the Sanity by
-     * @return The amount by which sanity was modified
      */
-    public static int changeLocalSanity(LocalPlayer player, int amount) {
-        if (SanityManager.isImmune(player)) return 0;
-        return amount == 0 ? 0 : amount > 0 ? increaseSanity(player, amount) : decreaseSanity(player, amount);
+    public static void changeLocalSanity(LocalPlayer player, int amount) {
+        if (SanityManager.isImmune(player)) return;
+        if (amount != 0) {
+            if (amount > 0) {
+                increaseSanity(player, amount);
+            } else {
+                decreaseSanity(player, amount);
+            }
+        }
     }
 
     private static int safeSanity(int amount) {
