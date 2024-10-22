@@ -53,6 +53,7 @@ public class SleepyHollowsClient {
         EntityRendererRegistry.register(EntityTypeRegistry.FLEEING_PUMPKIN_HEAD, FleeingPumpkinHeadRenderer::new);
         EntityRendererRegistry.register(EntityTypeRegistry.HORSEMAN, HorsemanRenderer::new);
         EntityRendererRegistry.register(EntityTypeRegistry.LUMINOUS_WATER_THROWN, ThrownItemRenderer::new);
+        EntityRendererRegistry.register(EntityTypeRegistry.LINGERING_SOUL, NothingRenderer::new);
     }
 }
 

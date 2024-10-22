@@ -18,6 +18,7 @@ public class TamableAnimalMixin {
             if (pet.isTame()) {
                 LingeringSoul lingeringSoul = EntityTypeRegistry.LINGERING_SOUL.get().create(pet.level());
                 lingeringSoul.setPos(pet.getX(), pet.getY(), pet.getZ());
+                lingeringSoul.setRemnant(pet);
                 pet.level().addFreshEntity(lingeringSoul);
             }
         }

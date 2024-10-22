@@ -19,11 +19,6 @@ public class LingeringSoul extends Entity {
         this.noPhysics = true;
     }
 
-    public LingeringSoul(Level level, TamableAnimal remnant) {
-        this(EntityTypeRegistry.LUMINOUS_WATER_THROWN.get(), level);
-        this.remnant = remnant;
-    }
-
     @Override
     public void tick() {
         if (this.isBeingResurrected) return;
@@ -57,6 +52,7 @@ public class LingeringSoul extends Entity {
         return false;
     }
 
-    /*@Override
-    public boolean shouldRender(double x, double y, double z) { return false; }*/
+    public void setRemnant(net.minecraft.world.entity.TamableAnimal remnant) {
+        this.remnant = remnant;
+    }
 }
