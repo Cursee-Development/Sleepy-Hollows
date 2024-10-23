@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.FluidState;
+import net.satisfy.sleepy_hollows.core.entity.LingeringSoul;
 import net.satisfy.sleepy_hollows.core.entity.ThrownLuminousWater;
 
 public class LuminousWaterParticles {
@@ -15,6 +16,10 @@ public class LuminousWaterParticles {
 
     @ExpectPlatform
     public static void spawnItem(ThrownLuminousWater bottle, RandomSource random) {
+    }
+
+    @ExpectPlatform
+    public static void createPreReincarnate(LingeringSoul soul, RandomSource random) {
     }
 
 }

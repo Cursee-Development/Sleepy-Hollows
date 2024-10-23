@@ -12,7 +12,7 @@ public class MentalFortidueEffect extends MobEffect {
         super(MobEffectCategory.BENEFICIAL, 0x00FF00);
     }
 
-    @Override
+    /*@Override
     public void applyEffectTick(@NotNull LivingEntity livingEntity, int amplifier) {
         if (livingEntity instanceof Player player) {
             SanityManager.setSanityImmunity(player, true);
@@ -25,7 +25,7 @@ public class MentalFortidueEffect extends MobEffect {
             SanityManager.setSanityImmunity(player, false);
         }
         super.removeAttributeModifiers(livingEntity, attributeMap, amplifier);
-    }
+    }*/
 
     @Override
     public boolean isDurationEffectTick(int duration, int amplifier) {

@@ -21,10 +21,9 @@ public class PlayerTickEvent {
         if (player.level().getBiome(playerPos).is(SleepyHollowsBiomeKeys.SLEEPY_HOLLOWS)) {
             tickCounter++;
             if (tickCounter >= TICK_INTERVAL) {
-                SanityManager.increaseSanity(player);
+                SanityManager.decreaseSanity(player, 1);
                 tickCounter = 0;
             }
         }
-        SanityManager.checkSanityBlocks(player);
     }
 }
