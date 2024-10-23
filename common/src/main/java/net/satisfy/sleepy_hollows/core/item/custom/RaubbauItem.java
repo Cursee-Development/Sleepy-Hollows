@@ -21,7 +21,7 @@ import java.util.Random;
 
 public class RaubbauItem extends ShovelItem {
     public RaubbauItem(Properties properties) {
-        super(ToolTiersRegistry.RAUBBAU, ToolTiersRegistry.RAUBBAU.getAttackDamageBonus(), ToolTiersRegistry.RAUBBAU.getSpeed(), properties);
+        super(ToolTiersRegistry.RAUBBAU, 2.0F, -3F, properties);
     }
 
     @Override

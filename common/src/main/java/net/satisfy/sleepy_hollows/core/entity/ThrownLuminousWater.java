@@ -28,6 +28,7 @@ public class ThrownLuminousWater extends ThrowableItemProjectile implements Item
         super(EntityTypeRegistry.LUMINOUS_WATER_THROWN.get(), shooter, level);
     }
 
+    @SuppressWarnings("unused")
     public ThrownLuminousWater(Level level, double x, double y, double z) {
         super(EntityTypeRegistry.LUMINOUS_WATER_THROWN.get(), x, y, z, level);
     }
@@ -58,6 +59,11 @@ public class ThrownLuminousWater extends ThrowableItemProjectile implements Item
         list.forEach(player -> SanityManager.decreaseSanity(player, 4));
         List<LingeringSoul> ohICant = this.level().getEntitiesOfClass(LingeringSoul.class, aABB);
         ohICant.forEach(LingeringSoul::resurrect);
+
+        if (!level().isClientSide()) {
+            level().levelEvent(2002, blockPosition(), 0x0000FF / 2);
+        }
+
         this.discard();
     }
 

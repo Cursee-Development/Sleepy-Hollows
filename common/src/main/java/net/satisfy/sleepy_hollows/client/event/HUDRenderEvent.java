@@ -12,9 +12,13 @@ import net.satisfy.sleepy_hollows.core.world.SleepyHollowsBiomeKeys;
 
 public class HUDRenderEvent {
 
-    private static final ResourceLocation FRAME_TEXTURE = new SleepyHollowsIdentifier("textures/gui/sanity_meter.png");
+    private static final ResourceLocation FRAME_TEXTURE = new SleepyHollowsIdentifier("textures/gui/sanity_meter_bar.png");
     private static final ResourceLocation FILL_TEXTURE = new SleepyHollowsIdentifier("textures/gui/sanity_meter_progress.png");
 
+    private static long lastExitedBiomeTime = 0;
+    private static final long DISPLAY_DURATION_AFTER_EXIT = 45000;
+
+    @SuppressWarnings("unused")
     public static void onRenderHUD(GuiGraphics guiGraphics, float tickDelta) {
 
         Minecraft mc = Minecraft.getInstance();
@@ -27,15 +31,28 @@ public class HUDRenderEvent {
 
         int sanity = SanityManager.getSanity(player);
 
-        if (!player.level().getBiome(player.blockPosition()).is(SleepyHollowsBiomeKeys.SLEEPY_HOLLOWS)) return;
-        if (sanity == SanityManager.MAXIMUM_SANITY) return;
+        boolean isInSleepyHollows = player.level().getBiome(player.blockPosition()).is(SleepyHollowsBiomeKeys.SLEEPY_HOLLOWS);
+
+        if (!isInSleepyHollows && lastExitedBiomeTime == 0) {
+            lastExitedBiomeTime = System.currentTimeMillis();
+        }
+
+        if (isInSleepyHollows) {
+            lastExitedBiomeTime = 0;
+        }
+
+        boolean shouldRender = isInSleepyHollows ||
+                (lastExitedBiomeTime != 0 &&
+                        System.currentTimeMillis() - lastExitedBiomeTime <= DISPLAY_DURATION_AFTER_EXIT);
+
+        if (!shouldRender || sanity == SanityManager.MAXIMUM_SANITY) return;
 
         int screenWidth = mc.getWindow().getGuiScaledWidth();
         int screenHeight = mc.getWindow().getGuiScaledHeight();
         int frameWidth = 214;
-        int frameHeight = 30;
-        int barWidth = 182;
-        int barXOffset = 10;
+        int frameHeight = 32;
+        int barWidth = 214;
+        int barXOffset = 0;
         int barYOffset = 0;
 
         int x = (screenWidth / 2) - (frameWidth / 2);

@@ -9,8 +9,9 @@ import java.util.function.Supplier;
 
 @SuppressWarnings("deprecation")
 public enum ToolTiersRegistry implements Tier {
+
     SPECTRAL(4, 2031, 8.0F, 5.0F, 15, () -> Ingredient.of(ObjectRegistry.LUMINOUS_ESSENCE.get())),
-    RAUBBAU(4, 2031, -2.9F, 3.0F, 15, () -> Ingredient.of(ObjectRegistry.LUMINOUS_ESSENCE.get()));
+    RAUBBAU(4, 2031, 6.0F, 3.0F, 15, () -> Ingredient.of(ObjectRegistry.LUMINOUS_ESSENCE.get()));
 
     private final int level;
     private final int uses;

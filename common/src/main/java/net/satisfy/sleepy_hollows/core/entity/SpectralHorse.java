@@ -42,8 +42,8 @@ public class SpectralHorse extends AbstractChestedHorse {
                 .add(Attributes.MAX_HEALTH, 20.0)
                 .add(Attributes.ARMOR, 1.5)
                 .add(Attributes.ARMOR_TOUGHNESS, 1.5)
-                .add(Attributes.JUMP_STRENGTH, 0.7)
-                .add(Attributes.MOVEMENT_SPEED, 0.15);
+                .add(Attributes.JUMP_STRENGTH, 0.9)
+                .add(Attributes.MOVEMENT_SPEED, 0.298329477474777777);
     }
 
     @Override

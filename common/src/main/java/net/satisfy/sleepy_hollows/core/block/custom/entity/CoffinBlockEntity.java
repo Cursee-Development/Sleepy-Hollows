@@ -7,6 +7,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
+import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -61,13 +62,20 @@ public class CoffinBlockEntity extends RandomizableContainerBlockEntity implemen
     }
 
     @Override
-    protected void saveAdditional(@NotNull CompoundTag compoundTag) {
-        super.saveAdditional(compoundTag);
+    public void load(@NotNull CompoundTag compoundTag) {
+        super.load(compoundTag);
+        this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
+        if (!this.tryLoadLootTable(compoundTag)) {
+            ContainerHelper.loadAllItems(compoundTag, this.items);
+        }
     }
 
     @Override
-    public void load(@NotNull CompoundTag compoundTag) {
-        super.load(compoundTag);
+    protected void saveAdditional(@NotNull CompoundTag compoundTag) {
+        super.saveAdditional(compoundTag);
+        if (!this.trySaveLootTable(compoundTag)) {
+            ContainerHelper.saveAllItems(compoundTag, this.items);
+        }
     }
 
     @Override
@@ -78,7 +86,6 @@ public class CoffinBlockEntity extends RandomizableContainerBlockEntity implemen
     @Override
     protected @NotNull AbstractContainerMenu createMenu(int syncId, @NotNull Inventory playerInventory) {
         return new ChestMenu(MenuType.GENERIC_9x6, syncId, playerInventory, this, 6);
-
     }
 
     @Override

@@ -18,7 +18,7 @@ import java.util.List;
 
 public class SpectralPumpkinPieItem extends Item {
     public SpectralPumpkinPieItem(Properties properties) {
-        super(properties.food(new FoodProperties.Builder().nutrition(4).saturationMod(0.3F).build()));
+        super(properties.food(new FoodProperties.Builder().nutrition(4).saturationMod(0.3F).alwaysEat().build()));
     }
 
     @Override

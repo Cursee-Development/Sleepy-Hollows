@@ -12,6 +12,7 @@ import net.satisfy.sleepy_hollows.core.util.SleepyHollowsIdentifier;
 public class SoundEventRegistry {
     public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(Constants.MOD_ID, Registries.SOUND_EVENT);
 
+    public static final RegistrySupplier<SoundEvent> EQUIP_HAUNTBOUND = create("equip_hauntbound");
     public static final RegistrySupplier<SoundEvent> COFFIN_OPEN = create("coffin_open");
     public static final RegistrySupplier<SoundEvent> COFFIN_CLOSE = create("coffin_close");
     public static final RegistrySupplier<SoundEvent> PLANKS_CREAKING = create("planks_creaking");
