@@ -19,6 +19,14 @@
       }
     ]
   },
+  "equip_hauntbound": {
+    "subtitle": "subtitles.sleepy_hollows.item.armor.equip_hauntbound",
+    "sounds": [
+      {
+        "name": "sleepy_hollows:item/armor/equip_hauntbound"
+      }
+    ]
+  },
   "sleepy_hollows_ambient": {
     "subtitle": "subtitles.sleepy_hollows.ambient.sleepy_hollows",
     "sounds": [

@@ -28,7 +28,7 @@ public class ArmorMaterialRegistry {
 
         @Override
         public @NotNull SoundEvent getEquipSound() {
-            return SoundEvents.ARMOR_EQUIP_NETHERITE;
+            return SoundEventRegistry.EQUIP_HAUNTBOUND.get();
         }
 
         @Override
