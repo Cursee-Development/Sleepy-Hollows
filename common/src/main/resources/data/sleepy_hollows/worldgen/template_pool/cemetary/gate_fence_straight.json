@@ -1,23 +1,23 @@
 {
-  "fallback": "minecraft:empty",
-  "elements": [
-    {
-      "weight": 1,
-      "element": {
-        "location": "sleepy_hollows:cemetary/gate/fence/straight_c",
-        "processors": "minecraft:empty",
-        "projection": "terrain_matching",
-        "element_type": "minecraft:single_pool_element"
-      }
-    },
-    {
-      "weight": 1,
-      "element": {
-        "location": "sleepy_hollows:cemetary/gate/fence/straight_d",
-        "processors": "minecraft:empty",
-        "projection": "terrain_matching",
-        "element_type": "minecraft:single_pool_element"
-      }
-    }
-  ]
+    "fallback": "minecraft:empty",
+    "elements": [
+        {
+            "weight": 1,
+            "element": {
+                "location": "sleepy_hollows:cemetary/gate/fence/straight_c",
+                "processors": "sleepy_hollows:cemetary_processor",
+                "projection": "terrain_matching",
+                "element_type": "minecraft:single_pool_element"
+            }
+        },
+        {
+            "weight": 1,
+            "element": {
+                "location": "sleepy_hollows:cemetary/gate/fence/straight_d",
+                "processors": "sleepy_hollows:cemetary_processor",
+                "projection": "terrain_matching",
+                "element_type": "minecraft:single_pool_element"
+            }
+        }
+    ]
 }

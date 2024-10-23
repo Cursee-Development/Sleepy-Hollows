@@ -24,9 +24,7 @@ public class SleepyHollowsRegion extends Region {
     @Override
     public void addBiomes(Registry<Biome> registry, Consumer<Pair<Climate.ParameterPoint, ResourceKey<Biome>>> mapper) {
         {
-            this.addModifiedVanillaOverworldBiomes(mapper, builder -> {
-                addBiomeSimilar(mapper, Biomes.DARK_FOREST, SleepyHollowsBiomeKeys.SLEEPY_HOLLOWS);
-            });
+            this.addModifiedVanillaOverworldBiomes(mapper, builder -> addBiomeSimilar(mapper, Biomes.TAIGA, SleepyHollowsBiomeKeys.SLEEPY_HOLLOWS));
         }
     }
 

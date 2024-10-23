@@ -1,0 +1,23 @@
+{
+    "fallback": "minecraft:empty",
+    "elements": [
+        {
+            "weight": 1,
+            "element": {
+                "location": "sleepy_hollows:cemetary/gate/fence/end_a",
+                "processors": "sleepy_hollows:cemetary_processor",
+                "projection": "terrain_matching",
+                "element_type": "minecraft:single_pool_element"
+            }
+        },
+        {
+            "weight": 1,
+            "element": {
+                "location": "sleepy_hollows:cemetary/gate/fence/end_b",
+                "processors": "sleepy_hollows:cemetary_processor",
+                "projection": "terrain_matching",
+                "element_type": "minecraft:single_pool_element"
+            }
+        }
+    ]
+}

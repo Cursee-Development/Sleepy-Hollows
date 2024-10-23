@@ -8,7 +8,7 @@ modId = "sleepy_hollows"
 version = "${version}"
 displayName = "Sleepy Hollows"
 authors = "Jason13Official, Satisfy, cph101dev"
-credits = "MissLilitu, CR-055, Iri, Cebularz, WearyPines"
+credits = "MissLilitu, CR-055, Iri, WearyPines"
 description = '''
 Darkness falls, a boss to dread, armor strong - don’t lose your head!
 '''
@@ -39,5 +39,12 @@ side = "BOTH"
 modId = "terrablender"
 mandatory = true
 versionRange = "[3.0.0,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.sleepy_hollows]]
+modId = "hugestructureblocks"
+mandatory = true
+versionRange = "[1.0.9,)"
 ordering = "AFTER"
 side = "BOTH"

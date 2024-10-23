@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "sleepy_hollows:hollow_log",
+    "sleepy_hollows:stripped_hollow_log",
+    "sleepy_hollows:hollow_wood",
+    "sleepy_hollows:stripped_hollow_wood"
+  ]
+}

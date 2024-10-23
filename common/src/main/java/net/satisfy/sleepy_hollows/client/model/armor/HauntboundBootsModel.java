@@ -40,7 +40,7 @@ public class HauntboundBootsModel<T extends Entity> extends EntityModel<T> {
     @Override
     public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         poseStack.pushPose();
-        poseStack.scale(1.05F, 1.05F, 1.05F);
+        poseStack.scale(1.075F, 1.075F, 1.075F);
         poseStack.translate(0F, -0.095F, 0F);
         right_leg.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
         left_leg.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);

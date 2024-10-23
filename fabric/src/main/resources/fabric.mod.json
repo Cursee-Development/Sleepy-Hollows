@@ -8,7 +8,7 @@
     "Jason13Official, Satisfy, cph101dev"
   ],
   "contributors": [
-    "MissLilitu, CR-055, Iri, Cebularz, WearyPines"
+    "MissLilitu, CR-055, Iri, WearyPines"
   ],
   "contact": {
     "homepage": "https://github.com/Cursee-Development/Sleepy-Hollows",
@@ -38,6 +38,7 @@
     "java": ">=17",
     "architectury": ">=9.2.14",
     "fabric-api": "*",
-    "terrablender": ">=3.0.0"
+    "terrablender": ">=3.0.0",
+    "hugestructureblocks": ">=1.0.9"
   }
 }

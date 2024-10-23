@@ -1,39 +1,57 @@
 {
-  "fallback": "minecraft:empty",
-  "elements": [
-    {
-      "weight": 1,
-      "element": {
-        "projection": "rigid",
-        "element_type": "minecraft:empty_pool_element"
-      }
-    },
-    {
-      "weight": 60,
-      "element": {
-        "location": "sleepy_hollows:cemetary/building/tombs",
-        "processors": "minecraft:empty",
-        "projection": "terrain_matching",
-        "element_type": "minecraft:single_pool_element"
-      }
-    },
-    {
-      "weight": 1,
-      "element": {
-        "location": "sleepy_hollows:cemetary/building/crypt_a",
-        "processors": "minecraft:empty",
-        "projection": "rigid",
-        "element_type": "minecraft:single_pool_element"
-      }
-    },
-    {
-      "weight": 1,
-      "element": {
-        "location": "sleepy_hollows:cemetary/building/crypt_b",
-        "processors": "minecraft:empty",
-        "projection": "rigid",
-        "element_type": "minecraft:single_pool_element"
-      }
-    }
-  ]
+    "fallback": "minecraft:empty",
+    "elements": [
+        {
+            "weight": 1,
+            "element": {
+                "projection": "rigid",
+                "element_type": "minecraft:empty_pool_element"
+            }
+        },
+        {
+            "weight": 80,
+            "element": {
+                "location": "sleepy_hollows:cemetary/building/tombs",
+                "processors": "sleepy_hollows:cemetary_processor",
+                "projection": "terrain_matching",
+                "element_type": "minecraft:single_pool_element"
+            }
+        },
+        {
+            "weight": 2,
+            "element": {
+                "location": "sleepy_hollows:cemetary/building/crypt_a",
+                "processors": "sleepy_hollows:cemetary_processor",
+                "projection": "rigid",
+                "element_type": "minecraft:single_pool_element"
+            }
+        },
+        {
+            "weight": 2,
+            "element": {
+                "location": "sleepy_hollows:cemetary/building/crypt_b",
+                "processors": "sleepy_hollows:cemetary_processor",
+                "projection": "rigid",
+                "element_type": "minecraft:single_pool_element"
+            }
+        },
+        {
+            "weight": 1,
+            "element": {
+                "location": "sleepy_hollows:cemetary/building/house_small",
+                "processors": "sleepy_hollows:cemetary_processor",
+                "projection": "rigid",
+                "element_type": "minecraft:single_pool_element"
+            }
+        },
+        {
+            "weight": 1,
+            "element": {
+                "location": "sleepy_hollows:cemetary/building/house_big",
+                "processors": "sleepy_hollows:cemetary_processor",
+                "projection": "rigid",
+                "element_type": "minecraft:single_pool_element"
+            }
+        }
+    ]
 }

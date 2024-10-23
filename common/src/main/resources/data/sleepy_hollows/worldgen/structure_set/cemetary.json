@@ -1,15 +1,14 @@
 {
-  "structures": [
-    {
-      "structure": "sleepy_hollows:cemetary",
-      "weight": 1
+    "structures": [
+        {
+            "structure": "sleepy_hollows:cemetary",
+            "weight": 1
+        }
+    ],
+    "placement": {
+        "type": "minecraft:random_spread",
+        "spacing": 32,
+        "separation": 16,
+        "salt": 1325748965
     }
-  ],
-  "placement": {
-    "type": "minecraft:random_spread",
-    "frequency": 0.0045,
-    "spacing": 30,
-    "separation": 2,
-    "salt": 1325748965
-  }
 }

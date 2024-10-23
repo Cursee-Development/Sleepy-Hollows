@@ -1,0 +1,57 @@
+{
+    "fallback": "minecraft:empty",
+    "elements": [
+        {
+            "weight": 1,
+            "element": {
+                "projection": "rigid",
+                "element_type": "minecraft:empty_pool_element"
+            }
+        },
+        {
+            "weight": 1,
+            "element": {
+                "location": "sleepy_hollows:cemetary/building/tomb/inside/1",
+                "processors": "sleepy_hollows:cemetary_processor",
+                "projection": "rigid",
+                "element_type": "minecraft:single_pool_element"
+            }
+        },
+        {
+            "weight": 1,
+            "element": {
+                "location": "sleepy_hollows:cemetary/building/tomb/inside/2",
+                "processors": "sleepy_hollows:cemetary_processor",
+                "projection": "rigid",
+                "element_type": "minecraft:single_pool_element"
+            }
+        },
+        {
+            "weight": 1,
+            "element": {
+                "location": "sleepy_hollows:cemetary/building/tomb/inside/3",
+                "processors": "sleepy_hollows:cemetary_processor",
+                "projection": "rigid",
+                "element_type": "minecraft:single_pool_element"
+            }
+        },
+        {
+            "weight": 1,
+            "element": {
+                "location": "sleepy_hollows:cemetary/building/tomb/inside/4",
+                "processors": "sleepy_hollows:cemetary_processor",
+                "projection": "rigid",
+                "element_type": "minecraft:single_pool_element"
+            }
+        },
+        {
+            "weight": 1,
+            "element": {
+                "location": "sleepy_hollows:cemetary/building/tomb/inside/5",
+                "processors": "sleepy_hollows:cemetary_processor",
+                "projection": "rigid",
+                "element_type": "minecraft:single_pool_element"
+            }
+        }
+    ]
+}
