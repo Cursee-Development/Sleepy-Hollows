@@ -19,7 +19,9 @@ Just keep the code clean—no dead code left to lie.
 - **Clean Code** is our golden rule,  
   Dead code is a ghost—don’t let it be cruel.  
 - **Commit Messages** should be crisp and clear,  
-  So our history stays easy to steer.  
+  So our history stays easy to steer.<br>
+  Though not a must, it's wise to see,<br>
+  Following [Conventional Commits](https://www.conventionalcommits.org) is key
 
 ## Code Style
 
