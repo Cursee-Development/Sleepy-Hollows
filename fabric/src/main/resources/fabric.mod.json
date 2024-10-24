@@ -38,7 +38,6 @@
     "java": ">=17",
     "architectury": ">=9.2.14",
     "fabric-api": "*",
-    "terrablender": ">=3.0.0",
-    "hugestructureblocks": ">=1.0.9"
+    "terrablender": ">=3.0.0"
   }
 }

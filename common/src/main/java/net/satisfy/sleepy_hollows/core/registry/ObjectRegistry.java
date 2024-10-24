@@ -21,7 +21,6 @@ import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.satisfy.sleepy_hollows.Constants;
@@ -119,8 +118,7 @@ public class ObjectRegistry {
     public static final RegistrySupplier<Item> ESSENCE_OF_UNDEAD = registerItem("essence_of_undead", () -> new Item(getSettings().rarity(Rarity.RARE)));
     public static final RegistrySupplier<Item> LUMINOUS_ESSENCE = registerItem("luminous_essence", () -> new Item(getSettings().rarity(Rarity.EPIC)));
     public static final RegistrySupplier<Item> LUMINOUS_WATER = registerItem("luminous_water", () -> new LuminousWaterItem(getSettings().food(Foods.CHICKEN).rarity(Rarity.RARE)));
-    public static final RegistrySupplier<Item> LUMINOUS_WATER_SPLASH = registerItem("splash_luminous_water", () -> new SplashLuminousWaterItem(getSettings().rarity(Rarity.RARE)));
-    public static final RegistrySupplier<Block> LUMINOUS_WATER_BLOCK = registerBlockWithoutItem("luminous_water", () -> new LiquidBlock((FlowingFluid) FluidRegistry.LUMINOUS_WATER_SOURCE.get(), BlockBehaviour.Properties.copy(Blocks.WATER)));
+    public static final RegistrySupplier<Item> LUMINOUS_WATER_SPLASH = registerItem("splash_luminous_water", () -> new Item(getSettings().rarity(Rarity.RARE)));
     public static final RegistrySupplier<Item> DUSK_BERRIES = registerItem("dusk_berries", () -> new DuskBerryItem(DUSKBERRY_BUSH.get(), (new Item.Properties()).food(Foods.SWEET_BERRIES)));
     public static final RegistrySupplier<Item> SPECTRAL_PUMPKIN_PIE = registerItem("spectral_pumpkin_pie", () -> new SpectralPumpkinPieItem(getSettings().food(Foods.PUMPKIN_PIE).rarity(Rarity.COMMON)));
     public static final RegistrySupplier<Item> CANDY_CORN = registerItem("candy_corn", () -> new CandyCornItem(getSettings().food(Foods.APPLE)));

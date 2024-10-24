@@ -41,10 +41,3 @@ mandatory = true
 versionRange = "[3.0.0,)"
 ordering = "AFTER"
 side = "BOTH"
-
-[[dependencies.sleepy_hollows]]
-modId = "hugestructureblocks"
-mandatory = true
-versionRange = "[1.0.9,)"
-ordering = "AFTER"
-side = "BOTH"

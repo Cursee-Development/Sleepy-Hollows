@@ -6,20 +6,18 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.satisfy.sleepy_hollows.client.util.SanityManager;
 import net.satisfy.sleepy_hollows.core.network.SleepyHollowsNetwork;
 import net.satisfy.sleepy_hollows.core.network.message.SanityPacketMessage;
-import net.satisfy.sleepy_hollows.core.registry.FluidRegistry;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class LuminousWaterItem extends BucketItem {
+public class LuminousWaterItem extends Item {
     public LuminousWaterItem(Properties properties) {
-        super(FluidRegistry.LUMINOUS_WATER_SOURCE.get(), properties.food(new FoodProperties.Builder().nutrition(4).saturationMod(0.3F).build()));
+        super(properties);
     }
 
     @Override

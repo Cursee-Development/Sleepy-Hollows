@@ -32,9 +32,6 @@ public class EntityTypeRegistry {
     public static final RegistrySupplier<EntityType<InfectedZombie>> INFECTED_ZOMBIE = registerEntity("infected_zombie", () -> EntityType.Builder.of(InfectedZombie::new, MobCategory.MONSTER).sized(0.6F, 1.95F).build(new SleepyHollowsIdentifier("infected_zombie").toString()));
     public static final RegistrySupplier<EntityType<FleeingPumpkinHead>> FLEEING_PUMPKIN_HEAD = registerEntity("fleeing_pumpkin_head", () -> EntityType.Builder.of(FleeingPumpkinHead::new, MobCategory.MONSTER).sized(0.6F, 1.95F).build(new SleepyHollowsIdentifier("fleeing_pumpkin_head").toString()));
     public static final RegistrySupplier<EntityType<Horseman>> HORSEMAN = registerEntity("horseman", () -> EntityType.Builder.of(Horseman::new, MobCategory.MONSTER).sized(1.4F, 2.6F).build(new SleepyHollowsIdentifier("horseman").toString()));
-    public static final RegistrySupplier<EntityType<ThrownLuminousWater>> LUMINOUS_WATER_THROWN = registerEntity("luminous_water_thrown", () -> EntityType.Builder.<ThrownLuminousWater>of(ThrownLuminousWater::new, MobCategory.MISC).sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(10).build(new SleepyHollowsIdentifier("luminous_water_thrown").toString()));
-    public static final RegistrySupplier<EntityType<LingeringSoul>> LINGERING_SOUL = registerEntity("lingering_soul", () -> EntityType.Builder.<LingeringSoul>of(LingeringSoul::new, MobCategory.MISC).sized(0.25F, 0.25F).build(new SleepyHollowsIdentifier("lingering_soul").toString()));
-
 
     public static <T extends EntityType<?>> RegistrySupplier<T> registerEntity(final String path, final Supplier<T> type) {
         return ENTITY_TYPES.register(new SleepyHollowsIdentifier(path), type);

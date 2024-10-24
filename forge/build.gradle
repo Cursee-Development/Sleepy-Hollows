@@ -38,16 +38,10 @@ dependencies {
     modImplementation "dev.architectury:architectury-forge:$rootProject.architectury_api_version"
     modImplementation "com.github.glitchfiend:TerraBlender-forge:${rootProject.minecraft_version}-${rootProject.terrablender_version}"
 
-    modImplementation(include("team.lodestar.lodestone:lodestone:${minecraft_version}-${lodestone_forge}"))
-    modCompileOnly("top.theillusivec4.curios:curios-forge:5.10.0+${minecraft_version}:api")
-    modRuntimeOnly(include("top.theillusivec4.curios:curios-forge:5.10.0+${minecraft_version}"))
-
     // This is on fabric by default, but forge always was outdated
     compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.1"))
     implementation(include("io.github.llamalad7:mixinextras-forge:0.4.1"))
-
-    implementation(include("com.github.bawnorton.mixinsquared:mixinsquared-forge:0.2.0"))
-
+    
     modCompileOnlyApi("maven.modrinth:embeddium:0.3.31+mc1.20.1")
     modCompileOnlyApi("maven.modrinth:oculus:1.20.1-1.7.0")
 

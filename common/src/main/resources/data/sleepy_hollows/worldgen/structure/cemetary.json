@@ -4,8 +4,8 @@
     "step": "surface_structures",
     "spawn_overrides": {},
     "terrain_adaptation": "beard_thin",
-    "start_pool": "sleepy_hollows:cemetary/gate_path",
-    "size": 20,
+    "start_pool": "sleepy_hollows:cemetary/pedestal",
+    "size": 7,
     "start_height": {
       "absolute": 0
     },

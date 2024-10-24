@@ -24,11 +24,7 @@ configurations {
 
 repositories {
     maven { url = "https://maven.blamejared.com/" }
-    maven { url = "https://mvn.devos.one/releases/" }
     maven { url = "https://api.modrinth.com/maven" }
-    maven { url = "https://maven.jamieswhiteshirt.com/libs-release" }
-    maven { url = "https://maven.ladysnake.org/releases" }
-    maven { url = "https://maven.terraformersmc.com/" }
 }
 
 dependencies {
@@ -36,22 +32,6 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:$rootProject.fabric_api_version"
     modImplementation "dev.architectury:architectury-fabric:$rootProject.architectury_api_version"
     modImplementation "com.github.glitchfiend:TerraBlender-fabric:${rootProject.minecraft_version}-${rootProject.terrablender_version}"
-
-    modImplementation(include("team.lodestar.lodestone:lodestone:${project.minecraft_version}-${project.lodestone_fabric}-fabric"))
-    modImplementation(include("dev.emi:trinkets:3.7.1"))
-    modImplementation(include("com.jamieswhiteshirt:reach-entity-attributes:2.4.0"))
-
-    for (String module in new String[]{"base", "entity", "world"}) {
-        modImplementation(include("dev.onyxstudios.cardinal-components-api:cardinal-components-$module:5.2.2"))
-    }
-    for (String module in new String[]{
-            "accessors", "base", "blocks", "core", "data", "extensions", "lazy_registration",
-            "model_generators", "models", "networking", "tool_actions"
-    }) {
-        modImplementation(include("io.github.fabricators_of_create.Porting-Lib:$module:2.3.4"))
-    }
-
-    implementation(include("com.github.bawnorton.mixinsquared:mixinsquared-fabric:0.2.0"))
 
     modCompileOnlyApi("maven.modrinth:sodium:mc1.20.1-0.5.11")
     modCompileOnlyApi("maven.modrinth:iris:1.7.5+1.20.1")
