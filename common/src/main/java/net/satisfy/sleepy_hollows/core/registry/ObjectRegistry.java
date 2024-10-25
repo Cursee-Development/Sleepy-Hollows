@@ -117,7 +117,7 @@ public class ObjectRegistry {
     public static final RegistrySupplier<Item> SPECTRAL_ESSENCE = registerItem("spectral_essence", () -> new Item(getSettings().rarity(Rarity.COMMON)));
     public static final RegistrySupplier<Item> ESSENCE_OF_UNDEAD = registerItem("essence_of_undead", () -> new Item(getSettings().rarity(Rarity.RARE)));
     public static final RegistrySupplier<Item> LUMINOUS_ESSENCE = registerItem("luminous_essence", () -> new Item(getSettings().rarity(Rarity.EPIC)));
-    public static final RegistrySupplier<Item> LUMINOUS_WATER = registerItem("luminous_water", () -> new LuminousWaterItem(getSettings().food(Foods.CHICKEN).rarity(Rarity.RARE)));
+    public static final RegistrySupplier<Item> LUMINOUS_WATER = registerItem("luminous_water", () -> new LuminousWaterItem(getSettings().food(Foods.APPLE).rarity(Rarity.RARE)));
     public static final RegistrySupplier<Item> LUMINOUS_WATER_SPLASH = registerItem("splash_luminous_water", () -> new Item(getSettings().rarity(Rarity.RARE)));
     public static final RegistrySupplier<Item> DUSK_BERRIES = registerItem("dusk_berries", () -> new DuskBerryItem(DUSKBERRY_BUSH.get(), (new Item.Properties()).food(Foods.SWEET_BERRIES)));
     public static final RegistrySupplier<Item> SPECTRAL_PUMPKIN_PIE = registerItem("spectral_pumpkin_pie", () -> new SpectralPumpkinPieItem(getSettings().food(Foods.PUMPKIN_PIE).rarity(Rarity.COMMON)));
