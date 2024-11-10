@@ -20,6 +20,7 @@ import org.spongepowered.asm.mixin.Shadow;
 
 import java.util.function.Consumer;
 
+@SuppressWarnings("all")
 @Mixin(HauntboundLeggingsItem.class)
 public abstract class LeggingsItemMixin extends ArmorItem {
     @Shadow

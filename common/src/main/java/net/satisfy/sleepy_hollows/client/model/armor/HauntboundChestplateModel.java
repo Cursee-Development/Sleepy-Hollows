@@ -92,5 +92,4 @@ public class HauntboundChestplateModel<T extends Entity> extends EntityModel<T> 
         this.left_arm.copyFrom(leftArm);
         this.right_arm.copyFrom(rightArm);
     }
-
 }
