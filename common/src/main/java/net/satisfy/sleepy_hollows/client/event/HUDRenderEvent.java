@@ -2,11 +2,12 @@ package net.satisfy.sleepy_hollows.client.event;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.satisfy.sleepy_hollows.client.util.SanityManager;
 import net.satisfy.sleepy_hollows.core.registry.TagRegistry;
+import net.satisfy.sleepy_hollows.core.util.SanityManager;
 import net.satisfy.sleepy_hollows.core.util.SleepyHollowsIdentifier;
 import net.satisfy.sleepy_hollows.core.world.SleepyHollowsBiomeKeys;
 
@@ -25,11 +26,11 @@ public class HUDRenderEvent {
         Level level = mc.level;
         Player player = mc.player;
 
-        if (player == null || level == null || mc.isPaused()) return;
+        if (!(player instanceof LocalPlayer localPlayer) || level == null || mc.isPaused()) return;
 
-        if (SanityManager.isImmune(player) || mc.level.getBlockState(player.blockPosition()).is(TagRegistry.RESET_SANITY)) return;
+        if (SanityManager.isClientImmune(localPlayer) || mc.level.getBlockState(player.blockPosition()).is(TagRegistry.RESET_SANITY)) return;
 
-        int sanity = SanityManager.getSanity(player);
+        int sanity = SanityManager.getClientSanity(localPlayer);
 
         boolean isInSleepyHollows = player.level().getBiome(player.blockPosition()).is(SleepyHollowsBiomeKeys.SLEEPY_HOLLOWS);
 

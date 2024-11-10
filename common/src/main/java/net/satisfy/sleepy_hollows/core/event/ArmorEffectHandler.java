@@ -1,16 +1,17 @@
 package net.satisfy.sleepy_hollows.core.event;
 
 import dev.architectury.event.events.common.TickEvent;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.satisfy.sleepy_hollows.client.util.SanityManager;
 import net.satisfy.sleepy_hollows.core.item.custom.HauntboundBootsItem;
 import net.satisfy.sleepy_hollows.core.item.custom.HauntboundChestplateItem;
 import net.satisfy.sleepy_hollows.core.item.custom.HauntboundHelmetItem;
 import net.satisfy.sleepy_hollows.core.item.custom.HauntboundLeggingsItem;
 import net.satisfy.sleepy_hollows.core.registry.MobEffectRegistry;
+import net.satisfy.sleepy_hollows.core.util.SanityManager;
 
 public class ArmorEffectHandler {
     public static void init() {
@@ -19,8 +20,10 @@ public class ArmorEffectHandler {
 
     private static int tickCounter = 0;
 
-    private static void onPlayerTick(Player player) {
-        if (player.level().isClientSide()) return;
+    private static void onPlayerTick(Player commonPlayer) {
+        if (commonPlayer.level().isClientSide()) return;
+
+        ServerPlayer player = (ServerPlayer) commonPlayer;
 
         tickCounter++;
         if (tickCounter >= 10) {
@@ -29,7 +32,7 @@ public class ArmorEffectHandler {
         }
     }
 
-    private static void handleArmorEffect(Player player) {
+    private static void handleArmorEffect(ServerPlayer player) {
         ItemStack helmet = player.getItemBySlot(EquipmentSlot.HEAD);
         ItemStack chestplate = player.getItemBySlot(EquipmentSlot.CHEST);
         ItemStack leggings = player.getItemBySlot(EquipmentSlot.LEGS);

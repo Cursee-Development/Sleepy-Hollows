@@ -8,11 +8,11 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.satisfy.sleepy_hollows.client.event.HUDRenderEvent;
-import net.satisfy.sleepy_hollows.client.util.SanityManager;
 import net.satisfy.sleepy_hollows.core.event.ArmorEffectHandler;
 import net.satisfy.sleepy_hollows.core.network.SleepyHollowsNetwork;
 import net.satisfy.sleepy_hollows.core.network.message.SanityPacketMessage;
 import net.satisfy.sleepy_hollows.core.registry.*;
+import net.satisfy.sleepy_hollows.core.util.SanityManager;
 import net.satisfy.sleepy_hollows.core.world.SleepyHollowsBiomeKeys;
 
 public final class SleepyHollows {

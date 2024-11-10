@@ -3,8 +3,9 @@ package net.satisfy.sleepy_hollows.mixin;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.BossHealthOverlay;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.player.Player;
-import net.satisfy.sleepy_hollows.client.util.SanityManager;
+import net.satisfy.sleepy_hollows.core.util.SanityManager;
 import net.satisfy.sleepy_hollows.core.world.SleepyHollowsBiomeKeys;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -19,7 +20,7 @@ public class BossHealthOverlayMixin {
         Minecraft mc = Minecraft.getInstance();
         Player player = mc.player;
 
-        if (player != null && SanityManager.isSanityBarVisible(player) && sleepy_Hollows$isInSleepyHollowsBiome(player)) {
+        if (player instanceof LocalPlayer localPlayer && SanityManager.isSanityBarVisible(localPlayer) && sleepy_Hollows$isInSleepyHollowsBiome(player)) {
             guiGraphics.pose().pushPose();
             guiGraphics.pose().translate(0, 30, 0);
         }
@@ -30,7 +31,7 @@ public class BossHealthOverlayMixin {
         Minecraft mc = Minecraft.getInstance();
         Player player = mc.player;
 
-        if (player != null && SanityManager.isSanityBarVisible(player) && sleepy_Hollows$isInSleepyHollowsBiome(player)) {
+        if (player instanceof LocalPlayer localPlayer && SanityManager.isSanityBarVisible(localPlayer) && sleepy_Hollows$isInSleepyHollowsBiome(player)) {
             guiGraphics.pose().popPose();
         }
     }

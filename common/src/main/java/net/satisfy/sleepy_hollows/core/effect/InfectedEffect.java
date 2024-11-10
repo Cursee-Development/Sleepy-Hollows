@@ -5,9 +5,9 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.satisfy.sleepy_hollows.client.util.SanityManager;
 import net.satisfy.sleepy_hollows.core.network.SleepyHollowsNetwork;
 import net.satisfy.sleepy_hollows.core.network.message.SanityPacketMessage;
+import net.satisfy.sleepy_hollows.core.util.SanityManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -23,7 +23,7 @@ public class InfectedEffect extends MobEffect {
 
     public void applyEffectTick(@NotNull LivingEntity livingEntity, int amplifier) {
         if (!livingEntity.level().isClientSide()) {
-            if (livingEntity instanceof Player player) {
+            if (livingEntity instanceof ServerPlayer player) {
                 player.hurt(player.damageSources().wither(), 1.0F);
 
                 int effectDuration = Objects.requireNonNull(player.getEffect(this)).getDuration();

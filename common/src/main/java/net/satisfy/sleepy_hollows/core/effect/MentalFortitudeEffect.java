@@ -5,9 +5,9 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.satisfy.sleepy_hollows.client.util.SanityManager;
 import net.satisfy.sleepy_hollows.core.network.SleepyHollowsNetwork;
 import net.satisfy.sleepy_hollows.core.network.message.SanityPacketMessage;
+import net.satisfy.sleepy_hollows.core.util.SanityManager;
 import org.jetbrains.annotations.NotNull;
 
 public class MentalFortitudeEffect extends MobEffect {
@@ -18,7 +18,7 @@ public class MentalFortitudeEffect extends MobEffect {
 
     @Override
     public void applyEffectTick(@NotNull LivingEntity livingEntity, int amplifier) {
-        if (livingEntity instanceof Player player && !player.level().isClientSide()) {
+        if (livingEntity instanceof ServerPlayer player && !player.level().isClientSide()) {
             if (SanityManager.getSanity(player) < 100) {
                 SanityManager.changeSanity(player, SanityManager.Modifiers.MENTAL_FORTITUDE.getValue());
                 SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer((ServerPlayer) player, new SanityPacketMessage(SanityManager.Modifiers.MENTAL_FORTITUDE.getValue()));

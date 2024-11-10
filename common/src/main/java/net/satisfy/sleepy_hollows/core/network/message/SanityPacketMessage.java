@@ -5,7 +5,7 @@ import dev.architectury.utils.Env;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
-import net.satisfy.sleepy_hollows.client.util.SanityManager;
+import net.satisfy.sleepy_hollows.core.util.SanityManager;
 
 import java.util.function.Supplier;
 
@@ -34,10 +34,8 @@ public class SanityPacketMessage {
         Player player = context.getPlayer();
 
 
-        if (environment == Env.CLIENT) {
-
-
-            SanityManager.changeLocalSanity((LocalPlayer) player, this.amountToChangeSanity);
+        if (environment == Env.CLIENT && player instanceof LocalPlayer localPlayer) {
+            SanityManager.changeClientSanity(localPlayer, this.amountToChangeSanity);
         }
     }
 }
