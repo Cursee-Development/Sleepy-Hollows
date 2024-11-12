@@ -17,122 +17,122 @@ import java.util.List;
 public class PlatformHelperImpl extends PlatformHelper {
     public static int getTerrablenderRegionWeight() {
         SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.terrablenderRegionWeight;
+        return config.biome.terrablenderRegionWeight;
     }
 
     public static double getHorsemanMovementSpeed() {
         SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.horsemanmovementSpeed;
+        return config.horseman.movementSpeed;
     }
 
     public static double getHorsemanMaxHealth() {
         SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.horsemanmaxHealth;
+        return config.horseman.maxHealth;
     }
 
     public static double getHorsemanAttackDamage() {
         SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.horsemanattackDamage;
+        return config.horseman.attackDamage;
     }
 
     public static double getHorsemanAttackKnockback() {
         SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.horsemanattackKnockback;
+        return config.horseman.attackKnockback;
     }
 
     public static double getHorsemanArmor() {
         SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.horsemanArmor;
+        return config.horseman.armor;
     }
 
     public static double getFleeingPumpkinMaxHealth() {
         SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.fleeingpumpkinheadmaxHealth;
+        return config.fleeingPumpkinHead.maxHealth;
     }
 
     public static double getFleeingPumpkinMovementSpeed() {
         SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.fleeingpumpkinheadmovementSpeed;
+        return config.fleeingPumpkinHead.movementSpeed;
     }
 
     public static double getFleeingPumpkinArmor() {
         SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.fleeingpumpkinArmor;
+        return config.fleeingPumpkinHead.armor;
     }
 
     public static double getInfectedZombieMaxHealth() {
         SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.infectedzombiemaxHealth;
+        return config.infectedZombie.maxHealth;
     }
 
     public static double getInfectedZombieArmor() {
         SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.infectedzombieArmor;
+        return config.infectedZombie.armor;
     }
 
     public static double getInfectedZombieMovementSpeed() {
         SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.infectedzombiemovementSpeed;
+        return config.infectedZombie.movementSpeed;
     }
 
     public static double getInfectedZombieAttackDamage() {
         SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.infectedzombieattackDamage;
+        return config.infectedZombie.attackDamage;
     }
 
     public static double getSpectralToolSpeed() {
         SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.spectralToolSpeed;
+        return config.weapons.spectralToolSpeed;
     }
 
     public static double getSpectralToolDamage() {
         SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.spectralToolDamage;
+        return config.weapons.spectralToolDamage;
     }
 
     public static double getRaubbauToolSpeed() {
         SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.raubbauToolSpeed;
+        return config.weapons.raubbauToolSpeed;
     }
 
     public static double getRaubbauToolDamage() {
         SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.raubbauToolDamage;
+        return config.weapons.raubbauToolDamage;
     }
 
     public static boolean isHauntboundSetBonusEnabled() {
         SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.enableHauntboundSetBonus;
+        return config.armor.enableHauntboundSetBonus;
     }
 
     public static int getHauntboundDurability(ArmorItem.Type type) {
         SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
         return switch (type) {
-            case HELMET -> config.hauntboundHelmetDurability;
-            case CHESTPLATE -> config.hauntboundChestplateDurability;
-            case LEGGINGS -> config.hauntboundLeggingsDurability;
-            case BOOTS -> config.hauntboundBootsDurability;
+            case HELMET -> config.armor.hauntboundHelmetDurability;
+            case CHESTPLATE -> config.armor.hauntboundChestplateDurability;
+            case LEGGINGS -> config.armor.hauntboundLeggingsDurability;
+            case BOOTS -> config.armor.hauntboundBootsDurability;
         };
     }
 
     public static int getHauntboundDefense(ArmorItem.Type type) {
         SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
         return switch (type) {
-            case HELMET -> config.hauntboundHelmetDefense;
-            case CHESTPLATE -> config.hauntboundChestplateDefense;
-            case LEGGINGS -> config.hauntboundLeggingsDefense;
-            case BOOTS -> config.hauntboundBootsDefense;
+            case HELMET -> config.armor.hauntboundHelmetDefense;
+            case CHESTPLATE -> config.armor.hauntboundChestplateDefense;
+            case LEGGINGS -> config.armor.hauntboundLeggingsDefense;
+            case BOOTS -> config.armor.hauntboundBootsDefense;
         };
     }
 
     public static double getHauntboundToughness() {
         SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.hauntboundToughness;
+        return config.armor.hauntboundToughness;
     }
 
     public static double getHauntboundKnockbackResistance() {
         SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.hauntboundKnockbackResistance;
+        return config.armor.hauntboundKnockbackResistance;
     }
 
     public static List<ItemStack> getHorsemanLootItems() {
@@ -144,7 +144,8 @@ public class PlatformHelperImpl extends PlatformHelper {
     private static List<ItemStack> getHorsemanLootItems(RegistryAccess registryAccess) {
         List<ItemStack> loot = new ArrayList<>();
         SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        for (String lootString : config.horsemanLootItems) {
+
+        for (String lootString : config.horseman.loot.horsemanLootItems) {
             String[] parts = lootString.split(":");
             if (parts.length == 3) {
                 String modId = parts[0];
