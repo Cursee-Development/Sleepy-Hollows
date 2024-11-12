@@ -10,7 +10,6 @@ import net.satisfy.sleepy_hollows.core.util.SanityManager;
 import java.util.function.Supplier;
 
 public class SanityPacketMessage {
-
     public final int amountToChangeSanity;
 
     public SanityPacketMessage(int amountToChangeSanity) {

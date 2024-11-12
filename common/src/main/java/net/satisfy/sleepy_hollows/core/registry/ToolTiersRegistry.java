@@ -3,6 +3,7 @@ package net.satisfy.sleepy_hollows.core.registry;
 import net.minecraft.util.LazyLoadedValue;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.satisfy.sleepy_hollows.platform.PlatformHelper;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
@@ -10,8 +11,8 @@ import java.util.function.Supplier;
 @SuppressWarnings("deprecation")
 public enum ToolTiersRegistry implements Tier {
 
-    SPECTRAL(4, 2031, 8.0F, 5.0F, 15, () -> Ingredient.of(ObjectRegistry.LUMINOUS_ESSENCE.get())),
-    RAUBBAU(4, 2031, 6.0F, 3.0F, 15, () -> Ingredient.of(ObjectRegistry.LUMINOUS_ESSENCE.get()));
+    SPECTRAL(4, 2031, PlatformHelper.getSpectralToolSpeed(), PlatformHelper.getSpectralToolDamage(), 15, () -> Ingredient.of(ObjectRegistry.LUMINOUS_ESSENCE.get())),
+    RAUBBAU(4, 2031, PlatformHelper.getRaubbauToolSpeed(), PlatformHelper.getRaubbauToolDamage(), 15, () -> Ingredient.of(ObjectRegistry.LUMINOUS_ESSENCE.get()));
 
     private final int level;
     private final int uses;
@@ -20,11 +21,11 @@ public enum ToolTiersRegistry implements Tier {
     private final int enchantmentValue;
     private final LazyLoadedValue<Ingredient> repairIngredient;
 
-    ToolTiersRegistry(int j, int k, float f, float g, int l, Supplier<Ingredient> supplier) {
+    ToolTiersRegistry(int j, int k, double speed, double damage, int l, Supplier<Ingredient> supplier) {
         this.level = j;
         this.uses = k;
-        this.speed = f;
-        this.damage = g;
+        this.speed = (float) speed;
+        this.damage = (float) damage;
         this.enchantmentValue = l;
         this.repairIngredient = new LazyLoadedValue<>(supplier);
     }
@@ -59,4 +60,3 @@ public enum ToolTiersRegistry implements Tier {
         return this.repairIngredient.get();
     }
 }
-

@@ -1,11 +1,10 @@
 package net.satisfy.sleepy_hollows.core.registry;
 
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
-import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.satisfy.sleepy_hollows.platform.PlatformHelper;
 import org.jetbrains.annotations.NotNull;
 
 public class ArmorMaterialRegistry {
@@ -13,12 +12,12 @@ public class ArmorMaterialRegistry {
 
         @Override
         public int getDurabilityForType(ArmorItem.@NotNull Type type) {
-            return ArmorMaterials.DIAMOND.getDurabilityForType(type);
+            return PlatformHelper.getHauntboundDurability(type);
         }
 
         @Override
         public int getDefenseForType(ArmorItem.@NotNull Type type) {
-            return ArmorMaterials.DIAMOND.getDefenseForType(type);
+            return PlatformHelper.getHauntboundDefense(type);
         }
 
         @Override
@@ -43,12 +42,12 @@ public class ArmorMaterialRegistry {
 
         @Override
         public float getToughness() {
-            return (ArmorMaterials.DIAMOND.getToughness());
+            return (float) PlatformHelper.getHauntboundToughness();
         }
 
         @Override
         public float getKnockbackResistance() {
-            return ArmorMaterials.DIAMOND.getKnockbackResistance() + 0.05f;
+            return (float) PlatformHelper.getHauntboundKnockbackResistance();
         }
     };
 }

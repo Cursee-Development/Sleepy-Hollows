@@ -1,6 +1,10 @@
-package net.satisfy.sleepy_hollows.core.platform;
+package net.satisfy.sleepy_hollows.platform;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.List;
 
 public class PlatformHelper {
     @ExpectPlatform
@@ -65,6 +69,56 @@ public class PlatformHelper {
 
     @ExpectPlatform
     public static double getInfectedZombieAttackDamage() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static double getSpectralToolSpeed() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static double getSpectralToolDamage() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static double getRaubbauToolSpeed() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static double getRaubbauToolDamage() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static boolean isHauntboundSetBonusEnabled() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static int getHauntboundDurability(ArmorItem.Type type) {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static int getHauntboundDefense(ArmorItem.Type type) {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static double getHauntboundToughness() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static double getHauntboundKnockbackResistance() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static List<ItemStack> getHorsemanLootItems() {
         throw new AssertionError();
     }
 }

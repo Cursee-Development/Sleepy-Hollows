@@ -31,7 +31,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.satisfy.sleepy_hollows.core.platform.PlatformHelper;
+import net.satisfy.sleepy_hollows.platform.PlatformHelper;
 import net.satisfy.sleepy_hollows.core.registry.EntityTypeRegistry;
 import net.satisfy.sleepy_hollows.core.registry.ObjectRegistry;
 import net.satisfy.sleepy_hollows.core.registry.SoundEventRegistry;

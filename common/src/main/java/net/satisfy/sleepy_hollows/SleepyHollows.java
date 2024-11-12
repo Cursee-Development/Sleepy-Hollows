@@ -40,27 +40,18 @@ public final class SleepyHollows {
     }
 
     public static void onServerTick(MinecraftServer server) {
-
-
         for (ServerPlayer player : server.getPlayerList().getPlayers()) {
 
-
             if (SanityManager.getSanity(player) <= 0 && player.gameMode.isSurvival()) {
-
                 player.addEffect(new MobEffectInstance(MobEffectRegistry.INSANITY.get(), 1200));
 
                 SanityManager.changeSanity(player, 100);
                 SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer(player, new SanityPacketMessage(100));
             }
 
-
-
             if (server.getTickCount() % 20 == 0) {
-
-
                 SanityManager.doBlockCheck(player);
             }
-
 
             if (server.getTickCount() % (5 * 20) == 0) {
 

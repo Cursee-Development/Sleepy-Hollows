@@ -22,6 +22,7 @@ import net.satisfy.sleepy_hollows.core.item.custom.HauntboundChestplateItem;
 import net.satisfy.sleepy_hollows.core.item.custom.HauntboundHelmetItem;
 import net.satisfy.sleepy_hollows.core.item.custom.HauntboundLeggingsItem;
 import net.satisfy.sleepy_hollows.core.util.SanityManager;
+import net.satisfy.sleepy_hollows.platform.PlatformHelper;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -116,12 +117,16 @@ public class ArmorRegistry {
         tooltip.add(Component.nullToEmpty((boots.getItem() instanceof HauntboundBootsItem ? ChatFormatting.GREEN.toString() : ChatFormatting.GRAY.toString()) + "- [" + ObjectRegistry.HAUNTBOUND_BOOTS.get().getDescription().getString() + "]"));
         tooltip.add(Component.nullToEmpty(""));
 
-        ChatFormatting color = hasFullSet ? ChatFormatting.GREEN : ChatFormatting.GRAY;
-        tooltip.add(Component.nullToEmpty(color + I18n.get("tooltip.sleepy_hollows.armor.hauntbound_armor_1")));
-        tooltip.add(Component.nullToEmpty(color + I18n.get("tooltip.sleepy_hollows.armor.hauntbound_armor_2")));
-        if (hasFullSet) {
-            if (!SanityManager.isClientImmune(localPlayer)) {
-                player.addEffect(new MobEffectInstance(MobEffectRegistry.MENTAL_FORTITUDE.get(), 20, 0));
+        boolean setBonusEnabled = PlatformHelper.isHauntboundSetBonusEnabled();
+        ChatFormatting color = hasFullSet && setBonusEnabled ? ChatFormatting.GREEN : ChatFormatting.GRAY;
+
+        if (setBonusEnabled) {
+            tooltip.add(Component.nullToEmpty(color + I18n.get("tooltip.sleepy_hollows.armor.hauntbound_armor_1")));
+            tooltip.add(Component.nullToEmpty(color + I18n.get("tooltip.sleepy_hollows.armor.hauntbound_armor_2")));
+            if (hasFullSet) {
+                if (!SanityManager.isClientImmune(localPlayer)) {
+                    player.addEffect(new MobEffectInstance(MobEffectRegistry.MENTAL_FORTITUDE.get(), 20, 0));
+                }
             }
         }
     }

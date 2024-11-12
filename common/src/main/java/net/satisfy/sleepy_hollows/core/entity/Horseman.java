@@ -39,7 +39,7 @@ import net.satisfy.sleepy_hollows.core.entity.ai.NearestAttackablePlayerGoal;
 import net.satisfy.sleepy_hollows.core.entity.ai.RandomAction;
 import net.satisfy.sleepy_hollows.core.entity.ai.RandomActionGoal;
 import net.satisfy.sleepy_hollows.core.entity.animation.ServerAnimationDurations;
-import net.satisfy.sleepy_hollows.core.platform.PlatformHelper;
+import net.satisfy.sleepy_hollows.platform.PlatformHelper;
 import net.satisfy.sleepy_hollows.core.registry.EntityTypeRegistry;
 import net.satisfy.sleepy_hollows.core.registry.ObjectRegistry;
 import net.satisfy.sleepy_hollows.core.registry.SoundEventRegistry;
@@ -474,5 +474,15 @@ public class Horseman extends Monster implements EntityWithAttackAnimation, Powe
     @Override
     public boolean isPowered() {
         return this.entityData.get(IMMUNE);
+    }
+
+    @Override
+    protected void dropCustomDeathLoot(@NotNull DamageSource source, int looting, boolean recentlyHitIn) {
+        super.dropCustomDeathLoot(source, looting, recentlyHitIn);
+
+        List<ItemStack> horsemanLoot = PlatformHelper.getHorsemanLootItems();
+        for (ItemStack loot : horsemanLoot) {
+            this.spawnAtLocation(loot);
+        }
     }
 }

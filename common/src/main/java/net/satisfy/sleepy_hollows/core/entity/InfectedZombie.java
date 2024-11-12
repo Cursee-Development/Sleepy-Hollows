@@ -12,7 +12,7 @@ import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.satisfy.sleepy_hollows.core.platform.PlatformHelper;
+import net.satisfy.sleepy_hollows.platform.PlatformHelper;
 import net.satisfy.sleepy_hollows.core.registry.MobEffectRegistry;
 import net.satisfy.sleepy_hollows.core.registry.ObjectRegistry;
 import org.jetbrains.annotations.NotNull;

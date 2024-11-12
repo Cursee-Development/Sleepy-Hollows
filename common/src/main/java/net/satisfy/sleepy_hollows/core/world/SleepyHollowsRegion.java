@@ -8,7 +8,7 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.biome.Climate;
 import net.satisfy.sleepy_hollows.Constants;
-import net.satisfy.sleepy_hollows.core.platform.PlatformHelper;
+import net.satisfy.sleepy_hollows.platform.PlatformHelper;
 import terrablender.api.Region;
 import terrablender.api.RegionType;
 import terrablender.api.Regions;
