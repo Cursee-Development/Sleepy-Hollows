@@ -10,6 +10,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
+@SuppressWarnings("all")
 public class SleepyHollowsForgeConfig {
     public static ForgeConfigSpec COMMON_CONFIG;
 
@@ -42,6 +43,8 @@ public class SleepyHollowsForgeConfig {
     public static final ForgeConfigSpec.DoubleValue HAUNTBOUND_TOUGHNESS;
     public static final ForgeConfigSpec.DoubleValue HAUNTBOUND_KNOCKBACK_RESISTANCE;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> HORSEMAN_LOOT_ITEMS;
+    public static final ForgeConfigSpec.IntValue HUD_X;
+    public static final ForgeConfigSpec.IntValue HUD_Y;
 
     static {
         ForgeConfigSpec.Builder COMMON_BUILDER = new ForgeConfigSpec.Builder();
@@ -183,6 +186,18 @@ public class SleepyHollowsForgeConfig {
                 .defineList("horsemanLootItems", Arrays.asList(
                         "sleepy_hollows:lootbag:3"
                 ), obj -> obj instanceof String);
+
+        COMMON_BUILDER.pop();
+
+        COMMON_BUILDER.push("HUD Settings");
+
+        HUD_X = COMMON_BUILDER
+                .comment("HUD X Position")
+                .defineInRange("hudX", 0, -1000, 1000);
+
+        HUD_Y = COMMON_BUILDER
+                .comment("HUD Y Position")
+                .defineInRange("hudY", 0, -1000, 1000);
 
         COMMON_BUILDER.pop();
 

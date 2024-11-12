@@ -131,8 +131,17 @@ public class PlatformHelperImpl extends PlatformHelper {
                 } else {
                     System.err.println("Horseman Loot Item not found: " + rl);
                 }
+
             }
         }
         return loot;
+    }
+
+    public static int getHUDX() {
+        return SleepyHollowsForgeConfig.HUD_X.get();
+    }
+
+    public static int getHUDY() {
+        return SleepyHollowsForgeConfig.HUD_Y.get();
     }
 }

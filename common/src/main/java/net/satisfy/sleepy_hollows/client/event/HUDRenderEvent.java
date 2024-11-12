@@ -10,6 +10,7 @@ import net.satisfy.sleepy_hollows.core.registry.TagRegistry;
 import net.satisfy.sleepy_hollows.core.util.SanityManager;
 import net.satisfy.sleepy_hollows.core.util.SleepyHollowsIdentifier;
 import net.satisfy.sleepy_hollows.core.world.SleepyHollowsBiomeKeys;
+import net.satisfy.sleepy_hollows.platform.PlatformHelper;
 
 public class HUDRenderEvent {
 
@@ -48,16 +49,17 @@ public class HUDRenderEvent {
 
         if (!shouldRender || sanity == SanityManager.MAXIMUM_SANITY) return;
 
-        int screenWidth = mc.getWindow().getGuiScaledWidth();
-        int screenHeight = mc.getWindow().getGuiScaledHeight();
+        int hudX = PlatformHelper.getHUDX();
+        int hudY = PlatformHelper.getHUDY();
+
         int frameWidth = 214;
         int frameHeight = 32;
         int barWidth = 214;
         int barXOffset = 0;
         int barYOffset = 0;
 
-        int x = (screenWidth / 2) - (frameWidth / 2);
-        int y = (screenHeight / 2) - 132;
+        int x = (mc.getWindow().getGuiScaledWidth() / 2) - (frameWidth / 2) + hudX;
+        int y = (mc.getWindow().getGuiScaledHeight() / 2) - 132 + hudY;
 
         int fillWidth = (int) ((sanity / 100.0f) * barWidth);
 

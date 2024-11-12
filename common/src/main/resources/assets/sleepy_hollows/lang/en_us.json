@@ -163,6 +163,7 @@
   "text.autoconfig.sleepy_hollows.option.infectedZombie": "Infected Zombie Attributes",
   "text.autoconfig.sleepy_hollows.option.weapons": "Weapon Attributes",
   "text.autoconfig.sleepy_hollows.option.armor": "Armor Attributes",
+  "text.autoconfig.sleepy_hollows.option.hud": "HUD",
   "text.autoconfig.sleepy_hollows.option.biome.terrablenderRegionWeight": "Sleepy Hollows Biome Weight",
   "text.autoconfig.sleepy_hollows.option.horseman.maxHealth": "Horseman Max Health",
   "text.autoconfig.sleepy_hollows.option.horseman.armor": "Horseman Armor",
@@ -191,5 +192,8 @@
   "text.autoconfig.sleepy_hollows.option.armor.hauntboundBootsDefense": "Hauntbound Boots Defense",
   "text.autoconfig.sleepy_hollows.option.armor.hauntboundToughness": "Hauntbound Toughness",
   "text.autoconfig.sleepy_hollows.option.armor.hauntboundKnockbackResistance": "Hauntbound Knockback Resistance",
-  "text.autoconfig.sleepy_hollows.option.armor.enableHauntboundSetBonus": "Enable Hauntbound Set Bonus"
+  "text.autoconfig.sleepy_hollows.option.armor.enableHauntboundSetBonus": "Enable Hauntbound Set Bonus",
+  "text.autoconfig.sleepy_hollows.option.hud.hudX": "Sanity Bar X Position",
+  "text.autoconfig.sleepy_hollows.option.hud.hudY": "Sanity Bar Y Position"
+
 }

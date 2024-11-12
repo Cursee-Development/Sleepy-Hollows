@@ -130,4 +130,15 @@ public class SleepyHollowsFabricConfig implements ConfigData {
         @ConfigEntry.Gui.NoTooltip
         public boolean enableHauntboundSetBonus = true;
     }
+
+    @ConfigEntry.Gui.CollapsibleObject
+    public HUDSettings hud = new HUDSettings();
+
+    public static class HUDSettings {
+        @ConfigEntry.BoundedDiscrete(min = -1000, max = 1000)
+        public int hudX = 0;
+
+        @ConfigEntry.BoundedDiscrete(min = -1000, max = 1000)
+        public int hudY = 0;
+    }
 }

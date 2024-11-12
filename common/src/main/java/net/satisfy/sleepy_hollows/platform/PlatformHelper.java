@@ -121,4 +121,14 @@ public class PlatformHelper {
     public static List<ItemStack> getHorsemanLootItems() {
         throw new AssertionError();
     }
+
+    @ExpectPlatform
+    public static int getHUDX() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static int getHUDY() {
+        throw new AssertionError();
+    }
 }

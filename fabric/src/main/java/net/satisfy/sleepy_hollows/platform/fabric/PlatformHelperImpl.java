@@ -167,4 +167,14 @@ public class PlatformHelperImpl extends PlatformHelper {
         }
         return loot;
     }
+
+    public static int getHUDX() {
+        SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
+        return config.hud.hudX;
+    }
+
+    public static int getHUDY() {
+        SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
+        return config.hud.hudY;
+    }
 }
