@@ -25,6 +25,7 @@ configurations {
 repositories {
     maven { url = "https://maven.blamejared.com/" }
     maven { url = "https://api.modrinth.com/maven" }
+    maven { url = "https://maven.terraformersmc.com" }
 }
 
 dependencies {
@@ -32,6 +33,8 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:$rootProject.fabric_api_version"
     modImplementation "dev.architectury:architectury-fabric:$rootProject.architectury_api_version"
     modImplementation "com.github.glitchfiend:TerraBlender-fabric:${rootProject.minecraft_version}-${rootProject.terrablender_version}"
+    modImplementation "com.terraformersmc:modmenu:${rootProject.mod_menu_version}"
+    modApi include("me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_fabric_version}")
 
     modCompileOnlyApi("maven.modrinth:sodium:mc1.20.1-0.5.11")
     modCompileOnlyApi("maven.modrinth:iris:1.7.5+1.20.1")

@@ -8,6 +8,7 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.biome.Climate;
 import net.satisfy.sleepy_hollows.Constants;
+import net.satisfy.sleepy_hollows.core.platform.PlatformHelper;
 import terrablender.api.Region;
 import terrablender.api.RegionType;
 import terrablender.api.Regions;
@@ -29,7 +30,8 @@ public class SleepyHollowsRegion extends Region {
     }
 
     public static void loadTerrablender() {
-        Regions.register(new SleepyHollowsRegion(new ResourceLocation(Constants.MOD_ID, "overworld"), 5));
+        int weight = PlatformHelper.getTerrablenderRegionWeight();
+        Regions.register(new SleepyHollowsRegion(new ResourceLocation(Constants.MOD_ID, "overworld"), weight));
         SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, Constants.MOD_ID, SleepyHollowsSurfaceRules.makeRules());
     }
 }

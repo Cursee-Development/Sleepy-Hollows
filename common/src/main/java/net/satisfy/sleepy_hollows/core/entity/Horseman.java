@@ -39,6 +39,7 @@ import net.satisfy.sleepy_hollows.core.entity.ai.NearestAttackablePlayerGoal;
 import net.satisfy.sleepy_hollows.core.entity.ai.RandomAction;
 import net.satisfy.sleepy_hollows.core.entity.ai.RandomActionGoal;
 import net.satisfy.sleepy_hollows.core.entity.animation.ServerAnimationDurations;
+import net.satisfy.sleepy_hollows.core.platform.PlatformHelper;
 import net.satisfy.sleepy_hollows.core.registry.EntityTypeRegistry;
 import net.satisfy.sleepy_hollows.core.registry.ObjectRegistry;
 import net.satisfy.sleepy_hollows.core.registry.SoundEventRegistry;
@@ -124,11 +125,11 @@ public class Horseman extends Monster implements EntityWithAttackAnimation, Powe
 
     public static AttributeSupplier.@NotNull Builder createAttributes() {
         return Monster.createMonsterAttributes()
-                .add(Attributes.MOVEMENT_SPEED, 0.34000000417232513)
-                .add(Attributes.MAX_HEALTH, 400.0)
-                .add(Attributes.ATTACK_DAMAGE, 16.0)
-                .add(Attributes.ATTACK_KNOCKBACK, 0)
-                .add(Attributes.ARMOR, 26.0);
+                .add(Attributes.MOVEMENT_SPEED, PlatformHelper.getHorsemanMovementSpeed())
+                .add(Attributes.MAX_HEALTH, PlatformHelper.getHorsemanMaxHealth())
+                .add(Attributes.ATTACK_DAMAGE, PlatformHelper.getHorsemanAttackDamage())
+                .add(Attributes.ATTACK_KNOCKBACK, PlatformHelper.getHorsemanAttackKnockback())
+                .add(Attributes.ARMOR, PlatformHelper.getHorsemanArmor());
     }
 
     public void tick() {

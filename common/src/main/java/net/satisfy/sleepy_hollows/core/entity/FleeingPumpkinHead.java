@@ -31,6 +31,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import net.satisfy.sleepy_hollows.core.platform.PlatformHelper;
 import net.satisfy.sleepy_hollows.core.registry.EntityTypeRegistry;
 import net.satisfy.sleepy_hollows.core.registry.ObjectRegistry;
 import net.satisfy.sleepy_hollows.core.registry.SoundEventRegistry;
@@ -70,10 +71,10 @@ public class FleeingPumpkinHead extends Monster {
 
     public static AttributeSupplier.@NotNull Builder createAttributes() {
         return Monster.createMonsterAttributes()
-                .add(Attributes.MOVEMENT_SPEED, 0.43000000417232513)
-                .add(Attributes.MAX_HEALTH, 100.0)
+                .add(Attributes.MOVEMENT_SPEED, PlatformHelper.getFleeingPumpkinMovementSpeed())
+                .add(Attributes.MAX_HEALTH, PlatformHelper.getFleeingPumpkinMaxHealth())
                 .add(Attributes.ATTACK_DAMAGE, 0.0)
-                .add(Attributes.ARMOR, 22.0);
+                .add(Attributes.ARMOR, PlatformHelper.getFleeingPumpkinArmor());
     }
 
     public void setSummoner(Horseman summoner) {

@@ -26,6 +26,9 @@
     ],
     "terrablender": [
       "net.satisfy.sleepy_hollows.fabric.terrablender.TerrablenderFabric"
+    ],
+    "modmenu": [
+      "net.satisfy.sleepy_hollows.fabric.config.ModMenu"
     ]
   },
   "mixins": [

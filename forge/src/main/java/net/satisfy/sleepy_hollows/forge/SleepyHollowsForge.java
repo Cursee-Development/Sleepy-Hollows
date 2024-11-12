@@ -10,10 +10,12 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLPaths;
 import net.satisfy.sleepy_hollows.Constants;
 import net.satisfy.sleepy_hollows.SleepyHollows;
 import net.satisfy.sleepy_hollows.core.registry.CompostableRegistry;
 import net.satisfy.sleepy_hollows.core.world.SleepyHollowsRegion;
+import net.satisfy.sleepy_hollows.forge.config.SleepyHollowsForgeConfig;
 
 @Mod(Constants.MOD_ID)
 public final class SleepyHollowsForge {
@@ -21,12 +23,12 @@ public final class SleepyHollowsForge {
     public SleepyHollowsForge() {
         EventBuses.registerModEventBus(Constants.MOD_ID, FMLJavaModLoadingContext.get().getModEventBus());
         SleepyHollows.init();
-        Constants.LOG.info("Sleepy Hollows initialized successfully on the Forge platform.");
-
+        SleepyHollowsForgeConfig.loadConfig(SleepyHollowsForgeConfig.COMMON_CONFIG, FMLPaths.CONFIGDIR.get().resolve("sleepyhollows.toml").toString());
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.register(this);
 
         modEventBus.addListener(this::onCommonSetup);
+        Constants.LOG.info("Sleepy Hollows initialized successfully on the Forge platform.");
     }
 
     private void onCommonSetup(final FMLCommonSetupEvent event) {

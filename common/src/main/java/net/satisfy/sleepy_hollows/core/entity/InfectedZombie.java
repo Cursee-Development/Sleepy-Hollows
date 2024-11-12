@@ -12,6 +12,7 @@ import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.satisfy.sleepy_hollows.core.platform.PlatformHelper;
 import net.satisfy.sleepy_hollows.core.registry.MobEffectRegistry;
 import net.satisfy.sleepy_hollows.core.registry.ObjectRegistry;
 import org.jetbrains.annotations.NotNull;
@@ -24,10 +25,10 @@ public class InfectedZombie extends Zombie {
     public static AttributeSupplier.@NotNull Builder createAttributes() {
         return Monster.createMonsterAttributes()
                 .add(Attributes.FOLLOW_RANGE, 35.0)
-                .add(Attributes.MOVEMENT_SPEED, 0.23000000417232513)
-                .add(Attributes.MAX_HEALTH, 30.0)
-                .add(Attributes.ATTACK_DAMAGE, 5.0)
-                .add(Attributes.ARMOR, 1.0)
+                .add(Attributes.MAX_HEALTH, PlatformHelper.getInfectedZombieMaxHealth())
+                .add(Attributes.MOVEMENT_SPEED, PlatformHelper.getInfectedZombieMovementSpeed())
+                .add(Attributes.ATTACK_DAMAGE, PlatformHelper.getInfectedZombieAttackDamage())
+                .add(Attributes.ARMOR, PlatformHelper.getInfectedZombieArmor())
                 .add(Attributes.SPAWN_REINFORCEMENTS_CHANCE);
     }
 
@@ -45,7 +46,6 @@ public class InfectedZombie extends Zombie {
         this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ObjectRegistry.SPECTRAL_JACK_O_LANTERN.get()));
         super.populateDefaultEquipmentSlots(randomSource, difficulty);
     }
-
 
     public boolean canBeAffected(MobEffectInstance effectInstance) {
         return effectInstance.getEffect() != MobEffectRegistry.INFECTED.get() && super.canBeAffected(effectInstance);
