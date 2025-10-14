@@ -15,7 +15,6 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -28,13 +27,12 @@ import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.satisfy.sleepy_hollows.platform.PlatformHelper;
 import net.satisfy.sleepy_hollows.core.registry.EntityTypeRegistry;
 import net.satisfy.sleepy_hollows.core.registry.ObjectRegistry;
 import net.satisfy.sleepy_hollows.core.registry.SoundEventRegistry;
+import net.satisfy.sleepy_hollows.platform.PlatformHelper;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -263,8 +261,6 @@ public class FleeingPumpkinHead extends Monster {
                     zombie.setItemSlot(EquipmentSlot.FEET, new ItemStack(ObjectRegistry.HAUNTBOUND_BOOTS.get()));
                     zombie.setDropChance(EquipmentSlot.FEET, 0.01f);
                     ItemStack enchantedSword = new ItemStack(ObjectRegistry.SPECTRAL_WARAXE.get());
-                    enchantedSword.enchant(Enchantments.SHARPNESS, 3);
-                    enchantedSword.enchant(Enchantments.FIRE_ASPECT, 1);
                     zombie.setItemSlot(EquipmentSlot.MAINHAND, enchantedSword);
                     zombie.setDropChance(EquipmentSlot.MAINHAND, 0.03f);
                     if (zombie.getAttribute(Attributes.ARMOR) != null) {
@@ -306,7 +302,6 @@ public class FleeingPumpkinHead extends Monster {
                     skeleton.setItemSlot(EquipmentSlot.FEET, new ItemStack(ObjectRegistry.HAUNTBOUND_BOOTS.get()));
                     skeleton.setDropChance(EquipmentSlot.FEET, 0.01f);
                     ItemStack enchantedBow = new ItemStack(Items.BOW);
-                    enchantedBow.enchant(Enchantments.POWER_ARROWS, 10);
                     skeleton.setItemSlot(EquipmentSlot.MAINHAND, enchantedBow);
                     skeleton.setDropChance(EquipmentSlot.MAINHAND, 0.01f);
                     skeleton.setCustomName(Component.translatable("entity.sleepy_hollows.hauntbound_marksman"));
@@ -332,11 +327,6 @@ public class FleeingPumpkinHead extends Monster {
         this.noPhysics = true;
 
         this.level().playSound(null, this.blockPosition(), SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.HOSTILE, 1.0F, 1.0F);
-    }
-
-    @Override
-    public @NotNull MobType getMobType() {
-        return MobType.UNDEAD;
     }
 
     @Override

@@ -9,7 +9,6 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.satisfy.sleepy_hollows.core.entity.Horseman;
 import net.satisfy.sleepy_hollows.core.entity.animation.HorsemanAnimation;
-import net.satisfy.sleepy_hollows.core.util.SleepyHollowsIdentifier;
 import org.jetbrains.annotations.NotNull;
 
 public class HorsemanModel<T extends Horseman> extends HierarchicalModel<T> {
@@ -190,8 +189,8 @@ public class HorsemanModel<T extends Horseman> extends HierarchicalModel<T> {
     }
 
     @Override
-    public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        root.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int i, int j, int k) {
+        root.render(poseStack, vertexConsumer, i, j, k);
     }
 
     @Override

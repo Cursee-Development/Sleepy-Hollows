@@ -1,7 +1,9 @@
 package net.satisfy.sleepy_hollows.core.entity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ColorParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -52,10 +54,11 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Horseman extends Monster implements EntityWithAttackAnimation, PowerableMob {
-    private static final EntityDataAccessor<Boolean> IMMUNE = SynchedEntityData.defineId(Horseman.class, EntityDataSerializers.BOOLEAN);
     private static final float[] HEALTH_THRESHOLDS = {0.75f, 0.50f, 0.25f};
+
     private static final EntityDataAccessor<Boolean> HAS_ACTIVE_PUMPKIN_HEAD = SynchedEntityData.defineId(Horseman.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> ATTACKING = SynchedEntityData.defineId(Horseman.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> IMMUNE = SynchedEntityData.defineId(Horseman.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> LAUGHING = SynchedEntityData.defineId(Horseman.class, EntityDataSerializers.BOOLEAN);
     public final AnimationState attackAnimationState = new AnimationState();
     public final AnimationState idleAnimationState = new AnimationState();
@@ -116,9 +119,8 @@ public class Horseman extends Monster implements EntityWithAttackAnimation, Powe
 
             @Override
             public AttributeInstance getAttribute(Attribute movementSpeed) {
-                return Horseman.this.getAttribute(movementSpeed);
+                return Horseman.this.getAttribute(BuiltInRegistries.ATTRIBUTE.wrapAsHolder(movementSpeed));
             }
-
         }));
         this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 25.0F));
     }
@@ -204,8 +206,7 @@ public class Horseman extends Monster implements EntityWithAttackAnimation, Powe
                 this.level().addParticle(ParticleTypes.SMOKE, offsetX, offsetY, offsetZ, 0.0, 0.0, 0.0);
 
                 if (this.random.nextInt(4) == 0) {
-                    this.level().addParticle(ParticleTypes.ENTITY_EFFECT, offsetX, offsetY, offsetZ, 0.7, 0.7, 0.5);
-                }
+                    this.level().addParticle(ColorParticleOption.create(ParticleTypes.ENTITY_EFFECT, 0.7F, 0.7F, 0.5F), offsetX, offsetY, offsetZ, 0.0, 0.0, 0.0);                }
             }
         }
 
@@ -223,11 +224,6 @@ public class Horseman extends Monster implements EntityWithAttackAnimation, Powe
 
     private boolean isMoving() {
         return this.getDeltaMovement().lengthSqr() > 0.01;
-    }
-
-    @Override
-    public @NotNull MobType getMobType() {
-        return MobType.UNDEAD;
     }
 
     private void summonPumpkinHead() {
@@ -266,15 +262,6 @@ public class Horseman extends Monster implements EntityWithAttackAnimation, Powe
 
             this.level().addFreshEntity(skeleton);
         }
-    }
-
-    @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(HAS_ACTIVE_PUMPKIN_HEAD, false);
-        this.entityData.define(ATTACKING, false);
-        this.entityData.define(IMMUNE, false);
-        this.entityData.define(LAUGHING, false);
     }
 
     @Override
@@ -346,12 +333,22 @@ public class Horseman extends Monster implements EntityWithAttackAnimation, Powe
     }
 
     @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        builder.define(HAS_ACTIVE_PUMPKIN_HEAD, false);
+        builder.define(ATTACKING, false);
+        builder.define(IMMUNE, false);
+        builder.define(LAUGHING, false);
+    }
+
+    @Override
     public LivingEntity getTarget_() {
         return getTarget();
     }
 
-    public double getMeleeAttackRangeSqr_(LivingEntity entity) {
-        return super.getMeleeAttackRangeSqr(entity);
+    @Override
+    public double getMeleeAttackRangeSqr_(LivingEntity target) {
+        double w = this.getBbWidth() * 2.0;
+        return w * w + target.getBbWidth();
     }
 
     private boolean isPumpkinHeadAlive() {
@@ -477,9 +474,8 @@ public class Horseman extends Monster implements EntityWithAttackAnimation, Powe
     }
 
     @Override
-    protected void dropCustomDeathLoot(@NotNull DamageSource source, int looting, boolean recentlyHitIn) {
-        super.dropCustomDeathLoot(source, looting, recentlyHitIn);
-
+    protected void dropCustomDeathLoot(@NotNull ServerLevel level, @NotNull DamageSource source, boolean recentlyHit) {
+        super.dropCustomDeathLoot(level, source, recentlyHit);
         List<ItemStack> horsemanLoot = PlatformHelper.getHorsemanLootItems();
         for (ItemStack loot : horsemanLoot) {
             this.spawnAtLocation(loot);

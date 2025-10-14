@@ -1,6 +1,6 @@
 package net.satisfy.sleepy_hollows.core.world.placers;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -14,10 +14,8 @@ import net.satisfy.sleepy_hollows.core.registry.FeatureTypeRegistry;
 import org.jetbrains.annotations.NotNull;
 
 public class HollowFoliagePlacer extends FoliagePlacer {
-    public static final Codec<HollowFoliagePlacer> CODEC = RecordCodecBuilder.create(instance ->
-            foliagePlacerParts(instance)
-                    .and(IntProvider.codec(0, 24).fieldOf("trunk_height").forGetter(placer -> placer.trunkHeight))
-                    .apply(instance, HollowFoliagePlacer::new));
+    public static final MapCodec<HollowFoliagePlacer> CODEC = RecordCodecBuilder.mapCodec(instance ->
+            foliagePlacerParts(instance).and(IntProvider.codec(0, 24).fieldOf("trunk_height").forGetter(p -> p.trunkHeight)).apply(instance, HollowFoliagePlacer::new));
     private final IntProvider trunkHeight;
 
     public HollowFoliagePlacer(IntProvider intProvider, IntProvider intProvider2, IntProvider trunkHeight) {
@@ -34,12 +32,12 @@ public class HollowFoliagePlacer extends FoliagePlacer {
         return Math.max(12, trunkHeight - this.trunkHeight.sample(random));
     }
 
+    @Override
     protected void createFoliage(@NotNull LevelSimulatedReader levelSimulatedReader, @NotNull FoliageSetter foliageSetter, RandomSource random, @NotNull TreeConfiguration config, int trunkHeight, FoliageAttachment treeNode, int foliageHeight, int radius, int offset) {
         BlockPos blockPos = treeNode.pos();
         BlockPos.MutableBlockPos mutable = blockPos.mutable();
         boolean nextBoolean = random.nextBoolean();
         boolean nextBoolean2 = random.nextBoolean();
-
         for (int l = offset; l >= -foliageHeight - 2; --l) {
             if (l >= offset - 2) {
                 mutable.setWithOffset(blockPos, 0, l, 0);
@@ -178,6 +176,7 @@ public class HollowFoliagePlacer extends FoliagePlacer {
         }
     }
 
+    @Override
     protected boolean shouldSkipLocation(@NotNull RandomSource random, int dx, int y, int dz, int radius, boolean giantTrunk) {
         return dx == radius && dz == radius && radius > 0;
     }
@@ -185,7 +184,6 @@ public class HollowFoliagePlacer extends FoliagePlacer {
     protected void placeLeavesRow(@NotNull LevelSimulatedReader levelSimulatedReader, @NotNull FoliageSetter foliageSetter, @NotNull RandomSource random, @NotNull TreeConfiguration config, @NotNull BlockPos centerPos, int radius, int y, boolean giantTrunk) {
         int i = giantTrunk ? 1 : 0;
         BlockPos.MutableBlockPos mutable = new BlockPos.MutableBlockPos();
-
         for (int j = -radius; j <= radius + i; ++j) {
             for (int k = -radius; k <= radius + i; ++k) {
                 if (!this.shouldSkipLocationSigned(random, j, y, k, radius, giantTrunk)) {

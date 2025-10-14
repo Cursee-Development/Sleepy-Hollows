@@ -5,7 +5,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.satisfy.sleepy_hollows.fabric.config.SleepyHollowsFabricConfig;
@@ -15,11 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlatformHelperImpl extends PlatformHelper {
-    public static int getTerrablenderRegionWeight() {
-        SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.biome.terrablenderRegionWeight;
-    }
-
     public static double getHorsemanMovementSpeed() {
         SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
         return config.horseman.movementSpeed;
@@ -105,36 +99,6 @@ public class PlatformHelperImpl extends PlatformHelper {
         return config.armor.enableHauntboundSetBonus;
     }
 
-    public static int getHauntboundDurability(ArmorItem.Type type) {
-        SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return switch (type) {
-            case HELMET -> config.armor.hauntboundHelmetDurability;
-            case CHESTPLATE -> config.armor.hauntboundChestplateDurability;
-            case LEGGINGS -> config.armor.hauntboundLeggingsDurability;
-            case BOOTS -> config.armor.hauntboundBootsDurability;
-        };
-    }
-
-    public static int getHauntboundDefense(ArmorItem.Type type) {
-        SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return switch (type) {
-            case HELMET -> config.armor.hauntboundHelmetDefense;
-            case CHESTPLATE -> config.armor.hauntboundChestplateDefense;
-            case LEGGINGS -> config.armor.hauntboundLeggingsDefense;
-            case BOOTS -> config.armor.hauntboundBootsDefense;
-        };
-    }
-
-    public static double getHauntboundToughness() {
-        SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.armor.hauntboundToughness;
-    }
-
-    public static double getHauntboundKnockbackResistance() {
-        SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.armor.hauntboundKnockbackResistance;
-    }
-
     public static List<ItemStack> getHorsemanLootItems() {
         assert Minecraft.getInstance().level != null;
         RegistryAccess registryAccess = Minecraft.getInstance().level.registryAccess();
@@ -156,7 +120,7 @@ public class PlatformHelperImpl extends PlatformHelper {
                 } catch (NumberFormatException e) {
                     count = 1;
                 }
-                ResourceLocation rl = new ResourceLocation(modId, itemId);
+                ResourceLocation rl = ResourceLocation.fromNamespaceAndPath(modId, itemId);
                 Item item = registryAccess.registryOrThrow(Registries.ITEM).get(rl);
                 if (item != null) {
                     loot.add(new ItemStack(item, count));

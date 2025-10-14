@@ -82,7 +82,7 @@ public class SoulfireSpiral {
         List<Player> players = serverLevel.getEntitiesOfClass(Player.class, detectionBox, EntitySelector.NO_CREATIVE_OR_SPECTATOR);
         for (Player player : players) {
             if (player instanceof ServerPlayer serverPlayer && serverPlayer.gameMode.getGameModeForPlayer() == GameType.SURVIVAL) {
-                serverPlayer.setSecondsOnFire(8);
+                player.igniteForSeconds(8);
             }
         }
     }

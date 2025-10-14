@@ -7,6 +7,7 @@ import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.resources.language.I18n;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -17,10 +18,10 @@ import net.satisfy.sleepy_hollows.client.model.armor.HauntboundBootsModel;
 import net.satisfy.sleepy_hollows.client.model.armor.HauntboundChestplateModel;
 import net.satisfy.sleepy_hollows.client.model.armor.HauntboundHelmetModel;
 import net.satisfy.sleepy_hollows.client.model.armor.HauntboundLeggingsModel;
-import net.satisfy.sleepy_hollows.core.item.custom.HauntboundBootsItem;
-import net.satisfy.sleepy_hollows.core.item.custom.HauntboundChestplateItem;
-import net.satisfy.sleepy_hollows.core.item.custom.HauntboundHelmetItem;
-import net.satisfy.sleepy_hollows.core.item.custom.HauntboundLeggingsItem;
+import net.satisfy.sleepy_hollows.core.item.HauntboundBootsItem;
+import net.satisfy.sleepy_hollows.core.item.HauntboundChestplateItem;
+import net.satisfy.sleepy_hollows.core.item.HauntboundHelmetItem;
+import net.satisfy.sleepy_hollows.core.item.HauntboundLeggingsItem;
 import net.satisfy.sleepy_hollows.core.util.SanityManager;
 import net.satisfy.sleepy_hollows.platform.PlatformHelper;
 import org.jetbrains.annotations.NotNull;
@@ -125,7 +126,8 @@ public class ArmorRegistry {
             tooltip.add(Component.nullToEmpty(color + I18n.get("tooltip.sleepy_hollows.armor.hauntbound_armor_2")));
             if (hasFullSet) {
                 if (!SanityManager.isClientImmune(localPlayer)) {
-                    player.addEffect(new MobEffectInstance(MobEffectRegistry.MENTAL_FORTITUDE.get(), 20, 0));
+                    var registry = localPlayer.level().registryAccess().registryOrThrow(Registries.MOB_EFFECT);
+                    registry.getResourceKey(MobEffectRegistry.MENTAL_FORTITUDE.get()).flatMap(registry::getHolder).ifPresent(mental -> localPlayer.addEffect(new MobEffectInstance(mental, 20, 0)));
                 }
             }
         }

@@ -5,12 +5,11 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.satisfy.sleepy_hollows.Constants;
-import net.satisfy.sleepy_hollows.core.util.SleepyHollowsIdentifier;
+import net.satisfy.sleepy_hollows.SleepyHollows;
 
 @SuppressWarnings("unused")
 public class SoundEventRegistry {
-    public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(Constants.MOD_ID, Registries.SOUND_EVENT);
+    public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(SleepyHollows.MOD_ID, Registries.SOUND_EVENT);
 
     public static final RegistrySupplier<SoundEvent> EQUIP_HAUNTBOUND = create("equip_hauntbound");
     public static final RegistrySupplier<SoundEvent> COFFIN_OPEN = create("coffin_open");
@@ -27,7 +26,7 @@ public class SoundEventRegistry {
     public static final RegistrySupplier<SoundEvent> WELCOME_TO_SLEEPY_HOLLOWS = create("welcome_to_sleepy_hollows");
 
     private static RegistrySupplier<SoundEvent> create(String name) {
-        ResourceLocation id = new SleepyHollowsIdentifier(name);
+        ResourceLocation id = SleepyHollows.identifier(name);
         return SOUND_EVENTS.register(id, () -> SoundEvent.createVariableRangeEvent(id));
     }
 

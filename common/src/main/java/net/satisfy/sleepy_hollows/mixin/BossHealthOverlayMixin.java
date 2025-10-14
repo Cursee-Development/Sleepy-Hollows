@@ -6,7 +6,6 @@ import net.minecraft.client.gui.components.BossHealthOverlay;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.satisfy.sleepy_hollows.core.util.SanityManager;
-import net.satisfy.sleepy_hollows.core.world.SleepyHollowsBiomeKeys;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;

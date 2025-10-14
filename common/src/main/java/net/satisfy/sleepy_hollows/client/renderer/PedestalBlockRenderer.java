@@ -6,13 +6,12 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import net.satisfy.sleepy_hollows.core.block.custom.entity.PedestalBlockEntity;
+import net.satisfy.sleepy_hollows.core.block.entity.PedestalBlockEntity;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
 public class PedestalBlockRenderer implements BlockEntityRenderer<PedestalBlockEntity> {
-
     public PedestalBlockRenderer() {
     }
 

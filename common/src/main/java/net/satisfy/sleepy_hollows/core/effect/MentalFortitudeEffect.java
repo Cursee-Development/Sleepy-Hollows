@@ -4,7 +4,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.satisfy.sleepy_hollows.core.network.SleepyHollowsNetwork;
 import net.satisfy.sleepy_hollows.core.network.message.SanityPacketMessage;
 import net.satisfy.sleepy_hollows.core.util.SanityManager;
@@ -17,17 +16,15 @@ public class MentalFortitudeEffect extends MobEffect {
     }
 
     @Override
-    public void applyEffectTick(@NotNull LivingEntity livingEntity, int amplifier) {
-        if (livingEntity instanceof ServerPlayer player && !player.level().isClientSide()) {
+    @SuppressWarnings("removal")
+    public boolean applyEffectTick(@NotNull LivingEntity entity, int amplifier) {
+        if (entity instanceof ServerPlayer player && !player.level().isClientSide()) {
             if (SanityManager.getSanity(player) < 100) {
-                SanityManager.changeSanity(player, SanityManager.Modifiers.MENTAL_FORTITUDE.getValue());
-                SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer((ServerPlayer) player, new SanityPacketMessage(SanityManager.Modifiers.MENTAL_FORTITUDE.getValue()));
+                int change = SanityManager.Modifiers.MENTAL_FORTITUDE.getValue();
+                SanityManager.changeSanity(player, change);
+                SleepyHollowsNetwork.SANITY_CHANNEL.sendToPlayer(player, new SanityPacketMessage(change));
             }
         }
-    }
-
-    @Override
-    public void removeAttributeModifiers(@NotNull LivingEntity livingEntity, @NotNull net.minecraft.world.entity.ai.attributes.AttributeMap attributeMap, int amplifier) {
-        super.removeAttributeModifiers(livingEntity, attributeMap, amplifier);
+        return true;
     }
 }

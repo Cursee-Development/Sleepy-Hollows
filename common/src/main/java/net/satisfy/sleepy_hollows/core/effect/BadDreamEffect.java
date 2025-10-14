@@ -1,5 +1,6 @@
 package net.satisfy.sleepy_hollows.core.effect;
 
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.server.level.ServerLevel;
@@ -22,26 +23,38 @@ public class BadDreamEffect extends MobEffect {
     }
 
     @Override
-    public void applyEffectTick(LivingEntity livingEntity, int amplifier) {
-        if (!livingEntity.level().isClientSide() && livingEntity instanceof ServerPlayer serverPlayer) {
+    public boolean applyEffectTick(LivingEntity entity, int amplifier) {
+        if (!entity.level().isClientSide() && entity instanceof ServerPlayer serverPlayer) {
             if (serverPlayer.getRespawnPosition() != null) {
                 ResourceKey<Level> respawnDimension = serverPlayer.getRespawnDimension();
                 ServerLevel targetLevel = serverPlayer.server.getLevel(respawnDimension);
                 BlockPos respawnPos = serverPlayer.getRespawnPosition();
-                if (targetLevel != null && (targetLevel.getBlockState(respawnPos).getBlock() instanceof BedBlock)) {
+                if (targetLevel != null && targetLevel.getBlockState(respawnPos).getBlock() instanceof BedBlock) {
                     Vec3 pos = Vec3.atBottomCenterOf(respawnPos);
-                    serverPlayer.teleportTo(targetLevel, pos.x, pos.y, pos.z, Mth.wrapDegrees(serverPlayer.getYRot()), Mth.wrapDegrees(serverPlayer.getXRot()));
+                    serverPlayer.teleportTo(targetLevel, pos.x, pos.y, pos.z,
+                            Mth.wrapDegrees(serverPlayer.getYRot()), Mth.wrapDegrees(serverPlayer.getXRot()));
                 }
             } else {
-                Vec3 pos = Vec3.atBottomCenterOf(serverPlayer.level().getSharedSpawnPos());
-                serverPlayer.connection.teleport(pos.x, pos.y, pos.z, Mth.wrapDegrees(serverPlayer.getYRot()), Mth.wrapDegrees(serverPlayer.getXRot()));
+                ServerLevel currentLevel = serverPlayer.serverLevel();
+                Vec3 pos = Vec3.atBottomCenterOf(currentLevel.getSharedSpawnPos());
+                serverPlayer.teleportTo(currentLevel, pos.x, pos.y, pos.z,
+                        Mth.wrapDegrees(serverPlayer.getYRot()), Mth.wrapDegrees(serverPlayer.getXRot()));
             }
         }
 
-        MobEffectInstance currentEffect = livingEntity.getEffect(this);
-        if (currentEffect != null && currentEffect.getDuration() == 1) {
-            sendEndEffectMessage(livingEntity);
-        }
+        var effectHolder = entity.level().registryAccess()
+                .registryOrThrow(Registries.MOB_EFFECT)
+                .getResourceKey(this)
+                .flatMap(k -> entity.level().registryAccess().registryOrThrow(Registries.MOB_EFFECT).getHolder(k));
+
+        effectHolder.ifPresent(holder -> {
+            MobEffectInstance instance = entity.getEffect(holder);
+            if (instance != null && instance.getDuration() == 1) {
+                sendEndEffectMessage(entity);
+            }
+        });
+
+        return true;
     }
 
     private void sendEndEffectMessage(LivingEntity entity) {
@@ -49,11 +62,6 @@ public class BadDreamEffect extends MobEffect {
             Component message = Component.translatable("message.sleepy_hollows.insanity").withStyle(style -> style.withItalic(true).withColor(TextColor.fromRgb(0x8A2BE2)));
             serverPlayer.sendSystemMessage(message, false);
         }
-    }
-
-    @Override
-    public boolean isDurationEffectTick(int duration, int amplifier) {
-        return duration >= 1;
     }
 
     @Override

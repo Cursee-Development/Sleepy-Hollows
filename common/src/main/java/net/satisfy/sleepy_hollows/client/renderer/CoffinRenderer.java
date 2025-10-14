@@ -13,19 +13,19 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.properties.BedPart;
-import net.satisfy.sleepy_hollows.core.block.custom.CoffinBlock;
-import net.satisfy.sleepy_hollows.core.block.custom.entity.CoffinBlockEntity;
-import net.satisfy.sleepy_hollows.core.util.SleepyHollowsIdentifier;
+import net.satisfy.sleepy_hollows.SleepyHollows;
+import net.satisfy.sleepy_hollows.core.block.CoffinBlock;
+import net.satisfy.sleepy_hollows.core.block.entity.CoffinBlockEntity;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
 
 @SuppressWarnings("unused")
 public class CoffinRenderer implements BlockEntityRenderer<CoffinBlockEntity> {
-    private static final ResourceLocation TEXTURE = new SleepyHollowsIdentifier("textures/entity/coffin.png");
+    private static final ResourceLocation TEXTURE = SleepyHollows.identifier("textures/entity/coffin.png");
     private final ModelPart coffin;
     private final ModelPart lid;
 
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new SleepyHollowsIdentifier("coffin"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(SleepyHollows.identifier("coffin"), "main");
 
     public CoffinRenderer(BlockEntityRendererProvider.Context context) {
         ModelPart modelPart = context.bakeLayer(LAYER_LOCATION);

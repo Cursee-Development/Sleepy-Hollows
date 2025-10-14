@@ -1,5 +1,6 @@
 package net.satisfy.sleepy_hollows.core.entity.ai;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -44,20 +45,20 @@ public class RandomActionGoal extends Goal {
         action.onTick(counter);
     }
 
-    public static final AttributeModifier modifier = new AttributeModifier("random_action_do_not_move", -1000, AttributeModifier.Operation.ADDITION);
+    public static final AttributeModifier modifier = new AttributeModifier(ResourceLocation.parse("random_action_do_not_move"), -1000, AttributeModifier.Operation.ADD_VALUE);
 
     @Override
     public void start() {
         counter = 0;
         action.onStart();
-        Objects.requireNonNull(action.getAttribute(Attributes.MOVEMENT_SPEED)).addTransientModifier(modifier);
+        Objects.requireNonNull(action.getAttribute(Attributes.MOVEMENT_SPEED.value())).addTransientModifier(modifier);
         super.start();
     }
 
     @Override
     public void stop() {
         action.onStop();
-        Objects.requireNonNull(action.getAttribute(Attributes.MOVEMENT_SPEED)).removeModifier(modifier);
+        Objects.requireNonNull(action.getAttribute(Attributes.MOVEMENT_SPEED.value())).removeModifier(modifier);
         super.stop();
     }
 }

@@ -16,13 +16,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.state.BlockState;
-import net.satisfy.sleepy_hollows.Constants;
-import net.satisfy.sleepy_hollows.core.block.custom.CompletionistBannerBlock;
-import net.satisfy.sleepy_hollows.core.block.custom.CompletionistWallBannerBlock;
-import net.satisfy.sleepy_hollows.core.block.custom.entity.CompletionistBannerEntity;
+import net.satisfy.sleepy_hollows.SleepyHollows;
+import net.satisfy.sleepy_hollows.core.block.CompletionistBannerBlock;
+import net.satisfy.sleepy_hollows.core.block.CompletionistWallBannerBlock;
+import net.satisfy.sleepy_hollows.core.block.entity.CompletionistBannerEntity;
 
 public class CompletionistBannerRenderer implements BlockEntityRenderer<CompletionistBannerEntity> {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Constants.MOD_ID, "banner"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(SleepyHollows.identifier("banner"), "main");
 
     public static final String FLAG = "flag";
     private static final String POLE = "pole";

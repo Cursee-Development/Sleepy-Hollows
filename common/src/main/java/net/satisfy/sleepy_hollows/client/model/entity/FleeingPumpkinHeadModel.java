@@ -8,7 +8,6 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.Entity;
-import net.satisfy.sleepy_hollows.core.util.SleepyHollowsIdentifier;
 import org.jetbrains.annotations.NotNull;
 
 public class FleeingPumpkinHeadModel<T extends Entity> extends EntityModel<T> {
@@ -37,9 +36,8 @@ public class FleeingPumpkinHeadModel<T extends Entity> extends EntityModel<T> {
         this.head.y = 24.0F + (float) Math.sin(ageInTicks * bounceSpeed) * bounceHeight;
     }
 
-
     @Override
-    public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        head.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int i, int j, int k) {
+        head.render(poseStack, vertexConsumer, i, j, k);
     }
 }

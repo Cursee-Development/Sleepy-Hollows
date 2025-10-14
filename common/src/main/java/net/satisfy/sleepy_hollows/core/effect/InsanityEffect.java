@@ -2,6 +2,7 @@ package net.satisfy.sleepy_hollows.core.effect;
 
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -20,18 +21,22 @@ public class InsanityEffect extends MobEffect {
     }
 
     @Override
-    public void applyEffectTick(@NotNull LivingEntity livingEntity, int amplifier) {
-        MobEffectInstance currentEffect = livingEntity.getEffect(this);
-        if (currentEffect != null && currentEffect.getDuration() > 0) {
-            this.distractEntity(livingEntity);
-
-            int remainingDuration = currentEffect.getDuration();
-            livingEntity.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, remainingDuration, 0, false, false));
-
-            if (remainingDuration == 20) {
-                livingEntity.addEffect(new MobEffectInstance(MobEffectRegistry.BAD_DREAM.get(), 10, 1));
+    public boolean applyEffectTick(@NotNull LivingEntity entity, int amplifier) {
+        var registry = entity.level().registryAccess().registryOrThrow(Registries.MOB_EFFECT);
+        registry.getResourceKey(this).flatMap(registry::getHolder).ifPresent(selfHolder -> {
+            var instance = entity.getEffect(selfHolder);
+            if (instance != null && instance.getDuration() > 0) {
+                distractEntity(entity);
+                int remaining = instance.getDuration();
+                entity.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, remaining, 0, false, false));
+                registry.getResourceKey(MobEffectRegistry.BAD_DREAM.get()).flatMap(registry::getHolder).ifPresent(badHolder -> {
+                    if (remaining == 20) {
+                        entity.addEffect(new MobEffectInstance(badHolder, 10, 1));
+                    }
+                });
             }
-        }
+        });
+        return true;
     }
 
     private void distractEntity(LivingEntity livingEntity) {
@@ -47,14 +52,7 @@ public class InsanityEffect extends MobEffect {
         livingEntity.setDeltaMovement(livingEntity.getDeltaMovement().add(this.motionDirection, 0, this.motionDirection));
 
         if (livingEntity.level() instanceof ServerLevel serverLevel) {
-            serverLevel.sendParticles(new ItemParticleOption(ParticleTypes.ITEM, Items.PURPLE_DYE.getDefaultInstance()),
-                    livingEntity.getX(), livingEntity.getY() + livingEntity.getBbHeight() * 0.8, livingEntity.getZ(),
-                    15, 0.0, 0.0, 0.0, 0.0);
+            serverLevel.sendParticles(new ItemParticleOption(ParticleTypes.ITEM, Items.PURPLE_DYE.getDefaultInstance()), livingEntity.getX(), livingEntity.getY() + livingEntity.getBbHeight() * 0.8, livingEntity.getZ(), 15, 0.0, 0.0, 0.0, 0.0);
         }
-    }
-
-    @Override
-    public boolean isDurationEffectTick(int duration, int amplifier) {
-        return duration > 0 && (duration % 20 == 0);
     }
 }

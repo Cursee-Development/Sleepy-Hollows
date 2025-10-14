@@ -8,11 +8,6 @@ import java.util.List;
 
 public class PlatformHelper {
     @ExpectPlatform
-    public static int getTerrablenderRegionWeight() {
-        throw new AssertionError();
-    }
-
-    @ExpectPlatform
     public static double getHorsemanMovementSpeed() {
         throw new AssertionError();
     }
@@ -94,26 +89,6 @@ public class PlatformHelper {
 
     @ExpectPlatform
     public static boolean isHauntboundSetBonusEnabled() {
-        throw new AssertionError();
-    }
-
-    @ExpectPlatform
-    public static int getHauntboundDurability(ArmorItem.Type type) {
-        throw new AssertionError();
-    }
-
-    @ExpectPlatform
-    public static int getHauntboundDefense(ArmorItem.Type type) {
-        throw new AssertionError();
-    }
-
-    @ExpectPlatform
-    public static double getHauntboundToughness() {
-        throw new AssertionError();
-    }
-
-    @ExpectPlatform
-    public static double getHauntboundKnockbackResistance() {
         throw new AssertionError();
     }
 

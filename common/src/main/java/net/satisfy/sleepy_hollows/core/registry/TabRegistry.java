@@ -7,14 +7,14 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.satisfy.sleepy_hollows.Constants;
+import net.satisfy.sleepy_hollows.SleepyHollows;
 
 public class TabRegistry {
 
-    public static final DeferredRegister<CreativeModeTab> SLEEPY_HOLLOWS_TABS = DeferredRegister.create(Constants.MOD_ID, Registries.CREATIVE_MODE_TAB);
+    public static final DeferredRegister<CreativeModeTab> SLEEPY_HOLLOWS_TABS = DeferredRegister.create(SleepyHollows.MOD_ID, Registries.CREATIVE_MODE_TAB);
 
     @SuppressWarnings("unused")
-    public static final RegistrySupplier<CreativeModeTab> SLEEPY_HOLLOWS_TAB = SLEEPY_HOLLOWS_TABS.register(Constants.MOD_ID, () -> CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0)
+    public static final RegistrySupplier<CreativeModeTab> SLEEPY_HOLLOWS_TAB = SLEEPY_HOLLOWS_TABS.register(SleepyHollows.MOD_ID, () -> CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0)
             .icon(() -> new ItemStack(ObjectRegistry.SPECTRAL_LANTERN.get()))
             .title(Component.translatable("itemGroup.sleepyHollows").withStyle(ChatFormatting.ITALIC))
             .displayItems(((itemDisplayParameters, out) -> {

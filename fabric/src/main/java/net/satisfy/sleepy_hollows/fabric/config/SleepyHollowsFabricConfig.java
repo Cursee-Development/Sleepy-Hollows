@@ -11,8 +11,7 @@ import java.util.List;
 @Config.Gui.Background("sleepy_hollows:textures/block/gravestone.png")
 public class SleepyHollowsFabricConfig implements ConfigData {
 
-    @ConfigEntry.Gui.CollapsibleObject
-    public BiomeSettings biome = new BiomeSettings();
+
     @ConfigEntry.Gui.CollapsibleObject
     public HorsemanSettings horseman = new HorsemanSettings();
     @ConfigEntry.Gui.CollapsibleObject
@@ -23,11 +22,6 @@ public class SleepyHollowsFabricConfig implements ConfigData {
     public WeaponsSettings weapons = new WeaponsSettings();
     @ConfigEntry.Gui.CollapsibleObject
     public ArmorSettings armor = new ArmorSettings();
-
-    public static class BiomeSettings {
-        @ConfigEntry.BoundedDiscrete(min = 1, max = 100)
-        public int terrablenderRegionWeight = 2;
-    }
 
     public static class HorsemanSettings {
         @ConfigEntry.BoundedDiscrete(min = 1, max = 10000)
@@ -96,36 +90,6 @@ public class SleepyHollowsFabricConfig implements ConfigData {
     }
 
     public static class ArmorSettings {
-        @ConfigEntry.BoundedDiscrete(min = 1, max = 1000)
-        public int hauntboundHelmetDurability = 13;
-
-        @ConfigEntry.BoundedDiscrete(min = 1, max = 1000)
-        public int hauntboundChestplateDurability = 15;
-
-        @ConfigEntry.BoundedDiscrete(min = 1, max = 1000)
-        public int hauntboundLeggingsDurability = 16;
-
-        @ConfigEntry.BoundedDiscrete(min = 1, max = 1000)
-        public int hauntboundBootsDurability = 11;
-
-        @ConfigEntry.BoundedDiscrete(min = 0, max = 20)
-        public int hauntboundHelmetDefense = 3;
-
-        @ConfigEntry.BoundedDiscrete(min = 0, max = 20)
-        public int hauntboundChestplateDefense = 6;
-
-        @ConfigEntry.BoundedDiscrete(min = 0, max = 20)
-        public int hauntboundLeggingsDefense = 8;
-
-        @ConfigEntry.BoundedDiscrete(min = 0, max = 20)
-        public int hauntboundBootsDefense = 3;
-
-        @ConfigEntry.BoundedDiscrete(min = 0, max = 10)
-        public double hauntboundToughness = 2.0;
-
-        @ConfigEntry.BoundedDiscrete(min = 0, max = 1)
-        public double hauntboundKnockbackResistance = 0.05;
-
         @ConfigEntry.Gui.CollapsibleObject
         @ConfigEntry.Gui.NoTooltip
         public boolean enableHauntboundSetBonus = true;

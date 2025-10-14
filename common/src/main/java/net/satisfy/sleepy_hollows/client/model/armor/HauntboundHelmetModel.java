@@ -8,7 +8,6 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.Entity;
-import net.satisfy.sleepy_hollows.core.util.SleepyHollowsIdentifier;
 import org.jetbrains.annotations.NotNull;
 
 public class HauntboundHelmetModel<T extends Entity> extends EntityModel<T> {
@@ -39,10 +38,10 @@ public class HauntboundHelmetModel<T extends Entity> extends EntityModel<T> {
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, @NotNull VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int k) {
         poseStack.pushPose();
         poseStack.scale(1.075F, 1.075F, 1.075F);
-        hauntbound_helmet.render(poseStack, buffer, packedLight, packedOverlay);
+        hauntbound_helmet.render(poseStack, vertexConsumer, packedLight, packedOverlay, k);
         poseStack.popPose();
     }
 

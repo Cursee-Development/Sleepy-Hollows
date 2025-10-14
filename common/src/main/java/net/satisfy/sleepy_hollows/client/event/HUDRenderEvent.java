@@ -6,16 +6,14 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.satisfy.sleepy_hollows.SleepyHollows;
 import net.satisfy.sleepy_hollows.core.registry.TagRegistry;
 import net.satisfy.sleepy_hollows.core.util.SanityManager;
-import net.satisfy.sleepy_hollows.core.util.SleepyHollowsIdentifier;
-import net.satisfy.sleepy_hollows.core.world.SleepyHollowsBiomeKeys;
 import net.satisfy.sleepy_hollows.platform.PlatformHelper;
 
 public class HUDRenderEvent {
-
-    private static final ResourceLocation FRAME_TEXTURE = new SleepyHollowsIdentifier("textures/gui/sanity_meter_bar.png");
-    private static final ResourceLocation FILL_TEXTURE = new SleepyHollowsIdentifier("textures/gui/sanity_meter_progress.png");
+    private static final ResourceLocation FRAME_TEXTURE = SleepyHollows.identifier("textures/gui/sanity_meter_bar.png");
+    private static final ResourceLocation FILL_TEXTURE = SleepyHollows.identifier("textures/gui/sanity_meter_progress.png");
 
     private static long lastExitedBiomeTime = 0;
     private static final long DISPLAY_DURATION_AFTER_EXIT = 45000;

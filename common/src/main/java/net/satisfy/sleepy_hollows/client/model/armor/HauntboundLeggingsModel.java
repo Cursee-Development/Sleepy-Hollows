@@ -8,7 +8,6 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.Entity;
-import net.satisfy.sleepy_hollows.core.util.SleepyHollowsIdentifier;
 import org.jetbrains.annotations.NotNull;
 
 public class HauntboundLeggingsModel<T extends Entity> extends EntityModel<T> {
@@ -49,11 +48,10 @@ public class HauntboundLeggingsModel<T extends Entity> extends EntityModel<T> {
     }
 
     @Override
-    public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int k) {
         poseStack.pushPose();
-        poseStack.scale(1.075F, 1.075F, 1.075F);
-        right_leg.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-        left_leg.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+        right_leg.render(poseStack, vertexConsumer, packedLight, packedOverlay, k);
+        left_leg.render(poseStack, vertexConsumer, packedLight, packedOverlay, k);
         poseStack.popPose();
     }
 

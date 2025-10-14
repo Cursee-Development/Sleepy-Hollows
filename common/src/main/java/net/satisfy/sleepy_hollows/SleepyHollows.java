@@ -4,6 +4,7 @@ import dev.architectury.event.events.client.ClientGuiEvent;
 import dev.architectury.hooks.item.tool.AxeItemHooks;
 import dev.architectury.platform.Platform;
 import net.fabricmc.api.EnvType;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -13,9 +14,14 @@ import net.satisfy.sleepy_hollows.core.network.SleepyHollowsNetwork;
 import net.satisfy.sleepy_hollows.core.network.message.SanityPacketMessage;
 import net.satisfy.sleepy_hollows.core.registry.*;
 import net.satisfy.sleepy_hollows.core.util.SanityManager;
-import net.satisfy.sleepy_hollows.core.world.SleepyHollowsBiomeKeys;
 
 public final class SleepyHollows {
+    public static final String MOD_ID = "sleepy_hollows";
+    public static final String MOD_DATA_ID = MOD_ID + ".data";
+
+    public static ResourceLocation identifier(String path) {
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+    }
 
     public static void init() {
         ObjectRegistry.init();
@@ -26,12 +32,12 @@ public final class SleepyHollows {
         FeatureTypeRegistry.init();
         SleepyHollowsNetwork.init();
         ArmorEffectHandler.init();
-        Constants.LOG.info("Sleepy Hollows has been initialized in the common setup phase.");
 
         if (Platform.getEnv() == EnvType.CLIENT) {
             ClientGuiEvent.RENDER_HUD.register(HUDRenderEvent::onRenderHUD);
         }
     }
+
 
     public static void commonInit() {
         FlammableBlockRegistry.init();

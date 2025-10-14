@@ -8,8 +8,8 @@ import net.satisfy.sleepy_hollows.core.entity.EntityWithAttackAnimation;
 public class AnimationAttackGoal extends MeleeAttackGoal {
     private final EntityWithAttackAnimation animationEntity;
     private int counter;
-    private int attackDelay;
-    private int attackTick;
+    private final int attackDelay;
+    private final int attackTick;
     private int timeout = 0;
 
     public AnimationAttackGoal(EntityWithAttackAnimation pMob, double pSpeedModifier, boolean pFollowingTargetEvenIfNotSeen, int attackDelay, int attackTick) {
@@ -35,7 +35,7 @@ public class AnimationAttackGoal extends MeleeAttackGoal {
         super.tick();
         var target = animationEntity.getTarget_();
         if (target != null) {
-            checkAndPerformAttack(target, animationEntity.getMeleeAttackRangeSqr_(target));
+            checkAndPerformAttack(target);
         }
         animationEntity.setAttacking_(counter != 0);
 
@@ -47,8 +47,8 @@ public class AnimationAttackGoal extends MeleeAttackGoal {
     }
 
     @Override
-    protected void checkAndPerformAttack(LivingEntity targetEntity, double discanceSqr) {
-        if (targetEntity.getPosition(0).distanceToSqr(animationEntity.getPosition_(0)) < discanceSqr) {
+    protected void checkAndPerformAttack(LivingEntity targetEntity) {
+        if (this.isTimeToAttack() && this.mob.isWithinMeleeAttackRange(targetEntity) && this.mob.getSensing().hasLineOfSight(targetEntity)) {
             if (counter == 0) {
                 counter++;
             }
