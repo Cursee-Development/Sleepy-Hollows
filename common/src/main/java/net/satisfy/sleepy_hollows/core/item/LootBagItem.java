@@ -1,8 +1,9 @@
 package net.satisfy.sleepy_hollows.core.item;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -18,8 +19,8 @@ import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.satisfy.sleepy_hollows.SleepyHollows;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Random;
@@ -43,7 +44,7 @@ public class LootBagItem extends Item {
                         .withParameter(LootContextParams.THIS_ENTITY, player)
                         .withParameter(LootContextParams.ORIGIN, player.position())
                         .create(LootContextParamSets.GIFT);
-                LootTable treasure = minecraftServer.getLootData().getLootTable(new ResourceLocation(Constants.MOD_ID, "gameplay/lootbag"));
+                LootTable treasure = minecraftServer.reloadableRegistries().getLootTable(ResourceKey.create(Registries.LOOT_TABLE, SleepyHollows.identifier("gameplay/lootbag")));
 
                 Random random = new Random();
                 int itemCount = 2 + random.nextInt(3);
@@ -59,7 +60,7 @@ public class LootBagItem extends Item {
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack stack, @Nullable Level world, @NotNull List<Component> tooltip, @NotNull TooltipFlag context) {
+    public void appendHoverText(ItemStack itemStack, TooltipContext tooltipContext, List<Component> tooltip, TooltipFlag tooltipFlag) {
         tooltip.add(Component.translatable("tooltip.sleepy_hollows.item.lootbag").withStyle(ChatFormatting.GOLD, ChatFormatting.ITALIC));
     }
 }

@@ -1,7 +1,6 @@
 package net.satisfy.sleepy_hollows.platform;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
@@ -84,11 +83,6 @@ public class PlatformHelper {
 
     @ExpectPlatform
     public static double getRaubbauToolDamage() {
-        throw new AssertionError();
-    }
-
-    @ExpectPlatform
-    public static boolean isHauntboundSetBonusEnabled() {
         throw new AssertionError();
     }
 

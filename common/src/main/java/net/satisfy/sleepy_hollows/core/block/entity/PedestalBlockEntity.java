@@ -28,19 +28,27 @@ public class PedestalBlockEntity extends BlockEntity implements Clearable {
     @Override
     protected void loadAdditional(CompoundTag compoundTag, HolderLookup.Provider provider) {
         super.loadAdditional(compoundTag, provider);
-        this.displayedItem = ItemStack.parseOptional(provider, compoundTag.getCompound("DisplayedItem"));
+        if (compoundTag.contains("DisplayedItem")) {
+            this.displayedItem = ItemStack.parseOptional(provider, compoundTag.getCompound("DisplayedItem"));
+        } else {
+            this.displayedItem = ItemStack.EMPTY;
+        }
     }
 
     @Override
     protected void saveAdditional(@NotNull CompoundTag tag, HolderLookup.Provider provider) {
         super.saveAdditional(tag, provider);
-        tag.put("DisplayedItem", this.displayedItem.save(provider, new CompoundTag()));
+        if (!this.displayedItem.isEmpty()) {
+            tag.put("DisplayedItem", this.displayedItem.save(provider, new CompoundTag()));
+        }
     }
 
     @Override
     public @NotNull CompoundTag getUpdateTag(HolderLookup.Provider provider) {
         CompoundTag compoundTag = new CompoundTag();
-        compoundTag.put("DisplayedItem", this.displayedItem.save(provider, new CompoundTag()));
+        if (!this.displayedItem.isEmpty()) {
+            compoundTag.put("DisplayedItem", this.displayedItem.save(provider, new CompoundTag()));
+        }
         return compoundTag;
     }
 

@@ -11,11 +11,18 @@ subprojects {
     apply plugin: "dev.architectury.loom"
 
     repositories {
+        mavenLocal()
+        mavenCentral()
+        maven {
+            name = 'TerraformersMC'
+            url = 'https://maven.terraformersmc.com/'
+        }
         maven {
             name = 'ParchmentMC'
             url = 'https://maven.parchmentmc.org'
         }
     }
+
     loom {
         silentMojangMappingsLicense()
     }

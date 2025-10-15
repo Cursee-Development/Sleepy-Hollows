@@ -25,7 +25,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.satisfy.sleepy_hollows.core.registry.MobEffectRegistry;
 import net.satisfy.sleepy_hollows.core.registry.ObjectRegistry;
 import org.jetbrains.annotations.NotNull;
 
@@ -53,18 +52,6 @@ public class InfectedFlowerBlock extends FlowerBlock {
             for (int i = 0; i < 3; ++i) {
                 if (random.nextBoolean()) {
                     level.addParticle(ParticleTypes.SPORE_BLOSSOM_AIR, x + random.nextDouble() / 5.0, (double) pos.getY() + (0.5 - random.nextDouble()), z + random.nextDouble() / 5.0, 0.0, 0.0, 0.0);
-                }
-            }
-        }
-    }
-
-    @Override
-    public void entityInside(BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Entity entity) {
-        if (state.getValue(INFECTED) && !level.isClientSide && level.getDifficulty() != Difficulty.PEACEFUL) {
-            if (entity instanceof Player player) {
-                if (!player.isInvulnerableTo(level.damageSources().wither())) {
-                    var registry = level.registryAccess().registryOrThrow(Registries.MOB_EFFECT);
-                    registry.getResourceKey(MobEffectRegistry.INFECTED.get()).flatMap(registry::getHolder).ifPresent(holder -> player.addEffect(new MobEffectInstance(holder, 40)));
                 }
             }
         }

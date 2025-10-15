@@ -1,11 +1,9 @@
 {
-  "type": "minecraft:generic",
+  "type": "minecraft:gift",
   "pools": [
     {
-      "rolls": {
-        "min": 8,
-        "max": 24
-      },
+      "rolls": 1,
+      "bonus_rolls": 0,
       "entries": [
         {
           "type": "minecraft:item",
@@ -13,7 +11,7 @@
           "weight": 20,
           "functions": [
             {
-              "function": "set_count",
+              "function": "minecraft:set_count",
               "count": {
                 "min": 1,
                 "max": 1
@@ -27,7 +25,7 @@
           "weight": 15,
           "functions": [
             {
-              "function": "set_count",
+              "function": "minecraft:set_count",
               "count": {
                 "min": 1,
                 "max": 1
@@ -41,7 +39,7 @@
           "weight": 10,
           "functions": [
             {
-              "function": "set_count",
+              "function": "minecraft:set_count",
               "count": {
                 "min": 1,
                 "max": 1
@@ -55,7 +53,7 @@
           "weight": 25,
           "functions": [
             {
-              "function": "set_count",
+              "function": "minecraft:set_count",
               "count": {
                 "min": 1,
                 "max": 1
@@ -69,7 +67,7 @@
           "weight": 25,
           "functions": [
             {
-              "function": "set_count",
+              "function": "minecraft:set_count",
               "count": {
                 "min": 1,
                 "max": 1
@@ -83,7 +81,7 @@
           "weight": 25,
           "functions": [
             {
-              "function": "set_count",
+              "function": "minecraft:set_count",
               "count": {
                 "min": 1,
                 "max": 1
@@ -97,7 +95,7 @@
           "weight": 25,
           "functions": [
             {
-              "function": "set_count",
+              "function": "minecraft:set_count",
               "count": {
                 "min": 1,
                 "max": 1
@@ -111,10 +109,10 @@
           "weight": 100,
           "functions": [
             {
-              "function": "set_count",
+              "function": "minecraft:set_count",
               "count": {
-                "min": 2,
-                "max": 1
+                "min": 1,
+                "max": 2
               }
             }
           ]
@@ -125,10 +123,10 @@
           "weight": 100,
           "functions": [
             {
-              "function": "set_count",
+              "function": "minecraft:set_count",
               "count": {
-                "min": 3,
-                "max": 1
+                "min": 1,
+                "max": 3
               }
             }
           ]
@@ -139,10 +137,10 @@
           "weight": 100,
           "functions": [
             {
-              "function": "set_count",
+              "function": "minecraft:set_count",
               "count": {
-                "min": 8,
-                "max": 4
+                "min": 4,
+                "max": 8
               }
             }
           ]
@@ -153,10 +151,10 @@
           "weight": 100,
           "functions": [
             {
-              "function": "set_count",
+              "function": "minecraft:set_count",
               "count": {
-                "min": 6,
-                "max": 2
+                "min": 2,
+                "max": 6
               }
             }
           ]
@@ -167,7 +165,7 @@
           "weight": 5,
           "functions": [
             {
-              "function": "set_count",
+              "function": "minecraft:set_count",
               "count": {
                 "min": 1,
                 "max": 1
@@ -181,7 +179,7 @@
           "weight": 90,
           "functions": [
             {
-              "function": "set_count",
+              "function": "minecraft:set_count",
               "count": {
                 "min": 12,
                 "max": 57
@@ -191,5 +189,6 @@
         }
       ]
     }
-  ]
+  ],
+  "random_sequence": "sleepy_hollows:gameplay/horseman_loot"
 }

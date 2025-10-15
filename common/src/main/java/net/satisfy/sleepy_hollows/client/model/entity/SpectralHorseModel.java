@@ -10,12 +10,13 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import net.satisfy.sleepy_hollows.SleepyHollows;
 import org.jetbrains.annotations.NotNull;
 
 @Environment(EnvType.CLIENT)
 @SuppressWarnings("unused")
 public class SpectralHorseModel<T extends AbstractHorse> extends AgeableListModel<T> {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new SleepyHollowsIdentifier("spectral_horse"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(SleepyHollows.identifier("spectral_horse"), "main");
 
     private static final float DEG_125 = 2.1816616F;
     private static final float DEG_60 = 1.0471976F;

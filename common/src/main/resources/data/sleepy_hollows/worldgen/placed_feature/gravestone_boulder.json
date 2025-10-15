@@ -23,17 +23,13 @@
       "type": "minecraft:random_offset",
       "xz_spread": {
         "type": "minecraft:uniform",
-        "value": {
-          "min_inclusive": -2,
-          "max_inclusive": 2
-        }
+        "min_inclusive": -2,
+        "max_inclusive": 2
       },
       "y_spread": {
         "type": "minecraft:uniform",
-        "value": {
-          "min_inclusive": 0,
-          "max_inclusive": 0
-        }
+        "min_inclusive": 0,
+        "max_inclusive": 0
       }
     },
     {
@@ -48,7 +44,7 @@
             "blocks": [
               "minecraft:grass_block",
               "minecraft:dirt",
-              "coarse_dirt"
+              "minecraft:coarse_dirt"
             ],
             "offset": [
               0,

@@ -8,11 +8,12 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.Entity;
+import net.satisfy.sleepy_hollows.SleepyHollows;
 import org.jetbrains.annotations.NotNull;
 
 public class HauntboundBootsModel<T extends Entity> extends EntityModel<T> {
 
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new SleepyHollowsIdentifier("hauntbound_boots"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(SleepyHollows.identifier("hauntbound_boots"), "main");
     private final ModelPart right_leg;
     private final ModelPart left_leg;
 

@@ -13,7 +13,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.satisfy.sleepy_hollows.platform.PlatformHelper;
-import net.satisfy.sleepy_hollows.core.registry.MobEffectRegistry;
 import net.satisfy.sleepy_hollows.core.registry.ObjectRegistry;
 import org.jetbrains.annotations.NotNull;
 
@@ -45,9 +44,5 @@ public class InfectedZombie extends Zombie {
 
         this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ObjectRegistry.SPECTRAL_JACK_O_LANTERN.get()));
         super.populateDefaultEquipmentSlots(randomSource, difficulty);
-    }
-
-    public boolean canBeAffected(MobEffectInstance effectInstance) {
-        return effectInstance.getEffect() != MobEffectRegistry.INFECTED.get() && super.canBeAffected(effectInstance);
     }
 }

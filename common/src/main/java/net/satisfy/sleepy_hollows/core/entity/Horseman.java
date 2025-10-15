@@ -334,6 +334,7 @@ public class Horseman extends Monster implements EntityWithAttackAnimation, Powe
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
         builder.define(HAS_ACTIVE_PUMPKIN_HEAD, false);
         builder.define(ATTACKING, false);
         builder.define(IMMUNE, false);

@@ -20,14 +20,13 @@ public class SpectralPumpkinOverlayMixin {
     @Shadow @Final private Minecraft minecraft;
 
     @Inject(method = "render", at = @At("HEAD"))
-    private void renderSpectralPumpkinOverlay(GuiGraphics guiGraphics, float partialTick, CallbackInfo ci) {
-        assert this.minecraft.player != null;
-        ItemStack itemStack = this.minecraft.player.getInventory().getArmor(3);
+    private void renderSpectralPumpkinOverlay(GuiGraphics guiGraphics, net.minecraft.client.DeltaTracker deltaTracker, CallbackInfo ci) {
+        if (this.minecraft.player == null) return;
+        ItemStack headItem = this.minecraft.player.getInventory().getArmor(3);
 
         if (this.minecraft.options.getCameraType().isFirstPerson()) {
-            if (itemStack.is(ObjectRegistry.SPECTRAL_CARVED_PUMPKIN.get().asItem()) ||
-                    itemStack.is(ObjectRegistry.SPECTRAL_JACK_O_LANTERN.get().asItem())) {
-
+            if (headItem.is(ObjectRegistry.SPECTRAL_CARVED_PUMPKIN.get().asItem())
+                    || headItem.is(ObjectRegistry.SPECTRAL_JACK_O_LANTERN.get().asItem())) {
                 RenderSystem.enableBlend();
                 RenderSystem.defaultBlendFunc();
                 this.renderTextureOverlay(

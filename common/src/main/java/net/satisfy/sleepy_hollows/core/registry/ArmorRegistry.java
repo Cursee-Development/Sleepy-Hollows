@@ -7,9 +7,7 @@ import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -22,8 +20,6 @@ import net.satisfy.sleepy_hollows.core.item.HauntboundBootsItem;
 import net.satisfy.sleepy_hollows.core.item.HauntboundChestplateItem;
 import net.satisfy.sleepy_hollows.core.item.HauntboundHelmetItem;
 import net.satisfy.sleepy_hollows.core.item.HauntboundLeggingsItem;
-import net.satisfy.sleepy_hollows.core.util.SanityManager;
-import net.satisfy.sleepy_hollows.platform.PlatformHelper;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -99,16 +95,11 @@ public class ArmorRegistry {
 
     public static void appendToolTip(@NotNull List<Component> tooltip) {
         Player player = Minecraft.getInstance().player;
-        if (!(player instanceof LocalPlayer localPlayer)) return;
+        if (!(player instanceof LocalPlayer)) return;
         ItemStack helmet = player.getItemBySlot(EquipmentSlot.HEAD);
         ItemStack chestplate = player.getItemBySlot(EquipmentSlot.CHEST);
         ItemStack leggings = player.getItemBySlot(EquipmentSlot.LEGS);
         ItemStack boots = player.getItemBySlot(EquipmentSlot.FEET);
-
-        boolean hasFullSet = helmet.getItem() instanceof HauntboundHelmetItem &&
-                chestplate.getItem() instanceof HauntboundChestplateItem &&
-                leggings.getItem() instanceof HauntboundLeggingsItem &&
-                boots.getItem() instanceof HauntboundBootsItem;
 
         tooltip.add(Component.nullToEmpty(""));
         tooltip.add(Component.nullToEmpty(ChatFormatting.DARK_GREEN + I18n.get("tooltip.sleepy_hollows.armor.hauntbound_armor_0")));
@@ -117,19 +108,5 @@ public class ArmorRegistry {
         tooltip.add(Component.nullToEmpty((leggings.getItem() instanceof HauntboundLeggingsItem ? ChatFormatting.GREEN.toString() : ChatFormatting.GRAY.toString()) + "- [" + ObjectRegistry.HAUNTBOUND_LEGGINGS.get().getDescription().getString() + "]"));
         tooltip.add(Component.nullToEmpty((boots.getItem() instanceof HauntboundBootsItem ? ChatFormatting.GREEN.toString() : ChatFormatting.GRAY.toString()) + "- [" + ObjectRegistry.HAUNTBOUND_BOOTS.get().getDescription().getString() + "]"));
         tooltip.add(Component.nullToEmpty(""));
-
-        boolean setBonusEnabled = PlatformHelper.isHauntboundSetBonusEnabled();
-        ChatFormatting color = hasFullSet && setBonusEnabled ? ChatFormatting.GREEN : ChatFormatting.GRAY;
-
-        if (setBonusEnabled) {
-            tooltip.add(Component.nullToEmpty(color + I18n.get("tooltip.sleepy_hollows.armor.hauntbound_armor_1")));
-            tooltip.add(Component.nullToEmpty(color + I18n.get("tooltip.sleepy_hollows.armor.hauntbound_armor_2")));
-            if (hasFullSet) {
-                if (!SanityManager.isClientImmune(localPlayer)) {
-                    var registry = localPlayer.level().registryAccess().registryOrThrow(Registries.MOB_EFFECT);
-                    registry.getResourceKey(MobEffectRegistry.MENTAL_FORTITUDE.get()).flatMap(registry::getHolder).ifPresent(mental -> localPlayer.addEffect(new MobEffectInstance(mental, 20, 0)));
-                }
-            }
-        }
     }
 }

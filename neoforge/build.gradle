@@ -20,6 +20,7 @@ repositories {
     maven { url "https://maven.neoforged.net/releases" }
     maven { url "https://api.modrinth.com/maven" }
     maven { url "https://maven.blamejared.com" }
+    maven { url "https://maven.neoforged.net/releases/" }
 }
 
 configurations {
@@ -43,6 +44,8 @@ dependencies {
 
     modCompileOnlyApi("maven.modrinth:embeddium:0.3.31+mc1.20.1")
     modCompileOnlyApi("maven.modrinth:oculus:1.20.1-1.7.0")
+
+    modApi "com.terraformersmc:biolith-neoforge:${rootProject.biolith_version}"
 }
 
 tasks.processResources {
