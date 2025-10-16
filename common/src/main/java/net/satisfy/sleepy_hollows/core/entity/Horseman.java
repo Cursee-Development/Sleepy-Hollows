@@ -34,6 +34,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.satisfy.sleepy_hollows.core.entity.ai.AnimationAttackGoal;
@@ -41,12 +43,12 @@ import net.satisfy.sleepy_hollows.core.entity.ai.NearestAttackablePlayerGoal;
 import net.satisfy.sleepy_hollows.core.entity.ai.RandomAction;
 import net.satisfy.sleepy_hollows.core.entity.ai.RandomActionGoal;
 import net.satisfy.sleepy_hollows.core.entity.animation.ServerAnimationDurations;
-import net.satisfy.sleepy_hollows.platform.PlatformHelper;
 import net.satisfy.sleepy_hollows.core.registry.EntityTypeRegistry;
 import net.satisfy.sleepy_hollows.core.registry.ObjectRegistry;
 import net.satisfy.sleepy_hollows.core.registry.SoundEventRegistry;
 import net.satisfy.sleepy_hollows.core.util.ParticleArc;
 import net.satisfy.sleepy_hollows.core.util.SoulfireSpiral;
+import net.satisfy.sleepy_hollows.platform.PlatformHelper;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -227,40 +229,37 @@ public class Horseman extends Monster implements EntityWithAttackAnimation, Powe
     }
 
     private void summonPumpkinHead() {
-        if (!this.hasActivePumpkinHead()) {
-            this.setActivePumpkinHead(true);
+        if (!hasActivePumpkinHead()) {
+            setActivePumpkinHead(true);
         }
-
-        Vec3 spawnPos = this.position().add(0, 1.5D, 0);
-
-        FleeingPumpkinHead pumpkinHead = EntityTypeRegistry.FLEEING_PUMPKIN_HEAD.get().create(this.level());
-
+        BlockPos base = safeHeadSpawn(blockPosition().above());
+        FleeingPumpkinHead pumpkinHead = EntityTypeRegistry.FLEEING_PUMPKIN_HEAD.get().create(level());
         if (pumpkinHead != null) {
-            pumpkinHead.setPos(spawnPos.x(), spawnPos.y(), spawnPos.z());
+            pumpkinHead.setPos(base.getX() + 0.5, base.getY(), base.getZ() + 0.5);
             pumpkinHead.setSummoner(this);
-            this.level().addFreshEntity(pumpkinHead);
-            this.entityData.set(IMMUNE, true);
-
+            level().addFreshEntity(pumpkinHead);
+            entityData.set(IMMUNE, true);
             pumpkinHead.startFlyingAway();
         }
     }
 
     private void spawnArmoredSkeleton() {
-        Vec3 spawnPos = this.position().add(this.random.nextGaussian() * 8, 0, this.random.nextGaussian() * 8);
-        Skeleton skeleton = EntityType.SKELETON.create(this.level());
-
+        int ox = (int) Math.floor(getX() + random.nextGaussian() * 8);
+        int oz = (int) Math.floor(getZ() + random.nextGaussian() * 8);
+        int oy = level().getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ox, oz);
+        BlockPos pos = new BlockPos(ox, oy, oz);
+        if (!canSpawnHeadAt(pos)) return;
+        Skeleton skeleton = EntityType.SKELETON.create(level());
         if (skeleton != null) {
-            skeleton.setPos(spawnPos.x(), spawnPos.y(), spawnPos.z());
+            skeleton.setPos(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
             skeleton.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ObjectRegistry.HAUNTBOUND_HELMET.get()));
             skeleton.setItemSlot(EquipmentSlot.CHEST, new ItemStack(ObjectRegistry.HAUNTBOUND_CHESTPLATE.get()));
             skeleton.setItemSlot(EquipmentSlot.LEGS, new ItemStack(ObjectRegistry.HAUNTBOUND_LEGGINGS.get()));
             skeleton.setItemSlot(EquipmentSlot.FEET, new ItemStack(ObjectRegistry.HAUNTBOUND_BOOTS.get()));
             skeleton.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.BOW));
-
             skeleton.setCustomName(Component.translatable("entity.sleepy_hollows.hauntbound_skeleton"));
             skeleton.setCustomNameVisible(false);
-
-            this.level().addFreshEntity(skeleton);
+            level().addFreshEntity(skeleton);
         }
     }
 
@@ -393,6 +392,34 @@ public class Horseman extends Monster implements EntityWithAttackAnimation, Powe
             return false;
         }
         return super.hurt(source, amount);
+    }
+
+    private boolean canSpawnHeadAt(BlockPos pos) {
+        BlockPos below = pos.below();
+        BlockState belowState = level().getBlockState(below);
+        return level().isEmptyBlock(pos) && level().isEmptyBlock(pos.above()) && !belowState.getCollisionShape(level(), below).isEmpty();
+    }
+
+    private BlockPos safeHeadSpawn(BlockPos origin) {
+        int x = origin.getX();
+        int z = origin.getZ();
+        int y = level().getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
+        BlockPos candidate = new BlockPos(x, y, z);
+        if (canSpawnHeadAt(candidate)) return candidate;
+        for (int dy = 1; dy <= 4; dy++) {
+            BlockPos up = candidate.above(dy);
+            if (canSpawnHeadAt(up)) return up;
+        }
+        int r = 3;
+        for (int dx = -r; dx <= r; dx++) {
+            for (int dz = -r; dz <= r; dz++) {
+                if (dx == 0 && dz == 0) continue;
+                int ny = level().getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x + dx, z + dz);
+                BlockPos around = new BlockPos(x + dx, ny, z + dz);
+                if (canSpawnHeadAt(around)) return around;
+            }
+        }
+        return origin.above();
     }
 
     @Override

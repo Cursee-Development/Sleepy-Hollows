@@ -2,15 +2,10 @@ package net.satisfy.sleepy_hollows.core.item;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SwordItem;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.*;
 import net.satisfy.sleepy_hollows.core.registry.ToolTiersRegistry;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,7 +13,7 @@ import java.util.List;
 
 public class ShatterbrandSwordItem extends SwordItem {
     public ShatterbrandSwordItem(Properties properties) {
-        super(ToolTiersRegistry.SPECTRAL, properties);
+        super(ToolTiersRegistry.SPECTRAL, properties.attributes(ShovelItem.createAttributes(ToolTiersRegistry.SPECTRAL, 3, -2.4F)));
     }
 
     @Override

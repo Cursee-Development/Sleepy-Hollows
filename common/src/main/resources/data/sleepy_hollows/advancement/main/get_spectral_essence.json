@@ -2,7 +2,7 @@
   "parent": "sleepy_hollows:main/welcome_to_sleepy_hollows",
   "display": {
     "icon": {
-      "item": "sleepy_hollows:spectral_essence"
+      "id": "sleepy_hollows:spectral_essence"
     },
     "title": {
       "translate": "advancement.sleepy_hollows.spectral_essence"

@@ -25,7 +25,6 @@
           "name": "sleepy_hollows:hollow_sapling",
           "functions": [
             {
-
               "add": false,
               "count": {
                 "type": "minecraft:uniform",

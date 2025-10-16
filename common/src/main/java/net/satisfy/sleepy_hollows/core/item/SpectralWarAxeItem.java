@@ -1,7 +1,6 @@
 package net.satisfy.sleepy_hollows.core.item;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -9,12 +8,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.item.AxeItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.item.enchantment.ItemEnchantments;
+import net.minecraft.world.item.*;
 import net.satisfy.sleepy_hollows.core.registry.ToolTiersRegistry;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,7 +17,7 @@ import java.util.Objects;
 
 public class SpectralWarAxeItem extends AxeItem {
     public SpectralWarAxeItem(Properties properties) {
-        super(ToolTiersRegistry.SPECTRAL, properties);
+        super(ToolTiersRegistry.SPECTRAL, properties.attributes(ShovelItem.createAttributes(ToolTiersRegistry.SPECTRAL, 1.0F, -2.8F)));
     }
 
     @Override

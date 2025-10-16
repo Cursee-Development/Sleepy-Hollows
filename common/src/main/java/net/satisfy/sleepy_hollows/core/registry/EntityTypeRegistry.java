@@ -12,7 +12,10 @@ import net.satisfy.sleepy_hollows.core.block.entity.CoffinBlockEntity;
 import net.satisfy.sleepy_hollows.core.block.entity.CompletionistBannerEntity;
 import net.satisfy.sleepy_hollows.core.block.entity.DummyCoffinBlockEntity;
 import net.satisfy.sleepy_hollows.core.block.entity.PedestalBlockEntity;
-import net.satisfy.sleepy_hollows.core.entity.*;
+import net.satisfy.sleepy_hollows.core.entity.FleeingPumpkinHead;
+import net.satisfy.sleepy_hollows.core.entity.Horseman;
+import net.satisfy.sleepy_hollows.core.entity.InfectedZombie;
+import net.satisfy.sleepy_hollows.core.entity.SpectralHorse;
 
 import java.util.function.Supplier;
 

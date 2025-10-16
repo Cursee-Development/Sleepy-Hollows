@@ -15,7 +15,8 @@
     "#W#"
   ],
   "result": {
-    "item": "sleepy_hollows:hollow_fence_gate"
+    "id": "sleepy_hollows:hollow_fence_gate",
+    "count": 1
   },
   "show_notification": true
 }

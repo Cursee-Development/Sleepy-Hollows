@@ -1,52 +1,37 @@
 package net.satisfy.sleepy_hollows.neoforge;
 
-import dev.architectury.platform.forge.EventBuses;
-import net.minecraft.server.MinecraftServer;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.loading.FMLPaths;
+import dev.architectury.registry.level.entity.SpawnPlacementsRegistry;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.SpawnPlacementTypes;
+import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.satisfy.sleepy_hollows.SleepyHollows;
 import net.satisfy.sleepy_hollows.core.registry.CompostableRegistry;
-import net.satisfy.sleepy_hollows.neoforge.config.SleepyHollowsForgeConfig;
+import net.satisfy.sleepy_hollows.core.registry.EntityTypeRegistry;
+import net.satisfy.sleepy_hollows.neoforge.config.SleepyHollowsNeoForgeConfig;
 
-@Mod(Constants.MOD_ID)
+import java.util.function.Supplier;
+
+@Mod(SleepyHollows.MOD_ID)
 public final class SleepyHollowsForge {
-
-    public SleepyHollowsForge() {
-        EventBuses.registerModEventBus(Constants.MOD_ID, FMLJavaModLoadingContext.get().getModEventBus());
+    public SleepyHollowsForge(IEventBus modEventBus, ModContainer modContainer) {
         SleepyHollows.init();
-        SleepyHollowsForgeConfig.loadConfig(SleepyHollowsForgeConfig.COMMON_CONFIG, FMLPaths.CONFIGDIR.get().resolve("sleepyhollows.toml").toString());
-        final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        modEventBus.register(this);
-
+        modContainer.registerConfig(ModConfig.Type.COMMON, SleepyHollowsNeoForgeConfig.COMMON_CONFIG);
         modEventBus.addListener(this::onCommonSetup);
-        Constants.LOG.info("Sleepy Hollows initialized successfully on the Forge platform.");
+        registerMonster(EntityTypeRegistry.INFECTED_ZOMBIE, Monster::checkMonsterSpawnRules);
     }
 
-    private void onCommonSetup(final FMLCommonSetupEvent event) {
-        event.enqueueWork(SleepyHollowsRegion::loadTerrablender);
-        SleepyHollows.commonInit();
+    private static <T extends Monster> void registerMonster(Supplier<? extends EntityType<T>> typeSupplier, SpawnPlacements.SpawnPredicate<T> predicate) {
+        SpawnPlacementsRegistry.register(typeSupplier, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, predicate);
     }
 
-    @SubscribeEvent
-    public void onLoadComplete(final FMLLoadCompleteEvent event) {
+    private void onCommonSetup(FMLCommonSetupEvent event) {
         event.enqueueWork(CompostableRegistry::init);
-    }
-
-    @Mod.EventBusSubscriber(modid = Constants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-    public static class SleepyHollowsEventHandlers {
-        @SubscribeEvent
-        public static void onServerTick(final TickEvent.ServerTickEvent event) {
-            if (event.side == LogicalSide.SERVER && event.phase == TickEvent.Phase.START) {
-                MinecraftServer server = event.getServer();
-                SleepyHollows.onServerTick(server);
-            }
-        }
     }
 }

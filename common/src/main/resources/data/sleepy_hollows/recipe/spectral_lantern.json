@@ -14,7 +14,8 @@
     "XXX"
   ],
   "result": {
-    "item": "sleepy_hollows:spectral_lantern"
+    "id": "sleepy_hollows:spectral_lantern",
+    "count": 1
   },
   "show_notification": true
 }

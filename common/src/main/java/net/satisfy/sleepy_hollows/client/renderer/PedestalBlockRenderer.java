@@ -1,11 +1,13 @@
 package net.satisfy.sleepy_hollows.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.satisfy.sleepy_hollows.core.block.PedestalBlock;
 import net.satisfy.sleepy_hollows.core.block.entity.PedestalBlockEntity;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,20 +19,17 @@ public class PedestalBlockRenderer implements BlockEntityRenderer<PedestalBlockE
 
     @Override
     public void render(PedestalBlockEntity blockEntity, float partialTick, @NotNull PoseStack poseStack, @NotNull MultiBufferSource bufferSource, int combinedLight, int combinedOverlay) {
+        if (!blockEntity.getBlockState().getValue(PedestalBlock.ACTIVE)) return;
         ItemStack itemStack = blockEntity.getDisplayedItem();
-        if (!itemStack.isEmpty()) {
-            poseStack.pushPose();
+        if (itemStack.isEmpty()) return;
 
-            double offset = Math.sin((Objects.requireNonNull(blockEntity.getLevel()).getGameTime() + partialTick) / 4.0) * 0.1;
-            float rotation = (Objects.requireNonNull(blockEntity.getLevel()).getGameTime() + partialTick) * 4;
-
-            poseStack.translate(0.5, 1.25 + offset * 0.05, 0.5);
-
-            poseStack.mulPose(com.mojang.math.Axis.YP.rotationDegrees(rotation));
-
-            poseStack.scale(0.75f, 0.75f, 0.75f);
-            Minecraft.getInstance().getItemRenderer().renderStatic(itemStack, ItemDisplayContext.GROUND, combinedLight, combinedOverlay, poseStack, bufferSource, blockEntity.getLevel(), 0);
-            poseStack.popPose();
-        }
+        poseStack.pushPose();
+        double offset = Math.sin((Objects.requireNonNull(blockEntity.getLevel()).getGameTime() + partialTick) / 4.0) * 0.1;
+        float rotation = (Objects.requireNonNull(blockEntity.getLevel()).getGameTime() + partialTick) * 4;
+        poseStack.translate(0.5, 1.25 + offset * 0.05, 0.5);
+        poseStack.mulPose(Axis.YP.rotationDegrees(rotation));
+        poseStack.scale(0.75f, 0.75f, 0.75f);
+        Minecraft.getInstance().getItemRenderer().renderStatic(itemStack, ItemDisplayContext.GROUND, combinedLight, combinedOverlay, poseStack, bufferSource, blockEntity.getLevel(), 0);
+        poseStack.popPose();
     }
 }

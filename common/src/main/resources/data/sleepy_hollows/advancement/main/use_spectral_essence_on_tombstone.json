@@ -35,7 +35,7 @@
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "sleepy_hollows:mid_tombstone"
+      "id": "sleepy_hollows:mid_tombstone"
     },
     "show_toast": true,
     "title": {

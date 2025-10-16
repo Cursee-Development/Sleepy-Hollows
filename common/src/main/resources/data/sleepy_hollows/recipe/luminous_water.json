@@ -9,8 +9,8 @@
     }
   ],
   "result": {
-    "item": "sleepy_hollows:luminous_water",
-    "count": 4
+    "count": 4,
+    "id": "sleepy_hollows:luminous_water"
   },
   "show_notification": true
 }

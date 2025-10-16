@@ -6,5 +6,8 @@
   "ingredient": {
     "item": "sleepy_hollows:spectral_essence"
   },
-  "result": "minecraft:rotten_flesh"
+  "result": {
+    "id": "minecraft:rotten_flesh",
+    "count": 1
+  }
 }

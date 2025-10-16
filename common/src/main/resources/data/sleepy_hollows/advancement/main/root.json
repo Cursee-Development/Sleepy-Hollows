@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "sleepy_hollows:grave_lily"
+      "id": "sleepy_hollows:grave_lily"
     },
     "title": {
       "translate": "advancement.sleepy_hollows.root"

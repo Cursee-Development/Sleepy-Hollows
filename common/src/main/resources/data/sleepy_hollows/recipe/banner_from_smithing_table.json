@@ -7,8 +7,8 @@
     "item": "sleepy_hollows:completionist_banner"
   },
   "result": {
-    "item": "sleepy_hollows:completionist_banner",
-    "count": 2
+    "count": 2,
+    "id": "sleepy_hollows:completionist_banner"
   },
   "template": {
     "item": "minecraft:netherite_upgrade_smithing_template"

@@ -20,7 +20,7 @@
     "frame": "challenge",
     "hidden": false,
     "icon": {
-      "item": "sleepy_hollows:lootbag"
+      "id": "sleepy_hollows:lootbag"
     },
     "show_toast": true,
     "title": {

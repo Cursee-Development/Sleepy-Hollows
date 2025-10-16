@@ -3,10 +3,8 @@ package net.satisfy.sleepy_hollows;
 import com.terraformersmc.biolith.api.biome.BiomePlacement;
 import com.terraformersmc.biolith.api.biome.sub.CriterionBuilder;
 import com.terraformersmc.biolith.api.biome.sub.RatioTargets;
-import dev.architectury.event.events.client.ClientGuiEvent;
+import dev.architectury.event.events.common.LifecycleEvent;
 import dev.architectury.hooks.item.tool.AxeItemHooks;
-import dev.architectury.platform.Platform;
-import net.fabricmc.api.EnvType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -29,12 +27,12 @@ public final class SleepyHollows {
         EntityTypeRegistry.init();
         SoundEventRegistry.init();
         FeatureTypeRegistry.init();
+        LifecycleEvent.SETUP.register(SleepyHollows::setupSerial);
 
         BiomePlacement.addSubOverworld(Biomes.OLD_GROWTH_PINE_TAIGA, SLEEPY_HOLLOWS_BIOME, CriterionBuilder.allOf(CriterionBuilder.ratioMax(RatioTargets.CENTER, 0.35f), CriterionBuilder.not(CriterionBuilder.neighbor(BiomeTags.IS_RIVER)), CriterionBuilder.not(CriterionBuilder.neighbor(BiomeTags.IS_OCEAN)), CriterionBuilder.not(CriterionBuilder.neighbor(BiomeTags.IS_BEACH))));
     }
 
-
-    public static void commonInit() {
+    private static void setupSerial() {
         FlammableBlockRegistry.init();
         AxeItemHooks.addStrippable(ObjectRegistry.HOLLOW_LOG.get(), ObjectRegistry.STRIPPED_HOLLOW_LOG.get());
         AxeItemHooks.addStrippable(ObjectRegistry.HOLLOW_WOOD.get(), ObjectRegistry.STRIPPED_HOLLOW_WOOD.get());

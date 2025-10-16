@@ -6,14 +6,26 @@ plugins {
 
 architectury {
     platformSetupLoomIde()
-    neoForge()
+    neoForge {
+        platformPackage = "neoforge"
+    }
 }
 
 loom {
     accessWidenerPath = project(":common").loom.accessWidenerPath
-
-    neoForge { }
+    neoForge {
+    }
+    runs {
+        client {
+            vmArg "-XstartOnFirstThread"
+        }
+    }
 }
+
+def jarFileName = 'sleepyhollows-neoforge'
+def changelogText = rootProject.file("CHANGELOG.md").text
+archivesBaseName = jarFileName
+
 
 repositories {
     mavenCentral()
@@ -29,7 +41,6 @@ configurations {
     compileClasspath.extendsFrom common
     runtimeClasspath.extendsFrom common
     developmentNeoForge.extendsFrom common
-    shadowBundle
 }
 
 dependencies {
@@ -48,22 +59,86 @@ dependencies {
     modApi "com.terraformersmc:biolith-neoforge:${rootProject.biolith_version}"
 }
 
-tasks.processResources {
-    inputs.property("version", project.version)
-    filesMatching("META-INF/mods.toml") {
-        expand(version: project.version)
+processResources {
+    inputs.property('mod_version', rootProject.mod_version)
+    filesMatching('META-INF/neoforge.mods.toml') {
+        expand(mod_version: rootProject.mod_version)
     }
 }
 
-tasks.shadowJar {
-    configurations = [project.configurations.shadowBundle]
-    archiveClassifier = "dev-shadow"
+shadowJar {
+    exclude "fabric.mod.json"
+    exclude "architectury.common.json"
+
+    configurations = [project.configurations.shadowCommon]
+    archiveClassifier.set("dev-shadow")
 }
 
-tasks.remapJar {
-    input.set(tasks.shadowJar.archiveFile)
+remapJar {
+    input.set shadowJar.archiveFile
+    dependsOn shadowJar
+    archiveClassifier.set(null)
 }
 
-dependencies {
-    shadowBundle project(path: ":common", configuration: "transformProductionNeoForge")
+jar {
+    archiveClassifier.set("dev")
+}
+
+sourcesJar {
+    def commonSources = project(":common").sourcesJar
+    dependsOn commonSources
+    from commonSources.archiveFile.map { zipTree(it) }
+}
+
+components.java {
+    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
+        skip()
+    }
+}
+
+publishing {
+    publications {
+        mavenForge(MavenPublication) {
+            artifactId = rootProject.archives_base_name + "-" + project.name
+            from components.java
+        }
+    }
+}
+
+modrinth {
+    token = System.getenv("MODRINTH_TOKEN")
+    projectId = "sleepy-hollows"
+    versionNumber = rootProject.mod_version
+    versionName = "${rootProject.archives_base_name}-${rootProject.mod_version} [${rootProject.minecraft_version}-neoforge]"
+    versionType = "release"
+    changelog = rootProject.file("CHANGELOG.md").exists() ? rootProject.file("CHANGELOG.md").text : " "
+    gameVersions = [rootProject.minecraft_version]
+    loaders = ["neoforge"]
+    uploadFile = remapJar
+    additionalFiles = [tasks.sourcesJar.archiveFile]
+
+    dependencies {
+        required.project "architectury-api"
+        required.project "biolith"
+    }
+}
+
+curseforge {
+    apiKey = System.getenv("CURSEFORGE_API_KEY")
+    project {
+        id = "1124163"
+        releaseType = "release"
+        addGameVersion rootProject.minecraft_version
+        addGameVersion "NeoForge"
+        mainArtifact(remapJar) {
+            displayName = "SleepyHollows - ${rootProject.mod_version} - NEOFORGE - ${rootProject.minecraft_version}"
+            changelog = changelogText
+            changelogType = "markdown"
+        }
+
+        relations {
+            requiredDependency "architectury-api"
+            requiredDependency "biolith"
+        }
+    }
 }

@@ -9,6 +9,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.monster.Skeleton;
@@ -24,6 +25,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -78,13 +80,47 @@ public class TombstoneBlock extends Block {
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
-    private void spawnSkeletonsAndParticles(Level world, BlockPos pos) {
-        BlockPos[] spawnPositions = {
-                pos.offset(2, 0, 0),
-                pos.offset(-2, 0, 0),
-                pos.offset(0, 0, -2)
+    private BlockPos findSafeSpawnPos(Level level, BlockPos desiredPos) {
+        int[][] offsets = {
+                {0,0},{1,0},{-1,0},{0,1},{0,-1},{1,1},{-1,1},{1,-1},{-1,-1},{2,0},{-2,0},{0,2},{0,-2}
         };
+        for (int dy = 0; dy <= 2; dy++) {
+            for (int i = 0; i < offsets.length; i++) {
+                int dx = offsets[i][0];
+                int dz = offsets[i][1];
+                BlockPos candidate = desiredPos.offset(dx, dy, dz);
+                BlockPos below = candidate.below();
+                if (!level.getBlockState(candidate).isAir()) continue;
+                if (!level.getBlockState(candidate.above()).isAir()) continue;
+                if (!level.getBlockState(below).isFaceSturdy(level, below, Direction.UP)) continue;
+                EntityDimensions dims = EntityType.SKELETON.getDimensions();
+                AABB box = dims.makeBoundingBox(candidate.getX() + 0.5, candidate.getY(), candidate.getZ() + 0.5);
+                if (!level.noCollision(box)) continue;
+                return candidate;
+            }
+        }
+        return null;
+    }
 
+    private boolean trySpawnSkeleton(Level level, BlockPos spawnPos, ItemStack[] equipment, EquipmentSlot[] slots, Random random) {
+        BlockPos safe = findSafeSpawnPos(level, spawnPos);
+        if (safe == null) return false;
+        Skeleton skeleton = EntityType.SKELETON.create(level);
+        if (skeleton == null) return false;
+        skeleton.setPos(safe.getX() + 0.5, safe.getY(), safe.getZ() + 0.5);
+        skeleton.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ObjectRegistry.SPECTRAL_JACK_O_LANTERN.get()));
+        skeleton.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(ObjectRegistry.SPECTRAL_WARAXE.get()));
+        for (int j = 0; j < equipment.length; j++) {
+            if (random.nextFloat() < 0.3F) skeleton.setItemSlot(slots[j], equipment[j]);
+        }
+        level.addFreshEntity(skeleton);
+        spawnParticles(level, safe);
+        if (!level.isClientSide) level.playSound(null, safe, SoundEvents.SCULK_SHRIEKER_SHRIEK, SoundSource.BLOCKS, 1.0F, 1.0F);
+        return true;
+    }
+
+    private void spawnSkeletonsAndParticles(Level world, BlockPos pos) {
+        BlockPos[] desired = { pos.offset(2,0,0), pos.offset(-2,0,0), pos.offset(0,0,-2) };
         Random random = new Random();
         ItemStack[] armorPieces = {
                 new ItemStack(ObjectRegistry.HAUNTBOUND_CHESTPLATE.get()),
@@ -92,39 +128,13 @@ public class TombstoneBlock extends Block {
                 new ItemStack(ObjectRegistry.HAUNTBOUND_BOOTS.get()),
                 new ItemStack(Items.SHIELD),
         };
-        EquipmentSlot[] armorSlots = {
-                EquipmentSlot.CHEST,
-                EquipmentSlot.LEGS,
-                EquipmentSlot.FEET,
-                EquipmentSlot.OFFHAND
-        };
-
-        for (int i = 0; i < spawnPositions.length; i++) {
-            BlockPos spawnPos = spawnPositions[i];
-            Skeleton skeleton = EntityType.SKELETON.create(world);
-            if (skeleton != null) {
-                skeleton.setPos(spawnPos.getX() + 0.5, spawnPos.getY() + 1, spawnPos.getZ() + 0.5);
-
-                skeleton.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ObjectRegistry.SPECTRAL_JACK_O_LANTERN.get()));
-                skeleton.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(ObjectRegistry.SPECTRAL_WARAXE.get()));
-
-                for (int j = 0; j < armorPieces.length; j++) {
-                    if (random.nextFloat() < 0.3) {
-                        skeleton.setItemSlot(armorSlots[j], armorPieces[j]);
-                    }
-                }
-
-                world.addFreshEntity(skeleton);
-            }
-            spawnParticles(world, spawnPos);
-
-            if (!world.isClientSide) {
-                world.scheduleTick(pos, this, i * 10);
-                world.playSound(null, spawnPos, SoundEvents.SCULK_SHRIEKER_SHRIEK, SoundSource.BLOCKS, 1.0F, 1.0F);
-            }
+        EquipmentSlot[] armorSlots = { EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET, EquipmentSlot.OFFHAND };
+        int spawned = 0;
+        for (int i = 0; i < desired.length; i++) {
+            if (trySpawnSkeleton(world, desired[i], armorPieces, armorSlots, random)) spawned++;
+            if (!world.isClientSide) world.scheduleTick(pos, this, i * 10);
         }
-
-        if (!world.isClientSide) {
+        if (spawned > 0 && !world.isClientSide) {
             ItemStack dropItem = new ItemStack(ObjectRegistry.ESSENCE_OF_UNDEAD.get());
             popResource(world, pos, dropItem);
         }

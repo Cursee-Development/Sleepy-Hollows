@@ -6,5 +6,8 @@
   "ingredient": {
     "item": "minecraft:sugar"
   },
-  "result": "sleepy_hollows:candy_corn"
+  "result": {
+    "id": "sleepy_hollows:candy_corn",
+    "count": 1
+  }
 }

@@ -6,5 +6,8 @@
   "ingredient": {
     "item": "sleepy_hollows:cobbled_gravestone"
   },
-  "result": "sleepy_hollows:gravestone"
+  "result": {
+    "id": "sleepy_hollows:gravestone",
+    "count": 1
+  }
 }

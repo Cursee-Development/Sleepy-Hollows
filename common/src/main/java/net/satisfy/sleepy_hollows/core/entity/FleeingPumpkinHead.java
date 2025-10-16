@@ -28,6 +28,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
 import net.satisfy.sleepy_hollows.core.registry.EntityTypeRegistry;
 import net.satisfy.sleepy_hollows.core.registry.ObjectRegistry;
@@ -181,9 +183,24 @@ public class FleeingPumpkinHead extends Monster {
             }
         }
     }
-    
+
     private boolean canSpawnEntityAt(BlockPos pos) {
-        return this.level().isEmptyBlock(pos) && this.level().isEmptyBlock(pos.above());
+        BlockPos below = pos.below();
+        BlockState belowState = this.level().getBlockState(below);
+        return this.level().isEmptyBlock(pos) && this.level().isEmptyBlock(pos.above()) && !belowState.getCollisionShape(this.level(), below).isEmpty();
+    }
+
+    private BlockPos groundedSpawnPos(BlockPos origin) {
+        int x = origin.getX();
+        int z = origin.getZ();
+        int y = this.level().getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
+        BlockPos candidate = new BlockPos(x, y, z);
+        if (canSpawnEntityAt(candidate)) return candidate;
+        for (int dy = 1; dy <= 3; dy++) {
+            BlockPos up = candidate.above(dy);
+            if (canSpawnEntityAt(up)) return up;
+        }
+        return origin;
     }
 
     private boolean isPositionSafe(Vec3 pos) {
@@ -224,34 +241,23 @@ public class FleeingPumpkinHead extends Monster {
         isFrozen = true;
         frozenUntil = level().getGameTime() + 10;
     }
-    
+
     private void summonZombiesAndSkeletons() {
         level().playSound(null, this.blockPosition(), SoundEventRegistry.FLEEING_PUMPKIN_SUMMONING.get(), SoundSource.HOSTILE, 1.0F, 1.0F);
-
         for (Player player : this.level().players()) {
             if (player instanceof ServerPlayer serverPlayer && serverPlayer.hasLineOfSight(this) && serverPlayer.distanceTo(this) <= 10) {
                 serverPlayer.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 30, 3));
             }
         }
-
         for (int i = 0; i < 5; i++) {
-            BlockPos spawnPos = this.blockPosition().offset(
-                    this.random.nextInt(5) - 2, 
-                    this.random.nextInt(3) - 1, 
-                    this.random.nextInt(5) - 2  
-            );
+            BlockPos offsetPos = this.blockPosition().offset(this.random.nextInt(5) - 2, this.random.nextInt(3) - 1, this.random.nextInt(5) - 2);
+            BlockPos spawnPos = groundedSpawnPos(offsetPos);
             if (canSpawnEntityAt(spawnPos)) {
                 Zombie zombie = EntityTypeRegistry.INFECTED_ZOMBIE.get().create(this.level());
                 if (zombie != null) {
                     zombie.moveTo(spawnPos.getX() + 0.5, spawnPos.getY(), spawnPos.getZ() + 0.5, this.random.nextFloat() * 360.0F, 0.0F);
-                    double speed = 0.3;
-                    double angle = this.random.nextDouble() * 2 * Math.PI;
-                    double vx = Math.cos(angle) * speed;
-                    double vz = Math.sin(angle) * speed;
-                    double vy = this.random.nextDouble() * 0.125 + 0.125;
-                    zombie.setDeltaMovement(new Vec3(vx, vy, vz));
-                    zombie.setNoGravity(true);
-                    flyingEntities.put(zombie, 20);
+                    zombie.setDeltaMovement(Vec3.ZERO);
+                    zombie.setNoGravity(false);
                     zombie.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ObjectRegistry.SPECTRAL_JACK_O_LANTERN.get()));
                     zombie.setDropChance(EquipmentSlot.HEAD, 0.1f);
                     zombie.setItemSlot(EquipmentSlot.CHEST, new ItemStack(ObjectRegistry.HAUNTBOUND_CHESTPLATE.get()));
@@ -274,25 +280,15 @@ public class FleeingPumpkinHead extends Monster {
                 }
             }
         }
-
         for (int i = 0; i < 2; i++) {
-            BlockPos spawnPos = this.blockPosition().offset(
-                    this.random.nextInt(5) - 2, 
-                    this.random.nextInt(3) - 1, 
-                    this.random.nextInt(5) - 2  
-            );
+            BlockPos offsetPos = this.blockPosition().offset(this.random.nextInt(5) - 2, this.random.nextInt(3) - 1, this.random.nextInt(5) - 2);
+            BlockPos spawnPos = groundedSpawnPos(offsetPos);
             if (canSpawnEntityAt(spawnPos)) {
                 Skeleton skeleton = EntityType.SKELETON.create(this.level());
                 if (skeleton != null) {
                     skeleton.moveTo(spawnPos.getX() + 0.5, spawnPos.getY(), spawnPos.getZ() + 0.5, this.random.nextFloat() * 360.0F, 0.0F);
-                    double speed = 0.3;
-                    double angle = this.random.nextDouble() * 2 * Math.PI;
-                    double vx = Math.cos(angle) * speed;
-                    double vz = Math.sin(angle) * speed;
-                    double vy = this.random.nextDouble() * 0.125 + 0.125;
-                    skeleton.setDeltaMovement(new Vec3(vx, vy, vz));
-                    skeleton.setNoGravity(true);
-                    flyingEntities.put(skeleton, 20);
+                    skeleton.setDeltaMovement(Vec3.ZERO);
+                    skeleton.setNoGravity(false);
                     skeleton.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ObjectRegistry.SPECTRAL_JACK_O_LANTERN.get()));
                     skeleton.setDropChance(EquipmentSlot.HEAD, 0.1f);
                     skeleton.setItemSlot(EquipmentSlot.CHEST, new ItemStack(ObjectRegistry.HAUNTBOUND_CHESTPLATE.get()));
@@ -312,7 +308,7 @@ public class FleeingPumpkinHead extends Monster {
             }
         }
     }
-    
+
     public void startFlyingAway() {
         this.isFlyingAway = true;
         this.flightDuration = 60;

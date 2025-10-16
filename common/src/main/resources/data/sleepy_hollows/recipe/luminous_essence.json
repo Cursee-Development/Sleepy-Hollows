@@ -9,7 +9,8 @@
     }
   ],
   "result": {
-    "item": "sleepy_hollows:luminous_essence"
+    "id": "sleepy_hollows:luminous_essence",
+    "count": 1
   },
   "show_notification": true
 }

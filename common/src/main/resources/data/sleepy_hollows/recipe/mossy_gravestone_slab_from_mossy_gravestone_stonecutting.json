@@ -4,5 +4,8 @@
   "ingredient": {
     "item": "sleepy_hollows:mossy_gravestone"
   },
-  "result": "sleepy_hollows:mossy_gravestone_slab"
+  "result": {
+    "id": "sleepy_hollows:mossy_gravestone_slab",
+    "count": 1
+  }
 }

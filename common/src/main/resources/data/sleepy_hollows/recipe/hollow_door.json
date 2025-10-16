@@ -14,7 +14,7 @@
   ],
   "result": {
     "count": 3,
-    "item": "sleepy_hollows:hollow_door"
+    "id": "sleepy_hollows:hollow_door"
   },
   "show_notification": true
 }

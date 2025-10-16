@@ -1,0 +1,36 @@
+modLoader = "javafml"
+loaderVersion="[4,)"
+issueTrackerURL = "https://github.com/Cursee-Development/Sleepy-Hollows/issues"
+license = "MIT"
+
+[[mods]]
+modId = "sleepy_hollows"
+version = "${mod_version}"
+displayName = "Sleepy Hollows"
+authors = "Jason13Official, Satisfy, cph101dev"
+credits = "MissLilitu, CR-055, Iri, WearyPines"
+description = '''
+Darkness falls, a boss to dread, armor strong - don’t lose your head!
+'''
+logoFile = "pack.png"
+
+[[dependencies.sleepy_hollows]]
+modId = "neoforge"
+mandatory = true
+versionRange = "[21.1.0,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.sleepy_hollows]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.21.1,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.sleepy_hollows]]
+modId = "architectury"
+mandatory = true
+versionRange = "[13.0.0,)"
+ordering = "AFTER"
+side = "BOTH"

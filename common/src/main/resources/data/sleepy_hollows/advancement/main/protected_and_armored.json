@@ -2,7 +2,7 @@
   "parent": "sleepy_hollows:main/open_a_lootbag",
   "display": {
     "icon": {
-      "item": "sleepy_hollows:hauntbound_helmet"
+      "id": "sleepy_hollows:hauntbound_helmet"
     },
     "title": {
       "translate": "advancement.sleepy_hollows.protected_and_armored"
