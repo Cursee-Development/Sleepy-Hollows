@@ -14,15 +14,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public class HauntboundChestplateItem extends ArmorItem {
-    private final ResourceLocation chestplateTexture;
-
-    public HauntboundChestplateItem(Holder<ArmorMaterial> material, Type type, Properties properties, ResourceLocation chestplateTexture) {
+    public HauntboundChestplateItem(Holder<ArmorMaterial> material, Type type, Properties properties) {
         super(material, type, properties);
-        this.chestplateTexture = chestplateTexture;
-    }
-
-    public ResourceLocation getChestplateTexture() {
-        return chestplateTexture;
     }
 
     @Override

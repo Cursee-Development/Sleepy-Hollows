@@ -19,7 +19,9 @@ public class ArmorMaterialRegistry {
     private static final float TOUGHNESS = 0.0F;
     private static final float KNOCKBACK_RESISTANCE = 0.0F;
 
-    public static final ArmorMaterial HAUNTBOUND_ARMOR = createMaterial("hauntbound_armor", () -> Ingredient.of(ObjectRegistry.SPECTRAL_ESSENCE.get()));
+    public static final ArmorMaterial HAUNTBOUND_ARMOR_INNER = createMaterial("hauntbound_inner", () -> Ingredient.of(ObjectRegistry.SPECTRAL_ESSENCE.get()));
+    public static final ArmorMaterial HAUNTBOUND_ARMOR_OUTER = createMaterial("hauntbound_outer", () -> Ingredient.of(ObjectRegistry.SPECTRAL_ESSENCE.get()));
+    public static final ArmorMaterial HAUNTBOUND_HELMET = createMaterial("hauntbound_helmet", () -> Ingredient.of(ObjectRegistry.SPECTRAL_ESSENCE.get()));
 
     private static ArmorMaterial createMaterial(String name, Supplier<Ingredient> repairSupplier) {
         return register(slots(2, 4, 4, 3, 5), ENCHANTMENT_VALUE, EQUIP_SOUND, TOUGHNESS, KNOCKBACK_RESISTANCE, repairSupplier, List.of(new ArmorMaterial.Layer(SleepyHollows.identifier(name), "", false)));

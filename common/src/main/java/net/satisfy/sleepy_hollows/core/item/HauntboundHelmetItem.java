@@ -14,17 +14,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public class HauntboundHelmetItem extends ArmorItem {
-    private final ResourceLocation hatTexture;
-
-    public HauntboundHelmetItem(Holder<ArmorMaterial> material, Type type, Properties properties, ResourceLocation hatTexture) {
+    public HauntboundHelmetItem(Holder<ArmorMaterial> material, Type type, Properties properties) {
         super(material, type, properties);
-        this.hatTexture = hatTexture;
     }
-
-    public ResourceLocation getHatTexture() {
-        return hatTexture;
-    }
-
     @Override
     public @NotNull EquipmentSlot getEquipmentSlot() {
         return this.type.getSlot();

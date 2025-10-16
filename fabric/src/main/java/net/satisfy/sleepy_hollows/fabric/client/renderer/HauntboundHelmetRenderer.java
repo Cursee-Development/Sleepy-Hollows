@@ -10,20 +10,17 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.satisfy.sleepy_hollows.SleepyHollows;
 import net.satisfy.sleepy_hollows.core.item.HauntboundHelmetItem;
 import net.satisfy.sleepy_hollows.core.registry.ArmorRegistry;
 
 public class HauntboundHelmetRenderer implements ArmorRenderer {
     @Override
-    public void render(PoseStack matrices, MultiBufferSource vertexConsumers, ItemStack stack, LivingEntity entity, EquipmentSlot slot, int light, HumanoidModel<LivingEntity> contextModel) {
+    public void render(PoseStack poseStack, MultiBufferSource buffers, ItemStack stack, LivingEntity entity, EquipmentSlot slot, int light, HumanoidModel<LivingEntity> contextModel) {
         if (slot != EquipmentSlot.HEAD) return;
         if (!(stack.getItem() instanceof HauntboundHelmetItem hauntboundHelmetItem)) return;
         Model model = ArmorRegistry.getHatModel(hauntboundHelmetItem, contextModel.head);
-        ResourceLocation base = hauntboundHelmetItem.getHatTexture();
-        String path = base.getPath();
-        if (!path.startsWith("textures/")) path = "textures/" + path;
-        if (!path.endsWith(".png")) path = path + ".png";
-        ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(base.getNamespace(), path);
-        model.renderToBuffer(matrices, vertexConsumers.getBuffer(model.renderType(texture)), light, OverlayTexture.NO_OVERLAY);
+        ResourceLocation texture = SleepyHollows.identifier("textures/models/armor/hauntbound_helmet.png");
+        model.renderToBuffer(poseStack, buffers.getBuffer(model.renderType(texture)), light, OverlayTexture.NO_OVERLAY);
     }
 }

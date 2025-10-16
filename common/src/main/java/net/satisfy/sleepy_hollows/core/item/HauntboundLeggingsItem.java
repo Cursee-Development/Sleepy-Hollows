@@ -14,15 +14,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public class HauntboundLeggingsItem extends ArmorItem {
-    private final ResourceLocation leggingsTexture;
-
-    public HauntboundLeggingsItem(Holder<ArmorMaterial> material, Type type, Properties properties, ResourceLocation leggingsTexture) {
+    public HauntboundLeggingsItem(Holder<ArmorMaterial> material, Type type, Properties properties) {
         super(material, type, properties);
-        this.leggingsTexture = leggingsTexture;
-    }
-
-    public ResourceLocation getLeggingsTexture() {
-        return leggingsTexture;
     }
 
     @Override
