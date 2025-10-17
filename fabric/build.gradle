@@ -139,7 +139,7 @@ tasks.register("releaseChangelog") {
         def contentLine = "**${modName} ${versionLabel} has been released! 🎉**\n\nLearn about all changes and improvements below:"
         def payload = """{
   "username": "[Let’s Do] Assistant",
-"avatar_url": "https://raw.githubusercontent.com/Cursee-Development/Sleepy-Hollows/main/common/src/main/resources/pack.png"
+"avatar_url": "https://raw.githubusercontent.com/Cursee-Development/Sleepy-Hollows/main/common/src/main/resources/pack.png",
   "content": "${escapeJson(contentLine)}",
     "embeds": [{
     "title": "**Changelog**",
