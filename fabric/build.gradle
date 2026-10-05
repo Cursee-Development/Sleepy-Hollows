@@ -37,6 +37,7 @@ repositories {
 }
 
 dependencies {
+    include(modImplementation("net.satisfy.foundation:foundation-fabric:${rootProject.foundation_version}") { transitive = false })
     modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
     modImplementation "net.fabricmc.fabric-api:fabric-api:$rootProject.fabric_api_version"
     modImplementation "dev.architectury:architectury-fabric:$rootProject.architectury_api_version"
@@ -70,6 +71,12 @@ remapJar {
     input.set shadowJar.archiveFile
 }
 
+sourcesJar {
+    def commonSources = project(":common").sourcesJar
+    dependsOn commonSources
+    from commonSources.archiveFile.map { zipTree(it) }
+}
+
 modrinth {
     token = System.getenv("MODRINTH_TOKEN")
     projectId = "sleepy-hollows"
@@ -80,7 +87,7 @@ modrinth {
     gameVersions = [rootProject.minecraft_version]
     loaders = ["fabric"]
     uploadFile = remapJar
-    additionalFiles = [tasks.sourcesJar.archiveFile]
+    additionalFiles = [sourcesJar]
 
     dependencies {
         required.project "architectury-api"
@@ -101,6 +108,7 @@ curseforge {
             changelog = changelogText
             changelogType = "markdown"
         }
+        addArtifact(sourcesJar)
 
         relations {
             requiredDependency "architectury-api"
