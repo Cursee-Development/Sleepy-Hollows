@@ -13,6 +13,14 @@ description = '''
 Darkness falls, a boss to dread, armor strong - don’t lose your head!
 '''
 logoFile = "pack.png"
+displayURL = "https://www.lets-do.ch"
+
+[[dependencies.sleepy_hollows]]
+modId = "foundation"
+type = "required"
+versionRange = "[1.0.0,)"
+ordering = "AFTER"
+side = "BOTH"
 
 [[dependencies.sleepy_hollows]]
 modId = "neoforge"

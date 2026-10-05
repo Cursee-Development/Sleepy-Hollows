@@ -25,6 +25,10 @@ import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
+import net.satisfy.foundation.banner.BannerSettings;
+import net.satisfy.foundation.banner.CompletionistBannerBlock;
+import net.satisfy.foundation.banner.CompletionistWallBannerBlock;
+import net.satisfy.foundation.block.WindowBlock;
 import net.satisfy.sleepy_hollows.SleepyHollows;
 import net.satisfy.sleepy_hollows.core.block.*;
 import net.satisfy.sleepy_hollows.core.item.*;
@@ -118,8 +122,14 @@ public class ObjectRegistry {
     public static final RegistrySupplier<Item> REINS_OF_THE_SPECTRAL_HORSE = registerItem("reins_of_the_spectral_horse", () -> new ReinsOfTheSpectralHorseItem(EntityTypeRegistry.SPECTRAL_HORSE, -1, -1, getSettings().rarity(Rarity.EPIC)));
     public static final RegistrySupplier<Item> INFECTED_ZOMBIE_SPAWN_EGG = registerItem("infected_zombie_spawn_egg", () -> new ArchitecturySpawnEggItem(EntityTypeRegistry.INFECTED_ZOMBIE, -1, -1, getSettings()));
     public static final RegistrySupplier<Item> FLEEING_PUMPKIN_HEAD_SPAWN_EGG = registerItem("fleeing_pumpkin_head_spawn_egg", () -> new ArchitecturySpawnEggItem(EntityTypeRegistry.FLEEING_PUMPKIN_HEAD, -1, -1, getSettings()));
-    public static final RegistrySupplier<Block> COMPLETIONIST_BANNER = registerBlockWithBlockItem("completionist_banner", () -> new CompletionistBannerBlock(BlockBehaviour.Properties.of().strength(1F).instrument(NoteBlockInstrument.BASS).noCollission().sound(SoundType.WOOD)));
-    public static final RegistrySupplier<Block> COMPLETIONIST_WALL_BANNER = registerBlockWithoutItem("completionist_wall_banner", () -> new CompletionistWallBannerBlock(BlockBehaviour.Properties.of().strength(1F).instrument(NoteBlockInstrument.BASS).noCollission().sound(SoundType.WOOD)));
+    private static final BannerSettings BANNER_SETTINGS = new BannerSettings(
+            () -> EntityTypeRegistry.COMPLETIONIST_BANNER_ENTITY.get(),
+            () -> ObjectRegistry.COMPLETIONIST_WALL_BANNER.get(),
+            SleepyHollows.identifier("textures/banner/completionist.png"),
+            "tooltip.sleepy_hollows.banner",
+            MobEffects.NIGHT_VISION);
+    public static final RegistrySupplier<Block> COMPLETIONIST_BANNER = registerBlockWithBlockItem("completionist_banner", () -> new CompletionistBannerBlock(BlockBehaviour.Properties.of().strength(1F).instrument(NoteBlockInstrument.BASS).noCollission().sound(SoundType.WOOD), BANNER_SETTINGS));
+    public static final RegistrySupplier<Block> COMPLETIONIST_WALL_BANNER = registerBlockWithoutItem("completionist_wall_banner", () -> new CompletionistWallBannerBlock(BlockBehaviour.Properties.of().strength(1F).instrument(NoteBlockInstrument.BASS).noCollission().sound(SoundType.WOOD), BANNER_SETTINGS));
     public static final RegistrySupplier<Item> RAUBBAU = registerItem("raubbau", () -> new RaubbauItem(getSettings().fireResistant().rarity(Rarity.EPIC)));
     public static final RegistrySupplier<Item> SPECTRAL_WARAXE = registerItem("spectral_waraxe", () -> new SpectralWarAxeItem(getSettings().fireResistant().rarity(Rarity.EPIC)));
     public static final RegistrySupplier<Item> SHATTERBRAND = registerItem("shatterbrand", () -> new ShatterbrandSwordItem(getSettings().fireResistant().rarity(Rarity.EPIC)));

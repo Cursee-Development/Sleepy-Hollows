@@ -154,5 +154,9 @@
   "tooltip.sleepy_hollows.lore.raubbau": "MissLilitus' alte Schaufel... da hat sie sie also gelassen!",
   "tooltip.sleepy_hollows.lore.reins_of_the_spectral_horse": "Ein geisterhaftes Ross, geboren in den Schatten",
   "tooltip.sleepy_hollows.lore.shatterbrand": "Schwingt mit dem Gewicht der Vergessenen",
-  "tooltip.sleepy_hollows.lore.spectral_waraxe": "Das Leuchten verkündet das Schicksal der Getroffenen..."
+  "tooltip.sleepy_hollows.lore.spectral_waraxe": "Das Leuchten verkündet das Schicksal der Getroffenen...",
+  "tooltip.sleepy_hollows.banner.thankyou_1": "Eine Belohnung für das Sammeln aller Sleepy-Hollows-Gegenstände",
+  "tooltip.sleepy_hollows.banner.thankyou_2": "Wenn platziert:",
+  "tooltip.sleepy_hollows.banner.thankyou_3": "Danke für das Spielen von Sleepy Hollows!",
+  "tooltip.sleepy_hollows.banner.thankyou_4": "Gewährt Nachtsicht in einem Radius von 8 Blöcken"
 }

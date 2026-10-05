@@ -9,7 +9,7 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.satisfy.sleepy_hollows.SleepyHollows;
 import net.satisfy.sleepy_hollows.core.block.entity.CoffinBlockEntity;
-import net.satisfy.sleepy_hollows.core.block.entity.CompletionistBannerEntity;
+import net.satisfy.foundation.banner.CompletionistBannerEntity;
 import net.satisfy.sleepy_hollows.core.block.entity.DummyCoffinBlockEntity;
 import net.satisfy.sleepy_hollows.core.block.entity.PedestalBlockEntity;
 import net.satisfy.sleepy_hollows.core.entity.FleeingPumpkinHead;

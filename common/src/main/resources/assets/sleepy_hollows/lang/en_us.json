@@ -195,6 +195,9 @@
   "text.autoconfig.sleepy_hollows.option.armor.hauntboundKnockbackResistance": "Hauntbound Knockback Resistance",
   "text.autoconfig.sleepy_hollows.option.armor.enableHauntboundSetBonus": "Enable Hauntbound Set Bonus",
   "text.autoconfig.sleepy_hollows.option.hud.hudX": "Sanity Bar X Position",
-  "text.autoconfig.sleepy_hollows.option.hud.hudY": "Sanity Bar Y Position"
-
+  "text.autoconfig.sleepy_hollows.option.hud.hudY": "Sanity Bar Y Position",
+  "tooltip.sleepy_hollows.banner.thankyou_1": "A reward for collecting every Sleepy Hollows item",
+  "tooltip.sleepy_hollows.banner.thankyou_2": "When placed:",
+  "tooltip.sleepy_hollows.banner.thankyou_3": "Thank you for playing Sleepy Hollows!",
+  "tooltip.sleepy_hollows.banner.thankyou_4": "Grants Night Vision in a radius of 8 blocks"
 }

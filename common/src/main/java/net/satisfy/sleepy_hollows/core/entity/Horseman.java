@@ -3,7 +3,6 @@ package net.satisfy.sleepy_hollows.core.entity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ColorParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -18,8 +17,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
@@ -38,10 +35,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.satisfy.sleepy_hollows.core.entity.ai.AnimationAttackGoal;
+import net.satisfy.foundation.entity.ai.AnimationAttackGoal;
+import net.satisfy.foundation.entity.ai.AttackAnimationMob;
+import net.satisfy.foundation.entity.ai.RandomAction;
+import net.satisfy.foundation.entity.ai.RandomActionGoal;
 import net.satisfy.sleepy_hollows.core.entity.ai.NearestAttackablePlayerGoal;
-import net.satisfy.sleepy_hollows.core.entity.ai.RandomAction;
-import net.satisfy.sleepy_hollows.core.entity.ai.RandomActionGoal;
 import net.satisfy.sleepy_hollows.core.entity.animation.ServerAnimationDurations;
 import net.satisfy.sleepy_hollows.core.registry.EntityTypeRegistry;
 import net.satisfy.sleepy_hollows.core.registry.ObjectRegistry;
@@ -55,7 +53,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Horseman extends Monster implements EntityWithAttackAnimation, PowerableMob {
+public class Horseman extends Monster implements AttackAnimationMob, RandomAction, PowerableMob {
     private static final float[] HEALTH_THRESHOLDS = {0.75f, 0.50f, 0.25f};
 
     private static final EntityDataAccessor<Boolean> HAS_ACTIVE_PUMPKIN_HEAD = SynchedEntityData.defineId(Horseman.class, EntityDataSerializers.BOOLEAN);
@@ -81,49 +79,7 @@ public class Horseman extends Monster implements EntityWithAttackAnimation, Powe
         this.goalSelector.addGoal(0, new WaterAvoidingRandomStrollGoal(this, 1.0));
         this.goalSelector.addGoal(1, new AnimationAttackGoal(this, 1.0D, true, (int) (ServerAnimationDurations.horseman_attack * 20 + 2), 8));
         this.goalSelector.addGoal(1, new NearestAttackablePlayerGoal(this, 30.0D));
-        this.goalSelector.addGoal(2, new RandomActionGoal(new RandomAction() {
-            @Override
-            public boolean isInterruptable() {
-                return false;
-            }
-
-            @Override
-            public void onStart() {
-                setLaughing(true);
-            }
-
-            @Override
-            public void onStop() {
-                setLaughing(false);
-            }
-
-            @Override
-            public boolean isPossible() {
-                return true;
-            }
-
-            @Override
-            public void onTick(int tick) {
-                if (tick == 2) {
-                    level().playSound(null, Horseman.this, SoundEventRegistry.HORSEMAN_LAUGH.get(), SoundSource.NEUTRAL, 1, 1);
-                }
-            }
-
-            @Override
-            public int duration() {
-                return (int) (ServerAnimationDurations.horseman_laugh * 20);
-            }
-
-            @Override
-            public float chance() {
-                return 0.01f;
-            }
-
-            @Override
-            public AttributeInstance getAttribute(Attribute movementSpeed) {
-                return Horseman.this.getAttribute(BuiltInRegistries.ATTRIBUTE.wrapAsHolder(movementSpeed));
-            }
-        }));
+        this.goalSelector.addGoal(2, new RandomActionGoal(this));
         this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 25.0F));
     }
 
@@ -302,7 +258,8 @@ public class Horseman extends Monster implements EntityWithAttackAnimation, Powe
         return this.entityData.get(ATTACKING);
     }
 
-    public void setAttacking_(boolean attacking) {
+    @Override
+    public void setAttacking(boolean attacking) {
         this.entityData.set(ATTACKING, attacking);
     }
 
@@ -315,12 +272,7 @@ public class Horseman extends Monster implements EntityWithAttackAnimation, Powe
     }
 
     @Override
-    public Vec3 getPosition_(int i) {
-        return super.getPosition(i);
-    }
-
-    @Override
-    public void doHurtTarget_(LivingEntity targetEntity) {
+    public void performAttack(LivingEntity targetEntity) {
         super.doHurtTarget(targetEntity);
 
         attackCounter++;
@@ -341,14 +293,45 @@ public class Horseman extends Monster implements EntityWithAttackAnimation, Powe
     }
 
     @Override
-    public LivingEntity getTarget_() {
+    public LivingEntity getAttackTarget() {
         return getTarget();
     }
 
     @Override
-    public double getMeleeAttackRangeSqr_(LivingEntity target) {
-        double w = this.getBbWidth() * 2.0;
-        return w * w + target.getBbWidth();
+    public boolean isInterruptable() {
+        return false;
+    }
+
+    @Override
+    public void onStart() {
+        this.setLaughing(true);
+    }
+
+    @Override
+    public void onStop() {
+        this.setLaughing(false);
+    }
+
+    @Override
+    public boolean isPossible() {
+        return true;
+    }
+
+    @Override
+    public void onTick(int tick) {
+        if (tick == 2) {
+            this.level().playSound(null, this, SoundEventRegistry.HORSEMAN_LAUGH.get(), SoundSource.NEUTRAL, 1, 1);
+        }
+    }
+
+    @Override
+    public int duration() {
+        return (int) (ServerAnimationDurations.horseman_laugh * 20);
+    }
+
+    @Override
+    public float chance() {
+        return 0.01f;
     }
 
     private boolean isPumpkinHeadAlive() {
