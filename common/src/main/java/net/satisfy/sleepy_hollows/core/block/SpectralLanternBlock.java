@@ -1,7 +1,6 @@
 package net.satisfy.sleepy_hollows.core.block;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LanternBlock;
@@ -18,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
 public class SpectralLanternBlock extends LanternBlock {
     public static final BooleanProperty HANGING = BlockStateProperties.HANGING;
     protected static final VoxelShape STANDING_SHAPE = createStandingLanternShape();
+    protected static final VoxelShape HANGING_SHAPE = createHangingLanternShape();
 
     public SpectralLanternBlock(Properties settings) {
         super(settings);
@@ -54,13 +54,7 @@ public class SpectralLanternBlock extends LanternBlock {
 
     @Override
     public @NotNull VoxelShape getShape(BlockState state, @NotNull BlockGetter world, @NotNull BlockPos pos, @NotNull CollisionContext context) {
-        return state.getValue(HANGING) ? createHangingLanternShape() : STANDING_SHAPE;
-    }
-
-    @Override
-    public int getLightBlock(@NotNull BlockState state, @NotNull BlockGetter world, @NotNull BlockPos pos) {
-        RandomSource random = RandomSource.create();
-        return 6 + random.nextInt(7);
+        return state.getValue(HANGING) ? HANGING_SHAPE : STANDING_SHAPE;
     }
 
     @Override
