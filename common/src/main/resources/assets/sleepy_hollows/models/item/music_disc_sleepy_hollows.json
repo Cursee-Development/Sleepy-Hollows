@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/template_music_disc",
+  "textures": {
+    "layer0": "sleepy_hollows:item/sleepy_hollows"
+  }
+}

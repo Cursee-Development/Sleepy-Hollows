@@ -1,5 +1,8 @@
 package net.satisfy.sleepy_hollows.core.entity;
 
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -42,7 +45,7 @@ public class SpectralHorse extends AbstractChestedHorse {
                 .add(Attributes.MAX_HEALTH, 20.0)
                 .add(Attributes.ARMOR, 1.5)
                 .add(Attributes.ARMOR_TOUGHNESS, 1.5)
-                .add(Attributes.JUMP_STRENGTH, 0.9)
+                .add(Attributes.JUMP_STRENGTH, 0.65)
                 .add(Attributes.MOVEMENT_SPEED, 0.298329477474777777);
     }
 
@@ -95,5 +98,10 @@ public class SpectralHorse extends AbstractChestedHorse {
                 this.level().addParticle(ParticleTypes.ASH, this.getRandomX(0.5), this.getRandomY(), this.getRandomZ(0.5), 0.0, 0.0, 0.0);
             }
         }
+    }
+
+    @Override
+    protected @NotNull Vec3 getPassengerAttachmentPoint(@NotNull Entity passenger, @NotNull EntityDimensions dimensions, float scale) {
+        return super.getPassengerAttachmentPoint(passenger, dimensions, scale).subtract(0.0, 7.0 / 16.0 * scale, 0.0);
     }
 }

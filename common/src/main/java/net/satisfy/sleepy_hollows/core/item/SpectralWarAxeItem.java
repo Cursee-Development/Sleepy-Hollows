@@ -1,8 +1,9 @@
 package net.satisfy.sleepy_hollows.core.item;
 
-import net.minecraft.ChatFormatting;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.CombatRules;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -11,9 +12,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.*;
 import net.satisfy.sleepy_hollows.core.registry.ToolTiersRegistry;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
-import java.util.Objects;
 
 public class SpectralWarAxeItem extends AxeItem {
     public SpectralWarAxeItem(Properties properties) {
@@ -24,15 +22,7 @@ public class SpectralWarAxeItem extends AxeItem {
     public boolean hurtEnemy(@NotNull ItemStack stack, @NotNull LivingEntity target, @NotNull LivingEntity attacker) {
         boolean result = super.hurtEnemy(stack, target, attacker);
 
-        if (result && !target.getCommandSenderWorld().isClientSide()) {
-            double originalArmor = Objects.requireNonNull(target.getAttribute(Attributes.ARMOR)).getValue();
-            double armorPenetration = originalArmor * 0.5;
-
-            double damageWithoutArmor = Objects.requireNonNull(attacker.getAttribute(Attributes.ATTACK_DAMAGE)).getValue();
-            double finalDamage = damageWithoutArmor - (armorPenetration / 5.0);
-
-            target.hurt(attacker.level().damageSources().mobAttack(attacker), (float) finalDamage);
-
+        if (result && !target.level().isClientSide()) {
             target.addEffect(new MobEffectInstance(MobEffects.GLOWING, 120, 0));
         }
 
@@ -52,9 +42,13 @@ public class SpectralWarAxeItem extends AxeItem {
         return result;
     }
 
-
     @Override
-    public void appendHoverText(@NotNull ItemStack stack, @NotNull Item.TooltipContext context, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
-        tooltip.add(Component.translatable("tooltip.sleepy_hollows.lore.spectral_waraxe").withStyle(ChatFormatting.GOLD, ChatFormatting.ITALIC));
+    public float getAttackDamageBonus(@NotNull Entity target, float damage, @NotNull DamageSource source) {
+        if (!(target instanceof LivingEntity living) || damage <= 0) return 0;
+        float armor = living.getArmorValue();
+        float toughness = (float) living.getAttributeValue(Attributes.ARMOR_TOUGHNESS);
+        float withFullArmor = CombatRules.getDamageAfterAbsorb(living, damage, source, armor, toughness);
+        float withHalfArmor = CombatRules.getDamageAfterAbsorb(living, damage, source, armor * 0.5F, toughness);
+        return withFullArmor <= 0 ? 0 : damage * withHalfArmor / withFullArmor - damage;
     }
 }

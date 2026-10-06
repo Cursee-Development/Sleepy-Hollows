@@ -1,5 +1,9 @@
 package net.satisfy.sleepy_hollows.core.block;
 
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.util.RandomSource;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -7,7 +11,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -26,7 +29,6 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.satisfy.sleepy_hollows.core.block.entity.PedestalBlockEntity;
-import net.satisfy.sleepy_hollows.core.entity.Horseman;
 import net.satisfy.sleepy_hollows.core.registry.EntityTypeRegistry;
 import net.satisfy.sleepy_hollows.core.registry.ObjectRegistry;
 import org.jetbrains.annotations.NotNull;
@@ -35,7 +37,6 @@ import org.jetbrains.annotations.Nullable;
 public class PedestalBlock extends Block implements EntityBlock {
     private static final VoxelShape SHAPE = Shapes.or(box(0, 0, 0, 16, 4, 16), box(2, 4, 2, 14, 12, 14), box(0, 12, 0, 16, 16, 16));
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
-    private static long lastUseTime = 0;
 
     public PedestalBlock(BlockBehaviour.Properties properties) {
         super(properties);
@@ -46,7 +47,7 @@ public class PedestalBlock extends Block implements EntityBlock {
     public @NotNull InteractionResult useWithoutItem(@NotNull BlockState state, Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull BlockHitResult hit) {
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if (!(blockEntity instanceof PedestalBlockEntity displayBlockEntity)) return InteractionResult.PASS;
-        if (displayBlockEntity.getDisplayedItem().isEmpty()) return InteractionResult.PASS;
+        if (displayBlockEntity.getDisplayedItem().isEmpty() || displayBlockEntity.isRitualActive()) return InteractionResult.PASS;
         if (!level.isClientSide) {
             ItemStack displayedItem = displayBlockEntity.getDisplayedItem().copy();
             if (!player.addItem(displayedItem)) {
@@ -75,30 +76,7 @@ public class PedestalBlock extends Block implements EntityBlock {
                 level.playSound(null, pos, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS, 1.0F, 1.0F);
 
                 if (singleItemStack.is(ObjectRegistry.LUMINOUS_ESSENCE.get())) {
-                    long currentTime = System.currentTimeMillis();
-                    if (currentTime - lastUseTime >= 300000) {
-                        BlockPos spawnPos = pos.north(5);
-                        Horseman horseman = EntityTypeRegistry.HORSEMAN.get().create(level);
-                        if (horseman != null) {
-                            horseman.setPos(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ());
-                            level.addFreshEntity(horseman);
-                            LightningBolt lightningBolt1 = EntityType.LIGHTNING_BOLT.create(level);
-                            if (lightningBolt1 != null) {
-                                lightningBolt1.setPos(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ());
-                                lightningBolt1.setVisualOnly(true);
-                                level.addFreshEntity(lightningBolt1);
-                            }
-                            LightningBolt lightningBolt2 = EntityType.LIGHTNING_BOLT.create(level);
-                            if (lightningBolt2 != null) {
-                                lightningBolt2.setPos(pos.getX(), pos.getY(), pos.getZ());
-                                lightningBolt2.setVisualOnly(true);
-                                level.addFreshEntity(lightningBolt2);
-                            }
-                            displayBlockEntity.removeDisplayedItem(1);
-                            level.playSound(null, pos, SoundEvents.LIGHTNING_BOLT_IMPACT, SoundSource.WEATHER, 1.0F, 1.0F);
-                            lastUseTime = currentTime;
-                        }
-                    }
+                    displayBlockEntity.tryStartRitual(player);
                 }
                 return ItemInteractionResult.sidedSuccess(level.isClientSide);
             }
@@ -124,6 +102,11 @@ public class PedestalBlock extends Block implements EntityBlock {
     }
 
     @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level level, @NotNull BlockState state, @NotNull BlockEntityType<T> type) {
+        return type == EntityTypeRegistry.DISPLAY_BLOCK_ENTITY.get() ? (lvl, pos, st, be) -> ((PedestalBlockEntity) be).tick() : null;
+    }
+
+    @Override
     public @NotNull RenderShape getRenderShape(@NotNull BlockState state) {
         return RenderShape.MODEL;
     }
@@ -131,6 +114,14 @@ public class PedestalBlock extends Block implements EntityBlock {
     @Override
     public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter world, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         return SHAPE;
+    }
+
+    @Override
+    public void animateTick(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull RandomSource random) {
+        if (state.getValue(ACTIVE) && random.nextInt(3) == 0) {
+            double angle = random.nextDouble() * Math.PI * 2;
+            level.addParticle(ParticleTypes.SOUL_FIRE_FLAME, pos.getX() + 0.5 + Math.cos(angle) * 0.4, pos.getY() + 1.0, pos.getZ() + 0.5 + Math.sin(angle) * 0.4, 0.0, 0.02, 0.0);
+        }
     }
 
     @Override

@@ -12,8 +12,11 @@ credits = "MissLilitu, CR-055, Iri, WearyPines"
 description = '''
 Darkness falls, a boss to dread, armor strong - don’t lose your head!
 '''
-logoFile = "pack.png"
+logoFile = "sleepy_hollows_logo.png"
 displayURL = "https://www.lets-do.ch"
+
+[[mixins]]
+config = "sleepy_hollows.mixins.json"
 
 [[dependencies.sleepy_hollows]]
 modId = "foundation"
@@ -40,5 +43,12 @@ side = "BOTH"
 modId = "architectury"
 mandatory = true
 versionRange = "[13.0.0,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.sleepy_hollows]]
+modId = "biolith"
+type = "required"
+versionRange = "[3.0.10,)"
 ordering = "AFTER"
 side = "BOTH"

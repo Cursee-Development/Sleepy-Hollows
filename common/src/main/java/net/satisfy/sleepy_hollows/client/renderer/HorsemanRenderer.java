@@ -19,16 +19,11 @@ public class HorsemanRenderer<T extends Horseman> extends MobRenderer<T, Horsema
 
     public HorsemanRenderer(EntityRendererProvider.Context context) {
         super(context, new HorsemanModel<>(context.bakeLayer(HorsemanModel.LAYER_LOCATION)), 0.875f);
+        this.addLayer(new HorsemanShieldLayer<>(this, context.getModelSet()));
     }
 
     @Override
     public @NotNull ResourceLocation getTextureLocation(@NotNull Horseman entity) {
         return entity.hasActivePumpkinHead() ? TEXTURE_PUMPKIN_ACTIVE : TEXTURE;
-    }
-
-    @Override
-    public void render(@NotNull T entity, float entityYaw, float partialTicks, @NotNull PoseStack matrixStack, @NotNull MultiBufferSource buffer, int packedLight) {
-        super.render(entity, entityYaw, partialTicks, matrixStack, buffer, packedLight);
-
     }
 }

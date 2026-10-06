@@ -112,10 +112,6 @@
   "welcome_to_sleepy_hollows": {
     "sounds": [
       {
-        "name": "music.game",
-        "type": "event"
-      },
-      {
         "name": "sleepy_hollows:music/welcome_to_sleepy_hollows",
         "stream": true
       }

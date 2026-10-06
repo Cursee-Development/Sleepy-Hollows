@@ -1,0 +1,8 @@
+{
+  "sound_event": "sleepy_hollows:welcome_to_sleepy_hollows",
+  "description": {
+    "translate": "jukebox_song.sleepy_hollows.sleepy_hollows"
+  },
+  "length_in_seconds": 109.2,
+  "comparator_output": 11
+}

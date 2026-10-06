@@ -1,134 +1,248 @@
 package net.satisfy.sleepy_hollows.platform.fabric;
 
 import me.shedaniel.autoconfig.AutoConfig;
-import net.minecraft.client.Minecraft;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ArmorItem;
 import net.satisfy.sleepy_hollows.fabric.config.SleepyHollowsFabricConfig;
-import net.satisfy.sleepy_hollows.platform.PlatformHelper;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class PlatformHelperImpl extends PlatformHelper {
+public class PlatformHelperImpl {
+    private static SleepyHollowsFabricConfig c() {
+        return AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
+    }
+
     public static double getHorsemanMovementSpeed() {
-        SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.horseman.movementSpeed;
+        return c().horseman.movementSpeed;
     }
 
     public static double getHorsemanMaxHealth() {
-        SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.horseman.maxHealth;
+        return c().horseman.maxHealth;
     }
 
     public static double getHorsemanAttackDamage() {
-        SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.horseman.attackDamage;
+        return c().horseman.attackDamage;
     }
 
     public static double getHorsemanAttackKnockback() {
-        SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.horseman.attackKnockback;
+        return c().horseman.attackKnockback;
     }
 
     public static double getHorsemanArmor() {
-        SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.horseman.armor;
+        return c().horseman.armor;
+    }
+
+    public static List<String> getHorsemanLootEntries() {
+        return c().horseman.lootItems;
     }
 
     public static double getFleeingPumpkinMaxHealth() {
-        SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.fleeingPumpkinHead.maxHealth;
+        return c().fleeingPumpkinHead.maxHealth;
     }
 
     public static double getFleeingPumpkinMovementSpeed() {
-        SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.fleeingPumpkinHead.movementSpeed;
+        return c().fleeingPumpkinHead.movementSpeed;
     }
 
     public static double getFleeingPumpkinArmor() {
-        SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.fleeingPumpkinHead.armor;
+        return c().fleeingPumpkinHead.armor;
     }
 
     public static double getInfectedZombieMaxHealth() {
-        SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.infectedZombie.maxHealth;
+        return c().infectedZombie.maxHealth;
     }
 
     public static double getInfectedZombieArmor() {
-        SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.infectedZombie.armor;
+        return c().infectedZombie.armor;
     }
 
     public static double getInfectedZombieMovementSpeed() {
-        SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.infectedZombie.movementSpeed;
+        return c().infectedZombie.movementSpeed;
     }
 
     public static double getInfectedZombieAttackDamage() {
-        SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.infectedZombie.attackDamage;
+        return c().infectedZombie.attackDamage;
     }
 
     public static double getSpectralToolSpeed() {
-        SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.weapons.spectralToolSpeed;
+        return c().weapons.spectralToolSpeed;
     }
 
     public static double getSpectralToolDamage() {
-        SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.weapons.spectralToolDamage;
+        return c().weapons.spectralToolDamage;
     }
 
     public static double getRaubbauToolSpeed() {
-        SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.weapons.raubbauToolSpeed;
+        return c().weapons.raubbauToolSpeed;
     }
 
     public static double getRaubbauToolDamage() {
-        SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.weapons.raubbauToolDamage;
+        return c().weapons.raubbauToolDamage;
     }
 
     public static boolean isHauntboundSetBonusEnabled() {
-        SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
-        return config.armor.enableHauntboundSetBonus;
+        return c().armor.enableSetBonus;
     }
 
-    public static List<ItemStack> getHorsemanLootItems() {
-        assert Minecraft.getInstance().level != null;
-        RegistryAccess registryAccess = Minecraft.getInstance().level.registryAccess();
-        return getHorsemanLootItems(registryAccess);
+    public static int getHauntboundDurabilityMultiplier() {
+        return c().armor.durabilityMultiplier;
     }
 
-    private static List<ItemStack> getHorsemanLootItems(RegistryAccess registryAccess) {
-        List<ItemStack> loot = new ArrayList<>();
-        SleepyHollowsFabricConfig config = AutoConfig.getConfigHolder(SleepyHollowsFabricConfig.class).getConfig();
+    public static float getHauntboundToughness() {
+        return (float) c().armor.toughness;
+    }
 
-        for (String lootString : config.horseman.loot.horsemanLootItems) {
-            String[] parts = lootString.split(":");
-            if (parts.length == 3) {
-                String modId = parts[0];
-                String itemId = parts[1];
-                int count;
-                try {
-                    count = Integer.parseInt(parts[2]);
-                } catch (NumberFormatException e) {
-                    count = 1;
-                }
-                ResourceLocation rl = ResourceLocation.fromNamespaceAndPath(modId, itemId);
-                Item item = registryAccess.registryOrThrow(Registries.ITEM).get(rl);
-                if (item != null) {
-                    loot.add(new ItemStack(item, count));
-                } else {
-                    System.err.println("Horseman Loot Item not found: " + rl);
-                }
-            }
-        }
-        return loot;
+    public static float getHauntboundKnockbackResistance() {
+        return (float) c().armor.knockbackResistance;
+    }
+
+    public static boolean isSanityEnabled() {
+        return c().sanity.enabled;
+    }
+
+    public static int getHUDX() {
+        return c().sanity.hudX;
+    }
+
+    public static int getHUDY() {
+        return c().sanity.hudY;
+    }
+
+    public static boolean isHollowFogEnabled() {
+        return c().fog.enabled;
+    }
+
+    public static float getHollowFogStart() {
+        return c().fog.startPercent / 100.0F;
+    }
+
+    public static float getHollowFogEnd() {
+        return c().fog.endPercent / 100.0F;
+    }
+
+    public static int getHollowFogTransitionSeconds() {
+        return c().fog.transitionSeconds;
+    }
+
+    public static float getHollowFogSanityInfluence() {
+        return c().fog.sanityInfluencePercent / 100.0F;
+    }
+
+    public static int getHauntboundDefense(ArmorItem.Type type) {
+        SleepyHollowsFabricConfig.ArmorSettings armor = c().armor;
+        return switch (type) {
+            case HELMET -> armor.helmetDefense;
+            case CHESTPLATE -> armor.chestplateDefense;
+            case LEGGINGS -> armor.leggingsDefense;
+            case BOOTS -> armor.bootsDefense;
+            default -> 0;
+        };
+    }
+
+    public static boolean isAmbienceEnabled() {
+        return c().ambience.enabled;
+    }
+
+    public static int getAmbienceDayMinSeconds() {
+        return c().ambience.dayMinSeconds;
+    }
+
+    public static int getAmbienceDayMaxSeconds() {
+        return Math.max(c().ambience.dayMinSeconds, c().ambience.dayMaxSeconds);
+    }
+
+    public static int getAmbienceNightMinSeconds() {
+        return c().ambience.nightMinSeconds;
+    }
+
+    public static int getAmbienceNightMaxSeconds() {
+        return Math.max(c().ambience.nightMinSeconds, c().ambience.nightMaxSeconds);
+    }
+
+    public static float getAmbienceVolume() {
+        return c().ambience.volumePercent / 100.0F;
+    }
+
+    public static int getSanityCandyCornGain() {
+        return c().sanity.candyCornGain;
+    }
+
+    public static int getSanityDuskBerryGain() {
+        return c().sanity.duskBerryGain;
+    }
+
+    public static int getSanityLuminousWaterGain() {
+        return c().sanity.luminousWaterGain;
+    }
+
+    public static int getSanityPumpkinPieGain() {
+        return c().sanity.pumpkinPieGain;
+    }
+
+    public static int getSanityOutsideBiomeGain() {
+        return c().sanity.outsideBiomeGain;
+    }
+
+    public static int getSanityBiomeDayLoss() {
+        return c().sanity.biomeDayLoss;
+    }
+
+    public static int getSanityBiomeNightLoss() {
+        return c().sanity.biomeNightLoss;
+    }
+
+    public static int getSanityCursedBlockLoss() {
+        return c().sanity.cursedBlockLoss;
+    }
+
+    public static int getSanityInfectedLoss() {
+        return c().sanity.infectedLoss;
+    }
+
+    public static int getSanityLightRadius() {
+        return c().sanity.lightRadius;
+    }
+
+    public static int getSanityHauntboundProtection() {
+        return c().sanity.hauntboundPieceProtectionPercent;
+    }
+
+    public static int getSanityInsanitySeconds() {
+        return c().sanity.insanitySeconds;
+    }
+
+    public static int getFoodDuskBerryNutrition() {
+        return c().food.duskBerryNutrition;
+    }
+
+    public static float getFoodDuskBerrySaturation() {
+        return (float) c().food.duskBerrySaturation;
+    }
+
+    public static int getFoodCandyCornNutrition() {
+        return c().food.candyCornNutrition;
+    }
+
+    public static float getFoodCandyCornSaturation() {
+        return (float) c().food.candyCornSaturation;
+    }
+
+    public static int getFoodPumpkinPieNutrition() {
+        return c().food.pumpkinPieNutrition;
+    }
+
+    public static float getFoodPumpkinPieSaturation() {
+        return (float) c().food.pumpkinPieSaturation;
+    }
+
+    public static int getFoodLuminousWaterNutrition() {
+        return c().food.luminousWaterNutrition;
+    }
+
+    public static float getFoodLuminousWaterSaturation() {
+        return (float) c().food.luminousWaterSaturation;
+    }
+
+    public static float getSplashHorsemanDamage() {
+        return (float) c().weapons.splashHorsemanDamage;
     }
 }

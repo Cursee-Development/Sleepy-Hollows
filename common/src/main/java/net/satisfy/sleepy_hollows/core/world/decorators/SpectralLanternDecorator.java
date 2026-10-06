@@ -1,5 +1,6 @@
 package net.satisfy.sleepy_hollows.core.world.decorators;
 
+import java.util.ArrayList;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
@@ -28,20 +29,13 @@ public class SpectralLanternDecorator extends TreeDecorator {
     @Override
     public void place(Context context) {
         RandomSource random = context.random();
-        List<BlockPos> leavesPositions = context.leaves();
-        for (BlockPos pos : leavesPositions) {
-            BlockPos belowPos = pos.below();
-            BlockPos aboveLanternPos = belowPos.above();
-            if (context.isAir(belowPos)) {
-                if (random.nextFloat() < 0.1) {
-                    BlockState lantern = ObjectRegistry.SPECTRAL_LANTERN.get().defaultBlockState().setValue(LanternBlock.HANGING, true);
-                    context.setBlock(belowPos, lantern);
-                    if (context.isAir(aboveLanternPos)) {
-                        BlockState chain = Blocks.CHAIN.defaultBlockState();
-                        context.setBlock(aboveLanternPos, chain);
-                    }
-                }
-            }
+        List<BlockPos> candidates = new ArrayList<>(context.leaves().stream().filter(pos -> context.isAir(pos.below()) && context.isAir(pos.below(2))).toList());
+        int lanterns = random.nextInt(3);
+        for (int i = 0; i < lanterns && !candidates.isEmpty(); i++) {
+            BlockPos leaf = candidates.remove(random.nextInt(candidates.size()));
+            context.setBlock(leaf.below(), Blocks.CHAIN.defaultBlockState());
+            context.setBlock(leaf.below(2), ObjectRegistry.SPECTRAL_LANTERN.get().defaultBlockState().setValue(LanternBlock.HANGING, true));
+            candidates.removeIf(pos -> pos.distManhattan(leaf) < 4);
         }
     }
 }

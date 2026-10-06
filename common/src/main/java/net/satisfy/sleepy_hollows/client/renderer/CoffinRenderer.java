@@ -1,5 +1,6 @@
 package net.satisfy.sleepy_hollows.client.renderer;
 
+import net.minecraft.util.Mth;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -52,13 +53,13 @@ public class CoffinRenderer implements BlockEntityRenderer<CoffinBlockEntity> {
             return;
         }
 
-        float lidAngle = blockEntity.getOpenNess(partialTicks);
-        lidAngle = 1.0F - lidAngle;
-        lidAngle = 1.0F - (float) Math.pow(lidAngle, 1);
+        float openness = blockEntity.getOpenNess(partialTicks);
+        float lift = easeOut(Mth.clamp(openness / 0.3F, 0.0F, 1.0F));
+        float slide = easeInOut(Mth.clamp((openness - 0.15F) / 0.85F, 0.0F, 1.0F));
 
-        float slideDistance = lidAngle * 8.0F;
-
-        this.lid.x = -slideDistance;
+        this.lid.x = -slide * 10.0F;
+        this.lid.y = -15.5F - lift * 1.5F + slide * 1.0F;
+        this.lid.zRot = slide * 0.2F;
 
         poseStack.pushPose();
         Direction facing = blockEntity.getBlockState().getValue(CoffinBlock.FACING);
@@ -83,5 +84,14 @@ public class CoffinRenderer implements BlockEntityRenderer<CoffinBlockEntity> {
         VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.entityCutoutNoCull(TEXTURE));
         this.coffin.render(poseStack, vertexConsumer, packedLight, packedOverlay);
         poseStack.popPose();
+    }
+
+    private static float easeOut(float t) {
+        float inv = 1.0F - t;
+        return 1.0F - inv * inv * inv;
+    }
+
+    private static float easeInOut(float t) {
+        return t < 0.5F ? 4.0F * t * t * t : 1.0F - (float) Math.pow(-2.0F * t + 2.0F, 3) / 2.0F;
     }
 }

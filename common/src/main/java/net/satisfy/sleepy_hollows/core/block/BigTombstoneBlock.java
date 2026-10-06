@@ -1,5 +1,6 @@
 package net.satisfy.sleepy_hollows.core.block;
 
+import java.util.Map;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.LivingEntity;
@@ -16,11 +17,12 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.Half;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.satisfy.sleepy_hollows.core.util.SleepyHollowsUtil;
 import org.jetbrains.annotations.NotNull;
 
 public class BigTombstoneBlock extends TombstoneBlock {
     public static final EnumProperty<Half> HALF = BlockStateProperties.HALF;
+    private static final Map<Direction, VoxelShape> BOTTOM_SHAPES = rotatedShapes(TombstoneBlock.createBigTombstoneShapeBottom());
+    private static final Map<Direction, VoxelShape> TOP_SHAPES = rotatedShapes(TombstoneBlock.createBigTombstoneShapeTop());
 
     public BigTombstoneBlock(Properties properties) {
         super(properties, TombstoneBlock.createMidTombstoneShape());
@@ -74,10 +76,6 @@ public class BigTombstoneBlock extends TombstoneBlock {
 
     @Override
     public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter world, @NotNull BlockPos pos, @NotNull CollisionContext context) {
-        Direction facing = state.getValue(FACING);
-        VoxelShape shape = state.getValue(HALF) == Half.BOTTOM
-                ? TombstoneBlock.createBigTombstoneShapeBottom()
-                : TombstoneBlock.createBigTombstoneShapeTop();
-        return SleepyHollowsUtil.rotateShape(Direction.NORTH, facing, shape);
+        return (state.getValue(HALF) == Half.BOTTOM ? BOTTOM_SHAPES : TOP_SHAPES).get(state.getValue(FACING));
     }
 }

@@ -1,5 +1,9 @@
 package net.satisfy.sleepy_hollows.core.entity;
 
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.Mob;
+import net.satisfy.sleepy_hollows.core.util.MobSpawnHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
@@ -52,6 +56,7 @@ public class FleeingPumpkinHead extends Monster {
     private boolean increasedArmor = false;
     private Horseman summoner;
     private final Map<LivingEntity, Integer> flyingEntities = new HashMap<>();
+    private static final double MAX_DISTANCE = 32.0;
     private boolean isFlyingAway = false;
     private int flightDuration;
     private int flightTicks;
@@ -61,6 +66,7 @@ public class FleeingPumpkinHead extends Monster {
 
     public FleeingPumpkinHead(EntityType<? extends Monster> type, Level world) {
         super(type, world);
+        this.setGlowingTag(true);
         this.setCustomName(Component.translatable("entity.sleepy_hollows.fleeing_pumpkin_head"));
         this.setCustomNameVisible(true);
         this.goalSelector.addGoal(0, new RandomLookAroundGoal(this));
@@ -75,6 +81,10 @@ public class FleeingPumpkinHead extends Monster {
                 .add(Attributes.MAX_HEALTH, PlatformHelper.getFleeingPumpkinMaxHealth())
                 .add(Attributes.ATTACK_DAMAGE, 0.0)
                 .add(Attributes.ARMOR, PlatformHelper.getFleeingPumpkinArmor());
+    }
+
+    public Horseman getSummoner() {
+        return this.summoner;
     }
 
     public void setSummoner(Horseman summoner) {
@@ -116,45 +126,30 @@ public class FleeingPumpkinHead extends Monster {
             }
         }
 
+        if (!this.level().isClientSide && !this.isFlyingAway && this.tickCount % 20 == 0 && this.isInWall()) {
+            landSafely();
+        }
+
         if (this.isFlyingAway) {
-            double t = (double) this.flightTicks / (double) this.flightDuration;
-            if (t >= 1.0) {
+            double t = Math.min(1.0, (double) this.flightTicks / (double) this.flightDuration);
+            double x = Mth.lerp(t, this.flightStartPos.x, this.flightEndPos.x);
+            double z = Mth.lerp(t, this.flightStartPos.z, this.flightEndPos.z);
+            double y = Mth.lerp(t, this.flightStartPos.y, this.flightEndPos.y) + this.flightArcHeight * Math.sin(Math.PI * t);
+            this.teleportTo(x, y, z);
+            this.setYRot(this.getYRot() + 10);
+            this.yHeadRot = this.getYRot();
+            this.yBodyRot = this.getYRot();
+            this.level().addParticle(ParticleTypes.SOUL, this.getX(), this.getY() + 0.5D, this.getZ(), 0.0D, 0.0D, 0.0D);
+            if (++this.flightTicks > this.flightDuration) {
                 this.isFlyingAway = false;
                 this.noPhysics = false;
-            } else {
-                double x = this.flightStartPos.x + (this.flightEndPos.x - this.flightStartPos.x) * t;
-                double z = this.flightStartPos.z + (this.flightEndPos.z - this.flightStartPos.z) * t;
-                double y = this.flightStartPos.y + this.flightArcHeight * Math.sin(Math.PI * t);
-
-                Vec3 newPos = new Vec3(x, y, z);
-                BlockPos currentPos = new BlockPos((int)Math.floor(newPos.x), (int)Math.floor(newPos.y), (int)Math.floor(newPos.z));
-
-                if (!this.level().getBlockState(currentPos).isAir()) {
-                    this.isFlyingAway = false;
-                    this.noPhysics = false;
-                    return;
-                }
-
-                if (isPositionSafe(newPos)) {
-                    this.teleportTo(newPos.x, newPos.y, newPos.z);
-                } else {
-                    this.isFlyingAway = false;
-                    this.noPhysics = false;
-                    return;
-                }
-
-                this.yRotO = this.getYRot();
-                this.setYRot(this.getYRot() + 10);
-                this.yHeadRot = this.getYRot();
-                this.yBodyRot = this.getYRot();
-                this.level().addParticle(ParticleTypes.SOUL, this.getX(), this.getY() + 0.5D, this.getZ(), 0.0D, 0.0D, 0.0D);
-                this.flightTicks++;
+                landSafely();
             }
         } else {
             if (this.summoner != null && this.summoner.isAlive()) {
                 double distanceSq = this.distanceToSqr(this.summoner);
-                if (distanceSq > 75 * 75) {
-                    this.getNavigation().moveTo(this.summoner, 1.0D);
+                if (distanceSq > MAX_DISTANCE * MAX_DISTANCE) {
+                    this.getNavigation().moveTo(this.summoner, 1.2D);
                 }
             } else {
                 this.summoner = null;
@@ -182,25 +177,6 @@ public class FleeingPumpkinHead extends Monster {
                 increasedArmor = true;
             }
         }
-    }
-
-    private boolean canSpawnEntityAt(BlockPos pos) {
-        BlockPos below = pos.below();
-        BlockState belowState = this.level().getBlockState(below);
-        return this.level().isEmptyBlock(pos) && this.level().isEmptyBlock(pos.above()) && !belowState.getCollisionShape(this.level(), below).isEmpty();
-    }
-
-    private BlockPos groundedSpawnPos(BlockPos origin) {
-        int x = origin.getX();
-        int z = origin.getZ();
-        int y = this.level().getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
-        BlockPos candidate = new BlockPos(x, y, z);
-        if (canSpawnEntityAt(candidate)) return candidate;
-        for (int dy = 1; dy <= 3; dy++) {
-            BlockPos up = candidate.above(dy);
-            if (canSpawnEntityAt(up)) return up;
-        }
-        return origin;
     }
 
     private boolean isPositionSafe(Vec3 pos) {
@@ -249,63 +225,43 @@ public class FleeingPumpkinHead extends Monster {
                 serverPlayer.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 30, 3));
             }
         }
-        for (int i = 0; i < 5; i++) {
-            BlockPos offsetPos = this.blockPosition().offset(this.random.nextInt(5) - 2, this.random.nextInt(3) - 1, this.random.nextInt(5) - 2);
-            BlockPos spawnPos = groundedSpawnPos(offsetPos);
-            if (canSpawnEntityAt(spawnPos)) {
-                Zombie zombie = EntityTypeRegistry.INFECTED_ZOMBIE.get().create(this.level());
-                if (zombie != null) {
-                    zombie.moveTo(spawnPos.getX() + 0.5, spawnPos.getY(), spawnPos.getZ() + 0.5, this.random.nextFloat() * 360.0F, 0.0F);
-                    zombie.setDeltaMovement(Vec3.ZERO);
-                    zombie.setNoGravity(false);
-                    zombie.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ObjectRegistry.SPECTRAL_JACK_O_LANTERN.get()));
-                    zombie.setDropChance(EquipmentSlot.HEAD, 0.1f);
-                    zombie.setItemSlot(EquipmentSlot.CHEST, new ItemStack(ObjectRegistry.HAUNTBOUND_CHESTPLATE.get()));
-                    zombie.setDropChance(EquipmentSlot.CHEST, 0.01f);
-                    zombie.setItemSlot(EquipmentSlot.LEGS, new ItemStack(ObjectRegistry.HAUNTBOUND_LEGGINGS.get()));
-                    zombie.setDropChance(EquipmentSlot.LEGS, 0.01f);
-                    zombie.setItemSlot(EquipmentSlot.FEET, new ItemStack(ObjectRegistry.HAUNTBOUND_BOOTS.get()));
-                    zombie.setDropChance(EquipmentSlot.FEET, 0.01f);
-                    ItemStack enchantedSword = new ItemStack(ObjectRegistry.SPECTRAL_WARAXE.get());
-                    zombie.setItemSlot(EquipmentSlot.MAINHAND, enchantedSword);
-                    zombie.setDropChance(EquipmentSlot.MAINHAND, 0.03f);
-                    if (zombie.getAttribute(Attributes.ARMOR) != null) {
-                        double currentArmor = Objects.requireNonNull(zombie.getAttribute(Attributes.ARMOR)).getBaseValue();
-                        Objects.requireNonNull(zombie.getAttribute(Attributes.ARMOR)).setBaseValue(Math.max(0, currentArmor - 8));
-                    }
-                    zombie.setCustomName(Component.translatable("entity.sleepy_hollows.hauntbound_zombie"));
-                    zombie.setCustomNameVisible(false);
-                    this.level().addFreshEntity(zombie);
-                    this.level().addParticle(ParticleTypes.FLASH, zombie.getX(), zombie.getY() + 0.5D, zombie.getZ(), 0.0D, 0.0D, 0.0D);
-                }
+        for (int i = 0; i < 7; i++) {
+            BlockPos offset = this.blockPosition().offset(this.random.nextInt(5) - 2, 0, this.random.nextInt(5) - 2);
+            BlockPos spawnPos = MobSpawnHelper.findGroundedSpawn(this.level(), offset, 3, 0);
+            if (spawnPos == null) continue;
+            Mob minion = i < 5 ? createHauntboundZombie() : createHauntboundMarksman();
+            if (minion != null) {
+                MobSpawnHelper.spawnAt(this.level(), minion, spawnPos);
+                this.level().addParticle(ParticleTypes.FLASH, minion.getX(), minion.getY() + 0.5D, minion.getZ(), 0.0D, 0.0D, 0.0D);
             }
         }
-        for (int i = 0; i < 2; i++) {
-            BlockPos offsetPos = this.blockPosition().offset(this.random.nextInt(5) - 2, this.random.nextInt(3) - 1, this.random.nextInt(5) - 2);
-            BlockPos spawnPos = groundedSpawnPos(offsetPos);
-            if (canSpawnEntityAt(spawnPos)) {
-                Skeleton skeleton = EntityType.SKELETON.create(this.level());
-                if (skeleton != null) {
-                    skeleton.moveTo(spawnPos.getX() + 0.5, spawnPos.getY(), spawnPos.getZ() + 0.5, this.random.nextFloat() * 360.0F, 0.0F);
-                    skeleton.setDeltaMovement(Vec3.ZERO);
-                    skeleton.setNoGravity(false);
-                    skeleton.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ObjectRegistry.SPECTRAL_JACK_O_LANTERN.get()));
-                    skeleton.setDropChance(EquipmentSlot.HEAD, 0.1f);
-                    skeleton.setItemSlot(EquipmentSlot.CHEST, new ItemStack(ObjectRegistry.HAUNTBOUND_CHESTPLATE.get()));
-                    skeleton.setDropChance(EquipmentSlot.CHEST, 0.01f);
-                    skeleton.setItemSlot(EquipmentSlot.LEGS, new ItemStack(ObjectRegistry.HAUNTBOUND_LEGGINGS.get()));
-                    skeleton.setDropChance(EquipmentSlot.LEGS, 0.01f);
-                    skeleton.setItemSlot(EquipmentSlot.FEET, new ItemStack(ObjectRegistry.HAUNTBOUND_BOOTS.get()));
-                    skeleton.setDropChance(EquipmentSlot.FEET, 0.01f);
-                    ItemStack enchantedBow = new ItemStack(Items.BOW);
-                    skeleton.setItemSlot(EquipmentSlot.MAINHAND, enchantedBow);
-                    skeleton.setDropChance(EquipmentSlot.MAINHAND, 0.01f);
-                    skeleton.setCustomName(Component.translatable("entity.sleepy_hollows.hauntbound_marksman"));
-                    skeleton.setCustomNameVisible(false);
-                    this.level().addFreshEntity(skeleton);
-                    this.level().addParticle(ParticleTypes.FLASH, skeleton.getX(), skeleton.getY() + 0.5D, skeleton.getZ(), 0.0D, 0.0D, 0.0D);
-                }
-            }
+    }
+
+    private Mob createHauntboundZombie() {
+        Zombie zombie = EntityTypeRegistry.INFECTED_ZOMBIE.get().create(this.level());
+        if (zombie == null) return null;
+        MobSpawnHelper.equipHauntbound(zombie, new ItemStack(ObjectRegistry.SPECTRAL_JACK_O_LANTERN.get()), new ItemStack(ObjectRegistry.SPECTRAL_WARAXE.get()), 0.01F);
+        zombie.setDropChance(EquipmentSlot.MAINHAND, 0.03F);
+        AttributeInstance armor = zombie.getAttribute(Attributes.ARMOR);
+        if (armor != null) armor.setBaseValue(Math.max(0, armor.getBaseValue() - 8));
+        zombie.setCustomName(Component.translatable("entity.sleepy_hollows.hauntbound_zombie"));
+        zombie.setCustomNameVisible(false);
+        return zombie;
+    }
+
+    private Mob createHauntboundMarksman() {
+        Skeleton skeleton = EntityType.SKELETON.create(this.level());
+        if (skeleton == null) return null;
+        MobSpawnHelper.equipHauntbound(skeleton, new ItemStack(ObjectRegistry.SPECTRAL_JACK_O_LANTERN.get()), new ItemStack(Items.BOW), 0.01F);
+        skeleton.setCustomName(Component.translatable("entity.sleepy_hollows.hauntbound_marksman"));
+        skeleton.setCustomNameVisible(false);
+        return skeleton;
+    }
+
+    private void landSafely() {
+        BlockPos ground = MobSpawnHelper.findGroundedSpawn(this.level(), this.blockPosition(), 8, 3);
+        if (ground != null) {
+            this.teleportTo(ground.getX() + 0.5, ground.getY(), ground.getZ() + 0.5);
         }
     }
 
@@ -318,8 +274,9 @@ public class FleeingPumpkinHead extends Monster {
         double distance = 15;
         double dx = Math.cos(angle) * distance;
         double dz = Math.sin(angle) * distance;
-        this.flightEndPos = this.flightStartPos.add(dx, 0, dz);
-        this.flightArcHeight = 5;
+        BlockPos endGround = MobSpawnHelper.findGroundedSpawn(this.level(), BlockPos.containing(this.flightStartPos.add(dx, 0, dz)), 6, 2);
+        this.flightEndPos = endGround != null ? Vec3.atBottomCenterOf(endGround) : this.flightStartPos;
+        this.flightArcHeight = 5 + Math.abs(this.flightEndPos.y - this.flightStartPos.y);
         this.noPhysics = true;
 
         this.level().playSound(null, this.blockPosition(), SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.HOSTILE, 1.0F, 1.0F);
@@ -396,6 +353,12 @@ public class FleeingPumpkinHead extends Monster {
             if (nearestPlayer != null) {
                 Vec3 awayVector = entity.position().subtract(nearestPlayer.position()).normalize();
                 Vec3 targetPos = entity.position().add(awayVector.scale(10));
+                if (entity.summoner != null) {
+                    Vec3 leash = targetPos.subtract(entity.summoner.position());
+                    if (leash.horizontalDistance() > MAX_DISTANCE - 4) {
+                        targetPos = entity.summoner.position().add(leash.normalize().scale(MAX_DISTANCE - 4));
+                    }
+                }
                 if (entity.isPositionSafe(targetPos)) {
                     entity.getNavigation().moveTo(targetPos.x, targetPos.y, targetPos.z, speed);
                 } else {

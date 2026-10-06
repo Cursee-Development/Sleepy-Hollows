@@ -34,7 +34,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.satisfy.sleepy_hollows.core.block.entity.CoffinBlockEntity;
 import net.satisfy.sleepy_hollows.core.block.entity.DummyCoffinBlockEntity;
 import net.satisfy.sleepy_hollows.core.registry.EntityTypeRegistry;
-import net.satisfy.sleepy_hollows.core.util.SleepyHollowsUtil;
+import net.satisfy.foundation.util.ShapeUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -71,7 +71,7 @@ public class CoffinBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
 
     public static final Map<Direction, VoxelShape> SHAPE = net.minecraft.Util.make(new HashMap<>(), map -> {
         for (Direction direction : Direction.Plane.HORIZONTAL.stream().toList()) {
-            map.put(direction, SleepyHollowsUtil.rotateShape(Direction.NORTH, direction, voxelShapeSupplier.get()));
+            map.put(direction, ShapeUtil.rotateShape(Direction.NORTH, direction, voxelShapeSupplier.get()));
         }
     });
 

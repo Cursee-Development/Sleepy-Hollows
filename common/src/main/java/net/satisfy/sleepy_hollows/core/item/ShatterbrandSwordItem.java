@@ -1,15 +1,13 @@
 package net.satisfy.sleepy_hollows.core.item;
 
-import net.minecraft.ChatFormatting;
+import net.satisfy.sleepy_hollows.core.registry.MobEffectRegistry;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.*;
 import net.satisfy.sleepy_hollows.core.registry.ToolTiersRegistry;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 public class ShatterbrandSwordItem extends SwordItem {
     public ShatterbrandSwordItem(Properties properties) {
@@ -30,12 +28,10 @@ public class ShatterbrandSwordItem extends SwordItem {
                     serverLevel.sendParticles(ParticleTypes.WHITE_ASH, px, py, pz, 1, 0.0, 0.0, 0.0, 0.02);
                 }
             }
+            if (result) {
+                target.addEffect(new MobEffectInstance(MobEffectRegistry.holder(MobEffectRegistry.INFECTED), 30, 1));
+            }
         }
         return result;
-    }
-
-    @Override
-    public void appendHoverText(@NotNull ItemStack stack, @NotNull Item.TooltipContext context, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
-        tooltip.add(Component.translatable("tooltip.sleepy_hollows.lore.shatterbrand").withStyle(ChatFormatting.GOLD, ChatFormatting.ITALIC));
     }
 }

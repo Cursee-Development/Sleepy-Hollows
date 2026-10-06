@@ -1,5 +1,7 @@
 package net.satisfy.sleepy_hollows.core.item;
 
+import net.satisfy.sleepy_hollows.core.util.SanityManager;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
@@ -30,5 +32,13 @@ public class LuminousWaterItem extends Item {
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level world, @NotNull Player player, @NotNull InteractionHand hand) {
         if (player.isShiftKeyDown()) return super.use(world, player, hand);
         return ItemUtils.startUsingInstantly(world, player, hand);
+    }
+
+    @Override
+    public @NotNull ItemStack finishUsingItem(@NotNull ItemStack stack, @NotNull Level level, @NotNull LivingEntity entity) {
+        if (entity instanceof ServerPlayer player) {
+            SanityManager.changeSanity(player, SanityManager.Modifiers.LUMINOUS_WATER);
+        }
+        return super.finishUsingItem(stack, level, entity);
     }
 }

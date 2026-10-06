@@ -1,5 +1,7 @@
 package net.satisfy.sleepy_hollows.core.registry;
 
+import net.minecraft.world.item.Item;
+import net.satisfy.sleepy_hollows.platform.PlatformHelper;
 import net.minecraft.core.Holder;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -15,16 +17,14 @@ import java.util.function.Supplier;
 @SuppressWarnings("SameParameterValue")
 public class ArmorMaterialRegistry {
     private static final int ENCHANTMENT_VALUE = 15;
-    private static final Holder<SoundEvent> EQUIP_SOUND = SoundEvents.ARMOR_EQUIP_LEATHER;
-    private static final float TOUGHNESS = 0.0F;
-    private static final float KNOCKBACK_RESISTANCE = 0.0F;
+    private static final Holder<SoundEvent> EQUIP_SOUND = SoundEvents.ARMOR_EQUIP_NETHERITE;
 
     public static final ArmorMaterial HAUNTBOUND_ARMOR_INNER = createMaterial("hauntbound_inner", () -> Ingredient.of(ObjectRegistry.SPECTRAL_ESSENCE.get()));
     public static final ArmorMaterial HAUNTBOUND_ARMOR_OUTER = createMaterial("hauntbound_outer", () -> Ingredient.of(ObjectRegistry.SPECTRAL_ESSENCE.get()));
     public static final ArmorMaterial HAUNTBOUND_HELMET = createMaterial("hauntbound_helmet", () -> Ingredient.of(ObjectRegistry.SPECTRAL_ESSENCE.get()));
 
     private static ArmorMaterial createMaterial(String name, Supplier<Ingredient> repairSupplier) {
-        return register(slots(2, 4, 4, 3, 5), ENCHANTMENT_VALUE, EQUIP_SOUND, TOUGHNESS, KNOCKBACK_RESISTANCE, repairSupplier, List.of(new ArmorMaterial.Layer(SleepyHollows.identifier(name), "", false)));
+        return register(defense(), ENCHANTMENT_VALUE, EQUIP_SOUND, PlatformHelper.getHauntboundToughness(), PlatformHelper.getHauntboundKnockbackResistance(), repairSupplier, List.of(new ArmorMaterial.Layer(SleepyHollows.identifier(name), "", false)));
     }
 
     private static ArmorMaterial register(EnumMap<ArmorItem.Type, Integer> health, int enchantValue, Holder<SoundEvent> equipSound, float toughness, float knockback, Supplier<Ingredient> repairSupplier, List<ArmorMaterial.Layer> layers) {
@@ -33,13 +33,15 @@ public class ArmorMaterialRegistry {
         return new ArmorMaterial(copy, enchantValue, equipSound, repairSupplier, layers, toughness, knockback);
     }
 
-    private static EnumMap<ArmorItem.Type, Integer> slots(int boots, int leggings, int chestplate, int helmet, int body) {
+    private static EnumMap<ArmorItem.Type, Integer> defense() {
         EnumMap<ArmorItem.Type, Integer> map = new EnumMap<>(ArmorItem.Type.class);
-        map.put(ArmorItem.Type.BOOTS, boots);
-        map.put(ArmorItem.Type.LEGGINGS, leggings);
-        map.put(ArmorItem.Type.CHESTPLATE, chestplate);
-        map.put(ArmorItem.Type.HELMET, helmet);
-        map.put(ArmorItem.Type.BODY, body);
+        for (ArmorItem.Type type : ArmorItem.Type.values()) {
+            map.put(type, PlatformHelper.getHauntboundDefense(type));
+        }
         return map;
+    }
+
+    public static Item.Properties durability(Item.Properties properties, ArmorItem.Type type) {
+        return properties.durability(type.getDurability(PlatformHelper.getHauntboundDurabilityMultiplier()));
     }
 }

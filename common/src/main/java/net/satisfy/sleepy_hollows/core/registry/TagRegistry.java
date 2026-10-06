@@ -7,5 +7,6 @@ import net.satisfy.sleepy_hollows.SleepyHollows;
 
 public class TagRegistry {
     public static final TagKey<Block> RESET_SANITY = TagKey.create(Registries.BLOCK, SleepyHollows.identifier("reset_sanity"));
+    public static final TagKey<Block> SANITY_LIGHT = TagKey.create(Registries.BLOCK, SleepyHollows.identifier("sanity_light"));
     public static final TagKey<Block> DECREASE_SANITY = TagKey.create(Registries.BLOCK, SleepyHollows.identifier("decrease_sanity"));
 }

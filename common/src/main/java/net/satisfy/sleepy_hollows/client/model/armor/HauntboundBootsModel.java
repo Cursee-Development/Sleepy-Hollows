@@ -1,31 +1,36 @@
 package net.satisfy.sleepy_hollows.client.model.armor;
 
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.client.model.HumanoidModel;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.world.entity.Entity;
 import net.satisfy.sleepy_hollows.SleepyHollows;
 import org.jetbrains.annotations.NotNull;
 
-public class HauntboundBootsModel<T extends Entity> extends EntityModel<T> {
-
+public class HauntboundBootsModel<T extends LivingEntity> extends HumanoidModel<T> {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(SleepyHollows.identifier("hauntbound_boots"), "main");
-    private final ModelPart right_leg;
-    private final ModelPart left_leg;
 
     public HauntboundBootsModel(ModelPart root) {
-        this.right_leg = root.getChild("right_leg");
-        this.left_leg = root.getChild("left_leg");
+        super(root);
+        setAllVisible(false);
+        rightLeg.visible = true;
+        leftLeg.visible = true;
     }
 
     @SuppressWarnings("unused")
     public static LayerDefinition createBodyLayer() {
         MeshDefinition meshdefinition = new MeshDefinition();
         PartDefinition partdefinition = meshdefinition.getRoot();
+        partdefinition.addOrReplaceChild("head", CubeListBuilder.create(), PartPose.ZERO);
+        partdefinition.addOrReplaceChild("hat", CubeListBuilder.create(), PartPose.ZERO);
+        partdefinition.addOrReplaceChild("body", CubeListBuilder.create(), PartPose.ZERO);
+        partdefinition.addOrReplaceChild("right_arm", CubeListBuilder.create(), PartPose.offset(-5.0F, 2.0F, 0.0F));
+        partdefinition.addOrReplaceChild("left_arm", CubeListBuilder.create(), PartPose.offset(5.0F, 2.0F, 0.0F));
         PartDefinition right_leg = partdefinition.addOrReplaceChild("right_leg", CubeListBuilder.create().texOffs(29, 47).addBox(-2.0F, 8.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.25F))
                 .texOffs(32, 10).addBox(-1.1F, 7.0F, -2.5F, 2.0F, 2.0F, 1.0F, new CubeDeformation(0.25F))
                 .texOffs(48, 33).addBox(-2.0F, 7.8F, -2.0F, 4.0F, 1.0F, 4.0F, new CubeDeformation(0.4F)), PartPose.offset(-1.9F, 12.0F, 0.0F));
@@ -38,21 +43,12 @@ public class HauntboundBootsModel<T extends Entity> extends EntityModel<T> {
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int k) {
+    public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color) {
         poseStack.pushPose();
         poseStack.scale(1.075F, 1.075F, 1.075F);
         poseStack.translate(0F, -0.095F, 0F);
-        right_leg.render(poseStack, vertexConsumer, packedLight, packedOverlay, k);
-        left_leg.render(poseStack, vertexConsumer, packedLight, packedOverlay, k);
+        rightLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, color);
+        leftLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, color);
         poseStack.popPose();
-    }
-
-    @Override
-    public void setupAnim(@NotNull T entity, float f, float g, float h, float i, float j) {
-    }
-
-    public void copyLegs(ModelPart rightLegModel, ModelPart leftLegModel) {
-        this.right_leg.copyFrom(rightLegModel);
-        this.left_leg.copyFrom(leftLegModel);
     }
 }

@@ -2,7 +2,11 @@
   "type": "minecraft:gift",
   "pools": [
     {
-      "rolls": 1,
+      "rolls": {
+        "type": "minecraft:uniform",
+        "min": 2,
+        "max": 4
+      },
       "bonus_rolls": 0,
       "entries": [
         {
@@ -155,20 +159,6 @@
               "count": {
                 "min": 2,
                 "max": 6
-              }
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "sleepy_hollows:reins_of_the_spectral_horse",
-          "weight": 5,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1,
-                "max": 1
               }
             }
           ]

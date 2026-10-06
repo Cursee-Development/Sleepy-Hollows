@@ -1,7 +1,19 @@
 package net.satisfy.sleepy_hollows.core.entity;
 
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.item.Item;
+import net.minecraft.core.registries.BuiltInRegistries;
+import org.slf4j.Logger;
+import com.mojang.logging.LogUtils;
+import net.satisfy.sleepy_hollows.SleepyHollows;
+import net.satisfy.foundation.overlay.BlockNotice;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.resources.ResourceLocation;
+import java.util.UUID;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ColorParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -23,6 +35,7 @@ import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.entity.player.Player;
@@ -39,11 +52,11 @@ import net.satisfy.foundation.entity.ai.AnimationAttackGoal;
 import net.satisfy.foundation.entity.ai.AttackAnimationMob;
 import net.satisfy.foundation.entity.ai.RandomAction;
 import net.satisfy.foundation.entity.ai.RandomActionGoal;
-import net.satisfy.sleepy_hollows.core.entity.ai.NearestAttackablePlayerGoal;
 import net.satisfy.sleepy_hollows.core.entity.animation.ServerAnimationDurations;
 import net.satisfy.sleepy_hollows.core.registry.EntityTypeRegistry;
 import net.satisfy.sleepy_hollows.core.registry.ObjectRegistry;
 import net.satisfy.sleepy_hollows.core.registry.SoundEventRegistry;
+import net.satisfy.sleepy_hollows.core.util.MobSpawnHelper;
 import net.satisfy.sleepy_hollows.core.util.ParticleArc;
 import net.satisfy.sleepy_hollows.core.util.SoulfireSpiral;
 import net.satisfy.sleepy_hollows.platform.PlatformHelper;
@@ -54,7 +67,15 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Horseman extends Monster implements AttackAnimationMob, RandomAction, PowerableMob {
-    private static final float[] HEALTH_THRESHOLDS = {0.75f, 0.50f, 0.25f};
+    private static final Logger LOGGER = LogUtils.getLogger();
+    private static final int PHASE_ONE = 0;
+    private static final int FIRST_HEAD = 1;
+    private static final int PHASE_TWO = 2;
+    private static final int SECOND_HEAD = 3;
+    private static final int RAGE = 4;
+    private static final int SPIRAL_WARNING_TICKS = 30;
+    private static final int HEAD_LOST_TIMEOUT = 200;
+    private static final ResourceLocation RAGE_SPEED = SleepyHollows.identifier("horseman_rage");
 
     private static final EntityDataAccessor<Boolean> HAS_ACTIVE_PUMPKIN_HEAD = SynchedEntityData.defineId(Horseman.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> ATTACKING = SynchedEntityData.defineId(Horseman.class, EntityDataSerializers.BOOLEAN);
@@ -65,9 +86,14 @@ public class Horseman extends Monster implements AttackAnimationMob, RandomActio
     private final ServerBossEvent bossEvent = new ServerBossEvent(Component.translatable("entity.sleepy_hollows.horseman"), BossEvent.BossBarColor.PURPLE, BossEvent.BossBarOverlay.PROGRESS);
     private final List<ParticleArc> activeParticleArcs = new ArrayList<>();
     public AnimationState laughingAnimationState = new AnimationState();
-    private int nextSummonIndex = 0;
+    private int phase = PHASE_ONE;
+    private final List<LaughEcho> laughEchoes = new ArrayList<>();
+    private UUID headId;
+    private int headMissingTicks;
+    private int spiralCooldown = 200;
+    private int spiralWarning = -1;
+    private int skeletonCooldown;
     private int idleAnimationTimeout = 0;
-    private int skeletonSpawnTimer = 500;
     private int attackCounter = 0;
 
     public Horseman(EntityType<? extends Monster> type, Level world) {
@@ -75,10 +101,10 @@ public class Horseman extends Monster implements AttackAnimationMob, RandomActio
         this.setCustomName(Component.translatable("entity.sleepy_hollows.horseman"));
         this.setCustomNameVisible(true);
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
         this.goalSelector.addGoal(0, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(0, new WaterAvoidingRandomStrollGoal(this, 1.0));
         this.goalSelector.addGoal(1, new AnimationAttackGoal(this, 1.0D, true, (int) (ServerAnimationDurations.horseman_attack * 20 + 2), 8));
-        this.goalSelector.addGoal(1, new NearestAttackablePlayerGoal(this, 30.0D));
         this.goalSelector.addGoal(2, new RandomActionGoal(this));
         this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 25.0F));
     }
@@ -92,130 +118,169 @@ public class Horseman extends Monster implements AttackAnimationMob, RandomActio
                 .add(Attributes.ARMOR, PlatformHelper.getHorsemanArmor());
     }
 
+    @Override
     public void tick() {
         super.tick();
         if (this.level().isClientSide()) {
             setupAnimationStates();
+            tickParticleArcs();
+            if (this.isMoving()) {
+                this.level().addParticle(ParticleTypes.ASH, this.getX(), this.getY() + 1.0D, this.getZ(), 0.0D, 0.0D, 0.0D);
+                this.level().addParticle(ParticleTypes.WHITE_ASH, this.getX(), this.getY() + 1.0D, this.getZ(), 0.0D, 0.0D, 0.0D);
+            }
+            if (this.isPowered()) {
+                for (int i = 0; i < 3; ++i) {
+                    this.level().addParticle(ParticleTypes.SMOKE, this.getX() + this.random.nextGaussian() * 0.3, this.getY() + 1.0 + this.random.nextGaussian() * 0.3, this.getZ() + this.random.nextGaussian() * 0.3, 0.0, 0.0, 0.0);
+                }
+            }
+            return;
         }
 
-        if (this.hasActivePumpkinHead() && !isPumpkinHeadAlive()) {
-            this.setActivePumpkinHead(false);
+        float health = this.getHealth() / this.getMaxHealth();
+        if (phase == PHASE_ONE && health <= 0.66F) {
+            startHeadPhase(FIRST_HEAD);
+        } else if (phase == PHASE_TWO && health <= 0.33F) {
+            startHeadPhase(SECOND_HEAD);
         }
 
-        if (!this.level().isClientSide() && this.hasActivePumpkinHead()) {
-            this.level().broadcastEntityEvent(this, (byte) 10);
+        if (phase == FIRST_HEAD || phase == SECOND_HEAD) {
+            tickHeadPhase();
+        } else {
+            tickSpirals();
         }
 
-        if (this.isMoving()) {
-            this.level().addParticle(ParticleTypes.ASH, this.getX(), this.getY() + 1.0D, this.getZ(), 0.0D, 0.0D, 0.0D);
-            this.level().addParticle(ParticleTypes.WHITE_ASH, this.getX(), this.getY() + 1.0D, this.getZ(), 0.0D, 0.0D, 0.0D);
-        }
+        laughEchoes.removeIf(echo -> {
+            if (--echo.delay > 0) return false;
+            this.level().playSound(null, this.getX() + echo.dx, this.getY() + 2, this.getZ() + echo.dz, SoundEventRegistry.HORSEMAN_LAUGH.get(), SoundSource.HOSTILE, echo.volume, echo.pitch);
+            return true;
+        });
+        activeSoulfireSpirals.removeIf(spiral -> {
+            spiral.tick();
+            return spiral.isFinished();
+        });
+        this.bossEvent.setProgress(health);
+    }
 
-        float currentHealthRatio = this.getHealth() / this.getMaxHealth();
-        if (nextSummonIndex < HEALTH_THRESHOLDS.length && currentHealthRatio <= HEALTH_THRESHOLDS[nextSummonIndex]) {
-            summonPumpkinHead();
-            nextSummonIndex++;
-        }
+    private void tickParticleArcs() {
+        activeParticleArcs.removeIf(arc -> {
+            arc.tick(level());
+            return arc.isFinished();
+        });
+    }
 
-        if (!this.level().isClientSide()) {
-            skeletonSpawnTimer--;
-            if (skeletonSpawnTimer <= 0) {
+    private void startHeadPhase(int headPhase) {
+        phase = headPhase;
+        skeletonCooldown = 60;
+        headMissingTicks = 0;
+        spiralWarning = -1;
+        setImmune(true);
+        setActivePumpkinHead(true);
+        announce("message.sleepy_hollows.horseman.head_flees");
+        BlockPos base = MobSpawnHelper.findGroundedSpawn(level(), blockPosition(), 4, 3);
+        if (base == null) base = blockPosition().above();
+        FleeingPumpkinHead head = EntityTypeRegistry.FLEEING_PUMPKIN_HEAD.get().create(level());
+        if (head != null) {
+            head.setPos(base.getX() + 0.5, base.getY(), base.getZ() + 0.5);
+            head.setSummoner(this);
+            level().addFreshEntity(head);
+            head.startFlyingAway();
+            headId = head.getUUID();
+        }
+    }
+
+    private void tickHeadPhase() {
+        Entity head = headId == null ? null : ((ServerLevel) level()).getEntity(headId);
+        if (head instanceof FleeingPumpkinHead pumpkinHead && pumpkinHead.getSummoner() == null) {
+            pumpkinHead.setSummoner(this);
+        }
+        headMissingTicks = head == null ? headMissingTicks + 1 : 0;
+        if ((head != null && !head.isAlive()) || headMissingTicks > HEAD_LOST_TIMEOUT) {
+            endHeadPhase();
+            return;
+        }
+        if (--skeletonCooldown <= 0) {
+            int count = phase == SECOND_HEAD ? 2 : 1;
+            for (int i = 0; i < count; i++) {
                 spawnArmoredSkeleton();
-                skeletonSpawnTimer = 25 * 20;
             }
+            skeletonCooldown = 200;
         }
+    }
 
-        float[] SOULFIRE_THRESHOLDS = getSoulfireThresholds();
-
-        if (nextSoulfireIndex < SOULFIRE_THRESHOLDS.length && this.getHealth() <= SOULFIRE_THRESHOLDS[nextSoulfireIndex]) {
-            castSoulfireSpiral();
-            nextSoulfireIndex++;
+    private void endHeadPhase() {
+        this.addEffect(new MobEffectInstance(MobEffects.GLOWING, 160, 0, false, false));
+        headId = null;
+        setImmune(false);
+        setActivePumpkinHead(false);
+        phase = phase == FIRST_HEAD ? PHASE_TWO : RAGE;
+        spiralCooldown = 80;
+        if (phase == RAGE) {
+            applyRage();
+            announce("message.sleepy_hollows.horseman.rage");
+        } else {
+            announce("message.sleepy_hollows.horseman.head_returns");
         }
+    }
 
-        if (!this.level().isClientSide()) {
-            if (!activeSoulfireSpirals.isEmpty()) {
-                Iterator<SoulfireSpiral> iterator = activeSoulfireSpirals.iterator();
-                while (iterator.hasNext()) {
-                    SoulfireSpiral spiral = iterator.next();
-                    spiral.tick();
-                    if (spiral.isFinished()) {
-                        iterator.remove();
-                    }
-                }
+    private void applyRage() {
+        AttributeInstance speed = this.getAttribute(Attributes.MOVEMENT_SPEED);
+        if (speed != null && !speed.hasModifier(RAGE_SPEED)) {
+            speed.addPermanentModifier(new AttributeModifier(RAGE_SPEED, 0.3, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+        }
+    }
+
+    private void tickSpirals() {
+        if (spiralWarning >= 0) {
+            if (this.level() instanceof ServerLevel serverLevel) {
+                double angle = spiralWarning * 0.6;
+                serverLevel.sendParticles(ParticleTypes.SOUL_FIRE_FLAME, getX() + Math.cos(angle) * 2.5, getY() + 0.1, getZ() + Math.sin(angle) * 2.5, 2, 0.1, 0.0, 0.1, 0.01);
             }
-        }
-
-        if (!activeParticleArcs.isEmpty()) {
-            Iterator<ParticleArc> iterator = activeParticleArcs.iterator();
-            while (iterator.hasNext()) {
-                ParticleArc arc = iterator.next();
-                arc.tick(level());
-                if (arc.isFinished()) {
-                    iterator.remove();
-                }
+            if (spiralWarning-- == 0) {
+                castSoulfireSpiral();
+                spiralCooldown = switch (phase) {
+                    case PHASE_ONE -> 300;
+                    case PHASE_TWO -> 220;
+                    default -> 160;
+                };
             }
+        } else if (getTarget() != null && --spiralCooldown <= 0) {
+            spiralWarning = SPIRAL_WARNING_TICKS;
+            this.level().playSound(null, blockPosition(), SoundEvents.BLAZE_SHOOT, SoundSource.HOSTILE, 2.0F, 0.5F);
+            announce("message.sleepy_hollows.horseman.soulfire");
         }
+    }
 
-        if (this.hasActivePumpkinHead()) {
-            for (int i = 0; i < 3; ++i) {
-                double offsetX = this.getX() + this.random.nextGaussian() * 0.3;
-                double offsetY = this.getY() + 1.0 + this.random.nextGaussian() * 0.3;
-                double offsetZ = this.getZ() + this.random.nextGaussian() * 0.3;
-                this.level().addParticle(ParticleTypes.SMOKE, offsetX, offsetY, offsetZ, 0.0, 0.0, 0.0);
-
-                if (this.random.nextInt(4) == 0) {
-                    this.level().addParticle(ColorParticleOption.create(ParticleTypes.ENTITY_EFFECT, 0.7F, 0.7F, 0.5F), offsetX, offsetY, offsetZ, 0.0, 0.0, 0.0);                }
-            }
+    private void announce(String key) {
+        Component message = Component.translatable(key);
+        for (ServerPlayer player : ((ServerLevel) level()).getPlayers(player -> player.distanceToSqr(this) < 48 * 48)) {
+            BlockNotice.send(player, blockPosition().above(2), message);
         }
+    }
 
-        this.bossEvent.setProgress(this.getHealth() / this.getMaxHealth());
+    private void setImmune(boolean immune) {
+        this.entityData.set(IMMUNE, immune);
     }
 
     private void castSoulfireSpiral() {
-        SoulfireSpiral spiral = new SoulfireSpiral(this.level(), this.position());
-        activeSoulfireSpirals.add(spiral);
-
-        if (!this.level().isClientSide()) {
-            this.level().playSound(null, this.blockPosition(), SoundEvents.BLAZE_BURN, SoundSource.HOSTILE, 1.0F, 1.0F);
-        }
+        if (this.level() instanceof ServerLevel serverLevel) activeSoulfireSpirals.add(new SoulfireSpiral(serverLevel, this.position()));
+        this.level().playSound(null, this.blockPosition(), SoundEvents.BLAZE_BURN, SoundSource.HOSTILE, 1.0F, 1.0F);
     }
 
     private boolean isMoving() {
         return this.getDeltaMovement().lengthSqr() > 0.01;
     }
 
-    private void summonPumpkinHead() {
-        if (!hasActivePumpkinHead()) {
-            setActivePumpkinHead(true);
-        }
-        BlockPos base = safeHeadSpawn(blockPosition().above());
-        FleeingPumpkinHead pumpkinHead = EntityTypeRegistry.FLEEING_PUMPKIN_HEAD.get().create(level());
-        if (pumpkinHead != null) {
-            pumpkinHead.setPos(base.getX() + 0.5, base.getY(), base.getZ() + 0.5);
-            pumpkinHead.setSummoner(this);
-            level().addFreshEntity(pumpkinHead);
-            entityData.set(IMMUNE, true);
-            pumpkinHead.startFlyingAway();
-        }
-    }
-
     private void spawnArmoredSkeleton() {
-        int ox = (int) Math.floor(getX() + random.nextGaussian() * 8);
-        int oz = (int) Math.floor(getZ() + random.nextGaussian() * 8);
-        int oy = level().getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ox, oz);
-        BlockPos pos = new BlockPos(ox, oy, oz);
-        if (!canSpawnHeadAt(pos)) return;
+        int x = (int) Math.floor(getX() + random.nextGaussian() * 8);
+        int z = (int) Math.floor(getZ() + random.nextGaussian() * 8);
+        BlockPos pos = new BlockPos(x, level().getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z), z);
+        if (!MobSpawnHelper.canSpawnAt(level(), pos)) return;
         Skeleton skeleton = EntityType.SKELETON.create(level());
         if (skeleton != null) {
-            skeleton.setPos(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
-            skeleton.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ObjectRegistry.HAUNTBOUND_HELMET.get()));
-            skeleton.setItemSlot(EquipmentSlot.CHEST, new ItemStack(ObjectRegistry.HAUNTBOUND_CHESTPLATE.get()));
-            skeleton.setItemSlot(EquipmentSlot.LEGS, new ItemStack(ObjectRegistry.HAUNTBOUND_LEGGINGS.get()));
-            skeleton.setItemSlot(EquipmentSlot.FEET, new ItemStack(ObjectRegistry.HAUNTBOUND_BOOTS.get()));
-            skeleton.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.BOW));
+            MobSpawnHelper.equipHauntbound(skeleton, new ItemStack(ObjectRegistry.HAUNTBOUND_HELMET.get()), new ItemStack(Items.BOW), 0.085F);
             skeleton.setCustomName(Component.translatable("entity.sleepy_hollows.hauntbound_skeleton"));
             skeleton.setCustomNameVisible(false);
-            level().addFreshEntity(skeleton);
+            MobSpawnHelper.spawnAt(level(), skeleton, pos);
         }
     }
 
@@ -320,7 +385,13 @@ public class Horseman extends Monster implements AttackAnimationMob, RandomActio
     @Override
     public void onTick(int tick) {
         if (tick == 2) {
-            this.level().playSound(null, this, SoundEventRegistry.HORSEMAN_LAUGH.get(), SoundSource.NEUTRAL, 1, 1);
+            float pitch = 0.85F + this.random.nextFloat() * 0.3F;
+            this.level().playSound(null, this, SoundEventRegistry.HORSEMAN_LAUGH.get(), SoundSource.HOSTILE, 1.5F, pitch);
+            int delay = 0;
+            for (int i = 1; i <= 2 + this.random.nextInt(2); i++) {
+                delay += 8 + this.random.nextInt(6);
+                laughEchoes.add(new LaughEcho(delay, (float) Math.pow(0.45, i) * 1.5F, pitch - 0.03F * i, (this.random.nextDouble() - 0.5) * 16, (this.random.nextDouble() - 0.5) * 16));
+            }
         }
     }
 
@@ -334,11 +405,6 @@ public class Horseman extends Monster implements AttackAnimationMob, RandomActio
         return 0.01f;
     }
 
-    private boolean isPumpkinHeadAlive() {
-        AABB searchArea = this.getBoundingBox().inflate(100);
-        return !this.level().getEntitiesOfClass(FleeingPumpkinHead.class, searchArea, Entity::isAlive).isEmpty();
-    }
-
     public boolean hasActivePumpkinHead() {
         return this.entityData.get(HAS_ACTIVE_PUMPKIN_HEAD);
     }
@@ -350,59 +416,33 @@ public class Horseman extends Monster implements AttackAnimationMob, RandomActio
     @Override
     public void addAdditionalSaveData(@NotNull CompoundTag tag) {
         super.addAdditionalSaveData(tag);
-        tag.putBoolean("HasActivePumpkinHead", this.hasActivePumpkinHead());
+        tag.putInt("Phase", this.phase);
+        tag.putInt("SpiralCooldown", this.spiralCooldown);
+        if (this.headId != null) {
+            tag.putUUID("Head", this.headId);
+        }
     }
 
     @Override
     public void readAdditionalSaveData(@NotNull CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-    }
-
-    @Override
-    public void handleEntityEvent(byte id) {
-        if (id == 10) {
-            this.setActivePumpkinHead(true);
-        } else if (id == 11) {
-            this.setActivePumpkinHead(false);
-        } else {
-            super.handleEntityEvent(id);
+        this.phase = tag.getInt("Phase");
+        this.spiralCooldown = tag.getInt("SpiralCooldown");
+        this.headId = tag.hasUUID("Head") ? tag.getUUID("Head") : null;
+        boolean headPhase = this.phase == FIRST_HEAD || this.phase == SECOND_HEAD;
+        setImmune(headPhase);
+        setActivePumpkinHead(headPhase);
+        if (this.phase == RAGE) {
+            applyRage();
         }
     }
 
     @Override
     public boolean hurt(@NotNull DamageSource source, float amount) {
-        if (isPumpkinHeadAlive()) {
+        if (this.isPowered() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
             return false;
         }
         return super.hurt(source, amount);
-    }
-
-    private boolean canSpawnHeadAt(BlockPos pos) {
-        BlockPos below = pos.below();
-        BlockState belowState = level().getBlockState(below);
-        return level().isEmptyBlock(pos) && level().isEmptyBlock(pos.above()) && !belowState.getCollisionShape(level(), below).isEmpty();
-    }
-
-    private BlockPos safeHeadSpawn(BlockPos origin) {
-        int x = origin.getX();
-        int z = origin.getZ();
-        int y = level().getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
-        BlockPos candidate = new BlockPos(x, y, z);
-        if (canSpawnHeadAt(candidate)) return candidate;
-        for (int dy = 1; dy <= 4; dy++) {
-            BlockPos up = candidate.above(dy);
-            if (canSpawnHeadAt(up)) return up;
-        }
-        int r = 3;
-        for (int dx = -r; dx <= r; dx++) {
-            for (int dz = -r; dz <= r; dz++) {
-                if (dx == 0 && dz == 0) continue;
-                int ny = level().getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x + dx, z + dz);
-                BlockPos around = new BlockPos(x + dx, ny, z + dz);
-                if (canSpawnHeadAt(around)) return around;
-            }
-        }
-        return origin.above();
     }
 
     @Override
@@ -418,6 +458,7 @@ public class Horseman extends Monster implements AttackAnimationMob, RandomActio
         if (!this.level().isClientSide && this.level().getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
             int experienceAmount = 250;
             ExperienceOrb.award((ServerLevel) this.level(), this.position(), experienceAmount);
+            this.spawnAtLocation(new ItemStack(ObjectRegistry.REINS_OF_THE_SPECTRAL_HORSE.get()));
         }
     }
 
@@ -463,16 +504,6 @@ public class Horseman extends Monster implements AttackAnimationMob, RandomActio
     }
 
     private final List<SoulfireSpiral> activeSoulfireSpirals = new ArrayList<>();
-    private int nextSoulfireIndex = 0;
-
-    private float[] getSoulfireThresholds() {
-        float maxHealth = this.getMaxHealth();
-        float[] thresholds = new float[10];
-        for (int i = 0; i < 10; i++) {
-            thresholds[i] = maxHealth * (1 - (i * 0.1f));
-        }
-        return thresholds;
-    }
 
     @Override
     public boolean shouldDropExperience() {
@@ -487,9 +518,39 @@ public class Horseman extends Monster implements AttackAnimationMob, RandomActio
     @Override
     protected void dropCustomDeathLoot(@NotNull ServerLevel level, @NotNull DamageSource source, boolean recentlyHit) {
         super.dropCustomDeathLoot(level, source, recentlyHit);
-        List<ItemStack> horsemanLoot = PlatformHelper.getHorsemanLootItems();
-        for (ItemStack loot : horsemanLoot) {
-            this.spawnAtLocation(loot);
+        for (String entry : PlatformHelper.getHorsemanLootEntries()) {
+            String[] parts = entry.split(":");
+            ResourceLocation id = parts.length >= 2 ? ResourceLocation.tryBuild(parts[0], parts[1]) : null;
+            Item item = id == null ? null : BuiltInRegistries.ITEM.getOptional(id).orElse(null);
+            if (item == null) {
+                LOGGER.warn("Ignoring invalid Horseman loot entry '{}'", entry);
+                continue;
+            }
+            int count = 1;
+            if (parts.length >= 3) {
+                try {
+                    count = Math.max(1, Integer.parseInt(parts[2]));
+                } catch (NumberFormatException ignored) {
+                    LOGGER.warn("Invalid count in Horseman loot entry '{}'", entry);
+                }
+            }
+            this.spawnAtLocation(new ItemStack(item, count));
+        }
+    }
+
+    private static final class LaughEcho {
+        private int delay;
+        private final float volume;
+        private final float pitch;
+        private final double dx;
+        private final double dz;
+
+        private LaughEcho(int delay, float volume, float pitch, double dx, double dz) {
+            this.delay = delay;
+            this.volume = volume;
+            this.pitch = pitch;
+            this.dx = dx;
+            this.dz = dz;
         }
     }
 }

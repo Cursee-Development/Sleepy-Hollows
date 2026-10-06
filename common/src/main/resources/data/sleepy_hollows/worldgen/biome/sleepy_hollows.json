@@ -16,13 +16,9 @@
     },
     "music": {
       "sound": "sleepy_hollows:welcome_to_sleepy_hollows",
-      "min_delay": 12000,
-      "max_delay": 24000,
-      "replace_current_music": false
-    },
-    "additions_sound": {
-      "sound": "sleepy_hollows:sleepy_hollows_ambient",
-      "tick_chance": 0.005555
+      "min_delay": 600,
+      "max_delay": 2400,
+      "replace_current_music": true
     },
     "particle": {
       "probability": 0.000449848224,

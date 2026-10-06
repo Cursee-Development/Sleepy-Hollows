@@ -52,7 +52,7 @@ Maybe, during your expeditions, you'll even uncover the secret identity of the H
 
 ### Download All Dependencies:
 
-1. Find and download the following dependencies: Architectury API, Terrablender, and if you're on Fabric: Fabric API.
+1. Find and download the following dependencies: Architectury API, Biolith, and if you're on Fabric: Fabric API.
 
 <p><strong><em><span style="color:gold;">Note:</span></em></strong> We strongly advise against downloading the mod or its dependencies from any other source to avoid potential security risks.</p>
 

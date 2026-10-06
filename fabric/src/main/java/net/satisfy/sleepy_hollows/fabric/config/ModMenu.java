@@ -10,7 +10,6 @@ import net.fabricmc.api.Environment;
 public class ModMenu implements ModMenuApi {
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
-        InitializationStatus.setModMenuInitialized(true);
         return parent -> AutoConfig.getConfigScreen(SleepyHollowsFabricConfig.class, parent).get();
     }
 }

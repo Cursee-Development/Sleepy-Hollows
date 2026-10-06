@@ -1,5 +1,17 @@
 package net.satisfy.sleepy_hollows.core.block;
 
+import net.satisfy.sleepy_hollows.SleepyHollows;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.block.state.properties.Half;
+import net.minecraft.util.RandomSource;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.registries.Registries;
+import java.util.Map;
+import java.util.EnumMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -31,20 +43,34 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.satisfy.sleepy_hollows.core.registry.ObjectRegistry;
-import net.satisfy.sleepy_hollows.core.util.SleepyHollowsUtil;
+import net.satisfy.foundation.util.ShapeUtil;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Random;
 
 public class TombstoneBlock extends Block {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
-    private final VoxelShape shape;
+    private static final ResourceKey<LootTable> REWARDS = ResourceKey.create(Registries.LOOT_TABLE, SleepyHollows.identifier("gameplay/tombstone"));
+    private final Map<Direction, VoxelShape> shapes;
 
     public TombstoneBlock(Properties properties, VoxelShape shape) {
         super(properties.lightLevel(state -> state.getValue(ACTIVE) ? 10 : 0));
-        this.shape = shape;
+        this.shapes = rotatedShapes(shape);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(ACTIVE, false));
+    }
+
+    @Override
+    protected boolean isRandomlyTicking(@NotNull BlockState state) {
+        return !state.getValue(ACTIVE) && (!state.hasProperty(BlockStateProperties.HALF) || state.getValue(BlockStateProperties.HALF) == Half.BOTTOM);
+    }
+
+    @Override
+    protected void randomTick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
+        if (level.isNight() && random.nextInt(40) == 0 && level.hasNearbyAlivePlayer(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 16)) {
+            level.setBlock(pos, state.setValue(ACTIVE, true), 3);
+            level.playSound(null, pos, SoundEvents.SOUL_ESCAPE.value(), SoundSource.BLOCKS, 1.5F, 0.6F);
+            spawnParticles(level, pos);
+        }
     }
 
     @Override
@@ -102,7 +128,7 @@ public class TombstoneBlock extends Block {
         return null;
     }
 
-    private boolean trySpawnSkeleton(Level level, BlockPos spawnPos, ItemStack[] equipment, EquipmentSlot[] slots, Random random) {
+    private boolean trySpawnSkeleton(Level level, BlockPos spawnPos, ItemStack[] equipment, EquipmentSlot[] slots) {
         BlockPos safe = findSafeSpawnPos(level, spawnPos);
         if (safe == null) return false;
         Skeleton skeleton = EntityType.SKELETON.create(level);
@@ -111,7 +137,7 @@ public class TombstoneBlock extends Block {
         skeleton.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ObjectRegistry.SPECTRAL_JACK_O_LANTERN.get()));
         skeleton.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(ObjectRegistry.SPECTRAL_WARAXE.get()));
         for (int j = 0; j < equipment.length; j++) {
-            if (random.nextFloat() < 0.3F) skeleton.setItemSlot(slots[j], equipment[j]);
+            if (level.random.nextFloat() < 0.3F) skeleton.setItemSlot(slots[j], equipment[j].copy());
         }
         level.addFreshEntity(skeleton);
         spawnParticles(level, safe);
@@ -121,7 +147,6 @@ public class TombstoneBlock extends Block {
 
     private void spawnSkeletonsAndParticles(Level world, BlockPos pos) {
         BlockPos[] desired = { pos.offset(2,0,0), pos.offset(-2,0,0), pos.offset(0,0,-2) };
-        Random random = new Random();
         ItemStack[] armorPieces = {
                 new ItemStack(ObjectRegistry.HAUNTBOUND_CHESTPLATE.get()),
                 new ItemStack(ObjectRegistry.HAUNTBOUND_LEGGINGS.get()),
@@ -131,12 +156,12 @@ public class TombstoneBlock extends Block {
         EquipmentSlot[] armorSlots = { EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET, EquipmentSlot.OFFHAND };
         int spawned = 0;
         for (int i = 0; i < desired.length; i++) {
-            if (trySpawnSkeleton(world, desired[i], armorPieces, armorSlots, random)) spawned++;
+            if (trySpawnSkeleton(world, desired[i], armorPieces, armorSlots)) spawned++;
             if (!world.isClientSide) world.scheduleTick(pos, this, i * 10);
         }
-        if (spawned > 0 && !world.isClientSide) {
-            ItemStack dropItem = new ItemStack(ObjectRegistry.ESSENCE_OF_UNDEAD.get());
-            popResource(world, pos, dropItem);
+        if (spawned > 0 && world instanceof ServerLevel serverLevel) {
+            LootParams params = new LootParams.Builder(serverLevel).withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(pos)).create(LootContextParamSets.GIFT);
+            serverLevel.getServer().reloadableRegistries().getLootTable(REWARDS).getRandomItems(params).forEach(stack -> popResource(world, pos, stack));
         }
     }
 
@@ -148,7 +173,8 @@ public class TombstoneBlock extends Block {
 
     @Override
     public void attack(BlockState state, @NotNull Level world, @NotNull BlockPos pos, @NotNull Player player) {
-        if (state.getValue(ACTIVE)) {
+        if (!world.isClientSide && state.getValue(ACTIVE)) {
+            world.setBlock(pos, state.setValue(ACTIVE, false), 3);
             spawnSkeletonsAndParticles(world, pos);
             if (!player.isInvulnerableTo(world.damageSources().magic())) {
                 player.hurt(world.damageSources().magic(), 5.0F);
@@ -186,8 +212,14 @@ public class TombstoneBlock extends Block {
 
     @Override
     public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter world, @NotNull BlockPos pos, @NotNull CollisionContext context) {
-        Direction facing = state.getValue(FACING);
-        return SleepyHollowsUtil.rotateShape(Direction.NORTH, facing, this.shape);
+        return this.shapes.get(state.getValue(FACING));
+    }
+
+    protected static Map<Direction, VoxelShape> rotatedShapes(VoxelShape shape) {
+        Map<Direction, VoxelShape> map = new EnumMap<>(Direction.class);
+        for (Direction direction : Direction.Plane.HORIZONTAL) {
+            map.put(direction, ShapeUtil.rotateShape(Direction.NORTH, direction, shape));
+        }
+        return map;
     }
 }
-

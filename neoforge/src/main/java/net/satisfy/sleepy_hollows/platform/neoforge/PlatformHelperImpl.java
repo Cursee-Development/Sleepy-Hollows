@@ -1,134 +1,242 @@
 package net.satisfy.sleepy_hollows.platform.neoforge;
 
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.satisfy.sleepy_hollows.neoforge.config.SleepyHollowsNeoForgeConfig;
-import net.satisfy.sleepy_hollows.platform.PlatformHelper;
 
-import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("unused")
-public class PlatformHelperImpl extends PlatformHelper {
+public class PlatformHelperImpl {
     public static double getHorsemanMovementSpeed() {
-        return SleepyHollowsNeoForgeConfig.horsemanMovementSpeed;
+        return SleepyHollowsNeoForgeConfig.horsemanMovementSpeed.get();
     }
 
     public static double getHorsemanMaxHealth() {
-        return SleepyHollowsNeoForgeConfig.horsemanMaxHealth;
+        return SleepyHollowsNeoForgeConfig.horsemanMaxHealth.get();
     }
 
     public static double getHorsemanAttackDamage() {
-        return SleepyHollowsNeoForgeConfig.horsemanAttackDamage;
+        return SleepyHollowsNeoForgeConfig.horsemanAttackDamage.get();
     }
 
     public static double getHorsemanAttackKnockback() {
-        return SleepyHollowsNeoForgeConfig.horsemanAttackKnockback;
+        return SleepyHollowsNeoForgeConfig.horsemanAttackKnockback.get();
     }
 
     public static double getHorsemanArmor() {
-        return SleepyHollowsNeoForgeConfig.horsemanArmor;
+        return SleepyHollowsNeoForgeConfig.horsemanArmor.get();
+    }
+
+    public static List<String> getHorsemanLootEntries() {
+        return List.copyOf(SleepyHollowsNeoForgeConfig.horsemanLootItems.get());
     }
 
     public static double getFleeingPumpkinMaxHealth() {
-        return SleepyHollowsNeoForgeConfig.fleeingPumpkinheadMaxHealth;
+        return SleepyHollowsNeoForgeConfig.fleeingPumpkinHeadMaxHealth.get();
     }
 
     public static double getFleeingPumpkinMovementSpeed() {
-        return SleepyHollowsNeoForgeConfig.fleeingPumpkinheadMovementSpeed;
+        return SleepyHollowsNeoForgeConfig.fleeingPumpkinHeadMovementSpeed.get();
     }
 
     public static double getFleeingPumpkinArmor() {
-        return SleepyHollowsNeoForgeConfig.fleeingPumpkinheadArmor;
+        return SleepyHollowsNeoForgeConfig.fleeingPumpkinHeadArmor.get();
     }
 
     public static double getInfectedZombieMaxHealth() {
-        return SleepyHollowsNeoForgeConfig.infectedZombieMaxHealth;
+        return SleepyHollowsNeoForgeConfig.infectedZombieMaxHealth.get();
     }
 
     public static double getInfectedZombieArmor() {
-        return SleepyHollowsNeoForgeConfig.infectedZombieArmor;
+        return SleepyHollowsNeoForgeConfig.infectedZombieArmor.get();
     }
 
     public static double getInfectedZombieMovementSpeed() {
-        return SleepyHollowsNeoForgeConfig.infectedZombieMovementSpeed;
+        return SleepyHollowsNeoForgeConfig.infectedZombieMovementSpeed.get();
     }
 
     public static double getInfectedZombieAttackDamage() {
-        return SleepyHollowsNeoForgeConfig.infectedZombieAttackDamage;
+        return SleepyHollowsNeoForgeConfig.infectedZombieAttackDamage.get();
     }
 
     public static double getSpectralToolSpeed() {
-        return SleepyHollowsNeoForgeConfig.spectralToolSpeed;
+        return SleepyHollowsNeoForgeConfig.spectralToolSpeed.get();
     }
 
     public static double getSpectralToolDamage() {
-        return SleepyHollowsNeoForgeConfig.spectralToolDamage;
+        return SleepyHollowsNeoForgeConfig.spectralToolDamage.get();
     }
 
     public static double getRaubbauToolSpeed() {
-        return SleepyHollowsNeoForgeConfig.raubbauToolSpeed;
+        return SleepyHollowsNeoForgeConfig.raubbauToolSpeed.get();
     }
 
     public static double getRaubbauToolDamage() {
-        return SleepyHollowsNeoForgeConfig.raubbauToolDamage;
+        return SleepyHollowsNeoForgeConfig.raubbauToolDamage.get();
     }
 
     public static boolean isHauntboundSetBonusEnabled() {
-        return SleepyHollowsNeoForgeConfig.enableHauntboundSetBonus;
+        return SleepyHollowsNeoForgeConfig.enableSetBonus.get();
     }
 
-    public static int getHauntboundDurability(ArmorItem.Type type) {
-        return switch (type) {
-            case HELMET -> SleepyHollowsNeoForgeConfig.hauntboundHelmetDurability;
-            case CHESTPLATE -> SleepyHollowsNeoForgeConfig.hauntboundChestplateDurability;
-            case LEGGINGS -> SleepyHollowsNeoForgeConfig.hauntboundLeggingsDurability;
-            case BOOTS -> SleepyHollowsNeoForgeConfig.hauntboundBootsDurability;
-            default -> 0;
-        };
+    public static int getHauntboundDurabilityMultiplier() {
+        return SleepyHollowsNeoForgeConfig.armorDurabilityMultiplier.get();
+    }
+
+    public static float getHauntboundToughness() {
+        return SleepyHollowsNeoForgeConfig.armorToughness.get().floatValue();
+    }
+
+    public static float getHauntboundKnockbackResistance() {
+        return SleepyHollowsNeoForgeConfig.armorKnockbackResistance.get().floatValue();
+    }
+
+    public static boolean isSanityEnabled() {
+        return SleepyHollowsNeoForgeConfig.sanityEnabled.get();
+    }
+
+    public static int getHUDX() {
+        return SleepyHollowsNeoForgeConfig.hudX.get();
+    }
+
+    public static int getHUDY() {
+        return SleepyHollowsNeoForgeConfig.hudY.get();
+    }
+
+    public static boolean isHollowFogEnabled() {
+        return SleepyHollowsNeoForgeConfig.fogEnabled.get();
+    }
+
+    public static float getHollowFogStart() {
+        return SleepyHollowsNeoForgeConfig.fogStart.get() / 100.0F;
+    }
+
+    public static float getHollowFogEnd() {
+        return SleepyHollowsNeoForgeConfig.fogEnd.get() / 100.0F;
+    }
+
+    public static int getHollowFogTransitionSeconds() {
+        return SleepyHollowsNeoForgeConfig.fogTransition.get();
+    }
+
+    public static float getHollowFogSanityInfluence() {
+        return SleepyHollowsNeoForgeConfig.fogSanity.get() / 100.0F;
     }
 
     public static int getHauntboundDefense(ArmorItem.Type type) {
         return switch (type) {
-            case HELMET -> SleepyHollowsNeoForgeConfig.hauntboundHelmetDefense;
-            case CHESTPLATE -> SleepyHollowsNeoForgeConfig.hauntboundChestplateDefense;
-            case LEGGINGS -> SleepyHollowsNeoForgeConfig.hauntboundLeggingsDefense;
-            case BOOTS -> SleepyHollowsNeoForgeConfig.hauntboundBootsDefense;
+            case HELMET -> SleepyHollowsNeoForgeConfig.helmetDefense.get();
+            case CHESTPLATE -> SleepyHollowsNeoForgeConfig.chestplateDefense.get();
+            case LEGGINGS -> SleepyHollowsNeoForgeConfig.leggingsDefense.get();
+            case BOOTS -> SleepyHollowsNeoForgeConfig.bootsDefense.get();
             default -> 0;
         };
     }
 
-    public static double getHauntboundToughness() {
-        return SleepyHollowsNeoForgeConfig.hauntboundToughness;
+    public static boolean isAmbienceEnabled() {
+        return SleepyHollowsNeoForgeConfig.ambienceEnabled.get();
     }
 
-    public static double getHauntboundKnockbackResistance() {
-        return SleepyHollowsNeoForgeConfig.hauntboundKnockbackResistance;
+    public static int getAmbienceDayMinSeconds() {
+        return SleepyHollowsNeoForgeConfig.ambienceDayMin.get();
     }
 
-    public static List<ItemStack> getHorsemanLootItems() {
-        List<ItemStack> loot = new ArrayList<>();
-        for (String entry : SleepyHollowsNeoForgeConfig.horsemanLootItems) {
-            String[] parts = entry.split(":");
-            if (parts.length == 3) {
-                String namespace = parts[0];
-                String path = parts[1];
-                int count;
-                try {
-                    count = Integer.parseInt(parts[2]);
-                } catch (NumberFormatException ignored) {
-                    count = 1;
-                }
-                ResourceLocation id = ResourceLocation.fromNamespaceAndPath(namespace, path);
-                Item item = BuiltInRegistries.ITEM.getOptional(id).orElse(null);
-                if (item != null) {
-                    loot.add(new ItemStack(item, count));
-                }
-            }
-        }
-        return loot;
+    public static int getAmbienceDayMaxSeconds() {
+        return Math.max(SleepyHollowsNeoForgeConfig.ambienceDayMin.get(), SleepyHollowsNeoForgeConfig.ambienceDayMax.get());
+    }
+
+    public static int getAmbienceNightMinSeconds() {
+        return SleepyHollowsNeoForgeConfig.ambienceNightMin.get();
+    }
+
+    public static int getAmbienceNightMaxSeconds() {
+        return Math.max(SleepyHollowsNeoForgeConfig.ambienceNightMin.get(), SleepyHollowsNeoForgeConfig.ambienceNightMax.get());
+    }
+
+    public static float getAmbienceVolume() {
+        return SleepyHollowsNeoForgeConfig.ambienceVolume.get() / 100.0F;
+    }
+
+    public static int getSanityCandyCornGain() {
+        return SleepyHollowsNeoForgeConfig.candyCornGain.get();
+    }
+
+    public static int getSanityDuskBerryGain() {
+        return SleepyHollowsNeoForgeConfig.duskBerryGain.get();
+    }
+
+    public static int getSanityLuminousWaterGain() {
+        return SleepyHollowsNeoForgeConfig.luminousWaterGain.get();
+    }
+
+    public static int getSanityPumpkinPieGain() {
+        return SleepyHollowsNeoForgeConfig.pumpkinPieGain.get();
+    }
+
+    public static int getSanityOutsideBiomeGain() {
+        return SleepyHollowsNeoForgeConfig.outsideBiomeGain.get();
+    }
+
+    public static int getSanityBiomeDayLoss() {
+        return SleepyHollowsNeoForgeConfig.biomeDayLoss.get();
+    }
+
+    public static int getSanityBiomeNightLoss() {
+        return SleepyHollowsNeoForgeConfig.biomeNightLoss.get();
+    }
+
+    public static int getSanityCursedBlockLoss() {
+        return SleepyHollowsNeoForgeConfig.cursedBlockLoss.get();
+    }
+
+    public static int getSanityInfectedLoss() {
+        return SleepyHollowsNeoForgeConfig.infectedLoss.get();
+    }
+
+    public static int getSanityLightRadius() {
+        return SleepyHollowsNeoForgeConfig.lightRadius.get();
+    }
+
+    public static int getSanityHauntboundProtection() {
+        return SleepyHollowsNeoForgeConfig.hauntboundPieceProtectionPercent.get();
+    }
+
+    public static int getSanityInsanitySeconds() {
+        return SleepyHollowsNeoForgeConfig.insanitySeconds.get();
+    }
+
+    public static int getFoodDuskBerryNutrition() {
+        return SleepyHollowsNeoForgeConfig.duskBerryNutrition.get();
+    }
+
+    public static float getFoodDuskBerrySaturation() {
+        return SleepyHollowsNeoForgeConfig.duskBerrySaturation.get().floatValue();
+    }
+
+    public static int getFoodCandyCornNutrition() {
+        return SleepyHollowsNeoForgeConfig.candyCornNutrition.get();
+    }
+
+    public static float getFoodCandyCornSaturation() {
+        return SleepyHollowsNeoForgeConfig.candyCornSaturation.get().floatValue();
+    }
+
+    public static int getFoodPumpkinPieNutrition() {
+        return SleepyHollowsNeoForgeConfig.pumpkinPieNutrition.get();
+    }
+
+    public static float getFoodPumpkinPieSaturation() {
+        return SleepyHollowsNeoForgeConfig.pumpkinPieSaturation.get().floatValue();
+    }
+
+    public static int getFoodLuminousWaterNutrition() {
+        return SleepyHollowsNeoForgeConfig.luminousWaterNutrition.get();
+    }
+
+    public static float getFoodLuminousWaterSaturation() {
+        return SleepyHollowsNeoForgeConfig.luminousWaterSaturation.get().floatValue();
+    }
+
+    public static float getSplashHorsemanDamage() {
+        return SleepyHollowsNeoForgeConfig.splashHorsemanDamage.get().floatValue();
     }
 }

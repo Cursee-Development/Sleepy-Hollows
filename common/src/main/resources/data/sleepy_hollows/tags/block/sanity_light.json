@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "sleepy_hollows:spectral_lantern",
+    "sleepy_hollows:spectral_jack_o_lantern",
+    "minecraft:jack_o_lantern",
+    "minecraft:lantern",
+    "minecraft:soul_lantern"
+  ]
+}

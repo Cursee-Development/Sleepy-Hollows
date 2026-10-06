@@ -1,5 +1,6 @@
 package net.satisfy.sleepy_hollows.core.registry;
 
+import net.satisfy.sleepy_hollows.core.entity.SplashLuminousWater;
 import dev.architectury.registry.level.entity.EntityAttributeRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
@@ -34,6 +35,7 @@ public class EntityTypeRegistry {
     public static final RegistrySupplier<EntityType<InfectedZombie>> INFECTED_ZOMBIE = registerEntity("infected_zombie", () -> EntityType.Builder.of(InfectedZombie::new, MobCategory.MONSTER).sized(0.6F, 1.95F).build(SleepyHollows.identifier("infected_zombie").toString()));
     public static final RegistrySupplier<EntityType<FleeingPumpkinHead>> FLEEING_PUMPKIN_HEAD = registerEntity("fleeing_pumpkin_head", () -> EntityType.Builder.of(FleeingPumpkinHead::new, MobCategory.MONSTER).sized(0.6F, 1.95F).build(SleepyHollows.identifier("fleeing_pumpkin_head").toString()));
     public static final RegistrySupplier<EntityType<Horseman>> HORSEMAN = registerEntity("horseman", () -> EntityType.Builder.of(Horseman::new, MobCategory.MONSTER).sized(1.4F, 2.6F).build(SleepyHollows.identifier("horseman").toString()));
+    public static final RegistrySupplier<EntityType<SplashLuminousWater>> SPLASH_LUMINOUS_WATER = registerEntity("splash_luminous_water", () -> EntityType.Builder.<SplashLuminousWater>of(SplashLuminousWater::new, MobCategory.MISC).sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(10).build(SleepyHollows.identifier("splash_luminous_water").toString()));
 
     public static <T extends EntityType<?>> RegistrySupplier<T> registerEntity(final String path, final Supplier<T> type) {
         return ENTITY_TYPES.register(SleepyHollows.identifier(path), type);

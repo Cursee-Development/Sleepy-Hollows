@@ -1,5 +1,7 @@
 package net.satisfy.sleepy_hollows.core.entity;
 
+import net.satisfy.sleepy_hollows.core.registry.MobEffectRegistry;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.EntityType;
@@ -43,5 +45,10 @@ public class InfectedZombie extends Zombie {
 
         this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ObjectRegistry.SPECTRAL_JACK_O_LANTERN.get()));
         super.populateDefaultEquipmentSlots(randomSource, difficulty);
+    }
+
+    @Override
+    public boolean canBeAffected(@NotNull MobEffectInstance effectInstance) {
+        return !effectInstance.is(MobEffectRegistry.holder(MobEffectRegistry.INFECTED)) && super.canBeAffected(effectInstance);
     }
 }
