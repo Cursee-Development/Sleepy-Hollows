@@ -1,7 +1,7 @@
 plugins {
     id "com.github.johnrengelman.shadow" version "8.0.0"
     id "com.modrinth.minotaur" version "2.+"
-    id "com.matthewprenger.cursegradle" version "1.4.0"
+    id "net.darkhax.curseforgegradle" version "1.1.26"
 }
 
 architectury {
@@ -123,23 +123,19 @@ modrinth {
     }
 }
 
-curseforge {
-    apiKey = System.getenv("CURSEFORGE_API_KEY")
-    project {
-        id = "1124163"
-        releaseType = "release"
-        addGameVersion rootProject.minecraft_version
-        addGameVersion "NeoForge"
-        mainArtifact(remapJar) {
-            displayName = "SleepyHollows - ${rootProject.mod_version} - NEOFORGE - ${rootProject.minecraft_version}"
-            changelog = changelogText
-            changelogType = "markdown"
-        }
-        addArtifact(sourcesJar)
-
-        relations {
-            requiredDependency "architectury-api"
-            requiredDependency "biolith"
-        }
-    }
+tasks.register("curseforge", net.darkhax.curseforgegradle.TaskPublishCurseForge) {
+    group = "publishing"
+    apiToken = System.getenv("CURSEFORGE_API_KEY")
+    def mainFile = upload(1124163, remapJar)
+    mainFile.displayName = "SleepyHollows - ${rootProject.mod_version} - NEOFORGE - ${rootProject.minecraft_version}"
+    mainFile.releaseType = "release"
+    mainFile.changelog = changelogText
+    mainFile.changelogType = "markdown"
+    mainFile.addGameVersion(rootProject.minecraft_version)
+    mainFile.addModLoader("NeoForge")
+    mainFile.addJavaVersion("Java 21")
+    mainFile.addEnvironment("Client", "Server")
+    mainFile.addRequirement("architectury-api")
+    mainFile.addRequirement("biolith")
+    mainFile.withAdditionalFile(sourcesJar)
 }
