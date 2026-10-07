@@ -1,4 +1,4 @@
-# Contributing to [Let's Do] Sleepy Hollows
+# Contributing to Sleepy Hollows
 
 In Sleepy Hollows, where shadows creep,  
 The code must wake from haunted sleep.  
