@@ -11,7 +11,17 @@ subprojects {
     apply plugin: "dev.architectury.loom"
 
     repositories {
-        mavenLocal()
+        exclusiveContent {
+            forRepository {
+                maven {
+                    name = "Let's Do Maven"
+                    url = "https://raw.githubusercontent.com/Let-s-Do-Collection/Foundation/1.21.1/maven"
+                }
+            }
+            filter {
+                includeGroup "net.satisfy.foundation"
+            }
+        }
         mavenCentral()
         maven {
             name = 'TerraformersMC'

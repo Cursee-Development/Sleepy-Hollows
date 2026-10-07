@@ -17,7 +17,6 @@ import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -109,35 +108,35 @@ public class ObjectRegistry {
     public static final RegistrySupplier<Block> SPECTRAL_PUMPKIN = registerBlockWithBlockItem("spectral_pumpkin", () -> new SpectralPumpkinBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PUMPKIN)));
     public static final RegistrySupplier<Block> SPECTRAL_CARVED_PUMPKIN = registerBlockWithBlockItem("spectral_carved_pumpkin", () -> new EquipableCarvedPumpkinBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CARVED_PUMPKIN)));
     public static final RegistrySupplier<Block> SPECTRAL_JACK_O_LANTERN = registerBlockWithBlockItem("spectral_jack_o_lantern", () -> new EquipableCarvedPumpkinBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE).strength(1.0F).sound(SoundType.WOOD).lightLevel((blockStatex) -> 15).isValidSpawn((state, world, pos, entityType) -> true).pushReaction(PushReaction.DESTROY)));
-    public static final RegistrySupplier<Item> HAUNTBOUND_HELMET = registerItem("hauntbound_helmet", () -> new TexturedArmorItem(BuiltInRegistries.ARMOR_MATERIAL.wrapAsHolder(ArmorMaterialRegistry.HAUNTBOUND_HELMET), ArmorItem.Type.HELMET, ArmorMaterialRegistry.durability(getSettings().rarity(Rarity.EPIC), ArmorItem.Type.HELMET), SleepyHollows.identifier("textures/models/armor/hauntbound_helmet.png")));
-    public static final RegistrySupplier<Item> HAUNTBOUND_CHESTPLATE = registerItem("hauntbound_chestplate", () -> new TexturedArmorItem(BuiltInRegistries.ARMOR_MATERIAL.wrapAsHolder(ArmorMaterialRegistry.HAUNTBOUND_ARMOR_OUTER), ArmorItem.Type.CHESTPLATE, ArmorMaterialRegistry.durability(getSettings().rarity(Rarity.RARE), ArmorItem.Type.CHESTPLATE), SleepyHollows.identifier("textures/models/armor/hauntbound_outer.png")));
-    public static final RegistrySupplier<Item> HAUNTBOUND_LEGGINGS = registerItem("hauntbound_leggings", () -> new TexturedArmorItem(BuiltInRegistries.ARMOR_MATERIAL.wrapAsHolder(ArmorMaterialRegistry.HAUNTBOUND_ARMOR_INNER), ArmorItem.Type.LEGGINGS, ArmorMaterialRegistry.durability(getSettings().rarity(Rarity.RARE), ArmorItem.Type.LEGGINGS), SleepyHollows.identifier("textures/models/armor/hauntbound_inner.png")));
-    public static final RegistrySupplier<Item> HAUNTBOUND_BOOTS = registerItem("hauntbound_boots", () -> new TexturedArmorItem(BuiltInRegistries.ARMOR_MATERIAL.wrapAsHolder(ArmorMaterialRegistry.HAUNTBOUND_ARMOR_OUTER), ArmorItem.Type.BOOTS, ArmorMaterialRegistry.durability(getSettings().rarity(Rarity.RARE), ArmorItem.Type.BOOTS), SleepyHollows.identifier("textures/models/armor/hauntbound_outer.png")));
+    public static final RegistrySupplier<Item> HAUNTBOUND_HELMET = registerItem("hauntbound_helmet", () -> new TexturedArmorItem(BuiltInRegistries.ARMOR_MATERIAL.wrapAsHolder(ArmorMaterialRegistry.HAUNTBOUND_HELMET), ArmorItem.Type.HELMET, ArmorMaterialRegistry.durability(getSettings(), ArmorItem.Type.HELMET), SleepyHollows.identifier("textures/models/armor/hauntbound_helmet.png")));
+    public static final RegistrySupplier<Item> HAUNTBOUND_CHESTPLATE = registerItem("hauntbound_chestplate", () -> new TexturedArmorItem(BuiltInRegistries.ARMOR_MATERIAL.wrapAsHolder(ArmorMaterialRegistry.HAUNTBOUND_ARMOR_OUTER), ArmorItem.Type.CHESTPLATE, ArmorMaterialRegistry.durability(getSettings(), ArmorItem.Type.CHESTPLATE), SleepyHollows.identifier("textures/models/armor/hauntbound_outer.png")));
+    public static final RegistrySupplier<Item> HAUNTBOUND_LEGGINGS = registerItem("hauntbound_leggings", () -> new TexturedArmorItem(BuiltInRegistries.ARMOR_MATERIAL.wrapAsHolder(ArmorMaterialRegistry.HAUNTBOUND_ARMOR_INNER), ArmorItem.Type.LEGGINGS, ArmorMaterialRegistry.durability(getSettings(), ArmorItem.Type.LEGGINGS), SleepyHollows.identifier("textures/models/armor/hauntbound_inner.png")));
+    public static final RegistrySupplier<Item> HAUNTBOUND_BOOTS = registerItem("hauntbound_boots", () -> new TexturedArmorItem(BuiltInRegistries.ARMOR_MATERIAL.wrapAsHolder(ArmorMaterialRegistry.HAUNTBOUND_ARMOR_OUTER), ArmorItem.Type.BOOTS, ArmorMaterialRegistry.durability(getSettings(), ArmorItem.Type.BOOTS), SleepyHollows.identifier("textures/models/armor/hauntbound_outer.png")));
     public static final RegistrySupplier<Block> COFFIN = registerBlockWithBlockItem("coffin", () -> new CoffinBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).pushReaction(PushReaction.DESTROY)));
-    public static final RegistrySupplier<Item> SPECTRAL_ESSENCE = registerItem("spectral_essence", () -> new Item(getSettings().rarity(Rarity.COMMON)));
-    public static final RegistrySupplier<Item> ESSENCE_OF_UNDEAD = registerItem("essence_of_undead", () -> new Item(getSettings().rarity(Rarity.RARE)));
-    public static final RegistrySupplier<Item> LUMINOUS_ESSENCE = registerItem("luminous_essence", () -> new Item(getSettings().rarity(Rarity.EPIC)));
-    public static final RegistrySupplier<Item> LUMINOUS_WATER = registerItem("luminous_water", () -> new LuminousWaterItem(getSettings().food(food(PlatformHelper.getFoodLuminousWaterNutrition(), PlatformHelper.getFoodLuminousWaterSaturation())).rarity(Rarity.RARE)));
-    public static final RegistrySupplier<Item> LUMINOUS_WATER_SPLASH = registerItem("splash_luminous_water", () -> new SplashLuminousWaterItem(getSettings().stacksTo(16).rarity(Rarity.RARE)));
+    public static final RegistrySupplier<Item> SPECTRAL_ESSENCE = registerItem("spectral_essence", () -> new Item(getSettings()));
+    public static final RegistrySupplier<Item> ESSENCE_OF_UNDEAD = registerItem("essence_of_undead", () -> new Item(getSettings()));
+    public static final RegistrySupplier<Item> LUMINOUS_ESSENCE = registerItem("luminous_essence", () -> new Item(getSettings()));
+    public static final RegistrySupplier<Item> LUMINOUS_WATER = registerItem("luminous_water", () -> new LuminousWaterItem(getSettings().food(food(PlatformHelper.getFoodLuminousWaterNutrition(), PlatformHelper.getFoodLuminousWaterSaturation()))));
+    public static final RegistrySupplier<Item> LUMINOUS_WATER_SPLASH = registerItem("splash_luminous_water", () -> new SplashLuminousWaterItem(getSettings().stacksTo(16)));
     public static final RegistrySupplier<Item> DUSK_BERRIES = registerItem("dusk_berries", () -> new DuskBerryItem(DUSKBERRY_BUSH.get(), getSettings().food(food(PlatformHelper.getFoodDuskBerryNutrition(), PlatformHelper.getFoodDuskBerrySaturation()))));
-    public static final RegistrySupplier<Item> SPECTRAL_PUMPKIN_PIE = registerItem("spectral_pumpkin_pie", () -> new SpectralPumpkinPieItem(getSettings().food(food(PlatformHelper.getFoodPumpkinPieNutrition(), PlatformHelper.getFoodPumpkinPieSaturation())).rarity(Rarity.COMMON)));
+    public static final RegistrySupplier<Item> SPECTRAL_PUMPKIN_PIE = registerItem("spectral_pumpkin_pie", () -> new SpectralPumpkinPieItem(getSettings().food(food(PlatformHelper.getFoodPumpkinPieNutrition(), PlatformHelper.getFoodPumpkinPieSaturation()))));
     public static final RegistrySupplier<Item> CANDY_CORN = registerItem("candy_corn", () -> new CandyCornItem(getSettings().food(food(PlatformHelper.getFoodCandyCornNutrition(), PlatformHelper.getFoodCandyCornSaturation()))));
-    public static final RegistrySupplier<Item> MUSIC_DISC_SLEEPY_HOLLOWS = registerItem("music_disc_sleepy_hollows", () -> new Item(getSettings().stacksTo(1).rarity(Rarity.RARE).jukeboxPlayable(ResourceKey.create(Registries.JUKEBOX_SONG, SleepyHollows.identifier("sleepy_hollows")))));
-    public static final RegistrySupplier<Item> LOOTBAG = registerItem("lootbag", () -> new LootBagItem(getSettings().rarity(Rarity.COMMON)));
-    public static final RegistrySupplier<Item> REINS_OF_THE_SPECTRAL_HORSE = registerItem("reins_of_the_spectral_horse", () -> new ReinsOfTheSpectralHorseItem(EntityTypeRegistry.SPECTRAL_HORSE, -1, -1, getSettings().rarity(Rarity.EPIC)));
+    public static final RegistrySupplier<Item> MUSIC_DISC_SLEEPY_HOLLOWS = registerItem("music_disc_sleepy_hollows", () -> new Item(getSettings().stacksTo(1).jukeboxPlayable(ResourceKey.create(Registries.JUKEBOX_SONG, SleepyHollows.identifier("sleepy_hollows")))));
+    public static final RegistrySupplier<Item> LOOTBAG = registerItem("lootbag", () -> new LootBagItem(getSettings()));
+    public static final RegistrySupplier<Item> REINS_OF_THE_SPECTRAL_HORSE = registerItem("reins_of_the_spectral_horse", () -> new ReinsOfTheSpectralHorseItem(EntityTypeRegistry.SPECTRAL_HORSE, -1, -1, getSettings()));
     public static final RegistrySupplier<Item> INFECTED_ZOMBIE_SPAWN_EGG = registerItem("infected_zombie_spawn_egg", () -> new ArchitecturySpawnEggItem(EntityTypeRegistry.INFECTED_ZOMBIE, -1, -1, getSettings()));
     public static final RegistrySupplier<Item> FLEEING_PUMPKIN_HEAD_SPAWN_EGG = registerItem("fleeing_pumpkin_head_spawn_egg", () -> new ArchitecturySpawnEggItem(EntityTypeRegistry.FLEEING_PUMPKIN_HEAD, -1, -1, getSettings()));
     private static final Supplier<BannerSettings> BANNER_SETTINGS = Suppliers.memoize(() -> new BannerSettings(
-            () -> EntityTypeRegistry.COMPLETIONIST_BANNER_ENTITY.get(),
-            () -> ObjectRegistry.COMPLETIONIST_WALL_BANNER.get(),
-            SleepyHollows.identifier("textures/banner/completionist.png"),
+            () -> EntityTypeRegistry.SLEEPY_HOLLOWS_STANDARD_ENTITY.get(),
+            () -> ObjectRegistry.SLEEPY_HOLLOWS_WALL_STANDARD.get(),
+            SleepyHollows.identifier("textures/banner/sleepy_hollows_banner.png"),
             "tooltip.sleepy_hollows.banner",
             MobEffectRegistry.holder(MobEffectRegistry.MENTAL_FORTITUDE)));
-    public static final RegistrySupplier<Block> COMPLETIONIST_BANNER = registerBlockWithBlockItem("completionist_banner", () -> new CompletionistBannerBlock(BlockBehaviour.Properties.of().strength(1F).instrument(NoteBlockInstrument.BASS).noCollission().sound(SoundType.WOOD), BANNER_SETTINGS.get()));
-    public static final RegistrySupplier<Block> COMPLETIONIST_WALL_BANNER = registerBlockWithoutItem("completionist_wall_banner", () -> new CompletionistWallBannerBlock(BlockBehaviour.Properties.of().strength(1F).instrument(NoteBlockInstrument.BASS).noCollission().sound(SoundType.WOOD), BANNER_SETTINGS.get()));
-    public static final RegistrySupplier<Item> RAUBBAU = registerItem("raubbau", () -> new RaubbauItem(getSettings().fireResistant().rarity(Rarity.EPIC)));
-    public static final RegistrySupplier<Item> SPECTRAL_WARAXE = registerItem("spectral_waraxe", () -> new SpectralWarAxeItem(getSettings().fireResistant().rarity(Rarity.EPIC)));
-    public static final RegistrySupplier<Item> SHATTERBRAND = registerItem("shatterbrand", () -> new ShatterbrandSwordItem(getSettings().fireResistant().rarity(Rarity.EPIC)));
+    public static final RegistrySupplier<Block> SLEEPY_HOLLOWS_STANDARD = registerBlockWithBlockItem("sleepy_hollows_standard", () -> new CompletionistBannerBlock(BlockBehaviour.Properties.of().strength(1F).instrument(NoteBlockInstrument.BASS).noCollission().sound(SoundType.WOOD), BANNER_SETTINGS.get()));
+    public static final RegistrySupplier<Block> SLEEPY_HOLLOWS_WALL_STANDARD = registerBlockWithoutItem("sleepy_hollows_wall_standard", () -> new CompletionistWallBannerBlock(BlockBehaviour.Properties.of().strength(1F).instrument(NoteBlockInstrument.BASS).noCollission().sound(SoundType.WOOD), BANNER_SETTINGS.get()));
+    public static final RegistrySupplier<Item> RAUBBAU = registerItem("raubbau", () -> new RaubbauItem(getSettings().fireResistant()));
+    public static final RegistrySupplier<Item> SPECTRAL_WARAXE = registerItem("spectral_waraxe", () -> new SpectralWarAxeItem(getSettings().fireResistant()));
+    public static final RegistrySupplier<Item> SHATTERBRAND = registerItem("shatterbrand", () -> new ShatterbrandSwordItem(getSettings().fireResistant()));
     public static final RegistrySupplier<Item> HORSEMAN_SPAWN_EGG = registerItem("horseman_spawn_egg", () -> new ArchitecturySpawnEggItem(EntityTypeRegistry.HORSEMAN, -1, -1, getSettings()));
     public static final RegistrySupplier<Block> POTTED_HOLLOW_SAPLING = registerBlockWithoutItem("potted_hollow_sapling", () -> new FlowerPotBlock(HOLLOW_SAPLING.get(), BlockBehaviour.Properties.ofFullCopy(Blocks.FLOWER_POT)));
     public static final RegistrySupplier<Block> POTTED_GRAVE_LILY = registerBlockWithoutItem("potted_grave_lily", () -> new FlowerPotBlock(GRAVE_LILY.get(), BlockBehaviour.Properties.ofFullCopy(Blocks.FLOWER_POT)));

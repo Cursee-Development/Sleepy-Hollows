@@ -28,7 +28,7 @@ public class EntityTypeRegistry {
 
     public static final RegistrySupplier<BlockEntityType<PedestalBlockEntity>> DISPLAY_BLOCK_ENTITY = registerBlockEntity("display", () -> BlockEntityType.Builder.of(PedestalBlockEntity::new, ObjectRegistry.PEDESTAL.get()).build(null));
     public static final RegistrySupplier<BlockEntityType<CoffinBlockEntity>> COFFIN_BLOCK_ENTITY = registerBlockEntity("coffin", () -> BlockEntityType.Builder.of(CoffinBlockEntity::new, ObjectRegistry.COFFIN.get()).build(null));
-    public static final RegistrySupplier<BlockEntityType<CompletionistBannerEntity>> COMPLETIONIST_BANNER_ENTITY = registerBlockEntity("completionist_banner", () -> BlockEntityType.Builder.of(CompletionistBannerEntity::new, ObjectRegistry.COMPLETIONIST_BANNER.get(), ObjectRegistry.COMPLETIONIST_WALL_BANNER.get()).build(null));
+    public static final RegistrySupplier<BlockEntityType<CompletionistBannerEntity>> SLEEPY_HOLLOWS_STANDARD_ENTITY = registerBlockEntity("sleepy_hollows_standard", () -> BlockEntityType.Builder.of(CompletionistBannerEntity::new, ObjectRegistry.SLEEPY_HOLLOWS_STANDARD.get(), ObjectRegistry.SLEEPY_HOLLOWS_WALL_STANDARD.get()).build(null));
     public static final RegistrySupplier<BlockEntityType<DummyCoffinBlockEntity>> DUMMY_COFFIN_BLOCK_ENTITY = registerBlockEntity("dummy_coffin", () -> BlockEntityType.Builder.of(DummyCoffinBlockEntity::new, ObjectRegistry.COFFIN.get()).build(null));
 
     public static final RegistrySupplier<EntityType<SpectralHorse>> SPECTRAL_HORSE = registerEntity("spectral_horse", () -> EntityType.Builder.of(SpectralHorse::new, MobCategory.CREATURE).sized(0.9f, 1.87f).clientTrackingRange(10).updateInterval(3).build(SleepyHollows.identifier("spectral_horse").toString()));

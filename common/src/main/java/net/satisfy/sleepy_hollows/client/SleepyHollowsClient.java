@@ -10,7 +10,9 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.RenderType;
 import net.satisfy.foundation.banner.CompletionistBannerRenderer;
+import net.minecraft.network.chat.Component;
 import net.satisfy.foundation.client.armor.ArmorModels;
+import net.satisfy.foundation.client.creative.CreativeSideTabs;
 import net.satisfy.foundation.tooltip.InfoTooltip;
 import net.satisfy.sleepy_hollows.client.model.armor.HauntboundBootsModel;
 import net.satisfy.sleepy_hollows.client.model.armor.HauntboundChestplateModel;
@@ -21,6 +23,7 @@ import net.satisfy.sleepy_hollows.client.model.entity.HorsemanModel;
 import net.satisfy.sleepy_hollows.client.model.entity.SpectralHorseModel;
 import net.satisfy.sleepy_hollows.client.renderer.*;
 import net.satisfy.sleepy_hollows.core.registry.EntityTypeRegistry;
+import net.satisfy.sleepy_hollows.core.registry.TabRegistry;
 
 import static net.satisfy.sleepy_hollows.core.registry.ObjectRegistry.*;
 
@@ -32,6 +35,9 @@ public class SleepyHollowsClient {
         SanityAmbience.init();
         HollowFog.init();
         FireflyAmbience.init(() -> true);
+        CreativeSideTabs.register(TabRegistry.SLEEPY_HOLLOWS_TAB.getKey(),
+                CreativeSideTabs.SideTab.of(Component.translatable("itemGroup.sleepyHollows.building"), GRAVESTONE_BRICKS.get(), TabRegistry::buildingItems),
+                CreativeSideTabs.SideTab.of(Component.translatable("itemGroup.sleepyHollows.adventure"), SPECTRAL_WARAXE.get(), TabRegistry::adventureItems));
         InfoTooltip.of(LUMINOUS_WATER_SPLASH.get()).line("tooltip.sleepy_hollows.item.splash_luminous_water").register();
         InfoTooltip.of(LUMINOUS_WATER.get()).line("tooltip.sleepy_hollows.item.luminous_water").register();
         InfoTooltip.of(REINS_OF_THE_SPECTRAL_HORSE.get()).line("tooltip.sleepy_hollows.lore.reins_of_the_spectral_horse").register();
@@ -46,7 +52,7 @@ public class SleepyHollowsClient {
 
         BlockEntityRendererRegistry.register(EntityTypeRegistry.DISPLAY_BLOCK_ENTITY.get(), context -> new PedestalBlockRenderer());
         BlockEntityRendererRegistry.register(EntityTypeRegistry.COFFIN_BLOCK_ENTITY.get(), CoffinRenderer::new);
-        BlockEntityRendererRegistry.register(EntityTypeRegistry.COMPLETIONIST_BANNER_ENTITY.get(), CompletionistBannerRenderer::new);
+        BlockEntityRendererRegistry.register(EntityTypeRegistry.SLEEPY_HOLLOWS_STANDARD_ENTITY.get(), CompletionistBannerRenderer::new);
 
         ArmorModels.register(HauntboundHelmetModel.LAYER_LOCATION, HauntboundHelmetModel::new, HAUNTBOUND_HELMET.get());
         ArmorModels.register(HauntboundChestplateModel.LAYER_LOCATION, HauntboundChestplateModel::new, HAUNTBOUND_CHESTPLATE.get());

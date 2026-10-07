@@ -1,10 +1,10 @@
 {
   "variants": {
-    "": [
-      {
-        "model": "sleepy_hollows:block/hollow_planks",
-        "weight": 1
-      }
-    ]
+    "cleansed=false": {
+      "model": "sleepy_hollows:block/hollow_planks"
+    },
+    "cleansed=true": {
+      "model": "sleepy_hollows:block/hollow_planks"
+    }
   }
 }

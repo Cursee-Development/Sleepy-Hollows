@@ -7,7 +7,7 @@
         {
           "type": "minecraft:item",
           "weight": 1,
-          "name": "sleepy_hollows:completionist_banner",
+          "name": "sleepy_hollows:sleepy_hollows_standard",
           "functions": [
             {
               "function": "minecraft:set_count",

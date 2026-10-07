@@ -1,6 +1,23 @@
-# Changelog – [Let's Do] Sleepy Hollows
+# Changelog – Sleepy Hollows
 
 ---
+
+[1.1.1]
+
+#### Creative Menu
+- The Sleepy Hollows tab now has two side tabs: **Building** and **Adventure**
+- Building holds all blocks, plants and decoration, Adventure holds items, gear, food and spawn eggs
+
+#### Rarities
+- All items now use Foundation rarities with their own name colors instead of colors in the language files
+
+#### Banner
+- The Completionist Banner is now named **Completionist Banner: Sleepy Hollows** and follows the naming scheme of the Let's Do Series
+
+#### Hollow Planks
+- Right-clicking Hollow Planks with an axe cleanses them: an armored skeleton in Hauntbound gear appears and every Hollow Planks block within 32 blocks stops creaking
+
+***
 
 [1.1.0]
 

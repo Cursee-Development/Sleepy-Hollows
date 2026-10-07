@@ -89,6 +89,7 @@ public final class SleepyHollows {
     private static void setupSerial() {
         FlammableBlockRegistry.init();
         SleepyHollowsSurfaceRules.register();
+        RarityRegistry.init();
         AxeItemHooks.addStrippable(ObjectRegistry.HOLLOW_LOG.get(), ObjectRegistry.STRIPPED_HOLLOW_LOG.get());
         AxeItemHooks.addStrippable(ObjectRegistry.HOLLOW_WOOD.get(), ObjectRegistry.STRIPPED_HOLLOW_WOOD.get());
     }
