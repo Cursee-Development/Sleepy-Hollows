@@ -1,5 +1,6 @@
 package net.satisfy.sleepy_hollows;
 
+import java.util.List;
 import net.satisfy.sleepy_hollows.platform.PlatformHelper;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.entity.monster.Monster;
@@ -35,6 +36,7 @@ public final class SleepyHollows {
     public static final String MOD_ID = "sleepy_hollows";
     public static final String MOD_DATA_ID = MOD_ID + ".data";
     public static final ResourceKey<Biome> SLEEPY_HOLLOWS_BIOME = ResourceKey.create(Registries.BIOME, identifier("sleepy_hollows"));
+    private static final List<ResourceKey<Biome>> SLEEPY_HOLLOWS_PARENTS = List.of(Biomes.OLD_GROWTH_PINE_TAIGA, Biomes.OLD_GROWTH_SPRUCE_TAIGA, Biomes.TAIGA, Biomes.DARK_FOREST, Biomes.FOREST);
 
     public static ResourceLocation identifier(String path) {
         return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
@@ -59,7 +61,9 @@ public final class SleepyHollows {
         LifecycleEvent.SETUP.register(SleepyHollows::setupSerial);
         SpawnPlacementsRegistry.register(EntityTypeRegistry.INFECTED_ZOMBIE, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkAnyLightMonsterSpawnRules);
 
-        BiomePlacement.addSubOverworld(Biomes.OLD_GROWTH_PINE_TAIGA, SLEEPY_HOLLOWS_BIOME, CriterionBuilder.allOf(CriterionBuilder.ratioMax(RatioTargets.CENTER, 0.35f), CriterionBuilder.not(CriterionBuilder.neighbor(BiomeTags.IS_RIVER)), CriterionBuilder.not(CriterionBuilder.neighbor(BiomeTags.IS_OCEAN)), CriterionBuilder.not(CriterionBuilder.neighbor(BiomeTags.IS_BEACH))));
+        for (ResourceKey<Biome> parent : SLEEPY_HOLLOWS_PARENTS) {
+            BiomePlacement.addSubOverworld(parent, SLEEPY_HOLLOWS_BIOME, CriterionBuilder.allOf(CriterionBuilder.ratioMax(RatioTargets.CENTER, 0.35f), CriterionBuilder.not(CriterionBuilder.neighbor(BiomeTags.IS_RIVER)), CriterionBuilder.not(CriterionBuilder.neighbor(BiomeTags.IS_OCEAN)), CriterionBuilder.not(CriterionBuilder.neighbor(BiomeTags.IS_BEACH))));
+        }
     }
 
     private static void onServerTick(MinecraftServer server) {
