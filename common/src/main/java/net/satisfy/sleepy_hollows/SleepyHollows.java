@@ -45,6 +45,7 @@ public final class SleepyHollows {
     public static void init() {
         MobEffectRegistry.init();
         ObjectRegistry.init();
+        CompostableRegistry.init();
         ArmorSetRegistry.init();
         TabRegistry.init();
         EntityTypeRegistry.init();

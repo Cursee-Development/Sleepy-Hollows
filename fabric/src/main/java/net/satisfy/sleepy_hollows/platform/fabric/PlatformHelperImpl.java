@@ -96,7 +96,7 @@ public class PlatformHelperImpl {
     }
 
     public static boolean isSanityEnabled() {
-        return c().sanity.enabled;
+        return c().sanity.enableSanity;
     }
 
     public static int getHUDX() {
@@ -108,7 +108,7 @@ public class PlatformHelperImpl {
     }
 
     public static boolean isHollowFogEnabled() {
-        return c().fog.enabled;
+        return c().fog.enableFog;
     }
 
     public static float getHollowFogStart() {
@@ -139,7 +139,7 @@ public class PlatformHelperImpl {
     }
 
     public static boolean isAmbienceEnabled() {
-        return c().ambience.enabled;
+        return c().ambience.enableAmbience;
     }
 
     public static int getAmbienceDayMinSeconds() {

@@ -2,6 +2,16 @@
 
 ---
 
+[1.1.2]
+
+#### Fixes
+- Fixed dedicated servers crashing on startup while registering the sanity packet
+
+#### Additions
+- Added more parent biomes to the SleepyHollows Biome
+
+***
+
 [1.1.1]
 
 #### Creative Menu

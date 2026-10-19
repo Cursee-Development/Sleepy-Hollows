@@ -1,48 +1,51 @@
 modLoader = "javafml"
-loaderVersion="[4,)"
-issueTrackerURL = "https://github.com/Cursee-Development/Sleepy-Hollows/issues"
+loaderVersion = "[4,)"
 license = "MIT"
-
-[[mods]]
-modId = "sleepy_hollows"
-version = "${mod_version}"
-displayName = "Sleepy Hollows"
-authors = "Jason13Official, Satisfy, cph101dev"
-credits = "MissLilitu, CR-055, Iri, WearyPines"
-description = '''
-Darkness falls, a boss to dread, armor strong - don’t lose your head!
-'''
-logoFile = "sleepy_hollows_logo.png"
-displayURL = "https://www.lets-do.ch"
+issueTrackerURL = "https://github.com/Cursee-Development/Sleepy-Hollows/issues"
 
 [[mixins]]
 config = "sleepy_hollows.mixins.json"
 
-[[dependencies.sleepy_hollows]]
-modId = "foundation"
-type = "required"
-versionRange = "[1.0.0,)"
-ordering = "AFTER"
-side = "BOTH"
+[[mods]]
+modId = "sleepy_hollows"
+version = "${version}"
+displayName = "Sleepy Hollows"
+authors = "Jason13Official, satisfy, cph101dev"
+credits = "MissLilitu, CR-055, Iri, WearyPines"
+logoFile = "pack.png"
+displayURL = "https://www.lets-do.ch"
+description = '''
+Darkness falls, a boss to dread, armor strong - don’t lose your head!
+
+Source: https://github.com/Cursee-Development/Sleepy-Hollows
+Issues: https://github.com/Cursee-Development/Sleepy-Hollows/issues
+'''
 
 [[dependencies.sleepy_hollows]]
 modId = "neoforge"
-mandatory = true
-versionRange = "[21.1.0,)"
+type = "required"
+versionRange = "[21.1,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.sleepy_hollows]]
 modId = "minecraft"
-mandatory = true
-versionRange = "[1.21.1,)"
+type = "required"
+versionRange = "[1.21.1]"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.sleepy_hollows]]
 modId = "architectury"
-mandatory = true
-versionRange = "[13.0.0,)"
+type = "required"
+versionRange = "[13.0.8,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.sleepy_hollows]]
+modId = "foundation"
+type = "required"
+versionRange = "[1.0.5,)"
 ordering = "AFTER"
 side = "BOTH"
 

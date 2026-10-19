@@ -6,7 +6,6 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.satisfy.sleepy_hollows.SleepyHollows;
-import net.satisfy.sleepy_hollows.core.registry.CompostableRegistry;
 import net.satisfy.sleepy_hollows.neoforge.config.SleepyHollowsNeoForgeConfig;
 
 
@@ -19,6 +18,5 @@ public final class SleepyHollowsForge {
     }
 
     private void onCommonSetup(FMLCommonSetupEvent event) {
-        event.enqueueWork(CompostableRegistry::init);
     }
 }
