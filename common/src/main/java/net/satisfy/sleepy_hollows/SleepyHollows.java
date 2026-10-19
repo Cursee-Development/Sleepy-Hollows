@@ -106,7 +106,6 @@ public final class SleepyHollows {
     private static void registerRarities() {
         registerRarity(FoundationRarity.COMMON,
                 ObjectRegistry.DUSK_BERRIES, ObjectRegistry.CANDY_CORN, ObjectRegistry.MOONVEIL_GRASS, ObjectRegistry.TALL_MOONVEIL_GRASS,
-                ObjectRegistry.HOLLOW_DOOR, ObjectRegistry.HOLLOW_WINDOW, ObjectRegistry.WROUGHT_IRON_FENCE,
                 ObjectRegistry.WOODEN_TOMBSTONE, ObjectRegistry.SMALL_TOMBSTONE, ObjectRegistry.MID_TOMBSTONE, ObjectRegistry.BIG_TOMBSTONE);
         registerRarity(FoundationRarity.UNCOMMON,
                 ObjectRegistry.SPECTRAL_ESSENCE, ObjectRegistry.SPECTRAL_PUMPKIN_PIE,
