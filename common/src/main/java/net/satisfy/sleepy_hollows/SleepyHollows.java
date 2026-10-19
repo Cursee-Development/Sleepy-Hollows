@@ -6,6 +6,10 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.SpawnPlacementTypes;
 import dev.architectury.registry.level.entity.SpawnPlacementsRegistry;
+import dev.architectury.registry.registries.RegistrySupplier;
+import net.minecraft.world.level.ItemLike;
+import net.satisfy.foundation.rarity.FoundationRarities;
+import net.satisfy.foundation.rarity.FoundationRarity;
 import com.terraformersmc.biolith.api.biome.BiomePlacement;
 import com.terraformersmc.biolith.api.biome.sub.CriterionBuilder;
 import com.terraformersmc.biolith.api.biome.sub.RatioTargets;
@@ -60,6 +64,7 @@ public final class SleepyHollows {
             ClientGuiEvent.RENDER_HUD.register(HUDRenderEvent::onRenderHUD);
         }
         LifecycleEvent.SETUP.register(SleepyHollows::setupSerial);
+        LifecycleEvent.SETUP.register(SleepyHollows::registerRarities);
         SpawnPlacementsRegistry.register(EntityTypeRegistry.INFECTED_ZOMBIE, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkAnyLightMonsterSpawnRules);
 
         for (ResourceKey<Biome> parent : SLEEPY_HOLLOWS_PARENTS) {
@@ -94,8 +99,34 @@ public final class SleepyHollows {
     private static void setupSerial() {
         FlammableBlockRegistry.init();
         SleepyHollowsSurfaceRules.register();
-        RarityRegistry.init();
         AxeItemHooks.addStrippable(ObjectRegistry.HOLLOW_LOG.get(), ObjectRegistry.STRIPPED_HOLLOW_LOG.get());
         AxeItemHooks.addStrippable(ObjectRegistry.HOLLOW_WOOD.get(), ObjectRegistry.STRIPPED_HOLLOW_WOOD.get());
+    }
+
+    private static void registerRarities() {
+        registerRarity(FoundationRarity.COMMON,
+                ObjectRegistry.DUSK_BERRIES, ObjectRegistry.CANDY_CORN,
+                ObjectRegistry.HOLLOW_DOOR, ObjectRegistry.HOLLOW_WINDOW, ObjectRegistry.WROUGHT_IRON_FENCE,
+                ObjectRegistry.WOODEN_TOMBSTONE, ObjectRegistry.SMALL_TOMBSTONE, ObjectRegistry.MID_TOMBSTONE, ObjectRegistry.BIG_TOMBSTONE);
+        registerRarity(FoundationRarity.UNCOMMON,
+                ObjectRegistry.SPECTRAL_ESSENCE, ObjectRegistry.SPECTRAL_PUMPKIN_PIE,
+                ObjectRegistry.SPECTRAL_PUMPKIN, ObjectRegistry.SPECTRAL_CARVED_PUMPKIN, ObjectRegistry.SPECTRAL_JACK_O_LANTERN, ObjectRegistry.SPECTRAL_LANTERN,
+                ObjectRegistry.COFFIN, ObjectRegistry.PEDESTAL,
+                ObjectRegistry.HOLLOW_SAPLING, ObjectRegistry.GRAVE_LILY, ObjectRegistry.DREAMSHADE, ObjectRegistry.TALL_DREAMSHADE, ObjectRegistry.SHADOWBLOOM);
+        registerRarity(FoundationRarity.RARE,
+                ObjectRegistry.HAUNTBOUND_HELMET, ObjectRegistry.HAUNTBOUND_CHESTPLATE, ObjectRegistry.HAUNTBOUND_LEGGINGS, ObjectRegistry.HAUNTBOUND_BOOTS,
+                ObjectRegistry.ESSENCE_OF_UNDEAD, ObjectRegistry.LUMINOUS_ESSENCE, ObjectRegistry.MUSIC_DISC_SLEEPY_HOLLOWS);
+        registerRarity(FoundationRarity.EPIC,
+                ObjectRegistry.LUMINOUS_WATER, ObjectRegistry.LUMINOUS_WATER_SPLASH, ObjectRegistry.LOOTBAG,
+                ObjectRegistry.INFECTED_ZOMBIE_SPAWN_EGG, ObjectRegistry.FLEEING_PUMPKIN_HEAD_SPAWN_EGG, ObjectRegistry.HORSEMAN_SPAWN_EGG);
+        registerRarity(FoundationRarity.LEGENDARY, ObjectRegistry.SLEEPY_HOLLOWS_STANDARD, ObjectRegistry.REINS_OF_THE_SPECTRAL_HORSE, ObjectRegistry.SPECTRAL_WARAXE);
+        registerRarity(FoundationRarity.ETERNAL, ObjectRegistry.RAUBBAU, ObjectRegistry.SHATTERBRAND);
+    }
+
+    @SafeVarargs
+    private static void registerRarity(FoundationRarity rarity, RegistrySupplier<? extends ItemLike>... entries) {
+        for (RegistrySupplier<? extends ItemLike> entry : entries) {
+            FoundationRarities.register(entry.get(), rarity);
+        }
     }
 }
