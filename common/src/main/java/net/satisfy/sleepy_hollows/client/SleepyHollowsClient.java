@@ -13,6 +13,8 @@ import net.satisfy.foundation.banner.CompletionistBannerRenderer;
 import net.minecraft.network.chat.Component;
 import net.satisfy.foundation.client.armor.ArmorModels;
 import net.satisfy.foundation.client.creative.CreativeSideTabs;
+import net.satisfy.foundation.client.creative.CreativeTabTooltips;
+import net.satisfy.foundation.rarity.FoundationRarity;
 import net.satisfy.foundation.tooltip.InfoTooltip;
 import net.satisfy.sleepy_hollows.client.model.armor.HauntboundBootsModel;
 import net.satisfy.sleepy_hollows.client.model.armor.HauntboundChestplateModel;
@@ -38,6 +40,7 @@ public class SleepyHollowsClient {
         CreativeSideTabs.register(TabRegistry.SLEEPY_HOLLOWS_TAB.getKey(),
                 CreativeSideTabs.SideTab.of(Component.translatable("itemGroup.sleepyHollows.building"), GRAVESTONE_BRICKS.get(), TabRegistry::buildingItems),
                 CreativeSideTabs.SideTab.of(Component.translatable("itemGroup.sleepyHollows.adventure"), SPECTRAL_WARAXE.get(), TabRegistry::adventureItems));
+        CreativeTabTooltips.register(TabRegistry.SLEEPY_HOLLOWS_TAB.getKey(), FoundationRarity.EPIC);
         InfoTooltip.of(LUMINOUS_WATER_SPLASH.get()).line("tooltip.sleepy_hollows.item.splash_luminous_water").register();
         InfoTooltip.of(LUMINOUS_WATER.get()).line("tooltip.sleepy_hollows.item.luminous_water").register();
         InfoTooltip.of(REINS_OF_THE_SPECTRAL_HORSE.get()).line("tooltip.sleepy_hollows.lore.reins_of_the_spectral_horse").register();
