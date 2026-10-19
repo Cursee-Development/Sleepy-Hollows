@@ -45,7 +45,7 @@ side = "BOTH"
 [[dependencies.sleepy_hollows]]
 modId = "foundation"
 type = "required"
-versionRange = "[1.0.5,)"
+versionRange = "[1.0.11,)"
 ordering = "AFTER"
 side = "BOTH"
 
