@@ -10,6 +10,12 @@
 #### Additions
 - Added more parent biomes to the SleepyHollows Biome
 
+#### Rarities
+- Reworked all item rarities to match the other Let's Do mods
+
+#### Dependencies
+- Updated Foundation to 1.0.12
+
 ***
 
 [1.1.1]
